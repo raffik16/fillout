@@ -14,7 +14,7 @@
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  background: white;
+  background: #9DA4B226;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   cursor: pointer;
@@ -22,25 +22,34 @@
   white-space: nowrap;
   user-select: none;
   position: relative;
+  
 }
 
 .page:hover {
-  background: #f5f5f5;
-  border-color: #d0d0d0;
+  background: #9DA4B259;
+  border-color: #9DA4B226;
 }
 
 .active {
-  background: #e3f2fd;
-  border-color: #2196f3;
+  background: #fff;
+  border-color: #9DA4B226;
+
+  box-shadow: 0px 1px 3px 0px #0000000A;
+
+box-shadow: 0px 1px 1px 0px #00000005;
+
 }
 
 .active:hover {
-  background: #e3f2fd;
+  background: #fff;
 }
 
-.active .icon,
+.active .icon{
+  color: #F59D0E;
+}
+
 .active .title {
-  color: #1976d2;
+  color: #333;
 }
 
 .dragging {
@@ -49,7 +58,7 @@
 }
 
 .dropTarget {
-  border-color: #2196f3;
+  border-color: #9DA4B226;
   border-width: 2px;
   padding: 5px 11px;
 }
@@ -63,6 +72,7 @@
   font-size: 14px;
   font-weight: 500;
   color: #333;
+  font-weight: 600;
 }
 
 .gap {
@@ -87,7 +97,7 @@
   content: "";
   width: 2px;
   height: 50px;
-  background: #2196f3;
+  background: #9DA4B226;
   left: 50%;
   top: 0;
   transform: translate(-50%, -25px);
@@ -95,8 +105,8 @@
 
 .addBetween {
   position: absolute;
-  width: 28px;
-  height: 28px;
+  width: 16px;
+  height: 16px;
   background: white;
   border: 1px solid #E1E1E1;
   border-radius: 50%;
@@ -104,10 +114,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 12px;
   color: #666;
   padding: 0;
   opacity: 0;
-  transform: scale(0.8);
   transition: all 0.15s ease;
   z-index: 1;
 }
@@ -118,8 +128,8 @@
 }
 
 .addBetween:hover {
-  border-color: #2196f3;
-  background: #e3f2fd;
+  border-color: #9DA4B226;
+  background: #fff;
   color: #1976d2;
   transform: scale(1.05);
 }
@@ -134,14 +144,14 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.4s ease;
-  color: #666;
+  color: #333;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
 }
 
 .addPage:hover {
-  border-color: #2196f3;
+  border-color: #9DA4B226;
   background: #f5f5f5;
   color: #1976d2;
 }

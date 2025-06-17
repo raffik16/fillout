@@ -5,7 +5,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { SectionLegendProps, FormPage } from '@/app/types/form-builder';
+import { SectionLegendProps, FormPage, SettingsPosition } from '@/app/types/form-builder';
 import { getPageIcon, PlusIcon, MoreIcon } from './icons';
 import styles from './section-legend.module.css';
 
@@ -86,7 +86,14 @@ export const SectionLegend: React.FC<SectionLegendProps> = ({
 
   const handleSettingsClick = (e: React.MouseEvent, pageId: string) => {
     e.stopPropagation();
-    onSettingsClick(pageId);
+    
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const position: SettingsPosition = {
+      x: rect.right + 4,
+      y: rect.top
+    };
+    
+    onSettingsClick(pageId, position);
   };
 
   const handleRenameKeyDown = (e: React.KeyboardEvent) => {
@@ -138,28 +145,6 @@ export const SectionLegend: React.FC<SectionLegendProps> = ({
 
         return (
           <React.Fragment key={page.id}>
-            {index === 0 && (
-              <div
-                className={`${styles.gap} ${dragOverGap === 'start' ? styles.dragOver : ''}`}
-                onMouseEnter={() => handleMouseEnterGap('start')}
-                onMouseLeave={handleMouseLeaveGap}
-                onDragEnter={(e) => handleGapDragEnter(e, 'start')}
-                onDragLeave={handleGapDragLeave}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => handleGapDrop(e)}
-              >
-                <div className={styles.separator} />
-                {showAddBetween === 'start' && (
-                  <button
-                    className={styles.addBetween}
-                    onClick={() => onPageAdd()}
-                    aria-label="Add page here"
-                  >
-                    <PlusIcon size={16} />
-                  </button>
-                )}
-              </div>
-            )}
 
             <div
               className={`

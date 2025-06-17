@@ -17,6 +17,11 @@ export interface SectionDetailProps {
   onMenuOpen?: () => void;
 }
 
+export interface SettingsPosition {
+  x: number;
+  y: number;
+}
+
 export interface SectionLegendProps {
   pages: FormPage[];
   activePageId?: string;
@@ -26,7 +31,7 @@ export interface SectionLegendProps {
   onPageSelect: (pageId: string) => void;
   onPageAdd: (afterPageId?: string) => void;
   onPageReorder: (draggedId: string, targetId: string) => void;
-  onSettingsClick: (pageId: string | null) => void;
+  onSettingsClick: (pageId: string | null, position?: SettingsPosition) => void;
   onRenameStart?: (pageId: string, currentTitle: string) => void;
   onRenameChange?: (value: string) => void;
   onRenameSubmit?: () => void;

@@ -9,6 +9,7 @@ import {
   SectionLegend,
   SectionSettings,
   FormPage,
+  SettingsPosition,
 } from '@/app/components/form-builder';
 import styles from './page.module.css';
 
@@ -23,6 +24,7 @@ export default function FormBuilderDemo() {
   const [pages, setPages] = useState<FormPage[]>(mockPages);
   const [activePageId, setActivePageId] = useState<string>('1');
   const [settingsPageId, setSettingsPageId] = useState<string | null>(null);
+  const [settingsPosition, setSettingsPosition] = useState<SettingsPosition>({ x: 0, y: 0 });
   const [renamingPageId, setRenamingPageId] = useState<string | null>(null);
   const [renameValue, setRenameValue] = useState('');
 
@@ -65,8 +67,11 @@ export default function FormBuilderDemo() {
     }
   };
 
-  const handleSettingsClick = (pageId: string | null) => {
+  const handleSettingsClick = (pageId: string | null, position?: SettingsPosition) => {
     setSettingsPageId(pageId);
+    if (position) {
+      setSettingsPosition(position);
+    }
   };
 
   const handleRenameStart = (pageId: string) => {
@@ -144,27 +149,37 @@ export default function FormBuilderDemo() {
           />
           
           {settingsPageId && (
-            <SectionSettings
-              pageId={settingsPageId}
-              onClose={() => setSettingsPageId(null)}
-              onSetFirst={() => {
-                handlePageSetFirst(settingsPageId);
-                setSettingsPageId(null);
+            <div 
+              className={styles.settingsPortal}
+              style={{
+                position: 'fixed',
+                left: settingsPosition.x,
+                top: settingsPosition.y,
+                zIndex: 1000
               }}
-              onRename={() => handleRenameStart(settingsPageId)}
-              onCopy={() => {
-                handlePageCopy(settingsPageId);
-                setSettingsPageId(null);
-              }}
-              onDuplicate={() => {
-                handlePageDuplicate(settingsPageId);
-                setSettingsPageId(null);
-              }}
-              onDelete={() => {
-                handlePageDelete(settingsPageId);
-                setSettingsPageId(null);
-              }}
-            />
+            >
+              <SectionSettings
+                pageId={settingsPageId}
+                onClose={() => setSettingsPageId(null)}
+                onSetFirst={() => {
+                  handlePageSetFirst(settingsPageId);
+                  setSettingsPageId(null);
+                }}
+                onRename={() => handleRenameStart(settingsPageId)}
+                onCopy={() => {
+                  handlePageCopy(settingsPageId);
+                  setSettingsPageId(null);
+                }}
+                onDuplicate={() => {
+                  handlePageDuplicate(settingsPageId);
+                  setSettingsPageId(null);
+                }}
+                onDelete={() => {
+                  handlePageDelete(settingsPageId);
+                  setSettingsPageId(null);
+                }}
+              />
+            </div>
           )}
         </div>
       </section>
