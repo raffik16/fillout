@@ -178,3 +178,25 @@
   min-width: fit-content;
   max-width: fit-content;
 }
+
+/* Menu button */
+.menuBtn {
+  opacity: 0;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  color: #666;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.page:hover .menuBtn {
+  opacity: 1;
+}
+
+.menuBtn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}

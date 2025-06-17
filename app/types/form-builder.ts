@@ -20,11 +20,27 @@ export interface SectionDetailProps {
 export interface SectionLegendProps {
   pages: FormPage[];
   activePageId?: string;
+  settingsPageId?: string | null;
+  renamingPageId?: string | null;
+  renameValue?: string;
   onPageSelect: (pageId: string) => void;
   onPageAdd: (afterPageId?: string) => void;
   onPageReorder: (draggedId: string, targetId: string) => void;
-  onPageDelete?: (pageId: string) => void;
-  onPageRename?: (pageId: string, newTitle: string) => void;
+  onSettingsClick: (pageId: string | null) => void;
+  onRenameStart?: (pageId: string, currentTitle: string) => void;
+  onRenameChange?: (value: string) => void;
+  onRenameSubmit?: () => void;
+  onRenameCancel?: () => void;
+}
+
+export interface SectionSettingsProps {
+  pageId: string;
+  onClose: () => void;
+  onSetFirst?: () => void;
+  onRename?: () => void;
+  onCopy?: () => void;
+  onDuplicate?: () => void;
+  onDelete?: () => void;
 }
 
 export interface AddPageButtonProps {

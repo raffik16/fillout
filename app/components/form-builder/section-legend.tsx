@@ -4,27 +4,40 @@
  * Section legend component - Form page navigation with drag/drop
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { SectionLegendProps, FormPage } from '@/app/types/form-builder';
-import { getPageIcon, PlusIcon } from './icons';
+import { getPageIcon, PlusIcon, MoreIcon } from './icons';
 import styles from './section-legend.module.css';
 
 export const SectionLegend: React.FC<SectionLegendProps> = ({
   pages,
   activePageId,
+  settingsPageId,
+  renamingPageId,
+  renameValue = '',
   onPageSelect,
   onPageAdd,
   onPageReorder,
-  onPageRename,
+  onSettingsClick,
+  onRenameChange,
+  onRenameSubmit,
+  onRenameCancel,
 }) => {
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const [dropTargetId, setDropTargetId] = useState<string | null>(null);
   const [showAddBetween, setShowAddBetween] = useState<string | null>(null);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editValue, setEditValue] = useState('');
   const [dragOverGap, setDragOverGap] = useState<string | null>(null);
   const dragCounter = useRef(0);
-  const editInputRef = useRef<HTMLInputElement>(null);
+  const renameInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (renamingPageId) {
+      setTimeout(() => {
+        renameInputRef.current?.focus();
+        renameInputRef.current?.select();
+      }, 0);
+    }
+  }, [renamingPageId]);
 
   const handleDragStart = (e: React.DragEvent, pageId: string) => {
     setDraggedId(pageId);
@@ -71,29 +84,16 @@ export const SectionLegend: React.FC<SectionLegendProps> = ({
     setShowAddBetween(null);
   };
 
-  const handleDoubleClick = (page: FormPage) => {
-    setEditingId(page.id);
-    setEditValue(page.title);
-    setTimeout(() => {
-      editInputRef.current?.focus();
-      editInputRef.current?.select();
-    }, 0);
-  };
-
-  const handleRenameSubmit = () => {
-    if (editingId && editValue.trim() && onPageRename) {
-      onPageRename(editingId, editValue.trim());
-    }
-    setEditingId(null);
-    setEditValue('');
+  const handleSettingsClick = (e: React.MouseEvent, pageId: string) => {
+    e.stopPropagation();
+    onSettingsClick(pageId);
   };
 
   const handleRenameKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      handleRenameSubmit();
+      onRenameSubmit?.();
     } else if (e.key === 'Escape') {
-      setEditingId(null);
-      setEditValue('');
+      onRenameCancel?.();
     }
   };
 
@@ -168,9 +168,8 @@ export const SectionLegend: React.FC<SectionLegendProps> = ({
                 ${isDragging ? styles.dragging : ''}
                 ${isDropTarget ? styles.dropTarget : ''}
               `}
-              draggable={editingId !== page.id}
-              onClick={() => editingId !== page.id && onPageSelect(page.id)}
-              onDoubleClick={() => handleDoubleClick(page)}
+              draggable={renamingPageId !== page.id}
+              onClick={() => renamingPageId !== page.id && onPageSelect(page.id)}
               onDragStart={(e) => handleDragStart(e, page.id)}
               onDragEnd={handleDragEnd}
               onDragEnter={(e) => handleDragEnter(e, page.id)}
@@ -179,19 +178,32 @@ export const SectionLegend: React.FC<SectionLegendProps> = ({
               onDrop={(e) => handleDrop(e, page.id)}
             >
               <Icon className={styles.icon} size={16} />
-              {editingId === page.id ? (
+              {renamingPageId === page.id ? (
                 <input
-                  ref={editInputRef}
+                  ref={renameInputRef}
                   className={styles.editInput}
-                  value={editValue}
-                  onChange={(e) => setEditValue(e.target.value)}
-                  onBlur={handleRenameSubmit}
+                  value={renameValue}
+                  onChange={(e) => onRenameChange?.(e.target.value)}
+                  onBlur={onRenameSubmit}
                   onKeyDown={handleRenameKeyDown}
                   onClick={(e) => e.stopPropagation()}
                 />
               ) : (
                 <span className={styles.title}>{page.title}</span>
               )}
+              
+              <button
+                className={styles.menuBtn}
+                onClick={(e) => handleSettingsClick(e, page.id)}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  handleSettingsClick(e, page.id);
+                }}
+                aria-label="Page settings"
+              >
+                <MoreIcon size={16} />
+              </button>
+              
             </div>
 
             <div
