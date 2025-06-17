@@ -178,7 +178,7 @@ export const SectionLegend: React.FC<SectionLegendProps> = ({
               )}
               
               <button
-                className={styles.menuBtn}
+                className={`${styles.menuBtn} ${settingsPageId === page.id ? styles.active : ''}`}
                 onClick={(e) => handleSettingsClick(e, page.id)}
                 onContextMenu={(e) => {
                   e.preventDefault();
