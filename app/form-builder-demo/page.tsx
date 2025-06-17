@@ -59,7 +59,7 @@ export default function FormBuilderDemo() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Form Builder Components</h1>
+      <h1 className={styles.title}>Fillout</h1>
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Form Legend</h2>
         <p className={styles.description}>
