@@ -22,7 +22,7 @@ const mockPages: FormPage[] = [
 
 export default function FormBuilderDemo() {
   const [pages, setPages] = useState<FormPage[]>(mockPages);
-  const [activePageId, setActivePageId] = useState<string>('1');
+  const [activePageId, setActivePageId] = useState<string | undefined>(undefined);
   const [settingsPageId, setSettingsPageId] = useState<string | null>(null);
   const [settingsPosition, setSettingsPosition] = useState<SettingsPosition>({ x: 0, y: 0 });
   const [renamingPageId, setRenamingPageId] = useState<string | null>(null);
@@ -119,8 +119,8 @@ export default function FormBuilderDemo() {
 
   const handlePageDelete = (pageId: string) => {
     setPages(pages.filter(p => p.id !== pageId));
-    if (activePageId === pageId && pages.length > 1) {
-      setActivePageId(pages[0].id);
+    if (activePageId === pageId) {
+      setActivePageId(undefined);
     }
   };
 
