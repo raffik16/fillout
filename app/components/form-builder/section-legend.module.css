@@ -1,0 +1,141 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.page {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  user-select: none;
+  position: relative;
+}
+
+.page:hover {
+  background: #f5f5f5;
+  border-color: #d0d0d0;
+}
+
+.active {
+  background: #e3f2fd;
+  border-color: #2196f3;
+}
+
+.active:hover {
+  background: #e3f2fd;
+}
+
+.active .icon,
+.active .title {
+  color: #1976d2;
+}
+
+.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.dropTarget {
+  border-color: #2196f3;
+  border-width: 2px;
+  padding: 5px 11px;
+}
+
+.icon {
+  color: #666;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.gap {
+  position: relative;
+  width: 2px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gap:hover {
+  width: 32px;
+}
+
+.addBetween {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  background: white;
+  border: 2px dashed #bdbdbd;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: #666;
+  padding: 0;
+}
+
+.addBetween:hover {
+  border-color: #2196f3;
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.addPage {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: white;
+  border: 2px dashed #bdbdbd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.addPage:hover {
+  border-color: #2196f3;
+  background: #f5f5f5;
+  color: #1976d2;
+}
+
+/* Scrollbar styling */
+.container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 3px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
