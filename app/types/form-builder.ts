@@ -24,6 +24,7 @@ export interface SectionLegendProps {
   onPageAdd: (afterPageId?: string) => void;
   onPageReorder: (draggedId: string, targetId: string) => void;
   onPageDelete?: (pageId: string) => void;
+  onPageRename?: (pageId: string, newTitle: string) => void;
 }
 
 export interface AddPageButtonProps {

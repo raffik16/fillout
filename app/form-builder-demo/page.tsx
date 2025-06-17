@@ -51,13 +51,19 @@ export default function FormBuilderDemo() {
     setPages(newPages);
   };
 
+  const handlePageRename = (pageId: string, newTitle: string) => {
+    setPages(pages.map(page => 
+      page.id === pageId ? { ...page, title: newTitle } : page
+    ));
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Form Builder Components</h1>
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Section Legend</h2>
+        <h2 className={styles.sectionTitle}>Form Legend</h2>
         <p className={styles.description}>
-          Navigate between pages, drag to reorder, hover between pages to add new ones
+          Navigate between pages, drag to reorder, hover between pages to add new ones, double-click to rename
         </p>
         <div className={styles.legendDemo}>
           <SectionLegend
@@ -66,6 +72,7 @@ export default function FormBuilderDemo() {
             onPageSelect={setActivePageId}
             onPageAdd={handlePageAdd}
             onPageReorder={handlePageReorder}
+            onPageRename={handlePageRename}
           />
         </div>
       </section>

@@ -15,11 +15,16 @@ export const SectionLegend: React.FC<SectionLegendProps> = ({
   onPageSelect,
   onPageAdd,
   onPageReorder,
+  onPageRename,
 }) => {
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const [dropTargetId, setDropTargetId] = useState<string | null>(null);
   const [showAddBetween, setShowAddBetween] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState('');
+  const [dragOverGap, setDragOverGap] = useState<string | null>(null);
   const dragCounter = useRef(0);
+  const editInputRef = useRef<HTMLInputElement>(null);
 
   const handleDragStart = (e: React.DragEvent, pageId: string) => {
     setDraggedId(pageId);
@@ -29,6 +34,7 @@ export const SectionLegend: React.FC<SectionLegendProps> = ({
   const handleDragEnd = () => {
     setDraggedId(null);
     setDropTargetId(null);
+    setDragOverGap(null);
     dragCounter.current = 0;
   };
 
@@ -65,6 +71,63 @@ export const SectionLegend: React.FC<SectionLegendProps> = ({
     setShowAddBetween(null);
   };
 
+  const handleDoubleClick = (page: FormPage) => {
+    setEditingId(page.id);
+    setEditValue(page.title);
+    setTimeout(() => {
+      editInputRef.current?.focus();
+      editInputRef.current?.select();
+    }, 0);
+  };
+
+  const handleRenameSubmit = () => {
+    if (editingId && editValue.trim() && onPageRename) {
+      onPageRename(editingId, editValue.trim());
+    }
+    setEditingId(null);
+    setEditValue('');
+  };
+
+  const handleRenameKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleRenameSubmit();
+    } else if (e.key === 'Escape') {
+      setEditingId(null);
+      setEditValue('');
+    }
+  };
+
+  const handleGapDragEnter = (e: React.DragEvent, gapId: string) => {
+    e.preventDefault();
+    if (draggedId) {
+      setDragOverGap(gapId);
+    }
+  };
+
+  const handleGapDragLeave = () => {
+    setDragOverGap(null);
+  };
+
+  const handleGapDrop = (e: React.DragEvent, afterPageId?: string) => {
+    e.preventDefault();
+    if (draggedId) {
+      const draggedIndex = pages.findIndex(p => p.id === draggedId);
+      let targetIndex = afterPageId 
+        ? pages.findIndex(p => p.id === afterPageId) + 1
+        : 0;
+      
+      if (draggedIndex < targetIndex) {
+        targetIndex--;
+      }
+      
+      if (draggedIndex !== targetIndex) {
+        const targetId = pages[targetIndex]?.id || pages[pages.length - 1].id;
+        onPageReorder(draggedId, targetId);
+      }
+    }
+    handleDragEnd();
+  };
+
   return (
     <div className={styles.container}>
       {pages.map((page, index) => {
@@ -77,10 +140,15 @@ export const SectionLegend: React.FC<SectionLegendProps> = ({
           <React.Fragment key={page.id}>
             {index === 0 && (
               <div
-                className={styles.gap}
+                className={`${styles.gap} ${dragOverGap === 'start' ? styles.dragOver : ''}`}
                 onMouseEnter={() => handleMouseEnterGap('start')}
                 onMouseLeave={handleMouseLeaveGap}
+                onDragEnter={(e) => handleGapDragEnter(e, 'start')}
+                onDragLeave={handleGapDragLeave}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => handleGapDrop(e)}
               >
+                <div className={styles.separator} />
                 {showAddBetween === 'start' && (
                   <button
                     className={styles.addBetween}
@@ -100,8 +168,9 @@ export const SectionLegend: React.FC<SectionLegendProps> = ({
                 ${isDragging ? styles.dragging : ''}
                 ${isDropTarget ? styles.dropTarget : ''}
               `}
-              draggable
-              onClick={() => onPageSelect(page.id)}
+              draggable={editingId !== page.id}
+              onClick={() => editingId !== page.id && onPageSelect(page.id)}
+              onDoubleClick={() => handleDoubleClick(page)}
               onDragStart={(e) => handleDragStart(e, page.id)}
               onDragEnd={handleDragEnd}
               onDragEnter={(e) => handleDragEnter(e, page.id)}
@@ -110,14 +179,31 @@ export const SectionLegend: React.FC<SectionLegendProps> = ({
               onDrop={(e) => handleDrop(e, page.id)}
             >
               <Icon className={styles.icon} size={16} />
-              <span className={styles.title}>{page.title}</span>
+              {editingId === page.id ? (
+                <input
+                  ref={editInputRef}
+                  className={styles.editInput}
+                  value={editValue}
+                  onChange={(e) => setEditValue(e.target.value)}
+                  onBlur={handleRenameSubmit}
+                  onKeyDown={handleRenameKeyDown}
+                  onClick={(e) => e.stopPropagation()}
+                />
+              ) : (
+                <span className={styles.title}>{page.title}</span>
+              )}
             </div>
 
             <div
-              className={styles.gap}
+              className={`${styles.gap} ${dragOverGap === page.id ? styles.dragOver : ''}`}
               onMouseEnter={() => handleMouseEnterGap(page.id)}
               onMouseLeave={handleMouseLeaveGap}
+              onDragEnter={(e) => handleGapDragEnter(e, page.id)}
+              onDragLeave={handleGapDragLeave}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => handleGapDrop(e, page.id)}
             >
+              <div className={styles.separator} />
               {showAddBetween === page.id && (
                 <button
                   className={styles.addBetween}
