@@ -130,7 +130,7 @@ export default function FormBuilderDemo() {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Form Legend</h2>
         <p className={styles.description}>
-          Navigate between pages, drag to reorder, hover between pages to add new ones, click three dots for options
+          Click pages to navigate, drag to reorder, hover gaps to add pages, click page to reveal settings menu
         </p>
         <div className={styles.legendDemo}>
           <SectionLegend

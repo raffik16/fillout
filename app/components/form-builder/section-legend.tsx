@@ -5,7 +5,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { SectionLegendProps, FormPage, SettingsPosition } from '@/app/types/form-builder';
+import { SectionLegendProps, SettingsPosition } from '@/app/types/form-builder';
 import { getPageIcon, PlusIcon, MoreIcon } from './icons';
 import styles from './section-legend.module.css';
 
@@ -137,7 +137,7 @@ export const SectionLegend: React.FC<SectionLegendProps> = ({
 
   return (
     <div className={styles.container}>
-      {pages.map((page, index) => {
+      {pages.map((page) => {
         const Icon = getPageIcon(page.type);
         const isActive = page.id === activePageId;
         const isDragging = page.id === draggedId;

@@ -9,7 +9,6 @@ import { SectionSettingsProps } from '@/app/types/form-builder';
 import styles from './section-settings.module.css';
 
 export const SectionSettings: React.FC<SectionSettingsProps> = ({
-  pageId,
   onClose,
   onSetFirst,
   onRename,
