@@ -10,6 +10,7 @@ import { WeatherDisplay } from '@/app/components/weather/WeatherDisplay';
 import { DrinkGrid } from '@/app/components/drinks/DrinkGrid';
 import { DrinkFilters } from '@/app/components/drinks/DrinkFilters';
 import { DrinkModal } from '@/app/components/drinks/DrinkModal';
+import { AgeGate } from '@/app/components/ui/AgeGate';
 import { WeatherData } from '@/app/types/weather';
 import { Drink, DrinkFilters as DrinkFiltersType, DrinkRecommendation } from '@/app/types/drinks';
 import { recommendDrinks } from '@/lib/drinks';
@@ -26,9 +27,10 @@ export default function Home() {
   const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMetricUnit, setIsMetricUnit] = useState(false);
+  const [isAgeVerified, setIsAgeVerified] = useState<boolean | null>(null);
   const drinksGridRef = useRef<HTMLDivElement>(null);
 
-  // Check for dark mode preference
+  // Check for dark mode preference and age verification
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     const systemDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -40,6 +42,14 @@ export default function Home() {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
+    }
+
+    // Check age verification status
+    const ageVerified = localStorage.getItem('ageVerified');
+    if (ageVerified === 'true') {
+      setIsAgeVerified(true);
+    } else {
+      setIsAgeVerified(false);
     }
   }, []);
 
@@ -146,6 +156,26 @@ export default function Home() {
     setSelectedDrink(drink);
     setIsModalOpen(true);
   };
+
+  // Handle age verification
+  const handleAgeVerification = (isOfAge: boolean) => {
+    setIsAgeVerified(isOfAge);
+    localStorage.setItem('ageVerified', isOfAge.toString());
+  };
+
+  // Show age gate if not verified
+  if (isAgeVerified === false) {
+    return <AgeGate onVerified={handleAgeVerification} />;
+  }
+
+  // Show loading while checking age verification
+  if (isAgeVerified === null) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-amber-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">

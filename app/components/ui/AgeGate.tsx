@@ -1,0 +1,107 @@
+'use client';
+
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Button } from './Button';
+import { Card, CardContent } from './Card';
+
+interface AgeGateProps {
+  onVerified: (isOfAge: boolean) => void;
+}
+
+export const AgeGate: React.FC<AgeGateProps> = ({ onVerified }) => {
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const handleYes = () => {
+    onVerified(true);
+  };
+
+  const handleNo = () => {
+    setShowConfirmation(true);
+  };
+
+  const handleLeave = () => {
+    window.location.href = 'https://www.google.com';
+  };
+
+  if (showConfirmation) {
+    return (
+      <div className="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-full max-w-md"
+        >
+          <div className="bg-white rounded-3xl shadow-2xl border-2 border-red-200 text-center overflow-hidden">
+            <div className="bg-gradient-to-r from-red-500 to-red-600 p-6">
+              <div className="text-6xl mb-2">🚫</div>
+              <h2 className="text-2xl font-bold text-white">
+                Access Restricted
+              </h2>
+            </div>
+            <div className="p-8">
+              <p className="text-gray-700 mb-6 text-lg">
+                You must be 21 or older to view alcoholic beverage recommendations.
+              </p>
+              
+              <Button
+                onClick={handleLeave}
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 shadow-lg"
+              >
+                Leave Site
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-50 flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-full max-w-md"
+      >
+        <div className="bg-white rounded-3xl shadow-2xl border-2 border-amber-200 text-center overflow-hidden">
+          <div className="bg-gradient-to-r from-amber-500 to-orange-500 p-6">
+            <div className="text-6xl mb-2">🍷</div>
+            <h2 className="text-3xl font-bold text-white">
+              Age Verification
+            </h2>
+          </div>
+          <div className="p-8">
+            <div className="mb-6">
+              <p className="text-gray-700 mb-3 text-lg">
+                This site contains information about alcoholic beverages.
+              </p>
+              <p className="text-xl font-semibold text-gray-800">
+                Are you 21 years of age or older?
+              </p>
+            </div>
+            
+            <div className="flex gap-4 mb-4">
+              <button
+                onClick={handleYes}
+                className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 shadow-lg"
+              >
+                Yes, I'm 21+
+              </button>
+              <button
+                onClick={handleNo}
+                className="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 shadow-lg"
+              >
+                No
+              </button>
+            </div>
+            
+            <p className="text-sm text-gray-600">
+              By clicking "Yes", you certify that you are of legal drinking age.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
