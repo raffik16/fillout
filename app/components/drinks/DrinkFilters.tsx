@@ -72,7 +72,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
       ? currentValues.filter((v) => v !== value)
       : [...currentValues, value];
     
-    handleFilterChange(key, newValues.length > 0 ? newValues as any : undefined);
+    handleFilterChange(key, newValues.length > 0 ? (newValues as DrinkFiltersType[keyof DrinkFiltersType]) : undefined);
   };
 
   const clearFilters = () => {
@@ -131,12 +131,12 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
                 const newCategories = (filters.categories || []).filter(
                   cat => !['spirit', 'non-alcoholic'].includes(cat)
                 );
-                handleFilterChange('categories', newCategories.length > 0 ? newCategories as any : undefined);
+                handleFilterChange('categories', newCategories.length > 0 ? newCategories : undefined);
               } else {
                 // Add both categories
                 const currentCategories = filters.categories || [];
                 const newCategories = [...currentCategories, 'spirit' as const, 'non-alcoholic' as const];
-                handleFilterChange('categories', newCategories as any);
+                handleFilterChange('categories', newCategories);
               }
             }}
             className="p-4 text-base font-medium"
