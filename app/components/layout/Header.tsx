@@ -27,10 +27,10 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode }) 
             <GiBeerBottle className="w-8 h-8 text-amber-600" />
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-                WeatherBar
+                ThePerfectDrink
               </h1>
               <p className="text-xs text-gray-600 dark:text-gray-400">
-                Drinks for every forecast
+                Weather-based recommendations
               </p>
             </div>
           </motion.div>

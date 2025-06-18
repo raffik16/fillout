@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/app/components/ui/Card';
+import { Button } from '@/app/components/ui/Button';
 import { WeatherData } from '@/app/types/weather';
 import { 
   WiDaySunny, WiCloudy, WiRain, WiSnow, WiThunderstorm, 
@@ -40,10 +41,34 @@ const weatherGradients: Record<string, string> = {
   default: 'from-blue-400 to-blue-600',
 };
 
+const celsiusToFahrenheit = (celsius: number): number => {
+  return Math.round((celsius * 9/5) + 32);
+};
+
 export const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ weather, className }) => {
+  const [isMetric, setIsMetric] = useState(true);
+  
+  // Load temperature unit preference
+  useEffect(() => {
+    const savedUnit = localStorage.getItem('temperatureUnit');
+    setIsMetric(savedUnit !== 'fahrenheit');
+  }, []);
+
+  // Toggle temperature unit
+  const toggleTemperatureUnit = () => {
+    const newIsMetric = !isMetric;
+    setIsMetric(newIsMetric);
+    localStorage.setItem('temperatureUnit', newIsMetric ? 'celsius' : 'fahrenheit');
+  };
+
   const weatherMain = weather.current.main.toLowerCase();
   const icon = weatherIcons[weatherMain] || weatherIcons.clear;
   const gradient = weatherGradients[weatherMain] || weatherGradients.default;
+
+  // Temperature conversion helpers
+  const displayTemp = (temp: number) => {
+    return isMetric ? `${temp}°C` : `${celsiusToFahrenheit(temp)}°F`;
+  };
 
   return (
     <motion.div
@@ -65,32 +90,42 @@ export const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ weather, classNa
                 {weather.location.country}
               </p>
             </div>
-            <motion.div
-              animate={{ 
-                rotate: [0, 10, -10, 0],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{ 
-                duration: 4,
-                repeat: Infinity,
-                repeatDelay: 2,
-              }}
-              className={cn('text-gray-700 dark:text-gray-200')}
-            >
-              {icon}
-            </motion.div>
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleTemperatureUnit}
+                className="text-sm font-medium"
+              >
+                {isMetric ? '°C' : '°F'}
+              </Button>
+              <motion.div
+                animate={{ 
+                  rotate: [0, 10, -10, 0],
+                  scale: [1, 1.1, 1],
+                }}
+                transition={{ 
+                  duration: 4,
+                  repeat: Infinity,
+                  repeatDelay: 2,
+                }}
+                className={cn('text-gray-700 dark:text-gray-200')}
+              >
+                {icon}
+              </motion.div>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-6">
             <div>
               <p className="text-5xl font-bold text-gray-900 dark:text-white">
-                {weather.current.temp}°C
+                {displayTemp(weather.current.temp)}
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300 capitalize">
                 {weather.current.description}
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Feels like {weather.current.feels_like}°C
+                Feels like {displayTemp(weather.current.feels_like)}
               </p>
             </div>
 
@@ -98,7 +133,7 @@ export const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ weather, classNa
               <div className="flex items-center gap-2">
                 <WiThermometer className="w-6 h-6 text-gray-600 dark:text-gray-400" />
                 <span className="text-gray-700 dark:text-gray-300">
-                  {weather.current.temp_min}° - {weather.current.temp_max}°
+                  {displayTemp(weather.current.temp_min)} - {displayTemp(weather.current.temp_max)}
                 </span>
               </div>
               <div className="flex items-center gap-2">

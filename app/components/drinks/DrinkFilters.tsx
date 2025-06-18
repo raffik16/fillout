@@ -85,6 +85,67 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
 
   return (
     <div className={cn('relative', className)}>
+      {/* Popular Categories */}
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+          Popular Categories
+        </h3>
+        <div className="grid grid-cols-2 gap-3">
+          <Button
+            variant={filters.categories?.includes('beer') ? 'primary' : 'outline'}
+            size="lg"
+            onClick={() => handleToggleFilter('categories', 'beer')}
+            className="p-4 text-base font-medium"
+          >
+            🍺 Beer
+          </Button>
+          <Button
+            variant={filters.categories?.includes('wine') ? 'primary' : 'outline'}
+            size="lg"
+            onClick={() => handleToggleFilter('categories', 'wine')}
+            className="p-4 text-base font-medium"
+          >
+            🍷 Wine
+          </Button>
+          <Button
+            variant={filters.categories?.includes('cocktail') ? 'primary' : 'outline'}
+            size="lg"
+            onClick={() => handleToggleFilter('categories', 'cocktail')}
+            className="p-4 text-base font-medium"
+          >
+            🍸 Cocktails
+          </Button>
+          <Button
+            variant={
+              filters.categories?.some(cat => ['spirit', 'non-alcoholic'].includes(cat)) 
+                ? 'primary' 
+                : 'outline'
+            }
+            size="lg"
+            onClick={() => {
+              const hasSpirit = filters.categories?.includes('spirit');
+              const hasNonAlcoholic = filters.categories?.includes('non-alcoholic');
+              
+              if (hasSpirit || hasNonAlcoholic) {
+                // Remove both categories
+                const newCategories = (filters.categories || []).filter(
+                  cat => !['spirit', 'non-alcoholic'].includes(cat)
+                );
+                handleFilterChange('categories', newCategories.length > 0 ? newCategories : undefined);
+              } else {
+                // Add both categories
+                const currentCategories = filters.categories || [];
+                const newCategories = [...currentCategories, 'spirit', 'non-alcoholic'];
+                handleFilterChange('categories', newCategories);
+              }
+            }}
+            className="p-4 text-base font-medium"
+          >
+            🥃 Others
+          </Button>
+        </div>
+      </div>
+
       {/* Search Bar */}
       <div className="mb-4">
         <Input

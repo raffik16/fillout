@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "WeatherBar - Drinks for Every Forecast",
+  title: "ThePerfectDrink - Weather-Based Drink Recommendations",
   description: "Discover the perfect drink based on your local weather. From refreshing cocktails on hot days to warming spirits on cold nights.",
-  keywords: "weather, drinks, cocktails, beer, wine, recommendations, bartender",
-  authors: [{ name: "WeatherBar Team" }],
+  keywords: "weather, drinks, cocktails, beer, wine, recommendations, perfect drink, bartender",
+  authors: [{ name: "ThePerfectDrink Team" }],
   openGraph: {
-    title: "WeatherBar - Drinks for Every Forecast",
+    title: "ThePerfectDrink - Weather-Based Drink Recommendations",
     description: "Discover the perfect drink based on your local weather.",
     type: "website",
   },

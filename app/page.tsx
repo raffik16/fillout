@@ -28,17 +28,31 @@ export default function Home() {
 
   // Check for dark mode preference
   useEffect(() => {
-    const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setIsDarkMode(darkMode);
-    if (darkMode) {
+    const savedTheme = localStorage.getItem('theme');
+    const systemDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    const isDark = savedTheme ? savedTheme === 'dark' : systemDarkMode;
+    
+    setIsDarkMode(isDark);
+    if (isDark) {
       document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
   }, []);
 
   // Toggle dark mode
   const handleToggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    
+    if (newDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
   };
 
   // Fetch weather data
