@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { Header } from '@/app/components/layout/Header';
@@ -25,6 +25,7 @@ export default function Home() {
   const [weatherError, setWeatherError] = useState<string | null>(null);
   const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const drinksGridRef = useRef<HTMLDivElement>(null);
 
   // Check for dark mode preference
   useEffect(() => {
@@ -79,8 +80,11 @@ export default function Home() {
     }
   };
 
-  // Fetch drinks when filters change
+  // Fetch drinks when filters change or weather data is available
   useEffect(() => {
+    // Only fetch drinks if we have weather data
+    if (!weatherData) return;
+    
     const fetchDrinks = async () => {
       setIsLoadingDrinks(true);
       
@@ -113,7 +117,7 @@ export default function Home() {
     };
     
     fetchDrinks();
-  }, [filters]);
+  }, [filters, weatherData]);
 
   // Update recommendations when weather or drinks change
   useEffect(() => {
@@ -122,6 +126,19 @@ export default function Home() {
       setRecommendations(recs);
     }
   }, [weatherData, drinks, filters]);
+
+  // Handle filter changes with scroll to top
+  const handleFiltersChange = (newFilters: DrinkFiltersType) => {
+    setFilters(newFilters);
+    
+    // Scroll to top of drinks grid when filters change
+    if (drinksGridRef.current) {
+      drinksGridRef.current.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
 
   // Handle drink click
   const handleDrinkClick = (drink: Drink) => {
@@ -172,45 +189,58 @@ export default function Home() {
           </div>
         )}
 
-        {/* Drinks Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Filters */}
-          <div className="lg:col-span-1">
-            <DrinkFilters 
-              filters={filters} 
-              onFiltersChange={setFilters}
-              className="sticky top-24"
-            />
-          </div>
+        {/* Drinks Section - Only show after weather data is available */}
+        {weatherData && (
+          <div ref={drinksGridRef} className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* Filters */}
+            <div className="lg:col-span-1">
+              <DrinkFilters 
+                filters={filters} 
+                onFiltersChange={handleFiltersChange}
+                className="sticky top-24"
+              />
+            </div>
 
-          {/* Drink Grid */}
-          <div className="lg:col-span-3">
-            {weatherData && recommendations.length > 0 ? (
-              <>
-                <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-                  Recommended for You
-                </h3>
-                <DrinkGrid
-                  drinks={recommendations.map(r => r.drink)}
-                  recommendations={recommendations}
-                  isLoading={isLoadingDrinks}
-                  onDrinkClick={handleDrinkClick}
-                />
-              </>
-            ) : (
-              <>
-                <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-                  {drinks.length > 0 ? 'All Drinks' : 'Popular Drinks'}
-                </h3>
-                <DrinkGrid
-                  drinks={drinks}
-                  isLoading={isLoadingDrinks}
-                  onDrinkClick={handleDrinkClick}
-                />
-              </>
-            )}
+            {/* Drink Grid */}
+            <div className="lg:col-span-3">
+              {isLoadingDrinks ? (
+                <>
+                  <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+                    Loading drinks...
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[...Array(6)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="h-96 bg-gray-200 dark:bg-gray-800 rounded-2xl animate-pulse"
+                      />
+                    ))}
+                  </div>
+                </>
+              ) : drinks.length > 0 ? (
+                <>
+                  <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+                    {recommendations.length > 0 ? 'Recommended for You' : 'All Drinks'}
+                  </h3>
+                  <DrinkGrid
+                    drinks={recommendations.length > 0 ? recommendations.map(r => r.drink) : drinks}
+                    recommendations={recommendations.length > 0 ? recommendations : undefined}
+                    onDrinkClick={handleDrinkClick}
+                  />
+                </>
+              ) : (
+                <>
+                  <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+                    No drinks found
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Try adjusting your filters or search terms.
+                  </p>
+                </>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </main>
 
       <Footer />

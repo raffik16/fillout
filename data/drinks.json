@@ -227,7 +227,7 @@
       },
       "occasions": ["business", "celebration", "relaxing"],
       "serving_suggestions": ["Serve neat or with a splash of water", "Room temperature"],
-      "image_url": "https://images.unsplash.com/photo-1527281400683-1aae777175f8?w=400",
+      "image_url": "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=400",
       "glass_type": "Glencairn",
       "preparation": "Serve neat at room temperature"
     },
@@ -269,7 +269,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve over crushed ice", "Garnish with mint"],
-      "image_url": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400",
+      "image_url": "https://images.unsplash.com/photo-1627366422923-081ea3b2ac22?w=400",
       "glass_type": "Highball",
       "preparation": "Muddle mint with sugar and lime, top with soda"
     },
@@ -500,7 +500,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve frozen or on rocks", "Garnish with pineapple"],
-      "image_url": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400",
+      "image_url": "https://images.unsplash.com/photo-1607644536940-6c300b5784c5?w=400",
       "glass_type": "Hurricane",
       "preparation": "Blend with ice or shake"
     },
@@ -710,7 +710,7 @@
       },
       "occasions": ["celebration", "party", "business"],
       "serving_suggestions": ["Serve neat and chilled", "Store in freezer"],
-      "image_url": "https://images.unsplash.com/photo-1527281400683-1aae777175f8?w=400",
+      "image_url": "https://images.unsplash.com/photo-1541705690759-58b15944552f?w=400",
       "glass_type": "Shot",
       "preparation": "Serve ice cold"
     },
@@ -731,7 +731,7 @@
       },
       "occasions": ["business", "relaxing", "celebration"],
       "serving_suggestions": ["Serve neat or on rocks", "Add a splash of water"],
-      "image_url": "https://images.unsplash.com/photo-1527281400683-1aae777175f8?w=400",
+      "image_url": "https://images.unsplash.com/photo-1585703164392-171d7f8a0af5?w=400",
       "glass_type": "Glencairn",
       "preparation": "Serve at room temperature"
     },
@@ -752,7 +752,7 @@
       },
       "occasions": ["relaxing", "celebration", "romantic"],
       "serving_suggestions": ["Serve neat or on rocks", "Savor slowly"],
-      "image_url": "https://images.unsplash.com/photo-1527281400683-1aae777175f8?w=400",
+      "image_url": "https://images.unsplash.com/photo-1643361197654-c1c33cb09bd5?w=400",
       "glass_type": "Rocks",
       "preparation": "Serve at room temperature"
     },
@@ -773,7 +773,7 @@
       },
       "occasions": ["business", "casual", "romantic"],
       "serving_suggestions": ["Serve with tonic", "Garnish with botanicals"],
-      "image_url": "https://images.unsplash.com/photo-1527281400683-1aae777175f8?w=400",
+      "image_url": "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=400",
       "glass_type": "Balloon",
       "preparation": "Serve over ice with garnish"
     },
@@ -794,7 +794,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve frozen", "Garnish with pineapple"],
-      "image_url": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400",
+      "image_url": "https://images.unsplash.com/photo-1607644536940-6c300b5784c5?w=400",
       "glass_type": "Hurricane",
       "preparation": "Blend with ice until smooth"
     },

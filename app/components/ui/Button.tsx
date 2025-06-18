@@ -17,7 +17,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const variants = {
       primary: 'bg-amber-600 text-white hover:bg-amber-700 shadow-lg shadow-amber-600/25',
       secondary: 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-600/25',
-      ghost: 'bg-transparent text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800',
+      ghost: 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 shadow-sm',
       glass: 'bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20',
     };
 
