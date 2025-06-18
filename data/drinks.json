@@ -1,0 +1,319 @@
+{
+  "drinks": [
+    {
+      "id": "mojito",
+      "name": "Mojito",
+      "category": "cocktail",
+      "description": "A refreshing Cuban cocktail with rum, mint, lime, and soda water",
+      "ingredients": ["White rum", "Fresh mint", "Lime juice", "Sugar", "Soda water"],
+      "abv": 13,
+      "flavor_profile": ["refreshing", "sweet", "herbal"],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": 20,
+        "temp_max": 40,
+        "conditions": ["clear", "clouds"],
+        "ideal_temp": 28
+      },
+      "occasions": ["casual", "party", "relaxing"],
+      "serving_suggestions": ["Serve over crushed ice", "Garnish with mint sprig"],
+      "image_url": "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400",
+      "glass_type": "Highball",
+      "preparation": "Muddle mint with sugar and lime juice, add rum, top with soda"
+    },
+    {
+      "id": "whiskey-sour",
+      "name": "Whiskey Sour",
+      "category": "cocktail",
+      "description": "Classic cocktail with whiskey, lemon juice, and simple syrup",
+      "ingredients": ["Bourbon whiskey", "Lemon juice", "Simple syrup", "Egg white (optional)"],
+      "abv": 15,
+      "flavor_profile": ["sour", "sweet", "bitter"],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": 10,
+        "temp_max": 25,
+        "conditions": ["clouds", "rain"],
+        "ideal_temp": 18
+      },
+      "occasions": ["business", "romantic", "casual"],
+      "serving_suggestions": ["Serve in a rocks glass", "Garnish with cherry and orange slice"],
+      "image_url": "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=400",
+      "glass_type": "Rocks",
+      "preparation": "Shake all ingredients with ice, strain into glass"
+    },
+    {
+      "id": "margarita",
+      "name": "Margarita",
+      "category": "cocktail",
+      "description": "Mexican cocktail with tequila, lime juice, and triple sec",
+      "ingredients": ["Tequila", "Triple sec", "Lime juice", "Salt rim"],
+      "abv": 14,
+      "flavor_profile": ["sour", "sweet", "refreshing"],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": 22,
+        "temp_max": 40,
+        "conditions": ["clear", "clouds"],
+        "ideal_temp": 30
+      },
+      "occasions": ["party", "casual", "celebration"],
+      "serving_suggestions": ["Salt rim optional", "Serve frozen or on the rocks"],
+      "image_url": "https://images.unsplash.com/photo-1535168910826-9fcceb9b3e7e?w=400",
+      "glass_type": "Margarita",
+      "preparation": "Shake with ice, strain into salt-rimmed glass"
+    },
+    {
+      "id": "hot-toddy",
+      "name": "Hot Toddy",
+      "category": "cocktail",
+      "description": "Warming cocktail with whiskey, honey, lemon, and hot water",
+      "ingredients": ["Whiskey", "Honey", "Lemon juice", "Hot water", "Cinnamon stick"],
+      "abv": 10,
+      "flavor_profile": ["sweet", "spicy", "herbal"],
+      "strength": "light",
+      "weather_match": {
+        "temp_min": -10,
+        "temp_max": 10,
+        "conditions": ["snow", "rain", "mist"],
+        "ideal_temp": 2
+      },
+      "occasions": ["relaxing", "casual"],
+      "serving_suggestions": ["Serve in a mug", "Garnish with cinnamon stick"],
+      "image_url": "https://images.unsplash.com/photo-1547835041-8893535c3f8f?w=400",
+      "glass_type": "Mug",
+      "preparation": "Mix all ingredients in a mug, stir well"
+    },
+    {
+      "id": "ipa-beer",
+      "name": "India Pale Ale",
+      "category": "beer",
+      "description": "Hoppy beer with citrus and floral notes",
+      "ingredients": ["Hops", "Malt", "Yeast", "Water"],
+      "abv": 6.5,
+      "flavor_profile": ["bitter", "fruity", "herbal"],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": 15,
+        "temp_max": 30,
+        "conditions": ["clear", "clouds"],
+        "ideal_temp": 22
+      },
+      "occasions": ["casual", "party"],
+      "serving_suggestions": ["Serve chilled", "Pour into IPA glass"],
+      "image_url": "https://images.unsplash.com/photo-1608270586620-248524c67de9?w=400",
+      "glass_type": "IPA Glass",
+      "preparation": "Serve chilled at 45-50°F"
+    },
+    {
+      "id": "lager",
+      "name": "Classic Lager",
+      "category": "beer",
+      "description": "Light, crisp beer perfect for hot days",
+      "ingredients": ["Pilsner malt", "Noble hops", "Lager yeast", "Water"],
+      "abv": 5,
+      "flavor_profile": ["refreshing", "bitter"],
+      "strength": "light",
+      "weather_match": {
+        "temp_min": 20,
+        "temp_max": 40,
+        "conditions": ["clear"],
+        "ideal_temp": 32
+      },
+      "occasions": ["casual", "party", "relaxing"],
+      "serving_suggestions": ["Serve very cold", "Best in a pilsner glass"],
+      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "glass_type": "Pilsner",
+      "preparation": "Serve cold at 38-45°F"
+    },
+    {
+      "id": "stout",
+      "name": "Irish Stout",
+      "category": "beer",
+      "description": "Dark, rich beer with coffee and chocolate notes",
+      "ingredients": ["Roasted barley", "Hops", "Yeast", "Water"],
+      "abv": 4.5,
+      "flavor_profile": ["bitter", "savory", "smoky"],
+      "strength": "light",
+      "weather_match": {
+        "temp_min": -5,
+        "temp_max": 15,
+        "conditions": ["rain", "clouds", "mist"],
+        "ideal_temp": 8
+      },
+      "occasions": ["casual", "relaxing"],
+      "serving_suggestions": ["Serve at cellar temperature", "Pour with a proper head"],
+      "image_url": "https://images.unsplash.com/photo-1546622891-02c72c1537b6?w=400",
+      "glass_type": "Pint",
+      "preparation": "Serve at 50-55°F"
+    },
+    {
+      "id": "red-wine",
+      "name": "Cabernet Sauvignon",
+      "category": "wine",
+      "description": "Full-bodied red wine with dark fruit flavors",
+      "ingredients": ["Cabernet Sauvignon grapes"],
+      "abv": 14,
+      "flavor_profile": ["fruity", "bitter", "savory"],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": 5,
+        "temp_max": 20,
+        "conditions": ["clouds", "rain", "mist"],
+        "ideal_temp": 12
+      },
+      "occasions": ["romantic", "business", "celebration"],
+      "serving_suggestions": ["Serve at room temperature", "Decant before serving"],
+      "image_url": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400",
+      "glass_type": "Red wine glass",
+      "preparation": "Serve at 60-68°F"
+    },
+    {
+      "id": "white-wine",
+      "name": "Sauvignon Blanc",
+      "category": "wine",
+      "description": "Crisp white wine with citrus and herbal notes",
+      "ingredients": ["Sauvignon Blanc grapes"],
+      "abv": 12.5,
+      "flavor_profile": ["fruity", "sour", "refreshing"],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": 18,
+        "temp_max": 35,
+        "conditions": ["clear", "clouds"],
+        "ideal_temp": 25
+      },
+      "occasions": ["casual", "romantic", "celebration"],
+      "serving_suggestions": ["Serve chilled", "Pair with seafood"],
+      "image_url": "https://images.unsplash.com/photo-1561461056-77634126673a?w=400",
+      "glass_type": "White wine glass",
+      "preparation": "Serve at 45-50°F"
+    },
+    {
+      "id": "rose-wine",
+      "name": "Provence Rosé",
+      "category": "wine",
+      "description": "Light, refreshing rosé with strawberry and citrus notes",
+      "ingredients": ["Grenache", "Cinsault", "Syrah grapes"],
+      "abv": 12,
+      "flavor_profile": ["fruity", "refreshing", "sweet"],
+      "strength": "light",
+      "weather_match": {
+        "temp_min": 20,
+        "temp_max": 35,
+        "conditions": ["clear"],
+        "ideal_temp": 28
+      },
+      "occasions": ["casual", "party", "romantic"],
+      "serving_suggestions": ["Serve well chilled", "Perfect for outdoor dining"],
+      "image_url": "https://images.unsplash.com/photo-1562601579-599dec564e06?w=400",
+      "glass_type": "Wine glass",
+      "preparation": "Serve at 45-55°F"
+    },
+    {
+      "id": "single-malt",
+      "name": "Single Malt Scotch",
+      "category": "spirit",
+      "description": "Premium Scottish whisky with complex flavors",
+      "ingredients": ["Malted barley", "Water", "Yeast"],
+      "abv": 40,
+      "flavor_profile": ["smoky", "savory", "spicy"],
+      "strength": "strong",
+      "weather_match": {
+        "temp_min": -10,
+        "temp_max": 15,
+        "conditions": ["rain", "mist", "clouds"],
+        "ideal_temp": 5
+      },
+      "occasions": ["business", "celebration", "relaxing"],
+      "serving_suggestions": ["Serve neat or with a splash of water", "Room temperature"],
+      "image_url": "https://images.unsplash.com/photo-1527281400683-1aae777175f8?w=400",
+      "glass_type": "Glencairn",
+      "preparation": "Serve neat at room temperature"
+    },
+    {
+      "id": "gin-tonic",
+      "name": "Gin & Tonic",
+      "category": "cocktail",
+      "description": "Classic British cocktail with gin and tonic water",
+      "ingredients": ["Gin", "Tonic water", "Lime", "Ice"],
+      "abv": 10,
+      "flavor_profile": ["bitter", "refreshing", "herbal"],
+      "strength": "light",
+      "weather_match": {
+        "temp_min": 18,
+        "temp_max": 35,
+        "conditions": ["clear", "clouds"],
+        "ideal_temp": 26
+      },
+      "occasions": ["casual", "party", "business"],
+      "serving_suggestions": ["Serve over ice", "Garnish with lime wedge"],
+      "image_url": "https://images.unsplash.com/photo-1587888637140-849b25d80ef9?w=400",
+      "glass_type": "Highball",
+      "preparation": "Build over ice, stir gently"
+    },
+    {
+      "id": "virgin-mojito",
+      "name": "Virgin Mojito",
+      "category": "non-alcoholic",
+      "description": "Refreshing mocktail with mint, lime, and soda",
+      "ingredients": ["Fresh mint", "Lime juice", "Sugar", "Soda water", "Ice"],
+      "abv": 0,
+      "flavor_profile": ["refreshing", "sweet", "herbal"],
+      "strength": "non-alcoholic",
+      "weather_match": {
+        "temp_min": 20,
+        "temp_max": 40,
+        "conditions": ["clear", "clouds"],
+        "ideal_temp": 28
+      },
+      "occasions": ["casual", "party", "relaxing"],
+      "serving_suggestions": ["Serve over crushed ice", "Garnish with mint"],
+      "image_url": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400",
+      "glass_type": "Highball",
+      "preparation": "Muddle mint with sugar and lime, top with soda"
+    },
+    {
+      "id": "mulled-wine",
+      "name": "Mulled Wine",
+      "category": "wine",
+      "description": "Warm spiced wine perfect for cold weather",
+      "ingredients": ["Red wine", "Cinnamon", "Cloves", "Orange", "Honey"],
+      "abv": 11,
+      "flavor_profile": ["sweet", "spicy", "fruity"],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": -10,
+        "temp_max": 10,
+        "conditions": ["snow", "rain", "mist"],
+        "ideal_temp": 0
+      },
+      "occasions": ["casual", "romantic", "celebration"],
+      "serving_suggestions": ["Serve warm in mugs", "Garnish with orange slice"],
+      "image_url": "https://images.unsplash.com/photo-1544735716-392fe8e77d6e?w=400",
+      "glass_type": "Mug",
+      "preparation": "Simmer with spices, serve warm"
+    },
+    {
+      "id": "champagne",
+      "name": "Champagne",
+      "category": "wine",
+      "description": "Sparkling wine for celebrations",
+      "ingredients": ["Chardonnay", "Pinot Noir", "Pinot Meunier grapes"],
+      "abv": 12,
+      "flavor_profile": ["fruity", "refreshing", "bitter"],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": 15,
+        "temp_max": 30,
+        "conditions": ["clear", "clouds"],
+        "ideal_temp": 22
+      },
+      "occasions": ["celebration", "romantic", "business"],
+      "serving_suggestions": ["Serve well chilled", "Pour at an angle"],
+      "image_url": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400",
+      "glass_type": "Flute",
+      "preparation": "Serve at 40-45°F"
+    }
+  ]
+}
