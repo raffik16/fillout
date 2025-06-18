@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/app/components/ui/Button';
 import { Input } from '@/app/components/ui/Input';
-import { DrinkFilters as DrinkFiltersType } from '@/app/types/drinks';
+import { DrinkFilters as DrinkFiltersType, DrinkCategory, DrinkStrength, FlavorProfile, Occasion } from '@/app/types/drinks';
 import { FiFilter, FiSearch } from 'react-icons/fi';
 import { cn } from '@/lib/utils';
 
@@ -92,7 +92,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
         </h3>
         <div className="grid grid-cols-2 gap-3">
           <Button
-            variant={filters.categories?.includes('beer') ? 'primary' : 'outline'}
+            variant={filters.categories?.includes('beer') ? 'primary' : 'secondary'}
             size="lg"
             onClick={() => handleToggleFilter('categories', 'beer')}
             className="p-4 text-base font-medium"
@@ -100,7 +100,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
             🍺 Beer
           </Button>
           <Button
-            variant={filters.categories?.includes('wine') ? 'primary' : 'outline'}
+            variant={filters.categories?.includes('wine') ? 'primary' : 'secondary'}
             size="lg"
             onClick={() => handleToggleFilter('categories', 'wine')}
             className="p-4 text-base font-medium"
@@ -108,7 +108,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
             🍷 Wine
           </Button>
           <Button
-            variant={filters.categories?.includes('cocktail') ? 'primary' : 'outline'}
+            variant={filters.categories?.includes('cocktail') ? 'primary' : 'secondary'}
             size="lg"
             onClick={() => handleToggleFilter('categories', 'cocktail')}
             className="p-4 text-base font-medium"
@@ -119,7 +119,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
             variant={
               filters.categories?.some(cat => ['spirit', 'non-alcoholic'].includes(cat)) 
                 ? 'primary' 
-                : 'outline'
+                : 'secondary'
             }
             size="lg"
             onClick={() => {
@@ -205,7 +205,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
                     <Button
                       key={option.value}
                       variant={
-                        filters.categories?.includes(option.value as DrinkFiltersType['categories'][number])
+                        filters.categories?.includes(option.value as DrinkCategory)
                           ? 'primary'
                           : 'ghost'
                       }
@@ -228,7 +228,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
                     <Button
                       key={option.value}
                       variant={
-                        filters.strength?.includes(option.value as DrinkFiltersType['strength'][number])
+                        filters.strength?.includes(option.value as DrinkStrength)
                           ? 'primary'
                           : 'ghost'
                       }
@@ -251,7 +251,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
                     <Button
                       key={option.value}
                       variant={
-                        filters.flavors?.includes(option.value as DrinkFiltersType['flavors'][number])
+                        filters.flavors?.includes(option.value as FlavorProfile)
                           ? 'primary'
                           : 'ghost'
                       }
@@ -274,7 +274,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
                     <Button
                       key={option.value}
                       variant={
-                        filters.occasions?.includes(option.value as DrinkFiltersType['occasions'][number])
+                        filters.occasions?.includes(option.value as Occasion)
                           ? 'primary'
                           : 'ghost'
                       }
