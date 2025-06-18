@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Input } from '@/app/components/ui/Input';
 import { Button } from '@/app/components/ui/Button';
-import { FiSearch, FiMapPin } from 'react-icons/fi';
+import { FiSearch } from 'react-icons/fi';
 import { getUserLocation } from '@/lib/weather';
 
 interface LocationSearchProps {

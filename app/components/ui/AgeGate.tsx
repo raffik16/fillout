@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from './Button';
-import { Card, CardContent } from './Card';
 
 interface AgeGateProps {
   onVerified: (isOfAge: boolean) => void;
@@ -86,7 +85,7 @@ export const AgeGate: React.FC<AgeGateProps> = ({ onVerified }) => {
                 onClick={handleYes}
                 className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 shadow-lg"
               >
-                Yes, I'm 21+
+                Yes, I&apos;m 21+
               </button>
               <button
                 onClick={handleNo}
@@ -97,7 +96,7 @@ export const AgeGate: React.FC<AgeGateProps> = ({ onVerified }) => {
             </div>
             
             <p className="text-sm text-gray-600">
-              By clicking "Yes", you certify that you are of legal drinking age.
+              By clicking &quot;Yes&quot;, you certify that you are of legal drinking age.
             </p>
           </div>
         </div>
