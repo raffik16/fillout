@@ -79,9 +79,6 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
     onFiltersChange({});
   };
 
-  const activeFilterCount = Object.values(filters).filter((v) => 
-    v && (Array.isArray(v) ? v.length > 0 : true)
-  ).length;
 
   return (
     <div className={cn('relative', className)}>
@@ -164,24 +161,17 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
           className="flex items-center gap-2"
         >
           <FiFilter />
-          Filters
-          {activeFilterCount > 0 && (
-            <span className="bg-amber-500 text-white text-xs px-2 py-1 rounded-full">
-              {activeFilterCount}
-            </span>
-          )}
+          Advanced Filters
         </Button>
         
-        {activeFilterCount > 0 && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={clearFilters}
-            className="text-red-600 hover:text-red-700"
-          >
-            Clear all
-          </Button>
-        )}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={clearFilters}
+          className="text-red-600 hover:text-red-700"
+        >
+          Clear all
+        </Button>
       </div>
 
       {/* Expandable Filters */}

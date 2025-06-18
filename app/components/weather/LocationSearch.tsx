@@ -6,7 +6,6 @@ import { Input } from '@/app/components/ui/Input';
 import { Button } from '@/app/components/ui/Button';
 import { FiSearch, FiMapPin } from 'react-icons/fi';
 import { getUserLocation } from '@/lib/weather';
-import { debounce } from '@/lib/utils';
 
 interface LocationSearchProps {
   onSearch: (query: { city?: string; lat?: number; lon?: number }) => void;
@@ -45,13 +44,10 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
     }
   };
 
-  const debouncedSetCity = React.useMemo(
-    () => debounce((value: string) => {
-      setCity(value);
-      setError('');
-    }, 300),
-    []
-  );
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCity(e.target.value);
+    setError('');
+  };
 
   return (
     <motion.div
@@ -66,7 +62,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
             type="text"
             placeholder="Enter city name..."
             value={city}
-            onChange={(e) => debouncedSetCity(e.target.value)}
+            onChange={handleInputChange}
             icon={<FiSearch className="w-5 h-5" />}
             error={error}
             disabled={isLoading || isGeolocating}
@@ -84,18 +80,26 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
           Search
         </Button>
         
-        <Button
-          type="button"
-          variant="secondary"
-          size="lg"
-          onClick={handleGeolocation}
-          isLoading={isGeolocating}
-          disabled={isLoading}
-          className="flex items-center gap-2"
-        >
-          <FiMapPin className="w-5 h-5" />
-          <span className="hidden sm:inline">My Location</span>
-        </Button>
+        <div className="relative group">
+          <Button
+            type="button"
+            variant="secondary"
+            size="lg"
+            onClick={handleGeolocation}
+            isLoading={isGeolocating}
+            disabled={isLoading}
+            className="flex items-center gap-2"
+          >
+            <FiMapPin className="w-5 h-5" />
+            <span className="hidden sm:inline">My Location</span>
+          </Button>
+          
+          {/* Fun Tooltip */}
+          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-50">
+            🎯 Let me find your perfect drink with GPS magic! ✨
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+          </div>
+        </div>
       </form>
     </motion.div>
   );
