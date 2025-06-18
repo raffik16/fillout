@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 interface WeatherDisplayProps {
   weather: WeatherData;
   className?: string;
+  onTemperatureUnitChange?: (isMetric: boolean) => void;
 }
 
 const weatherIcons: Record<string, React.ReactNode> = {
@@ -45,20 +46,23 @@ const celsiusToFahrenheit = (celsius: number): number => {
   return Math.round((celsius * 9/5) + 32);
 };
 
-export const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ weather, className }) => {
-  const [isMetric, setIsMetric] = useState(true);
+export const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ weather, className, onTemperatureUnitChange }) => {
+  const [isMetric, setIsMetric] = useState(false);
   
   // Load temperature unit preference
   useEffect(() => {
     const savedUnit = localStorage.getItem('temperatureUnit');
-    setIsMetric(savedUnit !== 'fahrenheit');
-  }, []);
+    const metric = savedUnit === 'celsius';
+    setIsMetric(metric);
+    onTemperatureUnitChange?.(metric);
+  }, [onTemperatureUnitChange]);
 
   // Toggle temperature unit
   const toggleTemperatureUnit = () => {
     const newIsMetric = !isMetric;
     setIsMetric(newIsMetric);
     localStorage.setItem('temperatureUnit', newIsMetric ? 'celsius' : 'fahrenheit');
+    onTemperatureUnitChange?.(newIsMetric);
   };
 
   const weatherMain = weather.current.main.toLowerCase();

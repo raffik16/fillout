@@ -55,7 +55,8 @@ export function filterDrinks(drinks: Drink[], filters: DrinkFilters): Drink[] {
 
 export function recommendDrinks(
   weather: WeatherData,
-  filters?: DrinkFilters
+  filters?: DrinkFilters,
+  isMetricUnit: boolean = false
 ): DrinkRecommendation[] {
   let drinks = getAllDrinks();
 
@@ -67,7 +68,7 @@ export function recommendDrinks(
   // Score each drink based on weather matching
   const recommendations = drinks.map((drink) => {
     const score = calculateWeatherScore(drink, weather);
-    const reasons = generateRecommendationReasons(drink, weather, score);
+    const reasons = generateRecommendationReasons(drink, weather, score, isMetricUnit);
 
     return {
       drink,
@@ -165,21 +166,26 @@ function getTemperatureCategoryBonus(drink: Drink, tempCategory: string): number
 function generateRecommendationReasons(
   drink: Drink,
   weather: WeatherData,
-  score: number
+  score: number,
+  isMetricUnit: boolean = false
 ): string[] {
   const reasons: string[] = [];
   const currentTemp = weather.current.temp;
   const weatherDesc = weather.current.description;
   const tempCategory = getTemperatureCategory(currentTemp);
 
+  // Convert temperature for display
+  const displayTemp = isMetricUnit ? currentTemp : Math.round((currentTemp * 9/5) + 32);
+  const tempUnit = isMetricUnit ? '°C' : '°F';
+
   // Temperature-based reasons
   if (currentTemp >= drink.weather_match.temp_min && currentTemp <= drink.weather_match.temp_max) {
     if (tempCategory === 'hot') {
-      reasons.push(`Perfect for this ${currentTemp}°C weather`);
+      reasons.push(`Perfect for this ${displayTemp}${tempUnit} weather`);
     } else if (tempCategory === 'cold') {
-      reasons.push(`Ideal for warming up in ${currentTemp}°C`);
+      reasons.push(`Ideal for warming up in ${displayTemp}${tempUnit}`);
     } else {
-      reasons.push(`Great match for ${currentTemp}°C weather`);
+      reasons.push(`Great match for ${displayTemp}${tempUnit} weather`);
     }
   }
 

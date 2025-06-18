@@ -25,6 +25,7 @@ export default function Home() {
   const [weatherError, setWeatherError] = useState<string | null>(null);
   const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMetricUnit, setIsMetricUnit] = useState(false);
   const drinksGridRef = useRef<HTMLDivElement>(null);
 
   // Check for dark mode preference
@@ -122,10 +123,10 @@ export default function Home() {
   // Update recommendations when weather or drinks change
   useEffect(() => {
     if (weatherData && drinks.length > 0) {
-      const recs = recommendDrinks(weatherData, filters);
+      const recs = recommendDrinks(weatherData, filters, isMetricUnit);
       setRecommendations(recs);
     }
-  }, [weatherData, drinks, filters]);
+  }, [weatherData, drinks, filters, isMetricUnit]);
 
   // Handle filter changes with scroll to top
   const handleFiltersChange = (newFilters: DrinkFiltersType) => {
@@ -185,7 +186,11 @@ export default function Home() {
         {/* Weather Display */}
         {weatherData && (
           <div className="mb-12">
-            <WeatherDisplay weather={weatherData} className="max-w-2xl mx-auto" />
+            <WeatherDisplay 
+              weather={weatherData} 
+              className="max-w-2xl mx-auto"
+              onTemperatureUnitChange={setIsMetricUnit}
+            />
           </div>
         )}
 
