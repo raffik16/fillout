@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Drink } from '@/app/types/drinks';
@@ -15,6 +15,28 @@ interface DrinkModalProps {
 }
 
 export const DrinkModal: React.FC<DrinkModalProps> = ({ drink, isOpen, onClose }) => {
+  // Handle escape key
+  const handleEscapeKey = useCallback((event: KeyboardEvent) => {
+    if (event.key === 'Escape' && isOpen) {
+      onClose();
+    }
+  }, [isOpen, onClose]);
+
+  // Handle click outside
+  const handleBackdropClick = useCallback((event: React.MouseEvent) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
+  }, [onClose]);
+
+  // Add/remove escape key listener
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscapeKey);
+      return () => document.removeEventListener('keydown', handleEscapeKey);
+    }
+  }, [isOpen, handleEscapeKey]);
+
   if (!drink) return null;
 
   const categoryColors = {
@@ -34,7 +56,7 @@ export const DrinkModal: React.FC<DrinkModalProps> = ({ drink, isOpen, onClose }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
+            onClick={handleBackdropClick}
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
           />
 

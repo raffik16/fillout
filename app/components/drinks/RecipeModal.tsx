@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX, FiClock, FiShoppingCart, FiBook, FiStar, FiExternalLink } from 'react-icons/fi';
 import { Button } from '@/app/components/ui/Button';
@@ -26,6 +26,28 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
   const [selectedBeerWine, setSelectedBeerWine] = useState<ProcessedBeer | ProcessedWine | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [shoppingList, setShoppingList] = useState<string[]>([]);
+
+  // Handle escape key
+  const handleEscapeKey = useCallback((event: KeyboardEvent) => {
+    if (event.key === 'Escape' && isOpen) {
+      onClose();
+    }
+  }, [isOpen, onClose]);
+
+  // Handle click outside
+  const handleBackdropClick = useCallback((event: React.MouseEvent) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
+  }, [onClose]);
+
+  // Add/remove escape key listener
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscapeKey);
+      return () => document.removeEventListener('keydown', handleEscapeKey);
+    }
+  }, [isOpen, handleEscapeKey]);
 
   // Fetch recipes when modal opens
   useEffect(() => {
@@ -109,7 +131,10 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div 
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        onClick={handleBackdropClick}
+      >
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
