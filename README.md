@@ -1,10 +1,10 @@
-# WeatherBar 🍻⛅
+# ThePerfectDrink 🍻⛅
 
 A modern, intuitive web application that recommends beers, wines, cocktails, hard liquors, and other bar drinks based on real-time weather data and user preferences.
 
 ## Features
 
-- **Weather-Based Recommendations**: Uses real-time weather data to suggest the perfect drink
+- **drinks made easy everytime**: Uses real-time weather data to suggest the perfect drink
 - **Smart Filtering**: Filter drinks by category, flavor profile, strength, and occasion
 - **Location Search**: Enter any city or use geolocation for weather data
 - **Comprehensive Database**: 15+ carefully curated drinks with detailed information
@@ -35,7 +35,7 @@ A modern, intuitive web application that recommends beers, wines, cocktails, har
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd weatherbar
+cd theperfectdrink
 ```
 
 2. Install dependencies:

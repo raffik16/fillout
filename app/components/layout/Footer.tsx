@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiHeart, FiGithub, FiInfo } from 'react-icons/fi';
+import { FiHeart } from 'react-icons/fi';
 
 export const Footer: React.FC = () => {
   return (
@@ -16,7 +16,7 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
-              About WeatherBar
+              About ThePerfectDrink
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Your personal bartender that recommends the perfect drink based on the weather. 
@@ -48,23 +48,9 @@ export const Footer: React.FC = () => {
         <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
-              Made with <FiHeart className="w-4 h-4 text-red-500" /> by WeatherBar Team
+              made by <a href="https://raffi.website" target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 transition-colors">raffi.website</a>
             </p>
             
-            <div className="flex items-center gap-4">
-              <a
-                href="#"
-                className="text-gray-600 dark:text-gray-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
-              >
-                <FiGithub className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="text-gray-600 dark:text-gray-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
-              >
-                <FiInfo className="w-5 h-5" />
-              </a>
-            </div>
           </div>
         </div>
       </div>

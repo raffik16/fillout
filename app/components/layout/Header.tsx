@@ -30,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode }) 
                 ThePerfectDrink
               </h1>
               <p className="text-xs text-gray-600 dark:text-gray-400">
-                Weather-based recommendations
+                drinks made easy everytime
               </p>
             </div>
           </motion.div>
