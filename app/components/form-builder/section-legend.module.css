@@ -7,8 +7,6 @@
   border-radius: 12px;
   overflow-x: auto;
   overflow-y: hidden;
-
-  min-height: calc(100vh - 328px);
 }
 
 .page {
