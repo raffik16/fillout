@@ -46,11 +46,10 @@ export const Footer: React.FC = () => {
         </div>
         
         <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
               made by <a href="https://raffi.website" target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 transition-colors">raffi.website</a>
             </p>
-            
           </div>
         </div>
       </div>
