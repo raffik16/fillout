@@ -10,8 +10,8 @@
       "flavor_profile": ["refreshing", "sweet", "herbal"],
       "strength": "medium",
       "weather_match": {
-        "temp_min": 20,
-        "temp_max": 40,
+        "temp_min": 22,
+        "temp_max": 38,
         "conditions": ["clear", "clouds"],
         "ideal_temp": 28
       },
@@ -31,10 +31,10 @@
       "flavor_profile": ["sour", "sweet", "bitter"],
       "strength": "medium",
       "weather_match": {
-        "temp_min": 10,
-        "temp_max": 25,
-        "conditions": ["clouds", "rain"],
-        "ideal_temp": 18
+        "temp_min": 8,
+        "temp_max": 22,
+        "conditions": ["clouds", "rain", "mist"],
+        "ideal_temp": 16
       },
       "occasions": ["business", "romantic", "casual"],
       "serving_suggestions": ["Serve in a rocks glass", "Garnish with cherry and orange slice"],
@@ -52,8 +52,8 @@
       "flavor_profile": ["sour", "sweet", "refreshing"],
       "strength": "medium",
       "weather_match": {
-        "temp_min": 22,
-        "temp_max": 40,
+        "temp_min": 24,
+        "temp_max": 38,
         "conditions": ["clear", "clouds"],
         "ideal_temp": 30
       },
@@ -94,10 +94,10 @@
       "flavor_profile": ["bitter", "fruity", "herbal"],
       "strength": "medium",
       "weather_match": {
-        "temp_min": 15,
-        "temp_max": 30,
+        "temp_min": 12,
+        "temp_max": 26,
         "conditions": ["clear", "clouds"],
-        "ideal_temp": 22
+        "ideal_temp": 20
       },
       "occasions": ["casual", "party"],
       "serving_suggestions": ["Serve chilled", "Pour into IPA glass"],
@@ -115,10 +115,10 @@
       "flavor_profile": ["refreshing", "bitter"],
       "strength": "light",
       "weather_match": {
-        "temp_min": 20,
-        "temp_max": 40,
+        "temp_min": 22,
+        "temp_max": 38,
         "conditions": ["clear"],
-        "ideal_temp": 32
+        "ideal_temp": 30
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve very cold", "Best in a pilsner glass"],
@@ -137,7 +137,7 @@
       "strength": "light",
       "weather_match": {
         "temp_min": -5,
-        "temp_max": 15,
+        "temp_max": 12,
         "conditions": ["rain", "clouds", "mist"],
         "ideal_temp": 8
       },
@@ -157,10 +157,10 @@
       "flavor_profile": ["fruity", "bitter", "savory"],
       "strength": "medium",
       "weather_match": {
-        "temp_min": 5,
-        "temp_max": 20,
+        "temp_min": 8,
+        "temp_max": 18,
         "conditions": ["clouds", "rain", "mist"],
-        "ideal_temp": 12
+        "ideal_temp": 14
       },
       "occasions": ["romantic", "business", "celebration"],
       "serving_suggestions": ["Serve at room temperature", "Decant before serving"],
@@ -178,10 +178,10 @@
       "flavor_profile": ["fruity", "sour", "refreshing"],
       "strength": "medium",
       "weather_match": {
-        "temp_min": 18,
-        "temp_max": 35,
+        "temp_min": 20,
+        "temp_max": 32,
         "conditions": ["clear", "clouds"],
-        "ideal_temp": 25
+        "ideal_temp": 26
       },
       "occasions": ["casual", "romantic", "celebration"],
       "serving_suggestions": ["Serve chilled", "Pair with seafood"],
@@ -199,10 +199,10 @@
       "flavor_profile": ["fruity", "refreshing", "sweet"],
       "strength": "light",
       "weather_match": {
-        "temp_min": 20,
-        "temp_max": 35,
+        "temp_min": 22,
+        "temp_max": 32,
         "conditions": ["clear"],
-        "ideal_temp": 28
+        "ideal_temp": 27
       },
       "occasions": ["casual", "party", "romantic"],
       "serving_suggestions": ["Serve well chilled", "Perfect for outdoor dining"],
@@ -241,8 +241,8 @@
       "flavor_profile": ["bitter", "refreshing", "herbal"],
       "strength": "light",
       "weather_match": {
-        "temp_min": 18,
-        "temp_max": 35,
+        "temp_min": 20,
+        "temp_max": 34,
         "conditions": ["clear", "clouds"],
         "ideal_temp": 26
       },
@@ -262,8 +262,8 @@
       "flavor_profile": ["refreshing", "sweet", "herbal"],
       "strength": "non-alcoholic",
       "weather_match": {
-        "temp_min": 20,
-        "temp_max": 40,
+        "temp_min": 22,
+        "temp_max": 38,
         "conditions": ["clear", "clouds"],
         "ideal_temp": 28
       },
@@ -283,8 +283,8 @@
       "flavor_profile": ["sweet", "spicy", "fruity"],
       "strength": "medium",
       "weather_match": {
-        "temp_min": -10,
-        "temp_max": 10,
+        "temp_min": -15,
+        "temp_max": 8,
         "conditions": ["snow", "rain", "mist"],
         "ideal_temp": 0
       },
@@ -304,10 +304,10 @@
       "flavor_profile": ["fruity", "refreshing", "bitter"],
       "strength": "medium",
       "weather_match": {
-        "temp_min": 15,
-        "temp_max": 30,
+        "temp_min": 18,
+        "temp_max": 28,
         "conditions": ["clear", "clouds"],
-        "ideal_temp": 22
+        "ideal_temp": 23
       },
       "occasions": ["celebration", "romantic", "business"],
       "serving_suggestions": ["Serve well chilled", "Pour at an angle"],
@@ -326,7 +326,7 @@
       "strength": "strong",
       "weather_match": {
         "temp_min": -5,
-        "temp_max": 20,
+        "temp_max": 18,
         "conditions": ["rain", "clouds", "snow"],
         "ideal_temp": 10
       },
@@ -367,8 +367,8 @@
       "flavor_profile": ["sweet", "bitter", "savory"],
       "strength": "strong",
       "weather_match": {
-        "temp_min": 0,
-        "temp_max": 20,
+        "temp_min": 2,
+        "temp_max": 18,
         "conditions": ["rain", "clouds", "mist"],
         "ideal_temp": 12
       },
@@ -388,10 +388,10 @@
       "flavor_profile": ["bitter", "sweet", "savory"],
       "strength": "medium",
       "weather_match": {
-        "temp_min": 5,
-        "temp_max": 25,
+        "temp_min": 10,
+        "temp_max": 22,
         "conditions": ["rain", "clouds", "mist"],
-        "ideal_temp": 15
+        "ideal_temp": 16
       },
       "occasions": ["business", "party", "celebration"],
       "serving_suggestions": ["Serve in martini glass", "Float 3 coffee beans"],
@@ -432,7 +432,7 @@
       "weather_match": {
         "temp_min": 10,
         "temp_max": 30,
-        "conditions": ["clear", "clouds", "rain"],
+        "conditions": ["clouds", "mist"],
         "ideal_temp": 20
       },
       "occasions": ["casual", "relaxing", "business"],
@@ -451,8 +451,8 @@
       "flavor_profile": ["spicy", "refreshing", "sour"],
       "strength": "light",
       "weather_match": {
-        "temp_min": 20,
-        "temp_max": 40,
+        "temp_min": 22,
+        "temp_max": 36,
         "conditions": ["clear", "clouds"],
         "ideal_temp": 28
       },
@@ -493,8 +493,8 @@
       "flavor_profile": ["sweet", "fruity", "refreshing"],
       "strength": "medium",
       "weather_match": {
-        "temp_min": 25,
-        "temp_max": 40,
+        "temp_min": 26,
+        "temp_max": 38,
         "conditions": ["clear"],
         "ideal_temp": 32
       },
@@ -556,8 +556,8 @@
       "flavor_profile": ["bitter", "smoky", "savory"],
       "strength": "medium",
       "weather_match": {
-        "temp_min": -5,
-        "temp_max": 15,
+        "temp_min": -2,
+        "temp_max": 12,
         "conditions": ["rain", "clouds", "snow"],
         "ideal_temp": 8
       },
@@ -598,8 +598,8 @@
       "flavor_profile": ["sour", "fruity", "refreshing"],
       "strength": "light",
       "weather_match": {
-        "temp_min": 22,
-        "temp_max": 38,
+        "temp_min": 24,
+        "temp_max": 36,
         "conditions": ["clear"],
         "ideal_temp": 30
       },
@@ -703,8 +703,8 @@
       "flavor_profile": ["refreshing", "bitter"],
       "strength": "strong",
       "weather_match": {
-        "temp_min": -20,
-        "temp_max": 10,
+        "temp_min": -15,
+        "temp_max": 5,
         "conditions": ["snow", "mist", "clouds"],
         "ideal_temp": -5
       },
@@ -787,8 +787,8 @@
       "flavor_profile": ["sweet", "fruity", "refreshing"],
       "strength": "non-alcoholic",
       "weather_match": {
-        "temp_min": 25,
-        "temp_max": 40,
+        "temp_min": 26,
+        "temp_max": 38,
         "conditions": ["clear"],
         "ideal_temp": 32
       },
@@ -829,8 +829,8 @@
       "flavor_profile": ["spicy", "sweet", "refreshing"],
       "strength": "non-alcoholic",
       "weather_match": {
-        "temp_min": 5,
-        "temp_max": 25,
+        "temp_min": 8,
+        "temp_max": 20,
         "conditions": ["rain", "clouds", "mist"],
         "ideal_temp": 15
       },
@@ -850,10 +850,10 @@
       "flavor_profile": ["bitter", "sweet", "savory"],
       "strength": "non-alcoholic",
       "weather_match": {
-        "temp_min": 20,
-        "temp_max": 35,
+        "temp_min": 18,
+        "temp_max": 32,
         "conditions": ["clear", "clouds"],
-        "ideal_temp": 27
+        "ideal_temp": 25
       },
       "occasions": ["casual", "business", "relaxing"],
       "serving_suggestions": ["Serve over ice", "Top with whipped cream"],
