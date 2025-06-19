@@ -49,6 +49,25 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
     }
   }, [isOpen, handleEscapeKey]);
 
+  const fetchRecipes = useCallback(async () => {
+    if (!drink) return;
+    
+    setIsLoading(true);
+    try {
+      if (drink.category === 'cocktail' || drink.category === 'spirit') {
+        const foundRecipes = await CocktailDBService.findSimilarCocktails(drink.name);
+        setRecipes(foundRecipes);
+      } else if (drink.category === 'beer' || drink.category === 'wine') {
+        const foundDrinks = await BeerWineService.findSimilarDrinks(drink.name, drink.category);
+        setBeerWineData(foundDrinks);
+      }
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [drink]);
+
   // Fetch recipes when modal opens
   useEffect(() => {
     if (isOpen && drink) {
@@ -86,24 +105,6 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
     }
   }, [beerWineData, selectedBeerWine, drink]);
 
-  const fetchRecipes = async () => {
-    if (!drink) return;
-    
-    setIsLoading(true);
-    try {
-      if (drink.category === 'cocktail' || drink.category === 'spirit') {
-        const foundRecipes = await CocktailDBService.findSimilarCocktails(drink.name);
-        setRecipes(foundRecipes);
-      } else if (drink.category === 'beer' || drink.category === 'wine') {
-        const foundDrinks = await BeerWineService.findSimilarDrinks(drink.name, drink.category);
-        setBeerWineData(foundDrinks);
-      }
-    } catch (error) {
-      console.error('Error fetching recipes:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const addToShoppingList = (ingredient: string) => {
     if (!shoppingList.includes(ingredient)) {
