@@ -16,7 +16,7 @@ interface RecipeModalProps {
   onClose: () => void;
 }
 
-type TabType = 'overview' | 'recipe' | 'variations' | 'shopping';
+type TabType = 'overview' | 'recipe' | 'variations' | 'shopping' | 'shop';
 
 export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState<TabType>('overview');
@@ -116,6 +116,43 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
     setShoppingList(shoppingList.filter(item => item !== ingredient));
   };
 
+  // Generate Amazon Fresh link for shopping
+  const generateAmazonFreshLink = () => {
+    const ingredients = shoppingList.length > 0 ? shoppingList : 
+      (selectedRecipe?.ingredients.map(i => i.name) || []);
+    
+    const query = ingredients.join(' ');
+    const associateId = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_ID || 'theperfectdrink-20';
+    
+    return `https://www.amazon.com/s?k=${encodeURIComponent(query)}&i=amazonfresh&tag=${associateId}`;
+  };
+
+  // Generate Amazon link for beer/wine
+  const generateBeerWineLink = () => {
+    const associateId = process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_ID || 'theperfectdrink-20';
+    
+    if (!drink) return '#';
+    
+    // For beer/wine, search for the specific product or similar ones
+    let searchQuery = '';
+    
+    if (selectedBeerWine) {
+      // If user selected a specific beer/wine, search for that
+      searchQuery = selectedBeerWine.name;
+      if ('winery' in selectedBeerWine) {
+        searchQuery = `${selectedBeerWine.name} ${selectedBeerWine.winery}`;
+      }
+    } else {
+      // Otherwise, search for the general drink name
+      searchQuery = drink.name;
+    }
+    
+    // Use appropriate category
+    const category = drink.category === 'beer' ? '&i=grocery' : '&i=wine';
+    
+    return `https://www.amazon.com/s?k=${encodeURIComponent(searchQuery)}${category}&tag=${associateId}`;
+  };
+
   const tabs = drink?.category === 'cocktail' || drink?.category === 'spirit'
     ? [
         { id: 'overview', label: 'Overview', icon: FiBook },
@@ -126,6 +163,7 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
     : [
         { id: 'overview', label: 'Overview', icon: FiBook },
         { id: 'variations', label: 'Similar Options', icon: FiStar },
+        { id: 'shop', label: 'Shop', icon: FiShoppingCart },
       ];
 
   if (!isOpen || !drink) return null;
@@ -499,9 +537,21 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                             </Button>
                           </div>
                         ))}
-                        <div className="mt-4 p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
-                          <p className="text-amber-800 dark:text-amber-200 text-sm">
-                            💡 Tip: Screenshot this list or send it to your phone before heading to the store!
+                        <div className="mt-4 space-y-3">
+                          <Button
+                            variant="primary"
+                            onClick={() => window.open(generateAmazonFreshLink(), '_blank')}
+                            className="w-full"
+                          >
+                            Shop Ingredients on Amazon Fresh
+                          </Button>
+                          <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
+                            <p className="text-amber-800 dark:text-amber-200 text-sm">
+                              💡 Tip: Screenshot this list or send it to your phone before heading to the store!
+                            </p>
+                          </div>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                            As an Amazon Associate I earn from qualifying purchases.
                           </p>
                         </div>
                       </div>
@@ -513,6 +563,160 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                         </p>
                       </div>
                     )}
+                  </div>
+                )}
+
+                {activeTab === 'shop' && (drink?.category === 'beer' || drink?.category === 'wine') && (
+                  <div className="space-y-6">
+                    <div className="text-center">
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                        Shop for {drink.name}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-400 mb-6">
+                        Find this {drink.category} and similar options on Amazon
+                      </p>
+                    </div>
+
+                    {/* Main product search */}
+                    <div className="space-y-4">
+                      <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                        <h4 className="font-semibold text-gray-900 dark:text-white mb-3">
+                          Search for "{drink.name}"
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                          Find exact matches or similar {drink.category === 'beer' ? 'beers' : 'wines'} 
+                        </p>
+                        <Button
+                          variant="primary"
+                          onClick={() => window.open(generateBeerWineLink(), '_blank')}
+                          className="w-full"
+                        >
+                          Search Amazon
+                        </Button>
+                      </div>
+
+                      {/* Selected beer/wine option */}
+                      {selectedBeerWine && (
+                        <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
+                          <h4 className="font-semibold text-gray-900 dark:text-white mb-3">
+                            Selected Option: {selectedBeerWine.name}
+                          </h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                {selectedBeerWine.description}
+                              </p>
+                              {'winery' in selectedBeerWine ? (
+                                <div className="space-y-1 text-sm">
+                                  <p><span className="font-medium">Winery:</span> {selectedBeerWine.winery}</p>
+                                  {selectedBeerWine.location && <p><span className="font-medium">Location:</span> {selectedBeerWine.location}</p>}
+                                  {selectedBeerWine.rating && <p><span className="font-medium">Rating:</span> {selectedBeerWine.rating.toFixed(1)}/5</p>}
+                                </div>
+                              ) : (
+                                <div className="space-y-1 text-sm">
+                                  <p><span className="font-medium">Type:</span> {selectedBeerWine.type}</p>
+                                  <p><span className="font-medium">Price:</span> {selectedBeerWine.price}</p>
+                                  {selectedBeerWine.rating && <p><span className="font-medium">Rating:</span> {selectedBeerWine.rating.toFixed(1)}/5</p>}
+                                </div>
+                              )}
+                            </div>
+                            {selectedBeerWine.image && (
+                              <div className="flex justify-center">
+                                <img
+                                  src={selectedBeerWine.image}
+                                  alt={selectedBeerWine.name}
+                                  className="w-24 h-32 object-cover rounded-lg"
+                                />
+                              </div>
+                            )}
+                          </div>
+                          <Button
+                            variant="primary"
+                            onClick={() => window.open(generateBeerWineLink(), '_blank')}
+                            className="w-full"
+                          >
+                            Shop This {drink.category === 'beer' ? 'Beer' : 'Wine'}
+                          </Button>
+                        </div>
+                      )}
+
+                      {/* Category suggestions */}
+                      <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                        <h4 className="font-semibold text-gray-900 dark:text-white mb-3">
+                          Browse by Category
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {drink.category === 'beer' ? (
+                            <>
+                              <Button
+                                variant="secondary"
+                                onClick={() => window.open(`https://www.amazon.com/s?k=craft+beer&i=grocery&tag=${process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_ID || 'theperfect030-20'}`, '_blank')}
+                                className="w-full"
+                              >
+                                Craft Beers
+                              </Button>
+                              <Button
+                                variant="secondary"
+                                onClick={() => window.open(`https://www.amazon.com/s?k=imported+beer&i=grocery&tag=${process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_ID || 'theperfect030-20'}`, '_blank')}
+                                className="w-full"
+                              >
+                                Imported Beers
+                              </Button>
+                              <Button
+                                variant="secondary"
+                                onClick={() => window.open(`https://www.amazon.com/s?k=ipa+beer&i=grocery&tag=${process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_ID || 'theperfect030-20'}`, '_blank')}
+                                className="w-full"
+                              >
+                                IPA Beers
+                              </Button>
+                              <Button
+                                variant="secondary"
+                                onClick={() => window.open(`https://www.amazon.com/s?k=lager+beer&i=grocery&tag=${process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_ID || 'theperfect030-20'}`, '_blank')}
+                                className="w-full"
+                              >
+                                Lagers
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button
+                                variant="secondary"
+                                onClick={() => window.open(`https://www.amazon.com/s?k=red+wine&i=wine&tag=${process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_ID || 'theperfect030-20'}`, '_blank')}
+                                className="w-full"
+                              >
+                                Red Wines
+                              </Button>
+                              <Button
+                                variant="secondary"
+                                onClick={() => window.open(`https://www.amazon.com/s?k=white+wine&i=wine&tag=${process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_ID || 'theperfect030-20'}`, '_blank')}
+                                className="w-full"
+                              >
+                                White Wines
+                              </Button>
+                              <Button
+                                variant="secondary"
+                                onClick={() => window.open(`https://www.amazon.com/s?k=sparkling+wine&i=wine&tag=${process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_ID || 'theperfect030-20'}`, '_blank')}
+                                className="w-full"
+                              >
+                                Sparkling Wines
+                              </Button>
+                              <Button
+                                variant="secondary"
+                                onClick={() => window.open(`https://www.amazon.com/s?k=rose+wine&i=wine&tag=${process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_ID || 'theperfect030-20'}`, '_blank')}
+                                className="w-full"
+                              >
+                                Rosé Wines
+                              </Button>
+                            </>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Affiliate disclosure */}
+                      <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                        As an Amazon Associate I earn from qualifying purchases.
+                      </p>
+                    </div>
                   </div>
                 )}
               </>
