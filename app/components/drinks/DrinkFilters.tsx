@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/app/components/ui/Button';
 import { Input } from '@/app/components/ui/Input';
 import { DrinkFilters as DrinkFiltersType, DrinkCategory, DrinkStrength, FlavorProfile, Occasion } from '@/app/types/drinks';
-import { FiFilter, FiSearch } from 'react-icons/fi';
+import { FiSearch } from 'react-icons/fi';
 import { cn } from '@/lib/utils';
 
 interface DrinkFiltersProps {
@@ -92,7 +92,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
             variant={filters.categories?.includes('beer') ? 'primary' : 'secondary'}
             size="lg"
             onClick={() => handleToggleFilter('categories', 'beer')}
-            className="p-4 text-base font-medium"
+            className="p-4 text-base font-medium raffi"
           >
             🍺 Beer
           </Button>
@@ -160,7 +160,6 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
           onClick={() => setIsExpanded(!isExpanded)}
           className="flex items-center gap-2"
         >
-          <FiFilter />
           Advanced Filters
         </Button>
         
