@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiHeart } from 'react-icons/fi';
 
 export const Footer: React.FC = () => {
   return (
