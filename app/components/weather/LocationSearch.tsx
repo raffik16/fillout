@@ -93,7 +93,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
                 disabled={isLoading}
                 className="h-14 px-6 flex items-center justify-center gap-2"
               >
-                <span className="hidden sm:inline whitespace-nowrap">My Location</span>
+                <span className="sm:inline whitespace-nowrap">My Location</span>
               </Button>
               
               {/* Enhanced Tooltip */}
