@@ -38,13 +38,17 @@ export async function GET(request: NextRequest) {
     // Filter by search term if provided
     let beers = data;
     if (search) {
-      beers = data.filter((beer: any) => 
-        beer.name?.toLowerCase().includes(search.toLowerCase())
-      );
+      beers = data.filter((beer: unknown) => {
+        const beerObj = beer as { name?: string };
+        return beerObj.name?.toLowerCase().includes(search.toLowerCase());
+      });
     }
     
     // Limit results and ensure we have valid data
-    beers = beers.slice(0, 20).filter((beer: any) => beer && beer.name && beer.price);
+    beers = beers.slice(0, 20).filter((beer: unknown) => {
+      const beerObj = beer as { name?: string; price?: string };
+      return beerObj && beerObj.name && beerObj.price;
+    });
     
     return NextResponse.json({ beers });
   } catch (error) {

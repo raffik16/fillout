@@ -55,7 +55,7 @@ export class CocktailDBService {
   }
 
   // Search ingredients
-  static async searchIngredient(name: string): Promise<any[]> {
+  static async searchIngredient(name: string): Promise<unknown[]> {
     try {
       const response = await fetch(`${BASE_URL}/search.php?i=${encodeURIComponent(name)}`);
       const data: IngredientApiResponse = await response.json();
@@ -85,7 +85,7 @@ export class CocktailDBService {
   }
 
   // Smart search - try to find cocktails that match our drink names
-  static async findSimilarCocktails(drinkName: string, category?: string): Promise<ProcessedRecipe[]> {
+  static async findSimilarCocktails(drinkName: string): Promise<ProcessedRecipe[]> {
     // Extract key words from drink name for better matching
     const searchTerms = this.extractSearchTerms(drinkName);
     const results: ProcessedRecipe[] = [];

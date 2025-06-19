@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiX, FiClock, FiShoppingCart, FiBook, FiStar, FiExternalLink } from 'react-icons/fi';
 import { Button } from '@/app/components/ui/Button';
 import { Card, CardContent } from '@/app/components/ui/Card';
-import { ProcessedRecipe, ProcessedBeer, ProcessedWine, UnifiedDrinkInfo } from '@/app/types/recipe';
+import { ProcessedRecipe, ProcessedBeer, ProcessedWine } from '@/app/types/recipe';
 import { CocktailDBService } from '@/lib/cocktaildb';
 import { BeerWineService } from '@/lib/beerwine';
 import { Drink } from '@/app/types/drinks';
@@ -70,7 +70,7 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
       setShoppingList([]);
       setActiveTab('overview');
     }
-  }, [isOpen, drink]);
+  }, [isOpen, drink, fetchRecipes]);
 
   // Set first recipe as selected when recipes load
   useEffect(() => {
@@ -92,7 +92,7 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
     setIsLoading(true);
     try {
       if (drink.category === 'cocktail' || drink.category === 'spirit') {
-        const foundRecipes = await CocktailDBService.findSimilarCocktails(drink.name, drink.category);
+        const foundRecipes = await CocktailDBService.findSimilarCocktails(drink.name);
         setRecipes(foundRecipes);
       } else if (drink.category === 'beer' || drink.category === 'wine') {
         const foundDrinks = await BeerWineService.findSimilarDrinks(drink.name, drink.category);

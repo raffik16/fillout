@@ -24,7 +24,7 @@ export class BeerWineService {
       }
       
       try {
-        return data.map((beer: BeerData) => this.processBeer(beer, type as any));
+        return data.map((beer: BeerData) => this.processBeer(beer, type));
       } catch (mapError) {
         console.error('Error mapping beer data:', mapError);
         return [];
@@ -201,7 +201,7 @@ export class BeerWineService {
       location: wine.location,
       rating: wine.rating ? parseFloat(wine.rating.average) : undefined,
       reviews: wine.rating ? parseInt(wine.rating.reviews.replace(/[^0-9]/g, '')) : undefined,
-      type: type as any,
+      type: type as 'reds' | 'whites' | 'sparkling' | 'rose' | 'dessert' | 'port',
       description: this.generateWineDescription(wine.wine, wine.winery, type),
     };
   }

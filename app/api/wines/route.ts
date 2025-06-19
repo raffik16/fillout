@@ -38,14 +38,18 @@ export async function GET(request: NextRequest) {
     // Filter by search term if provided
     let wines = data;
     if (search) {
-      wines = data.filter((wine: any) => 
-        wine.wine?.toLowerCase().includes(search.toLowerCase()) ||
-        wine.winery?.toLowerCase().includes(search.toLowerCase())
-      );
+      wines = data.filter((wine: unknown) => {
+        const wineObj = wine as { wine?: string; winery?: string };
+        return wineObj.wine?.toLowerCase().includes(search.toLowerCase()) ||
+               wineObj.winery?.toLowerCase().includes(search.toLowerCase());
+      });
     }
     
     // Limit results and ensure we have valid data
-    wines = wines.slice(0, 20).filter((wine: any) => wine && wine.wine && wine.winery);
+    wines = wines.slice(0, 20).filter((wine: unknown) => {
+      const wineObj = wine as { wine?: string; winery?: string };
+      return wineObj && wineObj.wine && wineObj.winery;
+    });
     
     return NextResponse.json({ wines });
   } catch (error) {
