@@ -10,6 +10,7 @@ import { WeatherDisplay } from '@/app/components/weather/WeatherDisplay';
 import { DrinkGrid } from '@/app/components/drinks/DrinkGrid';
 import { DrinkFilters } from '@/app/components/drinks/DrinkFilters';
 import { DrinkModal } from '@/app/components/drinks/DrinkModal';
+import { RecipeModal } from '@/app/components/drinks/RecipeModal';
 import { AgeGate } from '@/app/components/ui/AgeGate';
 import { WeatherData } from '@/app/types/weather';
 import { Drink, DrinkFilters as DrinkFiltersType, DrinkRecommendation } from '@/app/types/drinks';
@@ -26,6 +27,8 @@ export default function Home() {
   const [weatherError, setWeatherError] = useState<string | null>(null);
   const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRecipeDrink, setSelectedRecipeDrink] = useState<Drink | null>(null);
+  const [isRecipeModalOpen, setIsRecipeModalOpen] = useState(false);
   const [isMetricUnit, setIsMetricUnit] = useState(false);
   const [isAgeVerified, setIsAgeVerified] = useState<boolean | null>(null);
   const drinksGridRef = useRef<HTMLDivElement>(null);
@@ -157,6 +160,12 @@ export default function Home() {
     setIsModalOpen(true);
   };
 
+  // Handle recipe click
+  const handleRecipeClick = (drink: Drink) => {
+    setSelectedRecipeDrink(drink);
+    setIsRecipeModalOpen(true);
+  };
+
   // Handle age verification
   const handleAgeVerification = (isOfAge: boolean) => {
     setIsAgeVerified(isOfAge);
@@ -261,6 +270,7 @@ export default function Home() {
                     drinks={recommendations.length > 0 ? recommendations.map(r => r.drink) : drinks}
                     recommendations={recommendations.length > 0 ? recommendations : undefined}
                     onDrinkClick={handleDrinkClick}
+                    onRecipeClick={handleRecipeClick}
                   />
                 </>
               ) : (
@@ -285,6 +295,13 @@ export default function Home() {
         drink={selectedDrink}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+      
+      {/* Recipe Modal */}
+      <RecipeModal
+        drink={selectedRecipeDrink}
+        isOpen={isRecipeModalOpen}
+        onClose={() => setIsRecipeModalOpen(false)}
       />
     </div>
   );

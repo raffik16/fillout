@@ -5,13 +5,14 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/app/components/ui/Card';
 import { Drink, DrinkRecommendation } from '@/app/types/drinks';
-import { FiPercent, FiDroplet, FiAward } from 'react-icons/fi';
+import { FiPercent, FiDroplet, FiAward, FiBook } from 'react-icons/fi';
 import { cn } from '@/lib/utils';
 
 interface DrinkCardProps {
   drink: Drink;
   recommendation?: DrinkRecommendation;
   onClick?: () => void;
+  onRecipeClick?: () => void;
   className?: string;
 }
 
@@ -19,6 +20,7 @@ export const DrinkCard: React.FC<DrinkCardProps> = ({
   drink, 
   recommendation, 
   onClick,
+  onRecipeClick,
   className 
 }) => {
   const categoryColors = {
@@ -137,6 +139,22 @@ export const DrinkCard: React.FC<DrinkCardProps> = ({
               </span>
             ))}
           </div>
+
+          {/* Recipe Button */}
+          {onRecipeClick && (
+            <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRecipeClick();
+                }}
+                className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-lg transition-colors duration-200 text-sm font-medium"
+              >
+                <FiBook className="w-4 h-4" />
+                {drink.category === 'beer' || drink.category === 'wine' ? 'Get More Details' : 'Get Recipe'}
+              </button>
+            </div>
+          )}
         </CardContent>
       </Card>
     </motion.div>

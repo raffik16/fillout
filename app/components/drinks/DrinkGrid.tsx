@@ -8,6 +8,7 @@ interface DrinkGridProps {
   drinks: Drink[];
   recommendations?: DrinkRecommendation[];
   onDrinkClick?: (drink: Drink) => void;
+  onRecipeClick?: (drink: Drink) => void;
   isLoading?: boolean;
 }
 
@@ -15,6 +16,7 @@ export const DrinkGrid: React.FC<DrinkGridProps> = ({
   drinks,
   recommendations,
   onDrinkClick,
+  onRecipeClick,
   isLoading,
 }) => {
 
@@ -57,6 +59,7 @@ export const DrinkGrid: React.FC<DrinkGridProps> = ({
             drink={drink}
             recommendation={recommendation}
             onClick={() => onDrinkClick?.(drink)}
+            onRecipeClick={() => onRecipeClick?.(drink)}
           />
         </div>
       ))}
