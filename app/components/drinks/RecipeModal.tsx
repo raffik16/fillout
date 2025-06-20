@@ -549,7 +549,7 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                           </Button>
                           <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
                             <p className="text-amber-800 dark:text-amber-200 text-sm">
-                              💡 Tip: Screenshot this list or send it to your phone before heading to the store!
+                              💡 Tip: Click the Amazon Fresh button to add ingredients directly to your cart for delivery!
                             </p>
                           </div>
                           <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
