@@ -98,8 +98,8 @@ export default function Home() {
       // Set current location for header display
       if (query.city) {
         setCurrentLocation(query.city);
-      } else if (response.data.name) {
-        setCurrentLocation(response.data.name);
+      } else if (response.data.location?.name) {
+        setCurrentLocation(response.data.location.name);
       }
     } catch (error) {
       console.error('Failed to fetch weather:', error);

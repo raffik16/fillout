@@ -583,7 +583,7 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                     <div className="space-y-4">
                       <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
                         <h4 className="font-semibold text-gray-900 dark:text-white mb-3">
-                          Search for "{drink.name}"
+                          Search for &quot;{drink.name}&quot;
                         </h4>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                           Find exact matches or similar {drink.category === 'beer' ? 'beers' : 'wines'} 

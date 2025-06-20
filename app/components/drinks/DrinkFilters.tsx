@@ -2,10 +2,10 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Button } from '@/app/components/ui/Button';
 import { Input } from '@/app/components/ui/Input';
-import { DrinkFilters as DrinkFiltersType, DrinkCategory, DrinkStrength, FlavorProfile, Occasion } from '@/app/types/drinks';
+import { DrinkFilters as DrinkFiltersType, DrinkStrength, FlavorProfile, Occasion } from '@/app/types/drinks';
 import { FiSearch } from 'react-icons/fi';
 import { cn } from '@/lib/utils';
 
@@ -64,13 +64,6 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
     }
   }, [isExpanded]);
 
-  const categoryOptions = [
-    { value: 'beer', label: 'Beer' },
-    { value: 'wine', label: 'Wine' },
-    { value: 'cocktail', label: 'Cocktail' },
-    { value: 'spirit', label: 'Spirit' },
-    { value: 'non-alcoholic', label: 'Non-Alcoholic' },
-  ];
 
   const strengthOptions = [
     { value: 'non-alcoholic', label: 'Non-Alcoholic' },
