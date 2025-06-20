@@ -151,7 +151,7 @@ export const DrinkCard: React.FC<DrinkCardProps> = ({
                 className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-lg transition-colors duration-200 text-sm font-medium"
               >
                 <FiBook className="w-4 h-4" />
-                {drink.category === 'beer' || drink.category === 'wine' ? 'Get More Details' : 'Get Recipe'}
+                {drink.category === 'beer' || drink.category === 'wine' ? 'Details + Shop' : 'Get Recipe'}
               </button>
             </div>
           )}
