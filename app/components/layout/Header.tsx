@@ -24,6 +24,15 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, lo
     const unit = isMetricUnit ? '°C' : '°F';
     return `${displayTemp}${unit}`;
   };
+
+  // Format location with proper title case
+  const formatLocation = (loc?: string) => {
+    if (!loc) return '';
+    return loc
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  };
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -60,7 +69,7 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, lo
                   }}
                   transition={{ duration: 0.3 }}
                 >
-                  For {formatTemperature()} in {location}
+                  For {formatTemperature()} in {formatLocation(location)}
                 </motion.p>
               </div>
             </div>

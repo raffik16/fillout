@@ -58,19 +58,11 @@ export default function Home() {
     }
   }, []);
 
-  // Scroll detection for header location
+  // Show location immediately when set
   useEffect(() => {
-    const handleScroll = () => {
-      if (drinksGridRef.current && currentLocation) {
-        const gridRect = drinksGridRef.current.getBoundingClientRect();
-        const scrolledPastGrid = gridRect.top < 0;
-        setShowLocationInHeader(scrolledPastGrid);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    setShowLocationInHeader(!!currentLocation);
   }, [currentLocation]);
+
 
   // Toggle dark mode
   const handleToggleDarkMode = () => {
