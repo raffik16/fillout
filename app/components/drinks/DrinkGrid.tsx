@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { DrinkCard } from './DrinkCard';
 import { Drink, DrinkRecommendation } from '@/app/types/drinks';
 import { cn } from '@/lib/utils';
@@ -21,6 +21,25 @@ export const DrinkGrid: React.FC<DrinkGridProps> = ({
   isLoading,
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Debounced hover handlers to prevent rapid state changes
+  const handleMouseEnter = useCallback((index: number) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setHoveredIndex(index);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    // Add a small delay before clearing hover state
+    timeoutRef.current = setTimeout(() => {
+      setHoveredIndex(null);
+    }, 100);
+  }, []);
 
   if (isLoading) {
     return (
@@ -65,8 +84,8 @@ export const DrinkGrid: React.FC<DrinkGridProps> = ({
               "scale-105 z-10": hoveredIndex === index,
             }
           )}
-          onMouseEnter={() => setHoveredIndex(index)}
-          onMouseLeave={() => setHoveredIndex(null)}
+          onMouseEnter={() => handleMouseEnter(index)}
+          onMouseLeave={handleMouseLeave}
         >
           <DrinkCard
             drink={drink}
