@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { DrinkCard } from './DrinkCard';
 import { Drink, DrinkRecommendation } from '@/app/types/drinks';
+import { cn } from '@/lib/utils';
 
 interface DrinkGridProps {
   drinks: Drink[];
@@ -19,6 +20,7 @@ export const DrinkGrid: React.FC<DrinkGridProps> = ({
   onRecipeClick,
   isLoading,
 }) => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   if (isLoading) {
     return (
@@ -53,8 +55,19 @@ export const DrinkGrid: React.FC<DrinkGridProps> = ({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {drinksWithRecommendations.map(({ drink, recommendation }) => (
-        <div key={drink.id}>
+      {drinksWithRecommendations.map(({ drink, recommendation }, index) => (
+        <div 
+          key={drink.id}
+          className={cn(
+            "transition-all duration-300 ease-out",
+            hoveredIndex !== null && {
+              "scale-95 opacity-70": hoveredIndex !== index,
+              "scale-105 z-10": hoveredIndex === index,
+            }
+          )}
+          onMouseEnter={() => setHoveredIndex(index)}
+          onMouseLeave={() => setHoveredIndex(null)}
+        >
           <DrinkCard
             drink={drink}
             recommendation={recommendation}

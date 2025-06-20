@@ -14,9 +14,9 @@ interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', hover = true, children, ...props }, ref) => {
     const variants = {
-      default: 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800',
-      glass: 'bg-white/10 dark:bg-gray-900/10 backdrop-blur-md border border-white/20 dark:border-gray-700/20',
-      gradient: 'bg-gradient-to-br from-amber-50 to-blue-50 dark:from-amber-900/20 dark:to-blue-900/20 border border-amber-200/20 dark:border-amber-700/20',
+      default: 'bg-white dark:bg-gray-900',
+      glass: 'bg-white/10 dark:bg-gray-900/10 backdrop-blur-md',
+      gradient: 'bg-gradient-to-br from-amber-50 to-blue-50 dark:from-amber-900/20 dark:to-blue-900/20',
     };
 
     return (
@@ -24,9 +24,9 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
         ref={ref}
         whileHover={hover ? { y: -4, scale: 1.01 } : undefined}
         className={cn(
-          'relative rounded-2xl shadow-xl transition-all duration-300',
+          'relative rounded-2xl shadow-md transition-all duration-300',
           variants[variant],
-          hover && 'hover:shadow-2xl',
+          hover && 'hover:shadow-lg',
           className
         )}
         {...props}

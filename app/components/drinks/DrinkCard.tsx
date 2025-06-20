@@ -148,7 +148,7 @@ export const DrinkCard: React.FC<DrinkCardProps> = ({
                   e.stopPropagation();
                   onRecipeClick();
                 }}
-                className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-amber-50 dark:bg-amber-900/20 hover:bg-amber-100 dark:hover:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-lg transition-colors duration-200 text-sm font-medium"
+                className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg transition-colors duration-200 text-sm font-medium shadow-inner"
               >
                 <FiBook className="w-4 h-4" />
                 {drink.category === 'beer' || drink.category === 'wine' ? 'Details + Shop' : 'Get Recipe'}
