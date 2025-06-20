@@ -31,6 +31,8 @@ export default function Home() {
   const [isRecipeModalOpen, setIsRecipeModalOpen] = useState(false);
   const [isMetricUnit, setIsMetricUnit] = useState(false);
   const [isAgeVerified, setIsAgeVerified] = useState<boolean | null>(null);
+  const [showLocationInHeader, setShowLocationInHeader] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState<string>('');
   const drinksGridRef = useRef<HTMLDivElement>(null);
 
   // Check for dark mode preference and age verification
@@ -55,6 +57,20 @@ export default function Home() {
       setIsAgeVerified(false);
     }
   }, []);
+
+  // Scroll detection for header location
+  useEffect(() => {
+    const handleScroll = () => {
+      if (drinksGridRef.current && currentLocation) {
+        const gridRect = drinksGridRef.current.getBoundingClientRect();
+        const scrolledPastGrid = gridRect.top < 0;
+        setShowLocationInHeader(scrolledPastGrid);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [currentLocation]);
 
   // Toggle dark mode
   const handleToggleDarkMode = () => {
@@ -86,6 +102,13 @@ export default function Home() {
       
       const response = await axios.get<WeatherData>(`/api/weather?${params}`);
       setWeatherData(response.data);
+      
+      // Set current location for header display
+      if (query.city) {
+        setCurrentLocation(query.city);
+      } else if (response.data.name) {
+        setCurrentLocation(response.data.name);
+      }
     } catch (error) {
       console.error('Failed to fetch weather:', error);
       setWeatherError('Failed to fetch weather data. Please try again.');
@@ -188,7 +211,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
-      <Header isDarkMode={isDarkMode} onToggleDarkMode={handleToggleDarkMode} />
+      <Header 
+        isDarkMode={isDarkMode} 
+        onToggleDarkMode={handleToggleDarkMode}
+        location={currentLocation}
+        temperature={weatherData?.current.temp}
+        isMetricUnit={isMetricUnit}
+        showLocation={showLocationInHeader}
+      />
       
       <main className="container mx-auto px-4 py-8 main-container">
         {/* Hero Section */}
