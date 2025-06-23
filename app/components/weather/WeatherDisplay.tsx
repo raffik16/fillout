@@ -32,14 +32,14 @@ const weatherIcons: Record<string, React.ReactNode> = {
 };
 
 const weatherGradients: Record<string, string> = {
-  clear: 'from-yellow-400 to-orange-500',
-  clouds: 'from-gray-400 to-gray-600',
-  rain: 'from-blue-400 to-blue-600',
-  drizzle: 'from-blue-300 to-blue-500',
-  snow: 'from-blue-100 to-blue-300',
-  thunderstorm: 'from-purple-600 to-purple-900',
-  mist: 'from-gray-300 to-gray-500',
-  default: 'from-blue-400 to-blue-600',
+  clear: 'from-yellow-300 to-orange-400',
+  clouds: 'from-gray-300 to-gray-500',
+  rain: 'from-blue-300 to-blue-500',
+  drizzle: 'from-blue-200 to-blue-400',
+  snow: 'from-blue-50 to-blue-200',
+  thunderstorm: 'from-purple-500 to-purple-700',
+  mist: 'from-gray-200 to-gray-400',
+  default: 'from-blue-300 to-blue-500',
 };
 
 const celsiusToFahrenheit = (celsius: number): number => {
@@ -82,7 +82,7 @@ export const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ weather, classNa
       className={className}
     >
       <Card variant="glass" hover={false} className="overflow-hidden">
-        <div className={cn('absolute inset-0 bg-gradient-to-br opacity-20', gradient)} />
+        <div className={cn('absolute inset-0 bg-gradient-to-br opacity-30', gradient)} />
         
         <CardContent className="relative z-10 p-4">
           <div className="flex items-center justify-between mb-3">
