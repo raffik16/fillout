@@ -31,9 +31,8 @@ export const AgeGate: React.FC<AgeGateProps> = ({ onVerified }) => {
           animate={{ opacity: 1, scale: 1 }}
           className="w-full max-w-md"
         >
-          <div className="bg-white rounded-3xl shadow-2xl border-2 border-red-200 text-center overflow-hidden">
-            <div className="bg-gradient-to-r from-red-500 to-red-600 p-6">
-              <div className="text-6xl mb-2">🚫</div>
+          <div className="bg-white rounded-2xl shadow-2xl text-center overflow-hidden">
+            <div className="bg-red-500 p-6">
               <h2 className="text-2xl font-bold text-white">
                 Access Restricted
               </h2>
@@ -45,7 +44,7 @@ export const AgeGate: React.FC<AgeGateProps> = ({ onVerified }) => {
               
               <Button
                 onClick={handleLeave}
-                className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 shadow-lg"
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors duration-200"
               >
                 Leave Site
               </Button>
@@ -63,9 +62,8 @@ export const AgeGate: React.FC<AgeGateProps> = ({ onVerified }) => {
         animate={{ opacity: 1, scale: 1 }}
         className="w-full max-w-md"
       >
-        <div className="bg-white rounded-3xl shadow-2xl border-2 border-amber-200 text-center overflow-hidden">
-          <div className="bg-gradient-to-r from-amber-500 to-orange-500 p-6">
-            <div className="text-6xl mb-2">🍷</div>
+        <div className="bg-white rounded-2xl shadow-2xl text-center overflow-hidden">
+          <div className="bg-amber-500 p-6">
             <h2 className="text-3xl font-bold text-white">
               Age Verification
             </h2>
@@ -83,13 +81,13 @@ export const AgeGate: React.FC<AgeGateProps> = ({ onVerified }) => {
             <div className="flex gap-4 mb-4">
               <button
                 onClick={handleYes}
-                className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 shadow-lg"
+                className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors duration-200"
               >
                 Yes, I&apos;m 21+
               </button>
               <button
                 onClick={handleNo}
-                className="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 shadow-lg"
+                className="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-4 px-6 rounded-lg transition-colors duration-200"
               >
                 No
               </button>
