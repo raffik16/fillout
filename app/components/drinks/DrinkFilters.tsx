@@ -130,7 +130,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
             onClick={() => handleToggleFilter('categories', 'beer')}
             className="p-4 text-base font-medium"
           >
-            🍺 Beer
+            Beer
           </Button>
           <Button
             variant={filters.categories?.includes('wine') ? 'primary' : 'secondary'}
@@ -138,7 +138,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
             onClick={() => handleToggleFilter('categories', 'wine')}
             className="p-4 text-base font-medium"
           >
-            🍷 Wine
+            Wine
           </Button>
           <Button
             variant={filters.categories?.includes('cocktail') ? 'primary' : 'secondary'}
@@ -146,7 +146,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
             onClick={() => handleToggleFilter('categories', 'cocktail')}
             className="p-4 text-base font-medium"
           >
-            🍸 Cocktails
+            Cocktails
           </Button>
           <Button
             variant={filters.categories?.includes('spirit') ? 'primary' : 'secondary'}
@@ -154,7 +154,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
             onClick={() => handleToggleFilter('categories', 'spirit')}
             className="p-4 text-base font-medium"
           >
-            🥃 Spirits
+            Spirits
           </Button>
         </div>
         
@@ -166,7 +166,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
             onClick={() => handleToggleFilter('categories', 'non-alcoholic')}
             className="w-full p-4 text-base font-medium"
           >
-            🥤 Non-Alcoholic
+            Non-Alcoholic
           </Button>
         </div>
       </div>
@@ -214,7 +214,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
                 exit={{ opacity: 0, scale: 0.95, y: popoverPosition === 'bottom' ? -10 : 10 }}
                 transition={{ duration: 0.2 }}
                 className={cn(
-                  "fixed w-80 z-[9999] bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 p-4 space-y-4 max-h-[500px] overflow-y-auto filter-scroll",
+                  "fixed w-80 z-[9999] bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-4 space-y-4 max-h-[500px] overflow-y-auto filter-scroll",
                   popoverPosition === 'bottom' ? 'mt-2' : 'mb-2'
                 )}
                 style={{
@@ -300,7 +300,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
                       onClick={clearFilters}
                       className="text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
                     >
-                      Clear all filters
+                      Clear all ilters
                     </button>
                   </div>
                 </motion.div>
@@ -315,7 +315,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
           onClick={clearFilters}
           className="text-red-600 hover:text-red-700"
         >
-          Clear all
+          Clear
         </Button>
       </div>
     </div>

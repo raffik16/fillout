@@ -65,7 +65,7 @@ export const DrinkModal: React.FC<DrinkModalProps> = ({ drink, isOpen, onClose }
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="fixed inset-4 md:inset-x-auto md:inset-y-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-2xl md:w-full md:h-auto bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden z-50"
+            className="fixed inset-4 md:inset-x-auto md:inset-y-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-2xl md:w-full md:h-auto bg-white dark:bg-gray-900 rounded-2xl overflow-hidden z-50"
           >
             {/* Header Image */}
             <div className="relative h-64 w-full">

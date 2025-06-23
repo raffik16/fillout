@@ -24,9 +24,8 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
         ref={ref}
         whileHover={hover ? { y: -4, scale: 1.01 } : undefined}
         className={cn(
-          'relative rounded-2xl shadow-md transition-all duration-300',
+          'relative rounded-2xl transition-all duration-300',
           variants[variant],
-          hover && 'hover:shadow-lg',
           className
         )}
         {...props}

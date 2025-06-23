@@ -31,7 +31,7 @@ export const AgeGate: React.FC<AgeGateProps> = ({ onVerified }) => {
           animate={{ opacity: 1, scale: 1 }}
           className="w-full max-w-md"
         >
-          <div className="bg-white rounded-2xl shadow-2xl text-center overflow-hidden">
+          <div className="bg-white rounded-2xl text-center overflow-hidden">
             <div className="bg-red-500 p-6">
               <h2 className="text-2xl font-bold text-white">
                 Access Restricted
@@ -62,7 +62,7 @@ export const AgeGate: React.FC<AgeGateProps> = ({ onVerified }) => {
         animate={{ opacity: 1, scale: 1 }}
         className="w-full max-w-md"
       >
-        <div className="bg-white rounded-2xl shadow-2xl text-center overflow-hidden">
+        <div className="bg-white rounded-2xl text-center overflow-hidden">
           <div className="bg-amber-500 p-6">
             <h2 className="text-3xl font-bold text-white">
               Age Verification

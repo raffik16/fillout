@@ -56,7 +56,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
       transition={{ duration: 0.5 }}
       className="w-full max-w-2xl mx-auto"
     >
-      <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+      <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
         <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <Input
@@ -97,7 +97,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
               </Button>
               
               {/* Enhanced Tooltip */}
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-3 bg-gradient-to-r from-amber-600 to-blue-600 text-white text-sm rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-50 shadow-lg">
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-3 bg-gradient-to-r from-amber-600 to-blue-600 text-white text-sm rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-50">
                 <div className="flex items-center gap-2">
                   <span>🎯</span>
                   <span className="font-medium">Find your perfect drink with GPS magic!</span>
