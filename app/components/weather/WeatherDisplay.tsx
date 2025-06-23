@@ -18,17 +18,17 @@ interface WeatherDisplayProps {
 }
 
 const weatherIcons: Record<string, React.ReactNode> = {
-  clear: <WiDaySunny className="w-24 h-24" />,
-  clouds: <WiCloudy className="w-24 h-24" />,
-  rain: <WiRain className="w-24 h-24" />,
-  drizzle: <WiRain className="w-24 h-24" />,
-  snow: <WiSnow className="w-24 h-24" />,
-  thunderstorm: <WiThunderstorm className="w-24 h-24" />,
-  mist: <WiFog className="w-24 h-24" />,
-  smoke: <WiDust className="w-24 h-24" />,
-  haze: <WiDust className="w-24 h-24" />,
-  dust: <WiDust className="w-24 h-24" />,
-  fog: <WiFog className="w-24 h-24" />,
+  clear: <WiDaySunny className="w-16 h-16" />,
+  clouds: <WiCloudy className="w-16 h-16" />,
+  rain: <WiRain className="w-16 h-16" />,
+  drizzle: <WiRain className="w-16 h-16" />,
+  snow: <WiSnow className="w-16 h-16" />,
+  thunderstorm: <WiThunderstorm className="w-16 h-16" />,
+  mist: <WiFog className="w-16 h-16" />,
+  smoke: <WiDust className="w-16 h-16" />,
+  haze: <WiDust className="w-16 h-16" />,
+  dust: <WiDust className="w-16 h-16" />,
+  fog: <WiFog className="w-16 h-16" />,
 };
 
 const weatherGradients: Record<string, string> = {
@@ -84,22 +84,19 @@ export const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ weather, classNa
       <Card variant="glass" hover={false} className="overflow-hidden">
         <div className={cn('absolute inset-0 bg-gradient-to-br opacity-20', gradient)} />
         
-        <CardContent className="relative z-10 p-8">
-          <div className="flex items-center justify-between mb-6">
+        <CardContent className="relative z-10 p-4">
+          <div className="flex items-center justify-between mb-3">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-                {weather.location.name}
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                {weather.location.name}, {weather.location.country}
               </h2>
-              <p className="text-gray-600 dark:text-gray-300">
-                {weather.location.country}
-              </p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={toggleTemperatureUnit}
-                className="text-sm font-medium"
+                className="text-sm font-medium h-7 px-2"
               >
                 {isMetric ? '°C' : '°F'}
               </Button>
@@ -120,30 +117,32 @@ export const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ weather, classNa
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <p className="text-5xl font-bold text-gray-900 dark:text-white">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex items-baseline gap-2">
+              <p className="text-3xl font-bold text-gray-900 dark:text-white">
                 {displayTemp(weather.current.temp)}
               </p>
-              <p className="text-lg text-gray-600 dark:text-gray-300 capitalize">
-                {weather.current.description}
-              </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Feels like {displayTemp(weather.current.feels_like)}
-              </p>
+              <div>
+                <p className="text-sm text-gray-600 dark:text-gray-300 capitalize">
+                  {weather.current.description}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Feels like {displayTemp(weather.current.feels_like)}
+                </p>
+              </div>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <WiThermometer className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+            <div className="flex gap-4 text-sm">
+              <div className="flex items-center gap-1">
+                <WiThermometer className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                 <span className="text-gray-700 dark:text-gray-300">
-                  {displayTemp(weather.current.temp_min)} - {displayTemp(weather.current.temp_max)}
+                  {displayTemp(weather.current.temp_min)}-{displayTemp(weather.current.temp_max)}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <WiHumidity className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+              <div className="flex items-center gap-1">
+                <WiHumidity className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                 <span className="text-gray-700 dark:text-gray-300">
-                  {weather.current.humidity}% Humidity
+                  {weather.current.humidity}%
                 </span>
               </div>
             </div>
