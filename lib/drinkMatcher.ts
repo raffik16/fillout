@@ -1,6 +1,7 @@
 import { Drink, DrinkRecommendation } from '@/app/types/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
+import { getHappyHourBonus } from '@/lib/happyHour';
 import drinksData from '@/data/drinks.json';
 
 interface PreferenceScore {
@@ -120,6 +121,19 @@ export function matchDrinksToPreferences(
           score += 5;
         }
       }
+    }
+
+    // 7. Happy Hour bonus (10 points max) - for drinks during happy hour
+    const happyHourBonus = getHappyHourBonus(drink);
+    if (happyHourBonus > 0) {
+      score += happyHourBonus;
+      reasons.push('Happy Hour special!');
+    }
+
+    // 8. Casual occasion bonus for happy hour selection
+    if (preferences.occasion === 'casual' && drink.happy_hour) {
+      score += 5;
+      reasons.push('Perfect for happy hour');
     }
 
     if (score > 0) {

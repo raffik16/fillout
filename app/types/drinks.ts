@@ -23,6 +23,9 @@ export interface Drink {
   image_url: string;
   glass_type?: string;
   preparation?: string;
+  happy_hour?: boolean;
+  happy_hour_price?: string;
+  happy_hour_times?: string;
 }
 
 export interface DrinkFilters {

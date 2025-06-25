@@ -3,6 +3,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { DrinkCard } from './DrinkCard';
 import { Drink, DrinkRecommendation } from '@/app/types/drinks';
+import { sortDrinksForHappyHour } from '@/lib/happyHour';
 import { cn } from '@/lib/utils';
 
 interface DrinkGridProps {
@@ -22,6 +23,9 @@ export const DrinkGrid: React.FC<DrinkGridProps> = ({
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Sort drinks to prioritize happy hour during active hours
+  const sortedDrinks = sortDrinksForHappyHour(drinks);
   
   // Debounced hover handlers to prevent rapid state changes
   const handleMouseEnter = useCallback((index: number) => {
@@ -67,7 +71,7 @@ export const DrinkGrid: React.FC<DrinkGridProps> = ({
     );
   }
 
-  const drinksWithRecommendations = drinks.map((drink) => {
+  const drinksWithRecommendations = sortedDrinks.map((drink) => {
     const recommendation = recommendations?.find((rec) => rec.drink.id === drink.id);
     return { drink, recommendation };
   });

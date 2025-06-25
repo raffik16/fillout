@@ -19,7 +19,10 @@
       "serving_suggestions": ["Serve over crushed ice", "Garnish with mint sprig"],
       "image_url": "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400",
       "glass_type": "Highball",
-      "preparation": "Muddle mint with sugar and lime juice, add rum, top with soda"
+      "preparation": "Muddle mint with sugar and lime juice, add rum, top with soda",
+      "happy_hour": true,
+      "happy_hour_price": "$8",
+      "happy_hour_times": "3-6 PM"
     },
     {
       "id": "whiskey-sour",
@@ -40,7 +43,10 @@
       "serving_suggestions": ["Serve in a rocks glass", "Garnish with cherry and orange slice"],
       "image_url": "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=400",
       "glass_type": "Rocks",
-      "preparation": "Shake all ingredients with ice, strain into glass"
+      "preparation": "Shake all ingredients with ice, strain into glass",
+      "happy_hour": true,
+      "happy_hour_price": "$9",
+      "happy_hour_times": "3-6 PM"
     },
     {
       "id": "margarita",
@@ -61,7 +67,10 @@
       "serving_suggestions": ["Salt rim optional", "Serve frozen or on the rocks"],
       "image_url": "https://images.unsplash.com/photo-1678862656501-9bd5d0bf6de1?w=400",
       "glass_type": "Margarita",
-      "preparation": "Shake with ice, strain into salt-rimmed glass"
+      "preparation": "Shake with ice, strain into salt-rimmed glass",
+      "happy_hour": true,
+      "happy_hour_price": "$7",
+      "happy_hour_times": "3-6 PM"
     },
     {
       "id": "hot-toddy",
@@ -103,7 +112,10 @@
       "serving_suggestions": ["Serve chilled", "Pour into IPA glass"],
       "image_url": "https://i.ibb.co/G4QHRTw6/image-5.jpg",
       "glass_type": "IPA Glass",
-      "preparation": "Serve chilled at 45-50°F"
+      "preparation": "Serve chilled at 45-50°F",
+      "happy_hour": true,
+      "happy_hour_price": "$5",
+      "happy_hour_times": "3-6 PM"
     },
     {
       "id": "lager",
@@ -124,7 +136,10 @@
       "serving_suggestions": ["Serve very cold", "Best in a pilsner glass"],
       "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
       "glass_type": "Pilsner",
-      "preparation": "Serve cold at 38-45°F"
+      "preparation": "Serve cold at 38-45°F",
+      "happy_hour": true,
+      "happy_hour_price": "$4",
+      "happy_hour_times": "3-6 PM"
     },
     {
       "id": "stout",
@@ -187,7 +202,10 @@
       "serving_suggestions": ["Serve chilled", "Pair with seafood"],
       "image_url": "https://images.unsplash.com/photo-1561461056-77634126673a?w=400",
       "glass_type": "White wine glass",
-      "preparation": "Serve at 45-50°F"
+      "preparation": "Serve at 45-50°F",
+      "happy_hour": true,
+      "happy_hour_price": "$12",
+      "happy_hour_times": "3-6 PM"
     },
     {
       "id": "rose-wine",
@@ -250,7 +268,10 @@
       "serving_suggestions": ["Serve over ice", "Garnish with lime wedge"],
       "image_url": "https://images.unsplash.com/photo-1587888637140-849b25d80ef9?w=400",
       "glass_type": "Highball",
-      "preparation": "Build over ice, stir gently"
+      "preparation": "Build over ice, stir gently",
+      "happy_hour": true,
+      "happy_hour_price": "$6",
+      "happy_hour_times": "3-6 PM"
     },
     {
       "id": "virgin-mojito",
@@ -418,7 +439,10 @@
       "serving_suggestions": ["Serve over ice", "Garnish with orange slice"],
       "image_url": "https://images.unsplash.com/photo-1564090654281-eb1db56d15fc?w=400",
       "glass_type": "Wine Glass",
-      "preparation": "Build over ice, stir gently"
+      "preparation": "Build over ice, stir gently",
+      "happy_hour": true,
+      "happy_hour_price": "$9",
+      "happy_hour_times": "3-6 PM"
     },
     {
       "id": "bloody-mary",
@@ -460,7 +484,10 @@
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
       "image_url": "https://images.unsplash.com/photo-1671536055547-99f21db6e297?w=400",
       "glass_type": "Copper Mug",
-      "preparation": "Build over ice in copper mug"
+      "preparation": "Build over ice in copper mug",
+      "happy_hour": true,
+      "happy_hour_price": "$8",
+      "happy_hour_times": "3-6 PM"
     },
     {
       "id": "cosmopolitan",
@@ -670,7 +697,10 @@
       "serving_suggestions": ["Serve well chilled", "Drink fresh"],
       "image_url": "https://images.unsplash.com/photo-1586161659976-2ff9a33f20b0?w=400",
       "glass_type": "Flute",
-      "preparation": "Serve at 40-45°F"
+      "preparation": "Serve at 40-45°F",
+      "happy_hour": true,
+      "happy_hour_price": "$10",
+      "happy_hour_times": "3-6 PM"
     },
     {
       "id": "riesling",

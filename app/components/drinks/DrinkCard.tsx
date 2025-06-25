@@ -5,8 +5,9 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/app/components/ui/Card';
 import { Drink, DrinkRecommendation } from '@/app/types/drinks';
-import { FiPercent, FiDroplet, FiAward, FiBook } from 'react-icons/fi';
+import { FiPercent, FiDroplet, FiAward, FiBook, FiClock, FiHeart, FiStar, FiTarget } from 'react-icons/fi';
 import { cn } from '@/lib/utils';
+import { shouldShowHappyHourIndicator, isCurrentlyHappyHour, getHappyHourStatus } from '@/lib/happyHour';
 
 interface DrinkCardProps {
   drink: Drink;
@@ -60,13 +61,14 @@ export const DrinkCard: React.FC<DrinkCardProps> = ({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           
-          {recommendation && recommendation.score > 70 && (
+
+          {recommendation && recommendation.score > 80 && (
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="absolute top-3 right-3 bg-amber-500 text-white p-2 rounded-full"
+              className="absolute top-3 right-3 bg-gradient-to-r from-yellow-400 to-amber-500 text-white p-2 rounded-full shadow-lg"
             >
-              <FiAward className="w-5 h-5" />
+              <FiStar className="w-5 h-5" />
             </motion.div>
           )}
 
@@ -90,6 +92,28 @@ export const DrinkCard: React.FC<DrinkCardProps> = ({
           <p className="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">
             {drink.description}
           </p>
+
+          {/* Happy Hour Info */}
+          {shouldShowHappyHourIndicator(drink) && (
+            <div className={cn(
+              "mb-3 p-2 rounded-lg text-xs",
+              isCurrentlyHappyHour() 
+                ? "bg-orange-50 border border-orange-200 text-orange-800" 
+                : "bg-gray-50 border border-gray-200 text-gray-600"
+            )}>
+              <div className="flex items-center justify-between">
+                <span className="font-medium">
+                  {isCurrentlyHappyHour() ? "🎉 Happy Hour Active!" : "⏰ Happy Hour"}
+                </span>
+                {drink.happy_hour_price && (
+                  <span className="font-bold">{drink.happy_hour_price}</span>
+                )}
+              </div>
+              <div className="text-xs opacity-75">
+                {drink.happy_hour_times || "3-6 PM"}
+              </div>
+            </div>
+          )}
 
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2 text-sm">
