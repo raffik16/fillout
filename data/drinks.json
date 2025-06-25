@@ -101,7 +101,7 @@
       },
       "occasions": ["casual", "party"],
       "serving_suggestions": ["Serve chilled", "Pour into IPA glass"],
-      "image_url": "https://images.unsplash.com/photo-1610307540315-0d3f322403ff?w=400",
+      "image_url": "https://i.ibb.co/G4QHRTw6/image-5.jpg",
       "glass_type": "IPA Glass",
       "preparation": "Serve chilled at 45-50°F"
     },
@@ -353,7 +353,7 @@
       },
       "occasions": ["business", "casual", "romantic"],
       "serving_suggestions": ["Serve on the rocks", "Garnish with orange peel"],
-      "image_url": "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=400",
+      "image_url": "https://i.ibb.co/8gJzCWH0/image-6.jpg",
       "glass_type": "Rocks",
       "preparation": "Stir equal parts with ice, strain over ice"
     },
@@ -521,7 +521,7 @@
       },
       "occasions": ["party", "casual", "celebration"],
       "serving_suggestions": ["Serve over ice", "Top with cola"],
-      "image_url": "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400",
+      "image_url": "https://i.ibb.co/Ngjk0QFg/image-4.jpg",
       "glass_type": "Highball",
       "preparation": "Shake spirits with lemon, top with cola"
     },

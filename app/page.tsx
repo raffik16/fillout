@@ -12,9 +12,13 @@ import { DrinkFilters } from '@/app/components/drinks/DrinkFilters';
 import { DrinkModal } from '@/app/components/drinks/DrinkModal';
 import { RecipeModal } from '@/app/components/drinks/RecipeModal';
 import { AgeGate } from '@/app/components/ui/AgeGate';
+import DrinkWizard from '@/app/components/wizard/DrinkWizard';
+import WizardResults from '@/app/components/wizard/WizardResults';
+import ResetWizard from '@/app/components/ui/ResetWizard';
 import { WeatherData } from '@/app/types/weather';
 import { Drink, DrinkFilters as DrinkFiltersType, DrinkRecommendation } from '@/app/types/drinks';
 import { recommendDrinks } from '@/lib/drinks';
+import { WizardPreferences } from '@/app/types/wizard';
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -31,6 +35,10 @@ export default function Home() {
   const [isRecipeModalOpen, setIsRecipeModalOpen] = useState(false);
   const [isMetricUnit, setIsMetricUnit] = useState(false);
   const [isAgeVerified, setIsAgeVerified] = useState<boolean | null>(null);
+  const [showWizard, setShowWizard] = useState(false);
+  const [showWizardResults, setShowWizardResults] = useState(false);
+  const [wizardPreferences, setWizardPreferences] = useState<WizardPreferences | null>(null);
+  const [wizardMatchedDrinks, setWizardMatchedDrinks] = useState<Drink[]>([]);
   const [showLocationInHeader, setShowLocationInHeader] = useState(false);
   const [currentLocation, setCurrentLocation] = useState<string>('');
   const drinksGridRef = useRef<HTMLDivElement>(null);
@@ -53,6 +61,11 @@ export default function Home() {
     const ageVerified = localStorage.getItem('ageVerified');
     if (ageVerified === 'true') {
       setIsAgeVerified(true);
+      // Check if wizard has been completed
+      const wizardCompleted = localStorage.getItem('wizardCompleted');
+      if (!wizardCompleted) {
+        setShowWizard(true);
+      }
     } else {
       setIsAgeVerified(false);
     }
@@ -185,6 +198,41 @@ export default function Home() {
   const handleAgeVerification = (isOfAge: boolean) => {
     setIsAgeVerified(isOfAge);
     localStorage.setItem('ageVerified', isOfAge.toString());
+    if (isOfAge) {
+      setShowWizard(true);
+    }
+  };
+
+  // Handle wizard completion
+  const handleWizardComplete = (preferences: WizardPreferences, matchedDrinks: Drink[]) => {
+    setWizardPreferences(preferences);
+    setWizardMatchedDrinks(matchedDrinks);
+    setShowWizard(false);
+    setShowWizardResults(true);
+    localStorage.setItem('wizardPreferences', JSON.stringify(preferences));
+  };
+
+  // Handle wizard skip
+  const handleWizardSkip = () => {
+    setShowWizard(false);
+    localStorage.setItem('wizardCompleted', 'skipped');
+  };
+
+  // Handle wizard results close
+  const handleWizardResultsClose = () => {
+    setShowWizardResults(false);
+    localStorage.setItem('wizardCompleted', 'true');
+  };
+
+  // Handle retake quiz
+  const handleRetakeQuiz = () => {
+    setShowWizardResults(false);
+    setShowWizard(true);
+  };
+
+  // Handle show wizard from CTA
+  const handleShowWizard = () => {
+    setShowWizard(true);
   };
 
   // Show age gate if not verified
@@ -198,6 +246,29 @@ export default function Home() {
       <div className="min-h-screen bg-gradient-to-br from-amber-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-amber-600"></div>
       </div>
+    );
+  }
+
+  // Show wizard if needed
+  if (showWizard) {
+    return (
+      <DrinkWizard 
+        onComplete={handleWizardComplete}
+        onSkip={handleWizardSkip}
+        weatherData={weatherData}
+      />
+    );
+  }
+
+  // Show wizard results
+  if (showWizardResults && wizardPreferences) {
+    return (
+      <WizardResults
+        preferences={wizardPreferences}
+        initialMatches={wizardMatchedDrinks}
+        weatherData={weatherData}
+        onRetakeQuiz={handleRetakeQuiz}
+      />
     );
   }
 
@@ -232,6 +303,7 @@ export default function Home() {
           <LocationSearch 
             onSearch={handleLocationSearch} 
             isLoading={isLoadingWeather}
+            onShowWizard={handleShowWizard}
           />
           {weatherError && (
             <motion.p
@@ -325,6 +397,9 @@ export default function Home() {
         isOpen={isRecipeModalOpen}
         onClose={() => setIsRecipeModalOpen(false)}
       />
+      
+      {/* Reset Wizard Button (for testing) */}
+      <ResetWizard />
     </div>
   );
 }
