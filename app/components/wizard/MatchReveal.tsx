@@ -2,16 +2,14 @@
 
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { Drink } from '@/app/types/drinks';
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 
 interface MatchRevealProps {
   onComplete: () => void;
-  matchedDrinks: Drink[];
 }
 
-export default function MatchReveal({ onComplete, matchedDrinks }: MatchRevealProps) {
+export default function MatchReveal({ onComplete }: MatchRevealProps) {
   const [showConfetti, setShowConfetti] = useState(true);
   const { width, height } = useWindowSize();
 
@@ -46,7 +44,7 @@ export default function MatchReveal({ onComplete, matchedDrinks }: MatchRevealPr
       >
         <div className="text-8xl mb-6">🎉</div>
         <h1 className="text-4xl font-bold text-gray-800 mb-4">
-          It's a Match!
+          It&apos;s a Match!
         </h1>
         <p className="text-lg text-gray-600 mb-8">
           We found your perfect drinks

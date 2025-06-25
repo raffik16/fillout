@@ -66,15 +66,41 @@ export async function getUserLocation(): Promise<{ lat: number; lon: number }> {
       return;
     }
 
+    const timeoutId = setTimeout(() => {
+      reject(new Error('Location request timed out'));
+    }, 10000); // 10 second timeout
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        clearTimeout(timeoutId);
         resolve({
           lat: position.coords.latitude,
           lon: position.coords.longitude,
         });
       },
-      () => {
-        reject(new Error('Unable to retrieve your location'));
+      (error) => {
+        clearTimeout(timeoutId);
+        console.error('Geolocation error:', error);
+        let errorMessage = 'Unable to retrieve your location';
+        
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage = 'Location access denied. Please enable location access in your browser.';
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMessage = 'Location information is unavailable.';
+            break;
+          case error.TIMEOUT:
+            errorMessage = 'Location request timed out.';
+            break;
+        }
+        
+        reject(new Error(errorMessage));
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 8000,
+        maximumAge: 60000
       }
     );
   });

@@ -3,21 +3,20 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WizardPreferences } from '@/app/types/wizard';
+import { WeatherData } from '@/app/types/weather';
 import { wizardQuestions } from '@/app/data/wizardQuestions';
 import WizardQuestion from './WizardQuestion';
 import WizardProgress from './WizardProgress';
 import LoadingMatch from './LoadingMatch';
 import MatchReveal from './MatchReveal';
-import { Drink } from '@/app/types/drinks';
-import { matchDrinksToPreferences } from '@/lib/drinkMatcher';
 
 interface DrinkWizardProps {
-  onComplete: (preferences: WizardPreferences, matchedDrinks: Drink[]) => void;
+  onComplete: (preferences: WizardPreferences) => void;
   onSkip: () => void;
-  weatherData?: any; // Weather data if available
+  weatherData?: WeatherData | null;
 }
 
-export default function DrinkWizard({ onComplete, onSkip, weatherData }: DrinkWizardProps) {
+export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [preferences, setPreferences] = useState<WizardPreferences>({
     flavor: null,
@@ -29,7 +28,6 @@ export default function DrinkWizard({ onComplete, onSkip, weatherData }: DrinkWi
   });
   const [showLoading, setShowLoading] = useState(false);
   const [showMatch, setShowMatch] = useState(false);
-  const [matchedDrinks, setMatchedDrinks] = useState<Drink[]>([]);
 
   const handleAnswer = (value: string) => {
     const question = wizardQuestions[currentQuestion];
@@ -44,23 +42,20 @@ export default function DrinkWizard({ onComplete, onSkip, weatherData }: DrinkWi
     } else {
       // All questions answered, show loading
       setShowLoading(true);
-      findMatches(updatedPreferences);
+      findMatches();
     }
   };
 
-  const findMatches = async (prefs: WizardPreferences) => {
+  const findMatches = async () => {
     // Simulate matching process
     setTimeout(() => {
-      const recommendations = matchDrinksToPreferences(prefs, weatherData);
-      const matches = recommendations.map(rec => rec.drink);
-      setMatchedDrinks(matches);
       setShowLoading(false);
       setShowMatch(true);
     }, 2500);
   };
 
   const handleMatchRevealComplete = () => {
-    onComplete(preferences, matchedDrinks);
+    onComplete(preferences);
   };
 
   if (showLoading) {
@@ -71,7 +66,6 @@ export default function DrinkWizard({ onComplete, onSkip, weatherData }: DrinkWi
     return (
       <MatchReveal 
         onComplete={handleMatchRevealComplete}
-        matchedDrinks={matchedDrinks}
       />
     );
   }

@@ -1,26 +1,24 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
-import { Drink, DrinkRecommendation } from '@/app/types/drinks';
+import { DrinkRecommendation } from '@/app/types/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
 import { matchDrinksToPreferences, getMatchMessage } from '@/lib/drinkMatcher';
 import { getUserLocation } from '@/lib/weather';
-import { ChevronLeft, ChevronRight, RefreshCw, Thermometer, X, MapPin } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import Image from 'next/image';
 import axios from 'axios';
 
 interface WizardResultsProps {
   preferences: WizardPreferences;
-  initialMatches: Drink[];
   weatherData?: WeatherData | null;
   onRetakeQuiz: () => void;
 }
 
 export default function WizardResults({
   preferences,
-  initialMatches,
   weatherData,
   onRetakeQuiz
 }: WizardResultsProps) {
@@ -32,16 +30,16 @@ export default function WizardResults({
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
 
-  useEffect(() => {
-    updateRecommendations();
-  }, [useWeather, localWeatherData]);
-
-  const updateRecommendations = () => {
+  const updateRecommendations = useCallback(() => {
     const updatedPrefs = { ...preferences, useWeather };
     const recs = matchDrinksToPreferences(updatedPrefs, localWeatherData);
     setRecommendations(recs);
     setCurrentIndex(0);
-  };
+  }, [preferences, useWeather, localWeatherData]);
+
+  useEffect(() => {
+    updateRecommendations();
+  }, [updateRecommendations]);
 
   const currentDrink = recommendations[currentIndex]?.drink;
   const currentScore = recommendations[currentIndex]?.score || 0;
@@ -68,24 +66,33 @@ export default function WizardResults({
   };
 
   const fetchWeatherData = async () => {
+    console.log('Starting weather data fetch...');
     setIsLoadingLocation(true);
     setLocationError(null);
     
     try {
+      console.log('Getting user location...');
       const coords = await getUserLocation();
+      console.log('Got coordinates:', coords);
+      
       const params = new URLSearchParams();
       params.append('lat', coords.lat.toString());
       params.append('lon', coords.lon.toString());
       
+      console.log('Fetching weather data with params:', params.toString());
       const response = await axios.get<WeatherData>(`/api/weather?${params}`);
+      console.log('Weather data received:', response.data);
+      
       setLocalWeatherData(response.data);
       setUseWeather(true);
     } catch (error) {
       console.error('Failed to fetch weather:', error);
-      setLocationError('Unable to get your location. Please enable location access.');
+      const errorMessage = error instanceof Error ? error.message : 'Unable to get your location. Please enable location access.';
+      setLocationError(errorMessage);
       setUseWeather(false);
     } finally {
       setIsLoadingLocation(false);
+      console.log('Weather fetch completed');
     }
   };
 
@@ -98,7 +105,7 @@ export default function WizardResults({
     }
   };
 
-  const handleDragEnd = (event: any, info: PanInfo) => {
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const threshold = 100;
     if (info.offset.x > threshold && currentIndex > 0) {
       // Swipe right - go to previous

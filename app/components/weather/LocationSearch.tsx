@@ -79,7 +79,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
               size="lg"
               isLoading={isLoading}
               disabled={!city.trim() || isGeolocating}
-              className="h-14 px-8 min-w-[120px]"
+              className="h-14 px-3 min-w-[100px]"
             >
               Search
             </Button>
@@ -92,7 +92,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
                 onClick={handleGeolocation}
                 isLoading={isGeolocating}
                 disabled={isLoading}
-                className="h-14 px-6 flex items-center justify-center gap-2"
+                className="h-14 px-3 flex items-center justify-center gap-2"
               >
                 <span className="sm:inline whitespace-nowrap">My Location</span>
               </Button>
@@ -117,7 +117,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
                   size="lg"
                   onClick={onShowWizard}
                   disabled={isLoading || isGeolocating}
-                  className="h-14 px-6 flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
+                  className="h-14 px-3 flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
                 >
                   <span className="sm:inline whitespace-nowrap">Find My Match</span>
                 </Button>

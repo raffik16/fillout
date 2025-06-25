@@ -38,7 +38,6 @@ export default function Home() {
   const [showWizard, setShowWizard] = useState(false);
   const [showWizardResults, setShowWizardResults] = useState(false);
   const [wizardPreferences, setWizardPreferences] = useState<WizardPreferences | null>(null);
-  const [wizardMatchedDrinks, setWizardMatchedDrinks] = useState<Drink[]>([]);
   const [showLocationInHeader, setShowLocationInHeader] = useState(false);
   const [currentLocation, setCurrentLocation] = useState<string>('');
   const drinksGridRef = useRef<HTMLDivElement>(null);
@@ -204,9 +203,8 @@ export default function Home() {
   };
 
   // Handle wizard completion
-  const handleWizardComplete = (preferences: WizardPreferences, matchedDrinks: Drink[]) => {
+  const handleWizardComplete = (preferences: WizardPreferences) => {
     setWizardPreferences(preferences);
-    setWizardMatchedDrinks(matchedDrinks);
     setShowWizard(false);
     setShowWizardResults(true);
     localStorage.setItem('wizardPreferences', JSON.stringify(preferences));
@@ -218,11 +216,6 @@ export default function Home() {
     localStorage.setItem('wizardCompleted', 'skipped');
   };
 
-  // Handle wizard results close
-  const handleWizardResultsClose = () => {
-    setShowWizardResults(false);
-    localStorage.setItem('wizardCompleted', 'true');
-  };
 
   // Handle retake quiz
   const handleRetakeQuiz = () => {
@@ -265,7 +258,6 @@ export default function Home() {
     return (
       <WizardResults
         preferences={wizardPreferences}
-        initialMatches={wizardMatchedDrinks}
         weatherData={weatherData}
         onRetakeQuiz={handleRetakeQuiz}
       />

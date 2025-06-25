@@ -5,9 +5,9 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/app/components/ui/Card';
 import { Drink, DrinkRecommendation } from '@/app/types/drinks';
-import { FiPercent, FiDroplet, FiAward, FiBook, FiClock, FiHeart, FiStar, FiTarget } from 'react-icons/fi';
+import { FiPercent, FiDroplet, FiBook, FiStar } from 'react-icons/fi';
 import { cn } from '@/lib/utils';
-import { shouldShowHappyHourIndicator, isCurrentlyHappyHour, getHappyHourStatus } from '@/lib/happyHour';
+import { shouldShowHappyHourIndicator, isCurrentlyHappyHour } from '@/lib/happyHour';
 
 interface DrinkCardProps {
   drink: Drink;
