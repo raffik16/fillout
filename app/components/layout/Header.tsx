@@ -48,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, lo
             <GiBeerBottle className="w-8 h-8 text-amber-600" />
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-                ThePerfectDrink
+                Drinkjoy
               </h1>
               <div className="relative overflow-hidden">
                 <motion.p 

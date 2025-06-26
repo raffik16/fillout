@@ -1,6 +1,6 @@
-# ThePerfectDrink 🍻⛅
+# drinkjoy.app 🍻✨
 
-A modern, intuitive web application that recommends beers, wines, cocktails, hard liquors, and other bar drinks based on real-time weather data and user preferences.
+A modern, intuitive web application that curates the perfect beers, wines, cocktails, and spirits with detailed recipes and shopping links for every occasion.
 
 ## Features
 
@@ -35,7 +35,7 @@ A modern, intuitive web application that recommends beers, wines, cocktails, har
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd theperfectdrink
+cd drinkjoy-app
 ```
 
 2. Install dependencies:

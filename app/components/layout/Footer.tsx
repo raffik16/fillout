@@ -15,11 +15,11 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
-              About ThePerfectDrink
+              About drinkjoy.app
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Your personal bartender that recommends the perfect drink based on the weather. 
-              From refreshing cocktails on hot days to warming spirits on cold nights.
+              Your personal bartender that curates the perfect drinks with detailed recipes and shopping links. 
+              Discover cocktails, beers, and wines for every occasion.
             </p>
           </div>
           

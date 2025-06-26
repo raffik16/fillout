@@ -13,13 +13,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ThePerfectDrink - Weather-Based Drink Recommendations",
-  description: "Discover the perfect drink based on your local weather. From refreshing cocktails on hot days to warming spirits on cold nights.",
-  keywords: "weather, drinks, cocktails, beer, wine, recommendations, perfect drink, bartender",
-  authors: [{ name: "ThePerfectDrink Team" }],
+  title: "drinkjoy.app - Curated Drinks with Recipes & Shopping",
+  description: "Find your perfect drink match. Explore curated cocktails, beers, and wines with detailed recipes and shopping links for every occasion.",
+  keywords: "drinks, cocktails, beer, wine, recipes, shopping, recommendations, perfect drink, bartender, mixology",
+  authors: [{ name: "drinkjoy.app Team" }],
   openGraph: {
-    title: "ThePerfectDrink - Weather-Based Drink Recommendations",
-    description: "Discover the perfect drink based on your local weather.",
+    title: "drinkjoy.app - Curated Drinks with Recipes & Shopping",
+    description: "Find your perfect drink match with detailed recipes and shopping links.",
     type: "website",
   },
 };
