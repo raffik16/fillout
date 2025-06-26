@@ -9,6 +9,7 @@ import WizardQuestion from './WizardQuestion';
 import WizardProgress from './WizardProgress';
 import LoadingMatch from './LoadingMatch';
 import MatchReveal from './MatchReveal';
+import { ChevronLeft } from 'lucide-react';
 
 interface DrinkWizardProps {
   onComplete: (preferences: WizardPreferences) => void;
@@ -28,6 +29,7 @@ export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
   });
   const [showLoading, setShowLoading] = useState(false);
   const [showMatch, setShowMatch] = useState(false);
+  const [navigationDirection, setNavigationDirection] = useState<'forward' | 'backward'>('forward');
 
   const handleAnswer = (value: string) => {
     const question = wizardQuestions[currentQuestion];
@@ -36,6 +38,7 @@ export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
       [question.id]: value
     };
     setPreferences(updatedPreferences);
+    setNavigationDirection('forward');
 
     if (currentQuestion < wizardQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
@@ -43,6 +46,13 @@ export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
       // All questions answered, show loading
       setShowLoading(true);
       findMatches();
+    }
+  };
+
+  const handleGoBack = () => {
+    if (currentQuestion > 0) {
+      setNavigationDirection('backward');
+      setCurrentQuestion(currentQuestion - 1);
     }
   };
 
@@ -85,9 +95,15 @@ export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentQuestion}
-            initial={{ opacity: 0, x: 100 }}
+            initial={{ 
+              opacity: 0, 
+              x: navigationDirection === 'forward' ? 100 : -100 
+            }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
+            exit={{ 
+              opacity: 0, 
+              x: navigationDirection === 'forward' ? -100 : 100 
+            }}
             transition={{ duration: 0.3 }}
           >
             <WizardQuestion
@@ -102,6 +118,20 @@ export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
           current={currentQuestion}
           total={wizardQuestions.length}
         />
+        
+        {/* Back Button */}
+        {currentQuestion > 0 && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={handleGoBack}
+            className="absolute bottom-8 left-8 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 group"
+            aria-label="Go back"
+          >
+            <ChevronLeft className="w-6 h-6 text-gray-700 group-hover:text-gray-900 transition-colors" />
+          </motion.button>
+        )}
       </div>
     </div>
   );
