@@ -117,7 +117,7 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
                   size="lg"
                   onClick={onShowWizard}
                   disabled={isLoading || isGeolocating}
-                  className="h-14 px-3 flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
+                  className="h-14 px-3 flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white border-none transition-all duration-300 font-semibold"
                 >
                   <span className="sm:inline whitespace-nowrap">Find My Match</span>
                 </Button>

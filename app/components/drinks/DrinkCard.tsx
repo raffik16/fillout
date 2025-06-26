@@ -66,7 +66,7 @@ export const DrinkCard: React.FC<DrinkCardProps> = ({
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="absolute top-3 right-3 bg-gradient-to-r from-yellow-400 to-amber-500 text-white p-2 rounded-full shadow-lg"
+              className="absolute top-3 right-3 bg-gradient-to-r from-yellow-400 to-amber-500 text-white p-2 rounded-full"
             >
               <FiStar className="w-5 h-5" />
             </motion.div>

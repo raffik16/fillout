@@ -126,7 +126,7 @@ export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={handleGoBack}
-            className="absolute bottom-8 left-8 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 group"
+            className="absolute bottom-8 left-8 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all duration-200 group"
             aria-label="Go back"
           >
             <ChevronLeft className="w-6 h-6 text-gray-700 group-hover:text-gray-900 transition-colors" />

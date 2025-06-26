@@ -54,7 +54,7 @@ export default function MatchReveal({ onComplete }: MatchRevealProps) {
 
         <motion.button
           onClick={onComplete}
-          className="bg-orange-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors shadow-lg"
+          className="bg-orange-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, y: 20 }}

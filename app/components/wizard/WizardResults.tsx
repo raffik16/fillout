@@ -160,7 +160,7 @@ export default function WizardResults({
               transition: { duration: 0.1 }
             }}
           >
-            <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+            <div className="bg-white rounded-3xl overflow-hidden">
               {/* Match Score */}
               <div className="bg-gradient-to-r from-orange-400 to-rose-400 text-white p-4 text-center">
                 <div className="text-lg font-bold">{matchMessage}</div>

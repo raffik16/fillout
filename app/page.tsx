@@ -286,7 +286,7 @@ export default function Home() {
             Find Your Perfect Drink
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            Weather-matched drinks with recipes & shopping
+            Curated drinks with detailed recipes & shopping links
           </p>
         </motion.div>
 
