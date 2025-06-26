@@ -113,14 +113,18 @@ export default function WizardResults({
   };
 
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const threshold = 100;
-    if (info.offset.x > threshold && currentIndex > 0) {
+    const swipeThreshold = window.innerWidth * 0.15; // 15% of viewport width
+    const velocityThreshold = 500; // velocity threshold for quick flicks
+    
+    // Check if drag distance OR velocity exceeds threshold
+    if ((info.offset.x > swipeThreshold || info.velocity.x > velocityThreshold) && currentIndex > 0) {
       // Swipe right - go to previous
       goToPrevious();
-    } else if (info.offset.x < -threshold && currentIndex < recommendations.length - 1) {
+    } else if ((info.offset.x < -swipeThreshold || info.velocity.x < -velocityThreshold) && currentIndex < recommendations.length - 1) {
       // Swipe left - go to next
       goToNext();
     }
+    // If neither threshold is met, the card will snap back to center
   };
 
   if (!currentDrink) return null;
@@ -138,7 +142,8 @@ export default function WizardResults({
           <motion.div
             key={currentDrink.id}
             drag="x"
-            dragConstraints={{ left: -200, right: 200 }}
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
             onDragEnd={handleDragEnd}
             initial={{ 
               x: dragDirection === 'left' ? 300 : dragDirection === 'right' ? -300 : 0,
