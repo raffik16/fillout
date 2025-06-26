@@ -131,7 +131,7 @@ export default function WizardResults({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50">
-      <div className="min-h-screen flex flex-col">
+      <div>
         {/* Header */}
         <div className="flex justify-center items-center p-4">
           <h2 className="text-2xl font-bold text-gray-800">Your Perfect Matches</h2>
