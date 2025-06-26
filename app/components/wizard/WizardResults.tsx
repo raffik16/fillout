@@ -130,11 +130,12 @@ export default function WizardResults({
   if (!currentDrink) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 flex flex-col p-4">
-      {/* Header */}
-      <div className="flex justify-center items-center p-4">
-        <h2 className="text-2xl font-bold text-gray-800">Your Perfect Matches</h2>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50">
+      <div className="min-h-screen flex flex-col">
+        {/* Header */}
+        <div className="flex justify-center items-center p-4">
+          <h2 className="text-2xl font-bold text-gray-800">Your Perfect Matches</h2>
+        </div>
 
       {/* Main Content */}
       <div className="flex-1 flex items-center justify-center px-4 relative">
@@ -222,7 +223,7 @@ export default function WizardResults({
       </div>
 
       {/* Navigation */}
-      <div>
+      <div className="p-4">
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={goToPrevious}
@@ -314,6 +315,7 @@ export default function WizardResults({
             <p className="text-red-700 text-sm text-center">{locationError}</p>
           </motion.div>
         )}
+      </div>
       </div>
     </div>
   );
