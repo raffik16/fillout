@@ -41,6 +41,11 @@ export default function WizardResults({
     updateRecommendations();
   }, [updateRecommendations]);
 
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const currentDrink = recommendations[currentIndex]?.drink;
   const currentScore = recommendations[currentIndex]?.score || 0;
   const matchMessage = getMatchMessage(currentScore);
@@ -97,10 +102,12 @@ export default function WizardResults({
   };
 
   const toggleWeather = async () => {
-    if (!useWeather && !localWeatherData) {
-      // Need to get weather data first
+    if (!localWeatherData) {
+      // No weather data yet - fetch it and enable
       await fetchWeatherData();
+      // fetchWeatherData already sets useWeather to true
     } else {
+      // Weather data exists - simple toggle
       setUseWeather(!useWeather);
     }
   };
