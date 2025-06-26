@@ -23,10 +23,9 @@ export default function WizardQuestion({ question, onAnswer }: WizardQuestionPro
           <motion.button
             key={option.value}
             onClick={() => onAnswer(option.value)}
-            className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all transform hover:scale-105 border-2 border-transparent hover:border-orange-300"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            className="opacity-0 bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all transform hover:scale-105 border-2 border-transparent hover:border-orange-300"
+            animate={{ opacity: 1 }}
+            transition={{ delay: index * 0.175 }}
             whileHover={{ y: -5 }}
             whileTap={{ scale: 0.95 }}
           >
