@@ -1,15 +1,16 @@
 # drinkjoy.app 🍻✨
 
-A modern, intuitive web application that curates the perfect beers, wines, cocktails, and spirits with detailed recipes and shopping links for every occasion.
+A modern, intuitive web application that helps you discover your perfect drink through an interactive matching experience. Answer 5 simple questions and get personalized cocktail, beer, and wine recommendations with detailed recipes and shopping links.
 
 ## Features
 
-- **drinks made easy everytime**: Uses real-time weather data to suggest the perfect drink
-- **Smart Filtering**: Filter drinks by category, flavor profile, strength, and occasion
-- **Location Search**: Enter any city or use geolocation for weather data
-- **Comprehensive Database**: 15+ carefully curated drinks with detailed information
-- **Fashion-Forward Design**: Modern UI with glassmorphism effects and smooth animations
-- **Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
+- **Interactive Drink Wizard**: Answer 5 fun questions about your taste preferences
+- **Swipe-Based Discovery**: Navigate through your personalized matches with intuitive gestures
+- **Smart Matching Algorithm**: Advanced scoring system based on your flavor, strength, and occasion preferences
+- **Personalized Results**: Get curated recommendations with match scores and reasons
+- **Detailed Recipes & Shopping**: Complete ingredient lists with direct shopping links
+- **Weather Enhancement**: Optional location-based refinements for seasonal recommendations
+- **Mobile-First Design**: Optimized gesture controls and responsive interface
 - **Dark Mode Support**: Automatic dark mode based on system preferences
 
 ## Tech Stack
@@ -17,9 +18,9 @@ A modern, intuitive web application that curates the perfect beers, wines, cockt
 - **Framework**: Next.js 15 with App Router
 - **Frontend**: React 19, TypeScript
 - **Styling**: Tailwind CSS 4
-- **Animations**: Framer Motion
-- **API**: OpenWeatherMap for weather data
-- **Icons**: React Icons
+- **Animations & Gestures**: Framer Motion with drag/swipe controls
+- **API**: OpenWeatherMap for optional weather enhancement
+- **Icons**: React Icons & Lucide React
 - **HTTP Client**: Axios
 
 ## Getting Started
@@ -28,7 +29,7 @@ A modern, intuitive web application that curates the perfect beers, wines, cockt
 
 - Node.js 18+ 
 - npm or yarn
-- OpenWeatherMap API key (free tier available)
+- OpenWeatherMap API key (optional, for weather enhancement features)
 
 ### Installation
 
@@ -48,10 +49,12 @@ npm install
 cp .env.example .env.local
 ```
 
-4. Add your OpenWeatherMap API key to `.env.local`:
+4. Add your OpenWeatherMap API key to `.env.local` (optional):
 ```env
 NEXT_PUBLIC_WEATHER_API_KEY=your_api_key_here
 ```
+
+> **Note**: The app works perfectly without weather data - this is only needed for optional location-based enhancements.
 
 5. Run the development server:
 ```bash
@@ -60,9 +63,24 @@ npm run dev
 
 6. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## API Setup
+## How It Works
+
+1. **Age Verification**: Simple yes/no age gate for responsible drinking
+2. **Interactive Wizard**: Answer 5 questions about your preferences:
+   - **Flavor Profile**: Sweet, bitter, sour, or smooth
+   - **Temperature**: How you like your drinks served  
+   - **Adventure Level**: Classic, bold, fruity, or simple
+   - **Strength**: From non-alcoholic to strong spirits
+   - **Occasion**: Happy hour, celebration, business, or romantic
+3. **Smart Matching**: Advanced algorithm scores drinks based on your answers
+4. **Swipe Discovery**: Navigate through personalized matches with gesture controls
+5. **Detailed Results**: Get recipes, ingredients, and shopping links
+
+## API Setup (Optional)
 
 ### OpenWeatherMap API
+
+Weather data enhances recommendations but isn't required for core functionality.
 
 1. Sign up at [OpenWeatherMap](https://openweathermap.org/api)
 2. Get your free API key
@@ -78,43 +96,61 @@ app/
 │   └── drinks/             # Drinks data endpoints
 ├── components/             # React components
 │   ├── ui/                 # Reusable UI components
-│   ├── weather/            # Weather-related components
+│   ├── wizard/             # Interactive quiz components
 │   ├── drinks/             # Drink-related components
+│   ├── weather/            # Weather enhancement components
 │   └── layout/             # Layout components
 ├── types/                  # TypeScript type definitions
-│   ├── weather.ts          # Weather data types
-│   └── drinks.ts           # Drink data types
+│   ├── wizard.ts           # Wizard preferences and questions
+│   ├── drinks.ts           # Drink data types
+│   └── weather.ts          # Weather data types
 └── lib/                    # Utility functions
+    ├── drinkMatcher.ts     # Smart matching algorithm
     ├── weather.ts          # Weather API integration
-    ├── drinks.ts           # Drink recommendation logic
     └── utils.ts            # Helper functions
 data/
-└── drinks.json             # Drink database
+├── drinks.json             # Curated drink database
+└── wizardQuestions.ts      # Interactive quiz questions
 ```
 
-## Recommendation Algorithm
+## Smart Matching Algorithm
 
-The app uses a sophisticated scoring system to recommend drinks based on:
+The app uses a sophisticated scoring system to match drinks to your preferences:
 
-1. **Temperature Matching** (40 points max)
-   - Perfect temperature range match
-   - Ideal temperature proximity
+### Core Scoring (100 points total)
 
-2. **Weather Condition Matching** (30 points max)
-   - Direct condition matches (rain, snow, clear, etc.)
-   - Similar condition patterns
+1. **Flavor Profile Matching** (25 points max)
+   - Direct matches for sweet, bitter, sour, smooth preferences
+   - Bonus for multiple flavor profile alignments
 
-3. **Time of Day Bonus** (15 points max)
-   - Morning: Light drinks, coffee-based
-   - Afternoon: Refreshing, light to medium
-   - Evening: Medium to strong, wine, cocktails
-   - Night: Strong spirits, cocktails
+2. **Strength Preference** (20 points max)
+   - Perfect matches for non-alcoholic, light, medium, strong
+   - Graduated scoring for similar strength levels
 
-4. **Temperature Category Bonus** (15 points max)
-   - Hot: Refreshing, light drinks
-   - Warm: Medium strength, refreshing
-   - Cool: Medium strength, wine
-   - Cold: Strong spirits, warming drinks
+3. **Adventure Level** (15 points max)
+   - Classic: Traditional, well-known drinks
+   - Bold: Experimental, unique flavors
+   - Fruity: Fruit-forward profiles
+   - Simple: Clean, minimal ingredients
+
+4. **Occasion Matching** (15 points max)
+   - Happy hour: Casual, social drinks
+   - Celebration: Festive, special occasion
+   - Business: Professional, sophisticated
+   - Romantic: Elegant, intimate
+
+5. **Temperature Preference** (10 points max)
+   - Ice cold, cool, room temperature, warm preferences
+
+### Enhancement Bonuses
+
+6. **Weather Alignment** (15 points bonus)
+   - Seasonal appropriateness when location shared
+   - Temperature and condition matching
+
+7. **Happy Hour Boost** (10 points bonus)
+   - Time-based promotions during 3-6 PM
+   - Featured drink highlighting
 
 ## Customization
 
@@ -138,7 +174,10 @@ Edit `data/drinks.json` to add new drinks. Each drink should include:
     "conditions": ["clear", "clouds"],
     "ideal_temp": 18
   },
-  "occasions": ["casual", "party"],
+  "occasions": ["casual", "celebration"],
+  "happy_hour": true,
+  "happy_hour_price": "$8",
+  "happy_hour_times": "3-6 PM",
   "serving_suggestions": ["Serve chilled"],
   "image_url": "https://example.com/image.jpg",
   "glass_type": "Wine glass",
