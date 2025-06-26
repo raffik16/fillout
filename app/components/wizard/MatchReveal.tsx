@@ -40,13 +40,15 @@ export default function MatchReveal({ onComplete }: MatchRevealProps) {
           duration: 0.8,
           bounce: 0.4
         }}
-        className="text-center"
+        className="text-center will-change-transform"
       >
-        <div className="text-8xl mb-6">🎉</div>
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">
+        <div className="text-6xl sm:text-7xl md:text-8xl mb-6 min-h-[5rem] flex items-center justify-center" aria-label="Celebration">
+          🎉
+        </div>
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
           It&apos;s a Match!
         </h1>
-        <p className="text-lg text-gray-600 mb-8">
+        <p className="text-base sm:text-lg text-gray-600 mb-8">
           We found your perfect drinks
         </p>
 
