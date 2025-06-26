@@ -130,7 +130,7 @@ export default function WizardResults({
   if (!currentDrink) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 flex flex-col p-4">
       {/* Header */}
       <div className="flex justify-center items-center p-4">
         <h2 className="text-2xl font-bold text-gray-800">Your Perfect Matches</h2>
@@ -222,7 +222,7 @@ export default function WizardResults({
       </div>
 
       {/* Navigation */}
-      <div className="p-4">
+      <div>
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={goToPrevious}
