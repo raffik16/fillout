@@ -6,11 +6,10 @@ import { DrinkRecommendation } from '@/app/types/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
 import { matchDrinksToPreferences, getMatchMessage } from '@/lib/drinkMatcher';
-import { getUserLocation } from '@/lib/weather';
 import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import Image from 'next/image';
-import axios from 'axios';
 import { cn } from '@/lib/utils';
+import weatherService from '@/lib/weatherService';
 
 interface WizardResultsProps {
   preferences: WizardPreferences;
@@ -82,39 +81,40 @@ export default function WizardResults({
   };
 
   const fetchWeatherData = async () => {
-    console.log('Starting weather data fetch...');
+    console.log('WizardResults: Starting weather data fetch...');
     setIsLoadingLocation(true);
     setLocationError(null);
     
     try {
-      console.log('Getting user location...');
-      const coords = await getUserLocation();
-      console.log('Got coordinates:', coords);
+      // Use centralized weather service which handles caching and location logic
+      const weatherData = await weatherService.getWeatherData();
+      console.log('WizardResults: Weather data received from service');
       
-      const params = new URLSearchParams();
-      params.append('lat', coords.lat.toString());
-      params.append('lon', coords.lon.toString());
-      
-      console.log('Fetching weather data with params:', params.toString());
-      const response = await axios.get<WeatherData>(`/api/weather?${params}`);
-      console.log('Weather data received:', response.data);
-      
-      setLocalWeatherData(response.data);
+      setLocalWeatherData(weatherData);
       setUseWeather(true);
     } catch (error) {
-      console.error('Failed to fetch weather:', error);
+      console.error('WizardResults: Failed to fetch weather:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unable to get your location. Please enable location access.';
       setLocationError(errorMessage);
       setUseWeather(false);
     } finally {
       setIsLoadingLocation(false);
-      console.log('Weather fetch completed');
+      console.log('WizardResults: Weather fetch completed');
     }
   };
 
   const toggleWeather = async () => {
     if (!localWeatherData) {
-      // No weather data yet - fetch it and enable
+      // First check if there's cached weather data we can use
+      const cachedWeather = weatherService.getCachedWeatherData();
+      if (cachedWeather) {
+        console.log('WizardResults: Using cached weather data');
+        setLocalWeatherData(cachedWeather);
+        setUseWeather(true);
+        return;
+      }
+      
+      // No cached data - fetch it and enable
       await fetchWeatherData();
       // fetchWeatherData already sets useWeather to true
     } else {

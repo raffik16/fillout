@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Input } from '@/app/components/ui/Input';
 import { Button } from '@/app/components/ui/Button';
-import { FiSearch } from 'react-icons/fi';
+import { FiSearch, FiRefreshCw } from 'react-icons/fi';
 import { getUserLocation } from '@/lib/weather';
+import weatherService from '@/lib/weatherService';
 
 interface LocationSearchProps {
   onSearch: (query: { city?: string; lat?: number; lon?: number }) => void;
@@ -17,6 +18,13 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
   const [city, setCity] = useState('');
   const [error, setError] = useState('');
   const [isGeolocating, setIsGeolocating] = useState(false);
+  const [cachedLocation, setCachedLocation] = useState<{ name: string; lat: number; lon: number } | null>(null);
+
+  // Check for cached location on mount
+  useEffect(() => {
+    const cached = weatherService.getCachedLocation();
+    setCachedLocation(cached);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,18 +35,31 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
       return;
     }
     
+    console.log('🌍 LOCATION FRESH: User searched for city', { 
+      city: city.trim(),
+      source: 'user_action_search' 
+    });
+    
     onSearch({ city: city.trim() });
   };
 
   const handleGeolocation = async () => {
+    console.log('📍 LOCATION REQUEST: User clicked "My Location" button');
     setError('');
     setIsGeolocating(true);
     
     try {
       const coords = await getUserLocation();
+      console.log('✅ LOCATION GRANTED: Geolocation successful from user action', {
+        coordinates: `${coords.lat}, ${coords.lon}`,
+        source: 'user_action_geolocation'
+      });
       onSearch({ lat: coords.lat, lon: coords.lon });
       setCity('');
-    } catch {
+    } catch (error) {
+      console.log('❌ LOCATION DENIED: Geolocation failed from user action', { 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
       setError('Unable to get your location. Please enter a city name.');
     } finally {
       setIsGeolocating(false);
@@ -48,6 +69,51 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCity(e.target.value);
     setError('');
+  };
+
+  const handleUseCachedLocation = () => {
+    if (cachedLocation) {
+      console.log('🔄 LOCATION SHARED: User clicked "Use This" for cached location', {
+        location: cachedLocation.name,
+        coordinates: `${cachedLocation.lat}, ${cachedLocation.lon}`,
+        source: 'user_action_cached'
+      });
+      setError('');
+      onSearch({ lat: cachedLocation.lat, lon: cachedLocation.lon });
+    }
+  };
+
+  const handleRefreshLocation = async () => {
+    console.log('🔄 LOCATION REFRESH: User clicked refresh button');
+    setError('');
+    setIsGeolocating(true);
+    
+    try {
+      // Force refresh through weather service
+      const weatherData = await weatherService.refreshWeatherData();
+      
+      // Update cached location state
+      setCachedLocation({
+        name: weatherData.location.name,
+        lat: weatherData.location.lat,
+        lon: weatherData.location.lon
+      });
+      
+      console.log('✅ LOCATION REFRESH: Successfully refreshed location', {
+        newLocation: weatherData.location.name,
+        coordinates: `${weatherData.location.lat}, ${weatherData.location.lon}`
+      });
+      
+      // Notify parent with fresh data
+      onSearch({ lat: weatherData.location.lat, lon: weatherData.location.lon });
+      setCity('');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unable to refresh your location.';
+      console.log('❌ LOCATION REFRESH: Failed to refresh location', { error: errorMessage });
+      setError(errorMessage);
+    } finally {
+      setIsGeolocating(false);
+    }
   };
 
   return (
@@ -101,7 +167,9 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
               <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-3 bg-gradient-to-r from-amber-600 to-blue-600 text-white text-sm rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-50">
                 <div className="flex items-center gap-2">
                   <span>🎯</span>
-                  <span className="font-medium">Find your perfect drink with GPS magic!</span>
+                  <span className="font-medium">
+                    {cachedLocation ? 'Update your location' : 'Find your perfect drink with GPS magic!'}
+                  </span>
                   <span>✨</span>
                 </div>
                 <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-amber-600"></div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { Header } from '@/app/components/layout/Header';
@@ -20,6 +20,7 @@ import { Drink, DrinkFilters as DrinkFiltersType, DrinkRecommendation } from '@/
 import { recommendDrinks } from '@/lib/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
 import { mapWizardPreferencesToFilters } from '@/lib/wizardMapping';
+import weatherService from '@/lib/weatherService';
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -42,6 +43,36 @@ export default function Home() {
   const [showLocationInHeader, setShowLocationInHeader] = useState(false);
   const [currentLocation, setCurrentLocation] = useState<string>('');
   const drinksGridRef = useRef<HTMLDivElement>(null);
+
+  // Fetch weather data using centralized service
+  const handleLocationSearch = useCallback(async (query: { city?: string; lat?: number; lon?: number }) => {
+    setIsLoadingWeather(true);
+    setWeatherError(null);
+    
+    try {
+      const weatherData = await weatherService.getWeatherData(query);
+      setWeatherData(weatherData);
+      setCurrentLocation(weatherData.location.name);
+    } catch (error) {
+      console.error('Failed to fetch weather:', error);
+      setWeatherError('Failed to fetch weather data. Please try again.');
+    } finally {
+      setIsLoadingWeather(false);
+    }
+  }, []);
+
+  // Function to automatically try to get user's location
+  const tryAutoLocation = useCallback(async () => {
+    try {
+      // Use weather service which handles cache and location logic
+      const weatherData = await weatherService.getWeatherData();
+      setWeatherData(weatherData);
+      setCurrentLocation(weatherData.location.name);
+    } catch {
+      console.log('Auto-location failed - user can search manually if needed');
+      // Don't show error on auto-attempt, let user manually search if needed
+    }
+  }, []);
 
   // Check for dark mode preference and age verification
   useEffect(() => {
@@ -69,7 +100,40 @@ export default function Home() {
     } else {
       setIsAgeVerified(false);
     }
-  }, []);
+
+    // Try to restore weather data from cache or auto-fetch
+    const initializeWeather = async () => {
+      try {
+        // First try to get cached weather data
+        const cachedWeather = weatherService.getCachedWeatherData();
+        if (cachedWeather) {
+          console.log('🏠 PAGE LOAD: Location already shared, using cached data');
+          setWeatherData(cachedWeather);
+          setCurrentLocation(cachedWeather.location.name);
+          return;
+        }
+
+        // Check if we have location permission or cached location
+        const hasPermission = weatherService.hasLocationPermission();
+        const hasCachedLocation = weatherService.hasCachedLocation();
+        
+        if (hasPermission) {
+          console.log('🏠 PAGE LOAD: Location permission previously granted, auto-fetching');
+          await tryAutoLocation();
+        } else if (hasCachedLocation) {
+          console.log('🏠 PAGE LOAD: Location cached but stale, will use for fresh weather');
+          await tryAutoLocation();
+        } else {
+          console.log('🏠 PAGE LOAD: No location shared yet, user needs to search or grant permission');
+        }
+      } catch (error) {
+        console.error('❌ PAGE LOAD: Failed to initialize weather:', error);
+        // Graceful fallback - just continue without weather data
+      }
+    };
+
+    initializeWeather();
+  }, [tryAutoLocation]);
 
   // Show location immediately when set
   useEffect(() => {
@@ -88,37 +152,6 @@ export default function Home() {
     } else {
       document.documentElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
-    }
-  };
-
-  // Fetch weather data
-  const handleLocationSearch = async (query: { city?: string; lat?: number; lon?: number }) => {
-    setIsLoadingWeather(true);
-    setWeatherError(null);
-    
-    try {
-      const params = new URLSearchParams();
-      if (query.city) {
-        params.append('city', query.city);
-      } else if (query.lat && query.lon) {
-        params.append('lat', query.lat.toString());
-        params.append('lon', query.lon.toString());
-      }
-      
-      const response = await axios.get<WeatherData>(`/api/weather?${params}`);
-      setWeatherData(response.data);
-      
-      // Set current location for header display
-      if (query.city) {
-        setCurrentLocation(query.city);
-      } else if (response.data.location?.name) {
-        setCurrentLocation(response.data.location.name);
-      }
-    } catch (error) {
-      console.error('Failed to fetch weather:', error);
-      setWeatherError('Failed to fetch weather data. Please try again.');
-    } finally {
-      setIsLoadingWeather(false);
     }
   };
 
