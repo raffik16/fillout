@@ -19,6 +19,7 @@ import { WeatherData } from '@/app/types/weather';
 import { Drink, DrinkFilters as DrinkFiltersType, DrinkRecommendation } from '@/app/types/drinks';
 import { recommendDrinks } from '@/lib/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
+import { mapWizardPreferencesToFilters } from '@/lib/wizardMapping';
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -223,6 +224,35 @@ export default function Home() {
     setShowWizard(true);
   };
 
+  // Handle view all from wizard results
+  const handleViewAllFromWizard = (preferences: WizardPreferences, wizardWeatherData?: WeatherData | null) => {
+    // Convert wizard preferences to drink filters
+    const mappedFilters = mapWizardPreferencesToFilters(preferences);
+    
+    // Apply the filters to the main app
+    setFilters(mappedFilters);
+    
+    // Use wizard weather data if available, otherwise keep current weather data
+    if (wizardWeatherData) {
+      setWeatherData(wizardWeatherData);
+      setCurrentLocation(wizardWeatherData.location?.name || '');
+    }
+    
+    // Close wizard results and show main app
+    setShowWizardResults(false);
+    localStorage.setItem('wizardCompleted', 'completed');
+    
+    // Scroll to drinks grid after a short delay to allow state updates
+    setTimeout(() => {
+      if (drinksGridRef.current) {
+        drinksGridRef.current.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }, 100);
+  };
+
   // Handle show wizard from CTA
   const handleShowWizard = () => {
     setShowWizard(true);
@@ -260,6 +290,7 @@ export default function Home() {
         preferences={wizardPreferences}
         weatherData={weatherData}
         onRetakeQuiz={handleRetakeQuiz}
+        onViewAll={handleViewAllFromWizard}
       />
     );
   }
