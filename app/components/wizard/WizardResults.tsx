@@ -10,6 +10,7 @@ import { getUserLocation } from '@/lib/weather';
 import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import Image from 'next/image';
 import axios from 'axios';
+import { cn } from '@/lib/utils';
 
 interface WizardResultsProps {
   preferences: WizardPreferences;
@@ -29,6 +30,7 @@ export default function WizardResults({
   const [localWeatherData, setLocalWeatherData] = useState<WeatherData | null>(weatherData || null);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
+  const [imageLoading, setImageLoading] = useState(true);
 
   const updateRecommendations = useCallback(() => {
     const updatedPrefs = { ...preferences, useWeather };
@@ -37,18 +39,23 @@ export default function WizardResults({
     setCurrentIndex(0);
   }, [preferences, useWeather, localWeatherData]);
 
+  const currentDrink = recommendations[currentIndex]?.drink;
+  const currentScore = recommendations[currentIndex]?.score || 0;
+  const matchMessage = getMatchMessage(currentScore);
+
   useEffect(() => {
     updateRecommendations();
   }, [updateRecommendations]);
+
+  // Reset image loading state when current drink changes
+  useEffect(() => {
+    setImageLoading(true);
+  }, [currentDrink?.id]);
 
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const currentDrink = recommendations[currentIndex]?.drink;
-  const currentScore = recommendations[currentIndex]?.score || 0;
-  const matchMessage = getMatchMessage(currentScore);
 
   const goToNext = () => {
     if (currentIndex < recommendations.length - 1) {
@@ -183,12 +190,22 @@ export default function WizardResults({
               {/* Drink Image */}
               <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200">
                 {currentDrink.image_url ? (
-                  <Image
-                    src={currentDrink.image_url}
-                    alt={currentDrink.name}
-                    fill
-                    className="object-cover"
-                  />
+                  <>
+                    {imageLoading && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse">
+                        <div className="absolute inset-0 animate-shimmer" />
+                      </div>
+                    )}
+                    <Image
+                      src={currentDrink.image_url}
+                      alt={currentDrink.name}
+                      fill
+                      className={cn("object-cover transition-opacity duration-300", 
+                        imageLoading ? "opacity-0" : "opacity-100"
+                      )}
+                      onLoad={() => setImageLoading(false)}
+                    />
+                  </>
                 ) : (
                   <div className="flex items-center justify-center h-full text-6xl">
                     🍹

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Drink } from '@/app/types/drinks';
@@ -15,6 +15,15 @@ interface DrinkModalProps {
 }
 
 export const DrinkModal: React.FC<DrinkModalProps> = ({ drink, isOpen, onClose }) => {
+  const [imageLoading, setImageLoading] = useState(true);
+
+  // Reset loading state when drink changes
+  useEffect(() => {
+    if (drink) {
+      setImageLoading(true);
+    }
+  }, [drink]);
+
   // Handle escape key
   const handleEscapeKey = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape' && isOpen) {
@@ -69,12 +78,20 @@ export const DrinkModal: React.FC<DrinkModalProps> = ({ drink, isOpen, onClose }
           >
             {/* Header Image */}
             <div className="relative h-64 w-full">
+              {imageLoading && (
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse">
+                  <div className="absolute inset-0 animate-shimmer" />
+                </div>
+              )}
               <Image
                 src={drink.image_url}
                 alt={drink.name}
                 fill
-                className="object-cover"
+                className={cn("object-cover transition-opacity duration-300", 
+                  imageLoading ? "opacity-0" : "opacity-100"
+                )}
                 sizes="(max-width: 768px) 100vw, 672px"
+                onLoad={() => setImageLoading(false)}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
               

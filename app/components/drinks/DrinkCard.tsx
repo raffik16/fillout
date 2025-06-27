@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/app/components/ui/Card';
@@ -24,6 +24,8 @@ export const DrinkCard: React.FC<DrinkCardProps> = ({
   onRecipeClick,
   className 
 }) => {
+  const [imageLoading, setImageLoading] = useState(true);
+  
   const categoryColors = {
     beer: 'from-amber-500 to-amber-600',
     wine: 'from-purple-500 to-purple-600',
@@ -52,12 +54,20 @@ export const DrinkCard: React.FC<DrinkCardProps> = ({
         className="cursor-pointer overflow-hidden h-full"
       >
         <div className="relative h-48 w-full">
+          {imageLoading && (
+            <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse">
+              <div className="absolute inset-0 animate-shimmer" />
+            </div>
+          )}
           <Image
             src={drink.image_url}
             alt={drink.name}
             fill
-            className="object-cover"
+            className={cn("object-cover transition-opacity duration-300", 
+              imageLoading ? "opacity-0" : "opacity-100"
+            )}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            onLoad={() => setImageLoading(false)}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           
