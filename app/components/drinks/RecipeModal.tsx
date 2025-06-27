@@ -9,6 +9,7 @@ import { ProcessedRecipe, ProcessedBeer, ProcessedWine } from '@/app/types/recip
 import { CocktailDBService } from '@/lib/cocktaildb';
 import { BeerWineService } from '@/lib/beerwine';
 import { Drink } from '@/app/types/drinks';
+import { cn } from '@/lib/utils';
 
 interface RecipeModalProps {
   drink: Drink | null;
@@ -26,6 +27,10 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
   const [selectedBeerWine, setSelectedBeerWine] = useState<ProcessedBeer | ProcessedWine | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [shoppingList, setShoppingList] = useState<string[]>([]);
+  const [mainImageLoading, setMainImageLoading] = useState(true);
+  const [recipeImageLoading, setRecipeImageLoading] = useState(true);
+  const [variationImageLoadings, setVariationImageLoadings] = useState<{[key: string]: boolean}>({});
+  const [shopImageLoading, setShopImageLoading] = useState(true);
 
   // Handle escape key
   const handleEscapeKey = useCallback((event: KeyboardEvent) => {
@@ -67,6 +72,39 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
       setIsLoading(false);
     }
   }, [drink]);
+
+  // Reset image loading states when drink changes
+  useEffect(() => {
+    if (drink) {
+      setMainImageLoading(true);
+      setRecipeImageLoading(true);
+      setVariationImageLoadings({});
+      setShopImageLoading(true);
+    }
+  }, [drink]);
+
+  // Reset recipe image loading when selected recipe changes
+  useEffect(() => {
+    if (selectedRecipe) {
+      setRecipeImageLoading(true);
+    }
+  }, [selectedRecipe]);
+
+  // Reset shop image loading when selected beer/wine changes
+  useEffect(() => {
+    if (selectedBeerWine) {
+      setShopImageLoading(true);
+    }
+  }, [selectedBeerWine]);
+
+  // Helper function to handle variation image loading
+  const handleVariationImageLoad = (id: string) => {
+    setVariationImageLoadings(prev => ({ ...prev, [id]: false }));
+  };
+
+  const handleVariationImageStart = (id: string) => {
+    setVariationImageLoadings(prev => ({ ...prev, [id]: true }));
+  };
 
   // Fetch recipes when modal opens
   useEffect(() => {
@@ -260,11 +298,19 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                           </div>
                         </div>
                       </div>
-                      <div>
+                      <div className="relative w-full h-48 rounded-xl overflow-hidden">
+                        {mainImageLoading && (
+                          <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse">
+                            <div className="absolute inset-0 animate-shimmer" />
+                          </div>
+                        )}
                         <img
                           src={drink.image_url}
                           alt={drink.name}
-                          className="w-full h-48 object-cover rounded-xl"
+                          className={cn("w-full h-48 object-cover transition-opacity duration-300", 
+                            mainImageLoading ? "opacity-0" : "opacity-100"
+                          )}
+                          onLoad={() => setMainImageLoading(false)}
                         />
                       </div>
                     </div>
@@ -320,11 +366,21 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                 {activeTab === 'recipe' && selectedRecipe && (
                   <div className="space-y-6">
                     <div className="flex items-start gap-6">
-                      <img
-                        src={selectedRecipe.image}
-                        alt={selectedRecipe.name}
-                        className="w-32 h-32 object-cover rounded-xl"
-                      />
+                      <div className="relative w-32 h-32 rounded-xl overflow-hidden">
+                        {recipeImageLoading && (
+                          <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse">
+                            <div className="absolute inset-0 animate-shimmer" />
+                          </div>
+                        )}
+                        <img
+                          src={selectedRecipe.image}
+                          alt={selectedRecipe.name}
+                          className={cn("w-32 h-32 object-cover transition-opacity duration-300", 
+                            recipeImageLoading ? "opacity-0" : "opacity-100"
+                          )}
+                          onLoad={() => setRecipeImageLoading(false)}
+                        />
+                      </div>
                       <div className="flex-1">
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                           {selectedRecipe.name}
@@ -426,11 +482,22 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                           >
                             <CardContent className="p-4">
                               <div className="flex gap-4">
-                                <img
-                                  src={recipe.image}
-                                  alt={recipe.name}
-                                  className="w-16 h-16 object-cover rounded-lg"
-                                />
+                                <div className="relative w-16 h-16 rounded-lg overflow-hidden">
+                                  {variationImageLoadings[recipe.id] !== false && (
+                                    <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse">
+                                      <div className="absolute inset-0 animate-shimmer" />
+                                    </div>
+                                  )}
+                                  <img
+                                    src={recipe.image}
+                                    alt={recipe.name}
+                                    className={cn("w-16 h-16 object-cover transition-opacity duration-300", 
+                                      variationImageLoadings[recipe.id] !== false ? "opacity-0" : "opacity-100"
+                                    )}
+                                    onLoad={() => handleVariationImageLoad(recipe.id)}
+                                    onLoadStart={() => handleVariationImageStart(recipe.id)}
+                                  />
+                                </div>
                                 <div className="flex-1">
                                   <h4 className="font-medium text-gray-900 dark:text-white">
                                     {recipe.name}
@@ -465,11 +532,22 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                             <CardContent className="p-4">
                               <div className="flex gap-4">
                                 {item.image && (
-                                  <img
-                                    src={item.image}
-                                    alt={item.name}
-                                    className="w-16 h-16 object-cover rounded-lg"
-                                  />
+                                  <div className="relative w-16 h-16 rounded-lg overflow-hidden">
+                                    {variationImageLoadings[item.id] !== false && (
+                                      <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse">
+                                        <div className="absolute inset-0 animate-shimmer" />
+                                      </div>
+                                    )}
+                                    <img
+                                      src={item.image}
+                                      alt={item.name}
+                                      className={cn("w-16 h-16 object-cover transition-opacity duration-300", 
+                                        variationImageLoadings[item.id] !== false ? "opacity-0" : "opacity-100"
+                                      )}
+                                      onLoad={() => handleVariationImageLoad(item.id)}
+                                      onLoadStart={() => handleVariationImageStart(item.id)}
+                                    />
+                                  </div>
                                 )}
                                 <div className="flex-1">
                                   <h4 className="font-medium text-gray-900 dark:text-white">
@@ -624,11 +702,21 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                             </div>
                             {selectedBeerWine.image && (
                               <div className="flex justify-center">
-                                <img
-                                  src={selectedBeerWine.image}
-                                  alt={selectedBeerWine.name}
-                                  className="w-24 h-32 object-cover rounded-lg"
-                                />
+                                <div className="relative w-24 h-32 rounded-lg overflow-hidden">
+                                  {shopImageLoading && (
+                                    <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse">
+                                      <div className="absolute inset-0 animate-shimmer" />
+                                    </div>
+                                  )}
+                                  <img
+                                    src={selectedBeerWine.image}
+                                    alt={selectedBeerWine.name}
+                                    className={cn("w-24 h-32 object-cover transition-opacity duration-300", 
+                                      shopImageLoading ? "opacity-0" : "opacity-100"
+                                    )}
+                                    onLoad={() => setShopImageLoading(false)}
+                                  />
+                                </div>
                               </div>
                             )}
                           </div>
