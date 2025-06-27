@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX, FiClock, FiShoppingCart, FiBook, FiStar, FiExternalLink } from 'react-icons/fi';
+import Image from 'next/image';
 import { Button } from '@/app/components/ui/Button';
 import { Card, CardContent } from '@/app/components/ui/Card';
 import { ProcessedRecipe, ProcessedBeer, ProcessedWine } from '@/app/types/recipe';
@@ -304,10 +305,11 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                             <div className="absolute inset-0 animate-shimmer" />
                           </div>
                         )}
-                        <img
+                        <Image
                           src={drink.image_url}
                           alt={drink.name}
-                          className={cn("w-full h-48 object-cover transition-opacity duration-300", 
+                          fill
+                          className={cn("object-cover transition-opacity duration-300", 
                             mainImageLoading ? "opacity-0" : "opacity-100"
                           )}
                           onLoad={() => setMainImageLoading(false)}
@@ -372,10 +374,11 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                             <div className="absolute inset-0 animate-shimmer" />
                           </div>
                         )}
-                        <img
+                        <Image
                           src={selectedRecipe.image}
                           alt={selectedRecipe.name}
-                          className={cn("w-32 h-32 object-cover transition-opacity duration-300", 
+                          fill
+                          className={cn("object-cover transition-opacity duration-300", 
                             recipeImageLoading ? "opacity-0" : "opacity-100"
                           )}
                           onLoad={() => setRecipeImageLoading(false)}
@@ -488,10 +491,11 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                                       <div className="absolute inset-0 animate-shimmer" />
                                     </div>
                                   )}
-                                  <img
+                                  <Image
                                     src={recipe.image}
                                     alt={recipe.name}
-                                    className={cn("w-16 h-16 object-cover transition-opacity duration-300", 
+                                    fill
+                                    className={cn("object-cover transition-opacity duration-300", 
                                       variationImageLoadings[recipe.id] !== false ? "opacity-0" : "opacity-100"
                                     )}
                                     onLoad={() => handleVariationImageLoad(recipe.id)}
@@ -538,10 +542,11 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                                         <div className="absolute inset-0 animate-shimmer" />
                                       </div>
                                     )}
-                                    <img
+                                    <Image
                                       src={item.image}
                                       alt={item.name}
-                                      className={cn("w-16 h-16 object-cover transition-opacity duration-300", 
+                                      fill
+                                      className={cn("object-cover transition-opacity duration-300", 
                                         variationImageLoadings[item.id] !== false ? "opacity-0" : "opacity-100"
                                       )}
                                       onLoad={() => handleVariationImageLoad(item.id)}
@@ -708,10 +713,11 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
                                       <div className="absolute inset-0 animate-shimmer" />
                                     </div>
                                   )}
-                                  <img
+                                  <Image
                                     src={selectedBeerWine.image}
                                     alt={selectedBeerWine.name}
-                                    className={cn("w-24 h-32 object-cover transition-opacity duration-300", 
+                                    fill
+                                    className={cn("object-cover transition-opacity duration-300", 
                                       shopImageLoading ? "opacity-0" : "opacity-100"
                                     )}
                                     onLoad={() => setShopImageLoading(false)}
