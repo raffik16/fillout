@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
     "apple-mobile-web-app-title": "DrinkJoy",
-    "msapplication-TileColor": "#f97316",
+    "msapplication-TileColor": "#0a0a0a",
     "msapplication-config": "/browserconfig.xml",
   },
 };
@@ -47,7 +47,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#f97316",
+  themeColor: "#0a0a0a",
 };
 
 export default function RootLayout({
