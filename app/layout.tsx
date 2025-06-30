@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -25,9 +25,29 @@ export const metadata: Metadata = {
     description: "Find your perfect drink match with detailed recipes and shopping links.",
     type: "website",
   },
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "DrinkJoy",
+  },
   other: {
     "google-site-verification": "CUmUB5IiLmsWNTMzNNs-WOhytVbT_fz7HuEZHG5I65U",
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "apple-mobile-web-app-title": "DrinkJoy",
+    "msapplication-TileColor": "#f97316",
+    "msapplication-config": "/browserconfig.xml",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#f97316",
 };
 
 export default function RootLayout({

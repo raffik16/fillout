@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+  <msapplication>
+    <tile>
+      <square70x70logo src="/drinkjoy-icon.svg"/>
+      <square150x150logo src="/drinkjoy-icon.svg"/>
+      <square310x310logo src="/drinkjoy-icon.svg"/>
+      <wide310x150logo src="/drinkjoy-icon.svg"/>
+      <TileColor>#f97316</TileColor>
+    </tile>
+  </msapplication>
+</browserconfig>

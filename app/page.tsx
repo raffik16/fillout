@@ -15,6 +15,7 @@ import { AgeGate } from '@/app/components/ui/AgeGate';
 import DrinkWizard from '@/app/components/wizard/DrinkWizard';
 import WizardResults from '@/app/components/wizard/WizardResults';
 import ResetWizard from '@/app/components/ui/ResetWizard';
+import { PWAInstallPrompt } from '@/app/components/ui/PWAInstallPrompt';
 import { WeatherData } from '@/app/types/weather';
 import { Drink, DrinkFilters as DrinkFiltersType, DrinkRecommendation } from '@/app/types/drinks';
 import { recommendDrinks } from '@/lib/drinks';
@@ -486,6 +487,9 @@ export default function Home() {
       
       {/* Reset Wizard Button (for testing) */}
       <ResetWizard />
+      
+      {/* PWA Install Prompt */}
+      <PWAInstallPrompt />
     </div>
   );
 }
