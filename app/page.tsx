@@ -39,6 +39,7 @@ export default function Home() {
   const [isAgeVerified, setIsAgeVerified] = useState<boolean | null>(null);
   const [showWizard, setShowWizard] = useState(false);
   const [showWizardResults, setShowWizardResults] = useState(false);
+  const [showAgeGateAfterWizard, setShowAgeGateAfterWizard] = useState(false);
   const [wizardPreferences, setWizardPreferences] = useState<WizardPreferences | null>(null);
   const [showLocationInHeader, setShowLocationInHeader] = useState(false);
   const [currentLocation, setCurrentLocation] = useState<string>('');
@@ -88,16 +89,20 @@ export default function Home() {
       document.documentElement.classList.remove('dark');
     }
 
-    // Check age verification status
+    // Check if wizard has been completed
+    const wizardCompleted = localStorage.getItem('wizardCompleted');
     const ageVerified = localStorage.getItem('ageVerified');
-    if (ageVerified === 'true') {
+    
+    if (!wizardCompleted) {
+      // First time user - show wizard first
+      setShowWizard(true);
+      setIsAgeVerified(null); // Will be checked after wizard
+    } else if (ageVerified === 'true') {
+      // Returning user who completed wizard and age verification
       setIsAgeVerified(true);
-      // Check if wizard has been completed
-      const wizardCompleted = localStorage.getItem('wizardCompleted');
-      if (!wizardCompleted) {
-        setShowWizard(true);
-      }
     } else {
+      // Wizard completed but age not verified
+      setShowAgeGateAfterWizard(true);
       setIsAgeVerified(false);
     }
 
@@ -231,8 +236,15 @@ export default function Home() {
   const handleAgeVerification = (isOfAge: boolean) => {
     setIsAgeVerified(isOfAge);
     localStorage.setItem('ageVerified', isOfAge.toString());
+    setShowAgeGateAfterWizard(false);
+    
     if (isOfAge) {
-      setShowWizard(true);
+      // If we have wizard preferences, show results; otherwise show main app
+      if (wizardPreferences) {
+        setShowWizardResults(true);
+        localStorage.setItem('wizardCompleted', 'completed');
+      }
+      // If no wizard preferences, user will see main app (isAgeVerified = true)
     }
   };
 
@@ -240,14 +252,32 @@ export default function Home() {
   const handleWizardComplete = (preferences: WizardPreferences) => {
     setWizardPreferences(preferences);
     setShowWizard(false);
-    setShowWizardResults(true);
     localStorage.setItem('wizardPreferences', JSON.stringify(preferences));
+    
+    // Check if age verification is needed
+    const ageVerified = localStorage.getItem('ageVerified');
+    if (ageVerified !== 'true') {
+      setShowAgeGateAfterWizard(true);
+      setIsAgeVerified(false);
+    } else {
+      setShowWizardResults(true);
+    }
   };
 
   // Handle wizard skip
   const handleWizardSkip = () => {
     setShowWizard(false);
     localStorage.setItem('wizardCompleted', 'skipped');
+    
+    // Check if age verification is needed
+    const ageVerified = localStorage.getItem('ageVerified');
+    if (ageVerified !== 'true') {
+      setShowAgeGateAfterWizard(true);
+      setIsAgeVerified(false);
+    } else {
+      // Skip to main app if already age verified
+      setIsAgeVerified(true);
+    }
   };
 
 
@@ -291,20 +321,6 @@ export default function Home() {
     setShowWizard(true);
   };
 
-  // Show age gate if not verified
-  if (isAgeVerified === false) {
-    return <AgeGate onVerified={handleAgeVerification} />;
-  }
-
-  // Show loading while checking age verification
-  if (isAgeVerified === null) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-amber-600"></div>
-      </div>
-    );
-  }
-
   // Show wizard if needed
   if (showWizard) {
     return (
@@ -313,6 +329,20 @@ export default function Home() {
         onSkip={handleWizardSkip}
         weatherData={weatherData}
       />
+    );
+  }
+
+  // Show age gate after wizard completion if needed
+  if (showAgeGateAfterWizard || isAgeVerified === false) {
+    return <AgeGate onVerified={handleAgeVerification} />;
+  }
+
+  // Show loading while checking age verification (only for returning users)
+  if (isAgeVerified === null) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-amber-600"></div>
+      </div>
     );
   }
 
