@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     description: "Find your perfect drink match with detailed recipes and shopping links.",
     type: "website",
   },
+  other: {
+    "google-site-verification": "CUmUB5IiLmsWNTMzNNs-WOhytVbT_fz7HuEZHG5I65U",
+  },
 };
 
 export default function RootLayout({
