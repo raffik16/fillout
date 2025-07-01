@@ -3,7 +3,7 @@ import { WizardQuestion } from '@/app/types/wizard';
 export const wizardQuestions: WizardQuestion[] = [
   {
     id: 'category',
-    title: "What's your drink style?",
+    title: "What are we drinking?",
     subtitle: "Choose your preferred drink category",
     options: [
       { value: 'cocktail', label: 'Cocktails', emoji: '🍸' },
