@@ -21,7 +21,9 @@ export function mapWizardPreferencesToFilters(preferences: WizardPreferences): D
       'casual': ['casual', 'relaxing'],
       'party': ['party', 'celebration'],
       'romantic': ['romantic'],
-      'relaxing': ['relaxing', 'casual']
+      'relaxing': ['relaxing', 'casual'],
+      'sports': ['sports', 'casual'],
+      'exploring': ['exploring', 'casual']
     };
     filters.occasions = occasionMap[preferences.occasion] || [];
   }
