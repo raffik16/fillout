@@ -35,7 +35,7 @@ export default function WizardResults({
 
   const updateRecommendations = useCallback(() => {
     const updatedPrefs = { ...preferences, useWeather };
-    const recs = matchDrinksToPreferences(updatedPrefs, localWeatherData);
+    const recs = matchDrinksToPreferences(updatedPrefs, localWeatherData, false, true);
     setRecommendations(recs);
     setCurrentIndex(0);
   }, [preferences, useWeather, localWeatherData]);

@@ -37,8 +37,11 @@ export function mapWizardPreferencesToFilters(preferences: WizardPreferences): D
     filters.flavors = flavorMap[preferences.flavor] || [];
   }
 
-  // Map adventure level to categories
-  if (preferences.adventure) {
+  // Map direct category selection (highest priority)
+  if (preferences.category && preferences.category !== 'any') {
+    filters.categories = [preferences.category as DrinkCategory];
+  } else if (preferences.adventure) {
+    // Fallback to adventure level mapping if no specific category or "any" selected
     const adventureMap: Record<string, DrinkCategory[]> = {
       'classic': ['wine', 'beer'],
       'bold': ['cocktail', 'spirit'],

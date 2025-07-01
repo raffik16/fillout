@@ -20,6 +20,7 @@ interface DrinkWizardProps {
 export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [preferences, setPreferences] = useState<WizardPreferences>({
+    category: null,
     flavor: null,
     temperature: null,
     adventure: null,

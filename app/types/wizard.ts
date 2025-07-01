@@ -1,10 +1,12 @@
+export type DrinkCategory = 'beer' | 'wine' | 'cocktail' | 'spirit' | 'non-alcoholic' | 'any';
 export type FlavorProfile = 'sweet' | 'bitter' | 'sour' | 'smooth';
 export type TemperaturePreference = 'cold' | 'cool' | 'room' | 'warm';
 export type AdventureLevel = 'classic' | 'bold' | 'fruity' | 'simple';
 export type StrengthPreference = 'light' | 'medium' | 'strong' | 'non-alcoholic';
-export type OccasionMood = 'casual' | 'party' | 'romantic' | 'relaxing';
+export type OccasionMood = 'casual' | 'party' | 'romantic' | 'relaxing' | 'sports' | 'exploring';
 
 export interface WizardPreferences {
+  category: DrinkCategory | null;
   flavor: FlavorProfile | null;
   temperature: TemperaturePreference | null;
   adventure: AdventureLevel | null;

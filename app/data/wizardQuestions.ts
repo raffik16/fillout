@@ -2,6 +2,19 @@ import { WizardQuestion } from '@/app/types/wizard';
 
 export const wizardQuestions: WizardQuestion[] = [
   {
+    id: 'category',
+    title: "What's your drink style?",
+    subtitle: "Choose your preferred drink category",
+    options: [
+      { value: 'cocktail', label: 'Cocktails', emoji: '🍸' },
+      { value: 'beer', label: 'Beer', emoji: '🍺' },
+      { value: 'wine', label: 'Wine', emoji: '🍷' },
+      { value: 'spirit', label: 'Spirits', emoji: '🥃' },
+      { value: 'non-alcoholic', label: 'Non-Alcoholic', emoji: '🌿' },
+      { value: 'any', label: 'Surprise Me!', emoji: '🎲' }
+    ]
+  },
+  {
     id: 'flavor',
     title: "What's your vibe?",
     subtitle: "Pick your flavor personality",
@@ -53,7 +66,9 @@ export const wizardQuestions: WizardQuestion[] = [
       { value: 'casual', label: 'Happy Hour', emoji: '🍺' },
       { value: 'celebration', label: 'Celebrating', emoji: '🥂' },
       { value: 'business', label: 'Business Meeting', emoji: '💼' },
-      { value: 'romantic', label: 'Romantic Dinner', emoji: '🌹' }
+      { value: 'romantic', label: 'Romantic Dinner', emoji: '🌹' },
+      { value: 'sports', label: 'Game Day', emoji: '🏈' },
+      { value: 'exploring', label: 'Exploring The Bar', emoji: '🍸' }
     ]
   }
 ];

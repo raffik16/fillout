@@ -18,7 +18,7 @@ export default function WizardQuestion({ question, onAnswer }: WizardQuestionPro
         <p className="text-lg text-gray-600 mb-8">{question.subtitle}</p>
       )}
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className={`grid gap-4 ${question.options.length === 6 ? 'grid-cols-2' : question.options.length > 4 ? 'grid-cols-2 md:grid-cols-3' : 'grid-cols-2'}`}>
         {question.options.map((option, index) => (
           <motion.button
             key={option.value}
