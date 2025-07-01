@@ -18,6 +18,18 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'i.ibb.co',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.thecocktaildb.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.totalwine.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.vivino.com',
+      },
     ],
   },
 };
