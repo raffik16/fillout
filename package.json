@@ -8,7 +8,11 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "dependencies": {
+    "@prisma/client": "^6.11.0",
     "@serwist/next": "^9.0.15",
     "@serwist/sw": "^9.0.15",
     "axios": "^1.10.0",
@@ -16,6 +20,7 @@
     "framer-motion": "^12.18.1",
     "lucide-react": "^0.523.0",
     "next": "15.3.3",
+    "prisma": "^6.11.0",
     "react": "^19.0.0",
     "react-confetti": "^6.4.0",
     "react-dom": "^19.0.0",
@@ -32,6 +37,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
     "tailwindcss": "^4",
+    "tsx": "^4.20.3",
     "typescript": "^5"
   }
 }

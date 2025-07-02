@@ -1,0 +1,177 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Bar {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String?
+  location    String?
+  email       String?
+  phone       String?
+  website     String?
+  logo        String?
+  theme       Json?    // Store theme colors and settings
+  settings    Json?    // Store bar-specific settings
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  drinks      Drink[]
+  users       UserBar[]
+  inventory   Inventory[]
+  happyHours  HappyHour[]
+}
+
+model Drink {
+  id                  String   @id @default(cuid())
+  barId               String
+  name                String
+  category            String   // cocktail, beer, wine, spirit, non-alcoholic
+  description         String?
+  price               Float
+  abv                 Float    @default(0)
+  strength            String   // light, medium, strong, non-alcoholic
+  glassType           String?
+  preparation         String?
+  imageUrl            String?
+  active              Boolean  @default(true)
+  featured            Boolean  @default(false)
+  happyHourEligible   Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // JSON fields for complex data
+  ingredients         Json     // Array of ingredients
+  flavorProfile       Json     // Array of flavor descriptors
+  weatherMatch        Json?    // Weather matching criteria
+  occasions           Json?    // Array of occasions
+  servingSuggestions  Json?    // Array of serving suggestions
+
+  // Relations
+  bar         Bar               @relation(fields: [barId], references: [id], onDelete: Cascade)
+  inventory   Inventory[]
+  categories  DrinkCategory[]
+  flavors     DrinkFlavor[]
+
+  @@index([barId])
+  @@index([category])
+  @@index([active])
+}
+
+model Category {
+  id     String          @id @default(cuid())
+  name   String          @unique
+  icon   String?
+  drinks DrinkCategory[]
+}
+
+model DrinkCategory {
+  drinkId    String
+  categoryId String
+  drink      Drink    @relation(fields: [drinkId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@id([drinkId, categoryId])
+}
+
+model Flavor {
+  id     String        @id @default(cuid())
+  name   String        @unique
+  drinks DrinkFlavor[]
+}
+
+model DrinkFlavor {
+  drinkId  String
+  flavorId String
+  drink    Drink  @relation(fields: [drinkId], references: [id], onDelete: Cascade)
+  flavor   Flavor @relation(fields: [flavorId], references: [id])
+
+  @@id([drinkId, flavorId])
+}
+
+model Inventory {
+  id        String   @id @default(cuid())
+  barId     String
+  drinkId   String
+  inStock   Boolean  @default(true)
+  quantity  Int?     // Optional quantity tracking
+  notes     String?
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  bar   Bar   @relation(fields: [barId], references: [id], onDelete: Cascade)
+  drink Drink @relation(fields: [drinkId], references: [id], onDelete: Cascade)
+
+  @@unique([barId, drinkId])
+  @@index([barId])
+  @@index([drinkId])
+}
+
+model HappyHour {
+  id        String   @id @default(cuid())
+  barId     String
+  dayOfWeek Int      // 0-6 (Sunday-Saturday)
+  startTime String   // HH:MM format
+  endTime   String   // HH:MM format
+  discount  Float    // Percentage discount
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  bar Bar @relation(fields: [barId], references: [id], onDelete: Cascade)
+
+  @@index([barId])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String    // Hashed password
+  role          String    @default("viewer") // superadmin, manager, staff, viewer
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  bars     UserBar[]
+  sessions Session[]
+}
+
+model UserBar {
+  userId    String
+  barId     String
+  role      String   // manager, staff, viewer
+  createdAt DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bar  Bar  @relation(fields: [barId], references: [id], onDelete: Cascade)
+
+  @@id([userId, barId])
+  @@index([userId])
+  @@index([barId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}

@@ -15,9 +15,13 @@ interface DrinkWizardProps {
   onComplete: (preferences: WizardPreferences) => void;
   onSkip: () => void;
   weatherData?: WeatherData | null;
+  barId?: string;
+  barName?: string;
+  barLogo?: string;
+  barTheme?: any;
 }
 
-export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
+export default function DrinkWizard({ onComplete, onSkip, barId, barName, barLogo, barTheme }: DrinkWizardProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [preferences, setPreferences] = useState<WizardPreferences>({
     category: null,

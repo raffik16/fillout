@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiSun, FiMoon } from 'react-icons/fi';
+import { FiSun, FiMoon, FiRefreshCw } from 'react-icons/fi';
 import { GiBeerBottle } from 'react-icons/gi';
 import { Button } from '@/app/components/ui/Button';
 
@@ -13,9 +13,16 @@ interface HeaderProps {
   temperature?: number;
   isMetricUnit?: boolean;
   showLocation?: boolean;
+  barData?: {
+    id: string;
+    name: string;
+    logo?: string;
+    theme?: any;
+  } | null;
+  onRefresh?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, location, temperature, isMetricUnit = false, showLocation = false }) => {
+export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, location, temperature, isMetricUnit = false, showLocation = false, barData, onRefresh }) => {
   
   // Format temperature display
   const formatTemperature = () => {
@@ -45,10 +52,18 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, lo
             className="flex items-center gap-3"
             whileHover={{ scale: 1.05 }}
           >
-            <GiBeerBottle className="w-8 h-8 text-amber-600" />
+            {barData?.logo ? (
+              <img 
+                src={barData.logo} 
+                alt={barData.name}
+                className="w-8 h-8 object-cover rounded-full"
+              />
+            ) : (
+              <GiBeerBottle className="w-8 h-8 text-amber-600" />
+            )}
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-                Drinkjoy
+                {barData?.name || 'Drinkjoy'}
               </h1>
               <div className="relative overflow-hidden">
                 <motion.p 
@@ -76,6 +91,22 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, lo
           </motion.div>
 
           <div className="flex items-center gap-4">
+            {barData && onRefresh && (
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onRefresh}
+                  className="p-2"
+                  title="Refresh drinks data"
+                >
+                  <FiRefreshCw className="w-5 h-5" />
+                </Button>
+              </motion.div>
+            )}
             <motion.div
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}

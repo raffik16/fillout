@@ -44,6 +44,8 @@ export default function Home() {
   const [wizardPreferences, setWizardPreferences] = useState<WizardPreferences | null>(null);
   const [showLocationInHeader, setShowLocationInHeader] = useState(false);
   const [currentLocation, setCurrentLocation] = useState<string>('');
+  const [selectedBar, setSelectedBar] = useState<string | null>(null);
+  const [barData, setBarData] = useState<any>(null);
   const drinksGridRef = useRef<HTMLDivElement>(null);
 
   // Fetch weather data using centralized service
@@ -73,6 +75,28 @@ export default function Home() {
     } catch {
       console.log('Auto-location failed - user can search manually if needed');
       // Don't show error on auto-attempt, let user manually search if needed
+    }
+  }, []);
+
+  // Check for bar context from localStorage
+  useEffect(() => {
+    const barSlug = localStorage.getItem('selectedBar');
+    if (barSlug) {
+      setSelectedBar(barSlug);
+      // Fetch bar data
+      fetch(`/api/bars/by-slug/${barSlug}`, {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          setBarData(data);
+          // Keep the localStorage for future page refreshes
+          // localStorage.removeItem('selectedBar'); // Commented out to persist across refreshes
+        })
+        .catch(err => console.error('Failed to fetch bar data:', err));
     }
   }, []);
 
@@ -188,8 +212,32 @@ export default function Home() {
           params.append('search', filters.search);
         }
         
-        const response = await axios.get(`/api/drinks?${params}`);
-        setDrinks(response.data.drinks);
+        // Add timestamp to prevent caching
+        const timestamp = Date.now();
+        if (params.toString()) {
+          params.append('_t', timestamp.toString());
+        } else {
+          params.set('_t', timestamp.toString());
+        }
+        
+        // Use bar-specific drinks if a bar is selected
+        const apiUrl = barData 
+          ? `/api/bars/${barData.id}/drinks?${params}`
+          : `/api/drinks?${params}`;
+        
+        const response = await axios.get(apiUrl, {
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
+          }
+        });
+        
+        // Handle different response formats
+        const drinksData = barData 
+          ? response.data  // Bar API returns drinks directly
+          : response.data.drinks;  // Main API returns { drinks: [...] }
+        
+        setDrinks(drinksData);
       } catch (error) {
         console.error('Failed to fetch drinks:', error);
       } finally {
@@ -198,12 +246,74 @@ export default function Home() {
     };
     
     fetchDrinks();
-  }, [filters, weatherData]);
+  }, [filters, weatherData, barData]);
+
+  // Force refresh drinks data
+  const handleRefreshDrinks = () => {
+    if (weatherData) {
+      const fetchDrinks = async () => {
+        setIsLoadingDrinks(true);
+        
+        try {
+          const params = new URLSearchParams();
+          
+          if (filters.categories?.length) {
+            params.append('categories', filters.categories.join(','));
+          }
+          if (filters.flavors?.length) {
+            params.append('flavors', filters.flavors.join(','));
+          }
+          if (filters.strength?.length) {
+            params.append('strength', filters.strength.join(','));
+          }
+          if (filters.occasions?.length) {
+            params.append('occasions', filters.occasions.join(','));
+          }
+          if (filters.search) {
+            params.append('search', filters.search);
+          }
+          
+          // Add timestamp to prevent caching
+          const timestamp = Date.now();
+          if (params.toString()) {
+            params.append('_t', timestamp.toString());
+          } else {
+            params.set('_t', timestamp.toString());
+          }
+          
+          // Use bar-specific drinks if a bar is selected
+          const apiUrl = barData 
+            ? `/api/bars/${barData.id}/drinks?${params}`
+            : `/api/drinks?${params}`;
+          
+          const response = await axios.get(apiUrl, {
+            headers: {
+              'Cache-Control': 'no-cache',
+              'Pragma': 'no-cache'
+            }
+          });
+          
+          // Handle different response formats
+          const drinksData = barData 
+            ? response.data  // Bar API returns drinks directly
+            : response.data.drinks;  // Main API returns { drinks: [...] }
+          
+          setDrinks(drinksData);
+        } catch (error) {
+          console.error('Failed to fetch drinks:', error);
+        } finally {
+          setIsLoadingDrinks(false);
+        }
+      };
+      
+      fetchDrinks();
+    }
+  };
 
   // Update recommendations when weather or drinks change
   useEffect(() => {
     if (weatherData && drinks.length > 0) {
-      const recs = recommendDrinks(weatherData, filters, isMetricUnit);
+      const recs = recommendDrinks(drinks, weatherData, filters, isMetricUnit);
       setRecommendations(recs);
     }
   }, [weatherData, drinks, filters, isMetricUnit]);
@@ -367,6 +477,8 @@ export default function Home() {
         location={currentLocation}
         temperature={weatherData?.current.temp}
         isMetricUnit={isMetricUnit}
+        barData={barData}
+        onRefresh={handleRefreshDrinks}
         showLocation={showLocationInHeader}
       />
       

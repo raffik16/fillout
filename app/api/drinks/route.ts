@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllDrinks, getDrinkById, filterDrinks } from '@/lib/drinks';
-import { DrinkFilters } from '@/app/types/drinks';
+import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
   try {
@@ -9,58 +8,140 @@ export async function GET(request: NextRequest) {
 
     // If ID is provided, return single drink
     if (drinkId) {
-      const drink = getDrinkById(drinkId);
+      const drink = await prisma.drink.findUnique({
+        where: { id: drinkId },
+        include: {
+          inventory: {
+            select: { inStock: true, quantity: true },
+          },
+        },
+      });
+      
       if (!drink) {
         return NextResponse.json(
           { error: 'Drink not found' },
           { status: 404 }
         );
       }
-      return NextResponse.json(drink);
+
+      // Transform the data to match expected format
+      const transformedDrink = {
+        ...drink,
+        flavor_profile: drink.flavorProfile,
+        weather_match: drink.weatherMatch,
+        serving_suggestions: drink.servingSuggestions,
+        glass_type: drink.glassType,
+        image_url: drink.imageUrl,
+        inStock: drink.inventory[0]?.inStock ?? true,
+        quantity: drink.inventory[0]?.quantity ?? null,
+        inventory: undefined,
+      };
+
+      return NextResponse.json(transformedDrink);
     }
 
-    // Otherwise, return filtered drinks
-    const filters: DrinkFilters = {};
+    // Build where clause based on filters
+    const whereClause: any = {
+      active: true,
+    };
 
     // Parse categories
     const categories = searchParams.get('categories');
     if (categories) {
-      filters.categories = categories.split(',') as DrinkFilters['categories'];
-    }
-
-    // Parse flavors
-    const flavors = searchParams.get('flavors');
-    if (flavors) {
-      filters.flavors = flavors.split(',') as DrinkFilters['flavors'];
+      whereClause.category = {
+        in: categories.split(','),
+      };
     }
 
     // Parse strength
     const strength = searchParams.get('strength');
     if (strength) {
-      filters.strength = strength.split(',') as DrinkFilters['strength'];
-    }
-
-    // Parse occasions
-    const occasions = searchParams.get('occasions');
-    if (occasions) {
-      filters.occasions = occasions.split(',') as DrinkFilters['occasions'];
+      whereClause.strength = {
+        in: strength.split(','),
+      };
     }
 
     // Parse search query
     const search = searchParams.get('search');
     if (search) {
-      filters.search = search;
+      whereClause.OR = [
+        { name: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+      ];
     }
 
-    const allDrinks = getAllDrinks();
-    const filteredDrinks = Object.keys(filters).length > 0
-      ? filterDrinks(allDrinks, filters)
-      : allDrinks;
+    // Parse flavors - this is more complex as it's an array field
+    const flavors = searchParams.get('flavors');
+    let flavorFilter: any = {};
+    if (flavors) {
+      const flavorList = flavors.split(',');
+      flavorFilter = {
+        flavorProfile: {
+          hasSome: flavorList,
+        },
+      };
+    }
 
-    return NextResponse.json({
-      drinks: filteredDrinks,
-      total: filteredDrinks.length,
+    // Parse occasions - similar to flavors
+    const occasions = searchParams.get('occasions');
+    let occasionFilter: any = {};
+    if (occasions) {
+      const occasionList = occasions.split(',');
+      occasionFilter = {
+        occasions: {
+          hasSome: occasionList,
+        },
+      };
+    }
+
+    // Combine filters
+    const finalWhere = {
+      ...whereClause,
+      ...flavorFilter,
+      ...occasionFilter,
+    };
+
+    const drinks = await prisma.drink.findMany({
+      where: finalWhere,
+      include: {
+        inventory: {
+          select: { inStock: true, quantity: true },
+        },
+      },
+      orderBy: [
+        { featured: 'desc' },
+        { name: 'asc' },
+      ],
     });
+
+    // Transform the data to include inventory status directly and map field names
+    const transformedDrinks = drinks.map(drink => {
+      const inventory = drink.inventory[0];
+      return {
+        ...drink,
+        // Map database fields to expected frontend fields
+        flavor_profile: drink.flavorProfile,
+        weather_match: drink.weatherMatch,
+        serving_suggestions: drink.servingSuggestions,
+        glass_type: drink.glassType,
+        image_url: drink.imageUrl,
+        // Inventory
+        inStock: inventory?.inStock ?? true,
+        quantity: inventory?.quantity ?? null,
+        inventory: undefined, // Remove the nested inventory array
+      };
+    });
+
+    // Add cache control headers to prevent stale data
+    const response = NextResponse.json({
+      drinks: transformedDrinks,
+      total: transformedDrinks.length,
+    });
+    response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+    
+    return response;
   } catch (error) {
     console.error('Drinks API error:', error);
     return NextResponse.json(

@@ -157,7 +157,7 @@ export const DrinkModal: React.FC<DrinkModalProps> = ({ drink, isOpen, onClose }
                   Ingredients
                 </h3>
                 <ul className="list-disc list-inside space-y-1">
-                  {drink.ingredients.map((ingredient, index) => (
+                  {(drink.ingredients || []).map((ingredient, index) => (
                     <li key={index} className="text-gray-600 dark:text-gray-300">
                       {ingredient}
                     </li>
@@ -178,13 +178,13 @@ export const DrinkModal: React.FC<DrinkModalProps> = ({ drink, isOpen, onClose }
               )}
 
               {/* Serving Suggestions */}
-              {drink.serving_suggestions.length > 0 && (
+              {(drink.serving_suggestions || []).length > 0 && (
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
                     Serving Suggestions
                   </h3>
                   <ul className="space-y-1">
-                    {drink.serving_suggestions.map((suggestion, index) => (
+                    {(drink.serving_suggestions || []).map((suggestion, index) => (
                       <li key={index} className="text-gray-600 dark:text-gray-300">
                         • {suggestion}
                       </li>
@@ -199,7 +199,7 @@ export const DrinkModal: React.FC<DrinkModalProps> = ({ drink, isOpen, onClose }
                   Flavor Profile
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {drink.flavor_profile.map((flavor) => (
+                  {(drink.flavor_profile || []).map((flavor) => (
                     <span
                       key={flavor}
                       className="px-3 py-1 bg-amber-100 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 rounded-full text-sm"
@@ -216,7 +216,7 @@ export const DrinkModal: React.FC<DrinkModalProps> = ({ drink, isOpen, onClose }
                   Perfect For
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {drink.occasions.map((occasion) => (
+                  {(drink.occasions || []).map((occasion) => (
                     <span
                       key={occasion}
                       className="px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-full text-sm capitalize"

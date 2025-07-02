@@ -1,72 +1,17 @@
 import { Drink, DrinkFilters, DrinkRecommendation } from '@/app/types/drinks';
 import { WeatherData } from '@/app/types/weather';
 import { getTemperatureCategory, getTimeOfDay } from '@/lib/utils';
-import drinksData from '@/data/drinks.json';
-
-export function getAllDrinks(): Drink[] {
-  return drinksData.drinks as Drink[];
-}
-
-export function getDrinkById(id: string): Drink | undefined {
-  return drinksData.drinks.find((drink) => drink.id === id) as Drink | undefined;
-}
-
-export function filterDrinks(drinks: Drink[], filters: DrinkFilters): Drink[] {
-  return drinks.filter((drink) => {
-    // Category filter
-    if (filters.categories && filters.categories.length > 0) {
-      if (!filters.categories.includes(drink.category)) return false;
-    }
-
-    // Flavor filter
-    if (filters.flavors && filters.flavors.length > 0) {
-      const hasMatchingFlavor = filters.flavors.some((flavor) =>
-        drink.flavor_profile.includes(flavor)
-      );
-      if (!hasMatchingFlavor) return false;
-    }
-
-    // Strength filter
-    if (filters.strength && filters.strength.length > 0) {
-      if (!filters.strength.includes(drink.strength)) return false;
-    }
-
-    // Occasion filter
-    if (filters.occasions && filters.occasions.length > 0) {
-      const hasMatchingOccasion = filters.occasions.some((occasion) =>
-        drink.occasions.includes(occasion)
-      );
-      if (!hasMatchingOccasion) return false;
-    }
-
-    // Search filter
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      const matchesSearch =
-        drink.name.toLowerCase().includes(searchLower) ||
-        drink.description.toLowerCase().includes(searchLower) ||
-        drink.ingredients.some((ing) => ing.toLowerCase().includes(searchLower));
-      if (!matchesSearch) return false;
-    }
-
-    return true;
-  });
-}
 
 export function recommendDrinks(
+  drinks: Drink[],
   weather: WeatherData,
   filters?: DrinkFilters,
   isMetricUnit: boolean = false
 ): DrinkRecommendation[] {
-  let drinks = getAllDrinks();
-
-  // Apply filters if provided
-  if (filters) {
-    drinks = filterDrinks(drinks, filters);
-  }
+  let filteredDrinks = drinks;
 
   // Score each drink based on weather matching
-  const recommendations = drinks.map((drink) => {
+  const recommendations = filteredDrinks.map((drink) => {
     const score = calculateWeatherScore(drink, weather);
     const reasons = generateRecommendationReasons(drink, weather, score, isMetricUnit);
 
@@ -88,26 +33,34 @@ function calculateWeatherScore(drink: Drink, weather: WeatherData): number {
   const currentTemp = weather.current.temp;
   const weatherMain = weather.current.main.toLowerCase();
 
+  // Get weather match data (handle both field naming conventions)
+  const weatherMatch = drink.weather_match || drink.weatherMatch;
+  
+  if (!weatherMatch) {
+    // If no weather matching data, return a default score
+    return 50;
+  }
+
   // Temperature matching (40 points max)
-  if (currentTemp >= drink.weather_match.temp_min && currentTemp <= drink.weather_match.temp_max) {
+  if (currentTemp >= weatherMatch.temp_min && currentTemp <= weatherMatch.temp_max) {
     // Perfect temperature match
-    const tempRange = drink.weather_match.temp_max - drink.weather_match.temp_min;
-    const tempDiff = Math.abs(currentTemp - drink.weather_match.ideal_temp);
+    const tempRange = weatherMatch.temp_max - weatherMatch.temp_min;
+    const tempDiff = Math.abs(currentTemp - weatherMatch.ideal_temp);
     const tempScore = 40 - (tempDiff / tempRange) * 20;
     score += Math.max(20, tempScore);
   } else {
     // Outside ideal range, but might still be acceptable
     const distance = Math.min(
-      Math.abs(currentTemp - drink.weather_match.temp_min),
-      Math.abs(currentTemp - drink.weather_match.temp_max)
+      Math.abs(currentTemp - weatherMatch.temp_min),
+      Math.abs(currentTemp - weatherMatch.temp_max)
     );
     score += Math.max(0, 20 - distance * 2);
   }
 
   // Weather condition matching (30 points max)
-  if (drink.weather_match.conditions.includes(weatherMain)) {
+  if (weatherMatch.conditions && weatherMatch.conditions.includes(weatherMain)) {
     score += 30;
-  } else if (drink.weather_match.conditions.some((condition) => 
+  } else if (weatherMatch.conditions && weatherMatch.conditions.some((condition) => 
     condition.includes('rain') && weatherMain.includes('rain') ||
     condition.includes('snow') && weatherMain.includes('snow') ||
     condition.includes('clear') && weatherMain.includes('clear')
@@ -158,7 +111,10 @@ function getTemperatureCategoryBonus(drink: Drink, tempCategory: string): number
   let bonus = 0;
   if (preferences.includes(drink.category)) bonus += 10;
   if (preferences.includes(drink.strength)) bonus += 5;
-  if (drink.flavor_profile.some((flavor) => preferences.includes(flavor))) bonus += 5;
+  
+  // Handle both field naming conventions
+  const flavorProfile = drink.flavor_profile || drink.flavorProfile || [];
+  if (flavorProfile.some((flavor) => preferences.includes(flavor))) bonus += 5;
 
   return Math.min(15, bonus);
 }
@@ -178,8 +134,11 @@ function generateRecommendationReasons(
   const displayTemp = isMetricUnit ? currentTemp : Math.round((currentTemp * 9/5) + 32);
   const tempUnit = isMetricUnit ? '°C' : '°F';
 
+  // Get weather match data (handle both field naming conventions)
+  const weatherMatch = drink.weather_match || drink.weatherMatch;
+  
   // Temperature-based reasons
-  if (currentTemp >= drink.weather_match.temp_min && currentTemp <= drink.weather_match.temp_max) {
+  if (weatherMatch && currentTemp >= weatherMatch.temp_min && currentTemp <= weatherMatch.temp_max) {
     if (tempCategory === 'hot') {
       reasons.push(`Perfect for this ${displayTemp}${tempUnit} weather`);
     } else if (tempCategory === 'cold') {
@@ -190,14 +149,15 @@ function generateRecommendationReasons(
   }
 
   // Weather condition reasons
-  if (drink.weather_match.conditions.includes(weather.current.main.toLowerCase())) {
+  if (weatherMatch && weatherMatch.conditions && weatherMatch.conditions.includes(weather.current.main.toLowerCase())) {
     reasons.push(`Excellent choice for ${weatherDesc}`);
   }
 
-  // Flavor profile reasons
-  if (tempCategory === 'hot' && drink.flavor_profile.includes('refreshing')) {
+  // Flavor profile reasons (handle both field naming conventions)
+  const flavorProfile = drink.flavor_profile || drink.flavorProfile || [];
+  if (tempCategory === 'hot' && flavorProfile.includes('refreshing')) {
     reasons.push('Refreshing choice for hot weather');
-  } else if (tempCategory === 'cold' && (drink.flavor_profile.includes('spicy') || drink.flavor_profile.includes('smoky'))) {
+  } else if (tempCategory === 'cold' && (flavorProfile.includes('spicy') || flavorProfile.includes('smoky'))) {
     reasons.push('Warming flavors for cold weather');
   }
 

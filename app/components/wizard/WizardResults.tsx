@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
-import { DrinkRecommendation } from '@/app/types/drinks';
+import { DrinkRecommendation, Drink } from '@/app/types/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
 import { matchDrinksToPreferences, getMatchMessage } from '@/lib/drinkMatcher';
@@ -10,6 +10,7 @@ import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import weatherService from '@/lib/weatherService';
+import axios from 'axios';
 
 interface WizardResultsProps {
   preferences: WizardPreferences;
@@ -32,19 +33,47 @@ export default function WizardResults({
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [imageLoading, setImageLoading] = useState(true);
+  const [drinks, setDrinks] = useState<Drink[]>([]);
+  const [isLoadingDrinks, setIsLoadingDrinks] = useState(false);
+
+  // Fetch drinks from the API
+  const fetchDrinks = useCallback(async () => {
+    setIsLoadingDrinks(true);
+    try {
+      const timestamp = Date.now();
+      const response = await axios.get(`/api/drinks?_t=${timestamp}`, {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
+      setDrinks(response.data.drinks || []);
+    } catch (error) {
+      console.error('Failed to fetch drinks:', error);
+    } finally {
+      setIsLoadingDrinks(false);
+    }
+  }, []);
 
   const updateRecommendations = useCallback(() => {
+    if (drinks.length === 0) return;
+    
     const updatedPrefs = { ...preferences, useWeather };
-    const recs = matchDrinksToPreferences(updatedPrefs, localWeatherData, false, true);
+    const recs = matchDrinksToPreferences(drinks, updatedPrefs, localWeatherData, false, true);
     setRecommendations(recs);
     setCurrentIndex(0);
-  }, [preferences, useWeather, localWeatherData]);
+  }, [drinks, preferences, useWeather, localWeatherData]);
 
   const totalCards = recommendations.length + 1; // +1 for View All card
   const isViewAllCard = currentIndex === recommendations.length;
   const currentDrink = recommendations[currentIndex]?.drink;
   const currentScore = recommendations[currentIndex]?.score || 0;
   const matchMessage = getMatchMessage(currentScore);
+
+  // Fetch drinks on component mount
+  useEffect(() => {
+    fetchDrinks();
+  }, [fetchDrinks]);
 
   useEffect(() => {
     updateRecommendations();
@@ -256,7 +285,7 @@ export default function WizardResults({
 
                 {/* Drink Image */}
                 <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200">
-                  {currentDrink?.image_url ? (
+                  {(currentDrink?.image_url || currentDrink?.imageUrl) ? (
                     <>
                       {imageLoading && (
                         <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse">
@@ -264,7 +293,7 @@ export default function WizardResults({
                         </div>
                       )}
                       <Image
-                        src={currentDrink.image_url}
+                        src={currentDrink.image_url || currentDrink.imageUrl || '/placeholder-drink.svg'}
                         alt={currentDrink.name}
                         fill
                         className={cn("object-cover transition-opacity duration-300", 

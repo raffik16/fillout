@@ -59,16 +59,27 @@ export const DrinkCard: React.FC<DrinkCardProps> = ({
               <div className="absolute inset-0 animate-shimmer" />
             </div>
           )}
-          <Image
-            src={drink.image_url}
-            alt={drink.name}
-            fill
-            className={cn("object-cover transition-opacity duration-300", 
-              imageLoading ? "opacity-0" : "opacity-100"
-            )}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            onLoad={() => setImageLoading(false)}
-          />
+          {(drink.image_url || drink.imageUrl) ? (
+            <img
+              src={drink.image_url || drink.imageUrl}
+              alt={drink.name}
+              className={cn("absolute inset-0 w-full h-full object-cover transition-opacity duration-300", 
+                imageLoading ? "opacity-0" : "opacity-100"
+              )}
+              onLoad={() => setImageLoading(false)}
+            />
+          ) : (
+            <Image
+              src="/placeholder-drink.svg"
+              alt={drink.name}
+              fill
+              className={cn("object-cover transition-opacity duration-300", 
+                imageLoading ? "opacity-0" : "opacity-100"
+              )}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              onLoad={() => setImageLoading(false)}
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           
 
@@ -133,9 +144,9 @@ export const DrinkCard: React.FC<DrinkCardProps> = ({
               </span>
             </div>
             
-            {drink.glass_type && (
+            {(drink.glass_type || drink.glassType) && (
               <span className="text-xs text-gray-500 dark:text-gray-400">
-                {drink.glass_type}
+                {drink.glass_type || drink.glassType}
               </span>
             )}
           </div>
@@ -164,7 +175,7 @@ export const DrinkCard: React.FC<DrinkCardProps> = ({
           )}
 
           <div className="flex flex-wrap gap-1 mt-3">
-            {drink.flavor_profile.slice(0, 3).map((flavor) => (
+            {(drink.flavor_profile || drink.flavorProfile || []).slice(0, 3).map((flavor) => (
               <span
                 key={flavor}
                 className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full"

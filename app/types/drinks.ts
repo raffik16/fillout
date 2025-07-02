@@ -26,6 +26,18 @@ export interface Drink {
   happy_hour?: boolean;
   happy_hour_price?: string;
   happy_hour_times?: string;
+  
+  // Database field alternatives (camelCase)
+  flavorProfile?: FlavorProfile[];
+  weatherMatch?: {
+    temp_min: number;
+    temp_max: number;
+    conditions: string[];
+    ideal_temp: number;
+  };
+  servingSuggestions?: string[];
+  imageUrl?: string;
+  glassType?: string;
 }
 
 export interface DrinkFilters {
