@@ -2,16 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     barId: string;
     drinkId: string;
-  };
+  }>;
 }
 
 // GET /api/bars/[barId]/drinks/[drinkId] - Get a specific drink
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { barId, drinkId } = params;
+    const { barId, drinkId } = await params;
 
     const drink = await prisma.drink.findFirst({
       where: {
@@ -56,21 +56,62 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 // PUT /api/bars/[barId]/drinks/[drinkId] - Update a drink
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
-    const { barId, drinkId } = params;
+    const { barId, drinkId } = await params;
     const body = await request.json();
 
-    // Remove inventory fields from the update data
-    const { inStock, quantity, inventoryNotes, ...drinkData } = body;
+    // Remove inventory fields and other non-updatable fields from the update data
+    const { 
+      inStock, 
+      quantity, 
+      inventoryNotes,
+      id,
+      barId: bodyBarId,
+      bar,
+      createdAt,
+      updatedAt,
+      inventory,
+      _count,
+      ...drinkData 
+    } = body;
+
+    // First verify the drink belongs to the bar
+    const existingDrink = await prisma.drink.findFirst({
+      where: {
+        id: drinkId,
+        barId,
+      },
+    });
+
+    if (!existingDrink) {
+      return NextResponse.json(
+        { error: 'Drink not found' },
+        { status: 404 }
+      );
+    }
 
     // Update the drink
     const drink = await prisma.drink.update({
       where: {
         id: drinkId,
-        barId, // Ensure drink belongs to the bar
       },
       data: {
-        ...drinkData,
-        price: drinkData.price ? parseFloat(drinkData.price) : undefined,
+        name: drinkData.name,
+        category: drinkData.category,
+        description: drinkData.description,
+        price: drinkData.price !== undefined ? parseFloat(drinkData.price.toString()) : undefined,
+        abv: drinkData.abv !== undefined ? parseFloat(drinkData.abv.toString()) : undefined,
+        strength: drinkData.strength,
+        glassType: drinkData.glassType,
+        preparation: drinkData.preparation,
+        imageUrl: drinkData.imageUrl,
+        active: drinkData.active,
+        featured: drinkData.featured,
+        happyHourEligible: drinkData.happyHourEligible,
+        ingredients: drinkData.ingredients,
+        flavorProfile: drinkData.flavorProfile,
+        weatherMatch: drinkData.weatherMatch,
+        occasions: drinkData.occasions,
+        servingSuggestions: drinkData.servingSuggestions,
       },
     });
 
@@ -111,7 +152,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 // DELETE /api/bars/[barId]/drinks/[drinkId] - Delete a drink
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    const { barId, drinkId } = params;
+    const { barId, drinkId } = await params;
 
     // Verify drink belongs to the bar before deleting
     const drink = await prisma.drink.findFirst({

@@ -2,15 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     barId: string;
-  };
+  }>;
 }
 
 // GET /api/bars/[barId] - Get a specific bar
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { barId } = params;
+    const { barId } = await params;
 
     const bar = await prisma.bar.findUnique({
       where: { id: barId },
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 // PUT /api/bars/[barId] - Update a bar
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
-    const { barId } = params;
+    const { barId } = await params;
     const body = await request.json();
 
     const bar = await prisma.bar.update({
@@ -65,7 +65,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 // DELETE /api/bars/[barId] - Delete a bar
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    const { barId } = params;
+    const { barId } = await params;
 
     await prisma.bar.delete({
       where: { id: barId },

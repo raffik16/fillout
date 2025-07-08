@@ -15,7 +15,7 @@ The system allows multiple bars to have their own unique URLs (e.g., `drinkjoy.a
 
 - **Database**: PostgreSQL with Prisma ORM
 - **API**: Next.js API Routes (RESTful)
-- **Authentication**: NextAuth.js (pending implementation)
+- **Authentication**: NextAuth.js (implemented with credentials & OAuth)
 - **Caching**: Redis (optional, not yet implemented)
 
 ## Database Schema
@@ -91,16 +91,42 @@ Each bar gets its own public page at `/{bar-slug}` (e.g., `/demo-bar`). The page
 - Displays the drink recommendation wizard
 - Shows bar-specific branding (logo, theme)
 
+## Authentication
+
+### Setup
+The system uses NextAuth.js for authentication with support for:
+- **Credentials**: Email/password login
+- **OAuth**: Google and GitHub (when configured)
+- **Roles**: superadmin, manager, staff, viewer
+
+### Demo Credentials
+- Email: `admin@drinkjoy.app`
+- Password: `admin123`
+- Role: `superadmin`
+
+### Protected Routes
+- `/admin/*` - Requires authentication and at least `staff` role
+- Admin API endpoints require appropriate permissions
+
+### Role Hierarchy
+1. **superadmin**: Full system access, manage all bars and users
+2. **manager**: Manage assigned bars and their staff
+3. **staff**: View and edit assigned bars
+4. **viewer**: Read-only access (default for new users)
+
+## API Authentication
+All admin API routes require authentication. Include the session cookie or use NextAuth.js client methods.
+
 ## Next Steps
 
-1. **Authentication**: Implement NextAuth.js for secure admin access
-2. **Role-Based Access**: Add manager/staff roles per bar
-3. **Advanced Features**:
+1. ✅ **Authentication**: NextAuth.js implemented with role-based access
+2. **Advanced Features**:
    - Bulk drink import/export
    - Analytics dashboard
    - Customer preferences tracking
    - Multi-language support
-4. **Performance**: Add Redis caching for frequently accessed data
+   - Bulk drink editing/deleting
+3. **Performance**: Add Redis caching for frequently accessed data
 
 ## Migration from JSON
 

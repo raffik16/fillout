@@ -12,6 +12,7 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.10.0",
     "@prisma/client": "^6.11.0",
     "@serwist/next": "^9.0.15",
     "@serwist/sw": "^9.0.15",
@@ -20,6 +21,7 @@
     "framer-motion": "^12.18.1",
     "lucide-react": "^0.523.0",
     "next": "15.3.3",
+    "next-auth": "^4.24.11",
     "prisma": "^6.11.0",
     "react": "^19.0.0",
     "react-confetti": "^6.4.0",

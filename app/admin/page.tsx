@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Eye, EyeOff } from 'lucide-react';
+import { Plus, Edit2, Trash2, Eye, LogOut, User } from 'lucide-react';
+import { useSession, signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 interface Bar {
   id: string;
@@ -17,6 +19,8 @@ interface Bar {
 }
 
 export default function AdminPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [bars, setBars] = useState<Bar[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -128,7 +132,8 @@ export default function AdminPage() {
     reader.readAsDataURL(file);
   };
 
-  if (isLoading) {
+  // Show loading while checking authentication
+  if (status === 'loading' || isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-lg">Loading...</div>
@@ -136,19 +141,47 @@ export default function AdminPage() {
     );
   }
 
+  // Redirect if not authenticated (middleware should handle this, but just in case)
+  if (status === 'unauthenticated') {
+    router.push('/auth/signin?callbackUrl=/admin');
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white shadow rounded-lg">
-          <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900">Bar Management</h1>
-            <button
-              onClick={() => setShowCreateForm(true)}
-              className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors flex items-center gap-2"
-            >
-              <Plus className="w-5 h-5" />
-              Add New Bar
-            </button>
+          <div className="px-6 py-4 border-b border-gray-200">
+            <div className="flex justify-between items-center mb-4">
+              <h1 className="text-2xl font-bold text-gray-900">Bar Management</h1>
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => setShowCreateForm(true)}
+                  className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors flex items-center gap-2"
+                >
+                  <Plus className="w-5 h-5" />
+                  Add New Bar
+                </button>
+              </div>
+            </div>
+            
+            {/* User info and logout */}
+            <div className="flex items-center justify-between text-sm text-gray-600">
+              <div className="flex items-center gap-2">
+                <User className="w-4 h-4" />
+                <span>Welcome, {session?.user?.name || session?.user?.email}</span>
+                <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">
+                  {session?.user?.role}
+                </span>
+              </div>
+              <button
+                onClick={() => signOut({ callbackUrl: '/' })}
+                className="flex items-center gap-1 text-gray-500 hover:text-gray-700 transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </button>
+            </div>
           </div>
 
           <div className="p-6">

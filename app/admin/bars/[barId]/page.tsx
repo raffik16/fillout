@@ -94,18 +94,52 @@ export default function BarDrinksPage() {
 
   const handleUpdateDrink = async (drinkId: string, updates: Partial<Drink>) => {
     try {
+      // Clean the update data - remove fields that shouldn't be updated
+      const { 
+        id, 
+        barId, 
+        bar, 
+        createdAt, 
+        updatedAt, 
+        inventory,
+        _count,
+        ...cleanedUpdates 
+      } = updates as any;
+
+      // Transform field names to match database schema
+      const dataToSend = {
+        ...cleanedUpdates,
+        // Ensure these fields use the correct database field names
+        imageUrl: cleanedUpdates.imageUrl || cleanedUpdates.image_url,
+        flavorProfile: cleanedUpdates.flavorProfile || cleanedUpdates.flavor_profile || [],
+        servingSuggestions: cleanedUpdates.servingSuggestions || cleanedUpdates.serving_suggestions || [],
+        glassType: cleanedUpdates.glassType || cleanedUpdates.glass_type,
+        weatherMatch: cleanedUpdates.weatherMatch || cleanedUpdates.weather_match,
+        // Remove any snake_case duplicates
+        image_url: undefined,
+        flavor_profile: undefined,
+        serving_suggestions: undefined,
+        glass_type: undefined,
+        weather_match: undefined,
+      };
+
       const response = await fetch(`/api/bars/${barId}/drinks/${drinkId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updates),
+        body: JSON.stringify(dataToSend),
       });
 
       if (response.ok) {
         await fetchBarAndDrinks();
         setEditingDrink(null);
+      } else {
+        const error = await response.json();
+        console.error('Update failed:', error);
+        alert(`Failed to update drink: ${error.error || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error updating drink:', error);
+      alert('Failed to update drink. Please try again.');
     }
   };
 
