@@ -15,6 +15,7 @@ import axios from 'axios';
 interface WizardResultsProps {
   preferences: WizardPreferences;
   weatherData?: WeatherData | null;
+  barData?: any;
   onRetakeQuiz: () => void;
   onViewAll: (preferences: WizardPreferences, weatherData?: WeatherData | null) => void;
 }
@@ -22,6 +23,7 @@ interface WizardResultsProps {
 export default function WizardResults({
   preferences,
   weatherData,
+  barData,
   onRetakeQuiz,
   onViewAll
 }: WizardResultsProps) {
@@ -41,19 +43,30 @@ export default function WizardResults({
     setIsLoadingDrinks(true);
     try {
       const timestamp = Date.now();
-      const response = await axios.get(`/api/drinks?_t=${timestamp}`, {
+      // Use bar-specific drinks if a bar is selected
+      const apiUrl = barData 
+        ? `/api/bars/${barData.id}/drinks?_t=${timestamp}`
+        : `/api/drinks?_t=${timestamp}`;
+      
+      const response = await axios.get(apiUrl, {
         headers: {
           'Cache-Control': 'no-cache',
           'Pragma': 'no-cache'
         }
       });
-      setDrinks(response.data.drinks || []);
+      
+      // Handle different response formats
+      const drinksData = barData 
+        ? response.data  // Bar API returns drinks directly
+        : response.data.drinks || [];  // Main API returns { drinks: [...] }
+      
+      setDrinks(drinksData);
     } catch (error) {
       console.error('Failed to fetch drinks:', error);
     } finally {
       setIsLoadingDrinks(false);
     }
-  }, []);
+  }, [barData]);
 
   const updateRecommendations = useCallback(() => {
     if (drinks.length === 0) return;

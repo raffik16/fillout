@@ -169,6 +169,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  password      String?   // Hashed password for credentials login
   role          String    @default("viewer") // superadmin, manager, staff, viewer
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -190,7 +191,7 @@ model VerificationToken {
 model UserBar {
   userId    String
   barId     String
-  role      String   // manager, staff, viewer
+  role      String   // owner, manager, staff, viewer
   createdAt DateTime @default(now())
 
   // Relations

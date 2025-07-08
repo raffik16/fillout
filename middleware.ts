@@ -8,21 +8,14 @@ export default withAuth(
       // Get user role from token
       const userRole = req.nextauth.token?.role as string;
       
-      // Require at least staff role for admin access
-      const roleHierarchy = {
-        viewer: 0,
-        staff: 1,
-        manager: 2,
-        superadmin: 3
-      };
-      
-      const userLevel = roleHierarchy[userRole as keyof typeof roleHierarchy] || 0;
-      const requiredLevel = roleHierarchy.staff;
-      
-      if (userLevel < requiredLevel) {
-        // Redirect to access denied page or main app
-        return NextResponse.redirect(new URL('/auth/access-denied', req.url));
+      // Allow access for superadmins and regular users (users get access based on bar assignments)
+      // The specific bar-level permissions are handled by the API routes
+      if (userRole === 'superadmin' || userRole === 'user') {
+        return NextResponse.next();
       }
+      
+      // Deny access for any other role or missing role
+      return NextResponse.redirect(new URL('/auth/access-denied', req.url));
     }
     
     return NextResponse.next();

@@ -2,8 +2,13 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { FiSettings, FiLogOut } from 'react-icons/fi';
+import { useSession, signOut } from 'next-auth/react';
 
 export const Footer: React.FC = () => {
+  const { data: session, status } = useSession();
+  
   return (
     <motion.footer
       initial={{ opacity: 0 }}
@@ -45,10 +50,40 @@ export const Footer: React.FC = () => {
         </div>
         
         <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between">
             <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
-              made for fun by <a href="https://raffi.website" target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 transition-colors">raffi.website</a>
+              powered by <span className="text-amber-600 dark:text-amber-400 font-medium">drinkjoy.app</span>
             </p>
+            
+            <div className="flex items-center gap-4 mt-4 sm:mt-0">
+              {status === 'authenticated' && session ? (
+                <>
+                  <Link 
+                    href="/admin"
+                    className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
+                  >
+                    <FiSettings className="w-4 h-4" />
+                    <span>Admin</span>
+                  </Link>
+                  
+                  <button
+                    onClick={() => signOut()}
+                    className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
+                  >
+                    <FiLogOut className="w-4 h-4" />
+                    <span>Sign Out</span>
+                  </button>
+                </>
+              ) : (
+                <Link 
+                  href="/admin"
+                  className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
+                >
+                  <FiSettings className="w-4 h-4" />
+                  <span>Admin</span>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>

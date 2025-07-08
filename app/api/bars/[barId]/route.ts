@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions, hasRequiredSystemRole } from '@/lib/auth';
 
 interface RouteParams {
   params: Promise<{
@@ -45,11 +47,72 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const { barId } = await params;
+    const session = await getServerSession(authOptions);
+    
+    // Check authentication
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Check permissions: superadmin or owner/manager of this bar
+    if (!hasRequiredSystemRole(session.user.role, 'superadmin')) {
+      const hasAccess = await prisma.userBar.findFirst({
+        where: {
+          userId: session.user.id,
+          barId: barId,
+          role: { in: ['owner', 'manager'] }
+        }
+      });
+      
+      if (!hasAccess) {
+        return NextResponse.json(
+          { error: 'Insufficient permissions' },
+          { status: 403 }
+        );
+      }
+    }
+
     const body = await request.json();
+    const { slug, name, description, location, email, phone, website, logo } = body;
+
+    // Validate required fields
+    if (!slug || !name) {
+      return NextResponse.json(
+        { error: 'Slug and name are required' },
+        { status: 400 }
+      );
+    }
+
+    // Check if slug already exists for a different bar
+    const existing = await prisma.bar.findFirst({
+      where: { 
+        slug,
+        id: { not: barId }
+      },
+    });
+
+    if (existing) {
+      return NextResponse.json(
+        { error: 'Bar with this slug already exists' },
+        { status: 409 }
+      );
+    }
 
     const bar = await prisma.bar.update({
       where: { id: barId },
-      data: body,
+      data: {
+        slug,
+        name,
+        description,
+        location,
+        email,
+        phone,
+        website,
+        logo,
+      },
     });
 
     return NextResponse.json(bar);

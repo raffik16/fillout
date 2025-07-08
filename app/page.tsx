@@ -248,67 +248,6 @@ export default function Home() {
     fetchDrinks();
   }, [filters, weatherData, barData]);
 
-  // Force refresh drinks data
-  const handleRefreshDrinks = () => {
-    if (weatherData) {
-      const fetchDrinks = async () => {
-        setIsLoadingDrinks(true);
-        
-        try {
-          const params = new URLSearchParams();
-          
-          if (filters.categories?.length) {
-            params.append('categories', filters.categories.join(','));
-          }
-          if (filters.flavors?.length) {
-            params.append('flavors', filters.flavors.join(','));
-          }
-          if (filters.strength?.length) {
-            params.append('strength', filters.strength.join(','));
-          }
-          if (filters.occasions?.length) {
-            params.append('occasions', filters.occasions.join(','));
-          }
-          if (filters.search) {
-            params.append('search', filters.search);
-          }
-          
-          // Add timestamp to prevent caching
-          const timestamp = Date.now();
-          if (params.toString()) {
-            params.append('_t', timestamp.toString());
-          } else {
-            params.set('_t', timestamp.toString());
-          }
-          
-          // Use bar-specific drinks if a bar is selected
-          const apiUrl = barData 
-            ? `/api/bars/${barData.id}/drinks?${params}`
-            : `/api/drinks?${params}`;
-          
-          const response = await axios.get(apiUrl, {
-            headers: {
-              'Cache-Control': 'no-cache',
-              'Pragma': 'no-cache'
-            }
-          });
-          
-          // Handle different response formats
-          const drinksData = barData 
-            ? response.data  // Bar API returns drinks directly
-            : response.data.drinks;  // Main API returns { drinks: [...] }
-          
-          setDrinks(drinksData);
-        } catch (error) {
-          console.error('Failed to fetch drinks:', error);
-        } finally {
-          setIsLoadingDrinks(false);
-        }
-      };
-      
-      fetchDrinks();
-    }
-  };
 
   // Update recommendations when weather or drinks change
   useEffect(() => {
@@ -439,6 +378,7 @@ export default function Home() {
         onComplete={handleWizardComplete}
         onSkip={handleWizardSkip}
         weatherData={weatherData}
+        barData={barData}
       />
     );
   }
@@ -463,6 +403,7 @@ export default function Home() {
       <WizardResults
         preferences={wizardPreferences}
         weatherData={weatherData}
+        barData={barData}
         onRetakeQuiz={handleRetakeQuiz}
         onViewAll={handleViewAllFromWizard}
       />
@@ -478,7 +419,6 @@ export default function Home() {
         temperature={weatherData?.current.temp}
         isMetricUnit={isMetricUnit}
         barData={barData}
-        onRefresh={handleRefreshDrinks}
         showLocation={showLocationInHeader}
       />
       

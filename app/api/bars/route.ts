@@ -1,12 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions, hasRequiredSystemRole } from '@/lib/auth';
 
-// GET /api/bars - Get all bars
+// GET /api/bars - Get all bars (filtered by ownership for non-superadmins)
 export async function GET() {
   try {
     console.log('Fetching bars...');
+    const session = await getServerSession(authOptions);
+    
+    let whereClause: any = { active: true };
+    
+    // If user is not a superadmin, filter to only bars they own/manage
+    if (session?.user && session.user.role !== 'superadmin') {
+      whereClause = {
+        ...whereClause,
+        users: {
+          some: {
+            userId: session.user.id,
+            role: {
+              in: ['owner', 'manager'] // Only show bars where user is owner or manager
+            }
+          }
+        }
+      };
+    }
+    
     const bars = await prisma.bar.findMany({
-      where: { active: true },
+      where: whereClause,
       select: {
         id: true,
         slug: true,
@@ -14,6 +35,18 @@ export async function GET() {
         description: true,
         location: true,
         logo: true,
+        users: {
+          where: { role: 'owner' },
+          select: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              }
+            }
+          }
+        },
         _count: {
           select: {
             drinks: true,
@@ -38,6 +71,34 @@ export async function GET() {
 // POST /api/bars - Create a new bar
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+    
+    // Check authentication and permissions
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Only superadmins and bar owners/managers can create bars
+    if (!hasRequiredSystemRole(session.user.role, 'superadmin')) {
+      // For non-superadmins, check if they have manager/owner role in any bar
+      const hasManagerAccess = await prisma.userBar.findFirst({
+        where: {
+          userId: session.user.id,
+          role: { in: ['manager', 'owner'] }
+        }
+      });
+      
+      if (!hasManagerAccess) {
+        return NextResponse.json(
+          { error: 'Insufficient permissions' },
+          { status: 403 }
+        );
+      }
+    }
+
     const body = await request.json();
     const { slug, name, description, location, email, phone, website, logo } = body;
 
@@ -61,20 +122,34 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const bar = await prisma.bar.create({
-      data: {
-        slug,
-        name,
-        description,
-        location,
-        email,
-        phone,
-        website,
-        logo,
-      },
+    // Create bar and assign current user as owner
+    const result = await prisma.$transaction(async (tx) => {
+      const bar = await tx.bar.create({
+        data: {
+          slug,
+          name,
+          description,
+          location,
+          email,
+          phone,
+          website,
+          logo,
+        },
+      });
+
+      // Create owner relationship with current user
+      await tx.userBar.create({
+        data: {
+          userId: session.user.id,
+          barId: bar.id,
+          role: 'owner',
+        },
+      });
+
+      return bar;
     });
 
-    return NextResponse.json(bar, { status: 201 });
+    return NextResponse.json(result, { status: 201 });
   } catch (error) {
     console.error('Error creating bar:', error);
     return NextResponse.json(

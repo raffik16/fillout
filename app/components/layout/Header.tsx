@@ -1,10 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiSun, FiMoon, FiRefreshCw } from 'react-icons/fi';
+import { FiSun, FiMoon } from 'react-icons/fi';
 import { GiBeerBottle } from 'react-icons/gi';
 import { Button } from '@/app/components/ui/Button';
+import { Select } from '@/app/components/ui/Select';
+import axios from 'axios';
 
 interface HeaderProps {
   isDarkMode?: boolean;
@@ -15,14 +17,55 @@ interface HeaderProps {
   showLocation?: boolean;
   barData?: {
     id: string;
+    slug: string;
     name: string;
     logo?: string;
     theme?: any;
   } | null;
-  onRefresh?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, location, temperature, isMetricUnit = false, showLocation = false, barData, onRefresh }) => {
+export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, location, temperature, isMetricUnit = false, showLocation = false, barData }) => {
+  const [bars, setBars] = useState<any[]>([]);
+  const [isLoadingBars, setIsLoadingBars] = useState(false);
+  
+  // Fetch available bars on mount
+  useEffect(() => {
+    const fetchBars = async () => {
+      setIsLoadingBars(true);
+      try {
+        const response = await axios.get('/api/bars');
+        setBars(response.data || []);
+      } catch (error) {
+        console.error('Failed to fetch bars:', error);
+      } finally {
+        setIsLoadingBars(false);
+      }
+    };
+    
+    fetchBars();
+  }, []);
+  
+  // Format bar options for Select component
+  const barOptions = [
+    { value: '', label: 'All Bars' },
+    ...bars.map(bar => ({
+      value: bar.slug,
+      label: bar.name
+    }))
+  ];
+  
+  // Handle bar selection
+  const handleBarChange = (value: string) => {
+    if (value) {
+      // Save to localStorage and redirect to bar URL
+      localStorage.setItem('selectedBar', value);
+      window.location.href = `/${value}`;
+    } else {
+      // Clear selection
+      localStorage.removeItem('selectedBar');
+      window.location.href = '/';
+    }
+  };
   
   // Format temperature display
   const formatTemperature = () => {
@@ -91,21 +134,15 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, lo
           </motion.div>
 
           <div className="flex items-center gap-4">
-            {barData && onRefresh && (
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={onRefresh}
-                  className="p-2"
-                  title="Refresh drinks data"
-                >
-                  <FiRefreshCw className="w-5 h-5" />
-                </Button>
-              </motion.div>
+            {/* Bar Selector Dropdown */}
+            {!isLoadingBars && bars.length > 0 && (
+              <Select
+                options={barOptions}
+                value={barData?.slug || ''}
+                onChange={handleBarChange}
+                placeholder="Select a bar"
+                className="w-40"
+              />
             )}
             <motion.div
               whileHover={{ scale: 1.1 }}

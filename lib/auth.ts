@@ -2,8 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
-import GitHubProvider from "next-auth/providers/github";
+import { verifyPassword } from "@/lib/password";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,
@@ -20,68 +19,44 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // For demo purposes, allow hardcoded admin credentials
-        // In production, implement proper password hashing
-        if (credentials.email === "admin@drinkjoy.app" && credentials.password === "admin123") {
-          return {
-            id: "admin",
-            email: "admin@drinkjoy.app",
-            name: "Admin User",
-            role: "superadmin"
-          };
+        // Find user in database
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email },
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            password: true,
+            role: true
+          }
+        });
+
+        if (!user || !user.password) {
+          return null;
         }
 
-        return null;
+        // Verify password
+        const isValidPassword = await verifyPassword(credentials.password, user.password);
+        if (!isValidPassword) {
+          return null;
+        }
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role
+        };
       }
     }),
-
-    // OAuth providers (optional - enable when configured)
-    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? [
-      GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      })
-    ] : []),
-
-    ...(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET ? [
-      GitHubProvider({
-        clientId: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      })
-    ] : []),
   ],
   
   callbacks: {
     async jwt({ token, user }) {
       // Persist the role in the token right after signin
       if (user) {
-        // For demo credentials user
-        if (user.id === "admin") {
-          token.role = "superadmin";
-        } else {
-          // For OAuth users, fetch role from database
-          const dbUser = await prisma.user.findUnique({
-            where: { email: user.email! },
-            select: { role: true, id: true }
-          });
-          
-          if (dbUser) {
-            token.role = dbUser.role;
-            token.userId = dbUser.id;
-          } else {
-            // Create new user with default role
-            const newUser = await prisma.user.create({
-              data: {
-                email: user.email!,
-                name: user.name,
-                image: user.image,
-                role: "viewer"
-              }
-            });
-            token.role = newUser.role;
-            token.userId = newUser.id;
-          }
-        }
+        token.role = user.role;
+        token.userId = user.id;
       }
       return token;
     },
@@ -108,17 +83,31 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-// Helper function to check if user has required role
+// Helper function to check if user has required role (for bar-specific roles)
 export function hasRequiredRole(userRole: string, requiredRole: string): boolean {
   const roleHierarchy = {
     viewer: 0,
     staff: 1,
     manager: 2,
-    superadmin: 3
+    owner: 3,
+    superadmin: 4
   };
   
   const userLevel = roleHierarchy[userRole as keyof typeof roleHierarchy] || 0;
   const requiredLevel = roleHierarchy[requiredRole as keyof typeof roleHierarchy] || 0;
+  
+  return userLevel >= requiredLevel;
+}
+
+// Helper function to check if user has required system role (for system-wide permissions)
+export function hasRequiredSystemRole(userRole: string, requiredRole: string): boolean {
+  const systemRoleHierarchy = {
+    user: 0,
+    superadmin: 1
+  };
+  
+  const userLevel = systemRoleHierarchy[userRole as keyof typeof systemRoleHierarchy] || 0;
+  const requiredLevel = systemRoleHierarchy[requiredRole as keyof typeof systemRoleHierarchy] || 0;
   
   return userLevel >= requiredLevel;
 }
@@ -150,4 +139,29 @@ export async function canAccessBar(userId: string, barId: string, requiredRole: 
   }
   
   return hasRequiredRole(userBar.role, requiredRole);
+}
+
+// Helper function to check if user owns a specific bar
+export async function isBarOwner(userId: string, barId: string): Promise<boolean> {
+  // Superadmins are considered owners of all bars
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { role: true }
+  });
+  
+  if (user?.role === "superadmin") {
+    return true;
+  }
+  
+  // Check if user is the owner of this bar
+  const userBar = await prisma.userBar.findUnique({
+    where: {
+      userId_barId: {
+        userId,
+        barId
+      }
+    }
+  });
+  
+  return userBar?.role === "owner";
 }
