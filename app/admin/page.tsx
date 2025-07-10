@@ -60,8 +60,6 @@ export default function AdminPage() {
     description: '',
     location: '',
     email: '',
-    phone: '',
-    website: '',
     logo: '',
   });
   const [userFormData, setUserFormData] = useState({
@@ -120,9 +118,7 @@ export default function AdminPage() {
           description: '',
           location: '',
           email: '',
-          phone: '',
-          website: '',
-          logo: '',
+                logo: '',
         });
       }
     } catch (error) {
@@ -151,9 +147,7 @@ export default function AdminPage() {
           description: '',
           location: '',
           email: '',
-          phone: '',
-          website: '',
-          logo: '',
+                      logo: '',
         });
       } else {
         const error = await response.json();
@@ -173,9 +167,7 @@ export default function AdminPage() {
       description: bar.description || '',
       location: bar.location || '',
       email: '', // These fields might not be present in Bar interface
-      phone: '',
-      website: '',
-      logo: bar.logo || '',
+          logo: bar.logo || '',
     });
     setShowEditBarForm(true);
   };
@@ -889,9 +881,7 @@ export default function AdminPage() {
                         description: '',
                         location: '',
                         email: '',
-                        phone: '',
-                        website: '',
-                        logo: '',
+                                                                logo: '',
                       });
                     }}
                     className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"

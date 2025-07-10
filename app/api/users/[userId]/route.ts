@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions, hasRequiredSystemRole } from '@/lib/auth';
 import { hashPassword } from '@/lib/password';
+import { updateUserSchema, formatValidationErrors } from '@/lib/validation';
 
 // PUT /api/users/[userId] - Update user (requires superadmin)
 export async function PUT(
@@ -20,7 +21,17 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { name, email, role, password, barAssignments = [] } = body;
+    
+    // Validate input
+    const validationResult = updateUserSchema.safeParse(body);
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { error: formatValidationErrors(validationResult.error) },
+        { status: 400 }
+      );
+    }
+    
+    const { name, email, role, password, barAssignments = [] } = validationResult.data;
 
     // Prepare update data
     const updateData: Record<string, any> = {

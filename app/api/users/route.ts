@@ -3,6 +3,9 @@ import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions, hasRequiredSystemRole } from '@/lib/auth';
 import { hashPassword } from '@/lib/password';
+import { createUserSchema, formatValidationErrors } from '@/lib/validation';
+import { handleApiError, ApiError } from '@/lib/error-handler';
+import { apiRateLimit } from '@/lib/rate-limit';
 
 // GET /api/users - List all users (requires superadmin)
 export async function GET(request: NextRequest) {
@@ -10,10 +13,7 @@ export async function GET(request: NextRequest) {
     const session = await getServerSession(authOptions);
     
     if (!session?.user || !hasRequiredSystemRole(session.user.role, 'superadmin')) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      throw new ApiError('Unauthorized', 401);
     }
 
     const users = await prisma.user.findMany({
@@ -42,35 +42,43 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(users);
   } catch (error) {
-    console.error('Error fetching users:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch users' },
-      { status: 500 }
-    );
+    return handleApiError(error);
   }
 }
 
 // POST /api/users - Create a new user (requires superadmin)
 export async function POST(request: NextRequest) {
   try {
+    // Apply rate limiting
+    const rateLimitResult = apiRateLimit(request);
+    if (!rateLimitResult.isAllowed) {
+      return NextResponse.json(
+        { error: rateLimitResult.error },
+        { 
+          status: 429,
+          headers: rateLimitResult.headers
+        }
+      );
+    }
+
     const session = await getServerSession(authOptions);
     
     if (!session?.user || !hasRequiredSystemRole(session.user.role, 'superadmin')) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      throw new ApiError('Unauthorized', 401);
     }
 
     const body = await request.json();
-    const { email, name, role = 'user', password, barAssignments = [] } = body;
-
-    if (!email || !password) {
+    
+    // Validate input
+    const validationResult = createUserSchema.safeParse(body);
+    if (!validationResult.success) {
       return NextResponse.json(
-        { error: 'Email and password are required' },
+        { error: formatValidationErrors(validationResult.error) },
         { status: 400 }
       );
     }
+    
+    const { email, name, role, password, barAssignments } = validationResult.data;
 
     // Validate that regular users have at least one bar assignment
     if (role !== 'superadmin' && (!barAssignments || barAssignments.length === 0)) {
@@ -120,10 +128,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(user, { status: 201 });
   } catch (error) {
-    console.error('Error creating user:', error);
-    return NextResponse.json(
-      { error: 'Failed to create user' },
-      { status: 500 }
-    );
+    return handleApiError(error);
   }
 }

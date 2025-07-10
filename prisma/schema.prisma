@@ -17,8 +17,6 @@ model Bar {
   description String?
   location    String?
   email       String?
-  phone       String?
-  website     String?
   logo        String?
   theme       Json?    // Store theme colors and settings
   settings    Json?    // Store bar-specific settings

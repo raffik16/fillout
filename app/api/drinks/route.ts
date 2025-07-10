@@ -1,15 +1,55 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
   try {
+    // Check authentication
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
     const searchParams = request.nextUrl.searchParams;
     const drinkId = searchParams.get('id');
 
-    // If ID is provided, return single drink
+    // Get user's accessible bars
+    const userBars = await prisma.userBar.findMany({
+      where: { userId: session.user.id },
+      select: { barId: true }
+    });
+
+    // Superadmins can access all bars
+    let accessibleBarIds: string[] = [];
+    if (session.user.role === 'superadmin') {
+      const allBars = await prisma.bar.findMany({
+        where: { active: true },
+        select: { id: true }
+      });
+      accessibleBarIds = allBars.map(bar => bar.id);
+    } else {
+      accessibleBarIds = userBars.map(ub => ub.barId);
+    }
+
+    // If user has no accessible bars, return empty result
+    if (accessibleBarIds.length === 0) {
+      return NextResponse.json({
+        drinks: [],
+        total: 0,
+      });
+    }
+
+    // If ID is provided, return single drink (if user has access)
     if (drinkId) {
       const drink = await prisma.drink.findUnique({
-        where: { id: drinkId },
+        where: { 
+          id: drinkId,
+          barId: { in: accessibleBarIds }, // Ensure user has access to this bar
+        },
         include: {
           inventory: {
             select: { inStock: true, quantity: true },
@@ -19,7 +59,7 @@ export async function GET(request: NextRequest) {
       
       if (!drink) {
         return NextResponse.json(
-          { error: 'Drink not found' },
+          { error: 'Drink not found or access denied' },
           { status: 404 }
         );
       }
@@ -43,6 +83,7 @@ export async function GET(request: NextRequest) {
     // Build where clause based on filters
     const whereClause: any = {
       active: true,
+      barId: { in: accessibleBarIds }, // Filter by accessible bars
     };
 
     // Parse categories

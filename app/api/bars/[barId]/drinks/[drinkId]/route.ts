@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions, canAccessBar } from '@/lib/auth';
+import { updateDrinkSchema, formatValidationErrors } from '@/lib/validation';
 
 interface RouteParams {
   params: Promise<{
@@ -12,6 +15,24 @@ interface RouteParams {
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { barId, drinkId } = await params;
+    const session = await getServerSession(authOptions);
+    
+    // Check authentication
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Check if user has access to this bar
+    const hasAccess = await canAccessBar(session.user.id, barId, 'viewer');
+    if (!hasAccess) {
+      return NextResponse.json(
+        { error: 'Insufficient permissions' },
+        { status: 403 }
+      );
+    }
 
     const drink = await prisma.drink.findFirst({
       where: {
@@ -57,22 +78,40 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const { barId, drinkId } = await params;
-    const body = await request.json();
+    const session = await getServerSession(authOptions);
+    
+    // Check authentication
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
 
-    // Remove inventory fields and other non-updatable fields from the update data
-    const { 
-      inStock, 
-      quantity, 
-      inventoryNotes,
-      id,
-      barId: bodyBarId,
-      bar,
-      createdAt,
-      updatedAt,
-      inventory,
-      _count,
-      ...drinkData 
-    } = body;
+    // Check if user has permission to manage drinks for this bar
+    const canManage = await canAccessBar(session.user.id, barId, 'staff');
+    if (!canManage) {
+      return NextResponse.json(
+        { error: 'Insufficient permissions' },
+        { status: 403 }
+      );
+    }
+
+    const body = await request.json();
+    
+    // Extract inventory fields separately
+    const { inStock, quantity, inventoryNotes, ...drinkFields } = body;
+    
+    // Validate drink fields
+    const validationResult = updateDrinkSchema.safeParse(drinkFields);
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { error: formatValidationErrors(validationResult.error) },
+        { status: 400 }
+      );
+    }
+    
+    const drinkData = validationResult.data;
 
     // First verify the drink belongs to the bar
     const existingDrink = await prisma.drink.findFirst({
@@ -94,25 +133,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       where: {
         id: drinkId,
       },
-      data: {
-        name: drinkData.name,
-        category: drinkData.category,
-        description: drinkData.description,
-        price: drinkData.price !== undefined ? parseFloat(drinkData.price.toString()) : undefined,
-        abv: drinkData.abv !== undefined ? parseFloat(drinkData.abv.toString()) : undefined,
-        strength: drinkData.strength,
-        glassType: drinkData.glassType,
-        preparation: drinkData.preparation,
-        imageUrl: drinkData.imageUrl,
-        active: drinkData.active,
-        featured: drinkData.featured,
-        happyHourEligible: drinkData.happyHourEligible,
-        ingredients: drinkData.ingredients,
-        flavorProfile: drinkData.flavorProfile,
-        weatherMatch: drinkData.weatherMatch,
-        occasions: drinkData.occasions,
-        servingSuggestions: drinkData.servingSuggestions,
-      },
+      data: drinkData,
     });
 
     // Update inventory if provided
@@ -153,6 +174,24 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const { barId, drinkId } = await params;
+    const session = await getServerSession(authOptions);
+    
+    // Check authentication
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Check if user has permission to manage drinks for this bar
+    const canManage = await canAccessBar(session.user.id, barId, 'manager');
+    if (!canManage) {
+      return NextResponse.json(
+        { error: 'Insufficient permissions' },
+        { status: 403 }
+      );
+    }
 
     // Verify drink belongs to the bar before deleting
     const drink = await prisma.drink.findFirst({

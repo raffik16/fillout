@@ -16,8 +16,6 @@ async function main() {
       description: 'A demo bar for testing',
       location: 'New York, NY',
       email: 'demo@drinkjoy.app',
-      phone: '555-0123',
-      website: 'https://drinkjoy.app',
       theme: {
         primaryColor: '#ff6b35',
         secondaryColor: '#f7931e',

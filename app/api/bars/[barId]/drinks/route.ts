@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions, canAccessBar } from '@/lib/auth';
+import { createDrinkSchema, formatValidationErrors } from '@/lib/validation';
 
 interface RouteParams {
   params: Promise<{
@@ -12,6 +15,24 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { barId } = await params;
     const { searchParams } = new URL(request.url);
+    const session = await getServerSession(authOptions);
+    
+    // Check authentication
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Check if user has access to this bar
+    const hasAccess = await canAccessBar(session.user.id, barId, 'viewer');
+    if (!hasAccess) {
+      return NextResponse.json(
+        { error: 'Insufficient permissions' },
+        { status: 403 }
+      );
+    }
     
     const category = searchParams.get('category');
     const active = searchParams.get('active') !== 'false';
@@ -72,16 +93,37 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
     const { barId } = await params;
-    const body = await request.json();
-
-    // Validate required fields
-    const { name, category, price, strength } = body;
-    if (!name || !category || price === undefined || !strength) {
+    const session = await getServerSession(authOptions);
+    
+    // Check authentication
+    if (!session?.user?.id) {
       return NextResponse.json(
-        { error: 'Name, category, price, and strength are required' },
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Check if user has permission to manage drinks for this bar
+    const canManage = await canAccessBar(session.user.id, barId, 'staff');
+    if (!canManage) {
+      return NextResponse.json(
+        { error: 'Insufficient permissions' },
+        { status: 403 }
+      );
+    }
+
+    const body = await request.json();
+    
+    // Validate input
+    const validationResult = createDrinkSchema.safeParse(body);
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { error: formatValidationErrors(validationResult.error) },
         { status: 400 }
       );
     }
+    
+    const validatedData = validationResult.data;
 
     // Ensure bar exists
     const bar = await prisma.bar.findUnique({
@@ -99,22 +141,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     const drink = await prisma.drink.create({
       data: {
         barId,
-        name,
-        category,
-        description: body.description,
-        price: parseFloat(price),
-        abv: body.abv || 0,
-        strength,
-        glassType: body.glassType,
-        preparation: body.preparation,
-        imageUrl: body.imageUrl,
-        featured: body.featured || false,
-        happyHourEligible: body.happyHourEligible || false,
-        ingredients: body.ingredients || [],
-        flavorProfile: body.flavorProfile || [],
-        weatherMatch: body.weatherMatch,
-        occasions: body.occasions,
-        servingSuggestions: body.servingSuggestions,
+        ...validatedData,
       },
     });
 

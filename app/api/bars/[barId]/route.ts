@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
-import { authOptions, hasRequiredSystemRole } from '@/lib/auth';
+import { authOptions, hasRequiredSystemRole, canAccessBar } from '@/lib/auth';
+import { updateBarSchema, formatValidationErrors } from '@/lib/validation';
 
 interface RouteParams {
   params: Promise<{
@@ -13,6 +14,24 @@ interface RouteParams {
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { barId } = await params;
+    const session = await getServerSession(authOptions);
+    
+    // Check authentication
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Check if user has access to this bar
+    const hasAccess = await canAccessBar(session.user.id, barId, 'viewer');
+    if (!hasAccess) {
+      return NextResponse.json(
+        { error: 'Insufficient permissions' },
+        { status: 403 }
+      );
+    }
 
     const bar = await prisma.bar.findUnique({
       where: { id: barId },
@@ -76,15 +95,17 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     const body = await request.json();
-    const { slug, name, description, location, email, phone, website, logo } = body;
-
-    // Validate required fields
-    if (!slug || !name) {
+    
+    // Validate input
+    const validationResult = updateBarSchema.safeParse(body);
+    if (!validationResult.success) {
       return NextResponse.json(
-        { error: 'Slug and name are required' },
+        { error: formatValidationErrors(validationResult.error) },
         { status: 400 }
       );
     }
+    
+    const { slug, name, description, location, email, logo } = validationResult.data;
 
     // Check if slug already exists for a different bar
     const existing = await prisma.bar.findFirst({
@@ -109,8 +130,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         description,
         location,
         email,
-        phone,
-        website,
         logo,
       },
     });
@@ -129,6 +148,45 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const { barId } = await params;
+    const session = await getServerSession(authOptions);
+    
+    // Check authentication
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Check permissions: only superadmin or bar owner can delete
+    if (!hasRequiredSystemRole(session.user.role, 'superadmin')) {
+      const hasAccess = await prisma.userBar.findFirst({
+        where: {
+          userId: session.user.id,
+          barId: barId,
+          role: 'owner' // Only owners can delete their own bars
+        }
+      });
+      
+      if (!hasAccess) {
+        return NextResponse.json(
+          { error: 'Insufficient permissions' },
+          { status: 403 }
+        );
+      }
+    }
+
+    // Check if bar exists
+    const bar = await prisma.bar.findUnique({
+      where: { id: barId },
+    });
+
+    if (!bar) {
+      return NextResponse.json(
+        { error: 'Bar not found' },
+        { status: 404 }
+      );
+    }
 
     await prisma.bar.delete({
       where: { id: barId },

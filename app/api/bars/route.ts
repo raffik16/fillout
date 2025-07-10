@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions, hasRequiredSystemRole } from '@/lib/auth';
+import { createBarSchema, formatValidationErrors } from '@/lib/validation';
 
 // GET /api/bars - Get all bars (filtered by ownership for non-superadmins)
 export async function GET() {
@@ -100,15 +101,17 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { slug, name, description, location, email, phone, website, logo } = body;
-
-    // Validate required fields
-    if (!slug || !name) {
+    
+    // Validate input
+    const validationResult = createBarSchema.safeParse(body);
+    if (!validationResult.success) {
       return NextResponse.json(
-        { error: 'Slug and name are required' },
+        { error: formatValidationErrors(validationResult.error) },
         { status: 400 }
       );
     }
+    
+    const { slug, name, description, location, email, logo } = validationResult.data;
 
     // Check if slug already exists
     const existing = await prisma.bar.findUnique({
@@ -131,8 +134,6 @@ export async function POST(request: NextRequest) {
           description,
           location,
           email,
-          phone,
-          website,
           logo,
         },
       });
