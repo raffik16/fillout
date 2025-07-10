@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
+import Link from 'next/link';
 import { signIn, getSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 
-export default function SignIn() {
+function SignInForm() {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -34,7 +35,7 @@ export default function SignIn() {
         router.push(callbackUrl);
         router.refresh();
       }
-    } catch (error) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
@@ -106,11 +107,27 @@ export default function SignIn() {
 
 
         <div className="mt-6 text-center">
-          <a href="/" className="text-sm text-gray-600 hover:text-orange-600 transition-colors">
+          <Link href="/" className="text-sm text-gray-600 hover:text-orange-600 transition-colors">
             ← Back to app
-          </a>
+          </Link>
         </div>
       </motion.div>
     </div>
+  );
+}
+
+export default function SignIn() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Loading...</h1>
+          </div>
+        </div>
+      </div>
+    }>
+      <SignInForm />
+    </Suspense>
   );
 }

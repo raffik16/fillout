@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Build where clause based on filters
-    const whereClause: any = {
+    const whereClause: Record<string, unknown> = {
       active: true,
       barId: { in: accessibleBarIds }, // Filter by accessible bars
     };
@@ -113,7 +113,7 @@ export async function GET(request: NextRequest) {
 
     // Parse flavors - this is more complex as it's an array field
     const flavors = searchParams.get('flavors');
-    let flavorFilter: any = {};
+    let flavorFilter: Record<string, unknown> = {};
     if (flavors) {
       const flavorList = flavors.split(',');
       flavorFilter = {
@@ -125,7 +125,7 @@ export async function GET(request: NextRequest) {
 
     // Parse occasions - similar to flavors
     const occasions = searchParams.get('occasions');
-    let occasionFilter: any = {};
+    let occasionFilter: Record<string, unknown> = {};
     if (occasions) {
       const occasionList = occasions.split(',');
       occasionFilter = {

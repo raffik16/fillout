@@ -91,7 +91,7 @@ export function applyCorsHeaders(response: NextResponse): NextResponse {
 /**
  * Create a secure API response with all security headers
  */
-export function createSecureApiResponse(data: any, options?: { status?: number; headers?: Record<string, string> }): NextResponse {
+export function createSecureApiResponse(data: unknown, options?: { status?: number; headers?: Record<string, string> }): NextResponse {
   const response = NextResponse.json(data, { status: options?.status || 200 });
   
   // Apply security headers

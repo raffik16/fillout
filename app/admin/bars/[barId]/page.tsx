@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, Plus, Edit2, Trash2 } from 'lucide-react';
 
 interface Drink {
-  id: string;
+  id?: string;
   name: string;
   category: string;
   description?: string;
@@ -13,8 +13,17 @@ interface Drink {
   abv: number;
   strength: string;
   imageUrl?: string;
+  image_url?: string;
   active: boolean;
   inStock?: boolean;
+  flavorProfile?: string[];
+  flavor_profile?: string[];
+  servingSuggestions?: string[];
+  serving_suggestions?: string[];
+  glassType?: string;
+  glass_type?: string;
+  weatherMatch?: string;
+  weather_match?: string;
 }
 
 interface Bar {
@@ -99,12 +108,12 @@ export default function BarDrinksPage() {
       // Clean the update data - remove fields that shouldn't be updated
       const cleanedUpdates = { ...editFormData };
       delete cleanedUpdates.id;
-      delete (cleanedUpdates as any).barId;
-      delete (cleanedUpdates as any).bar;
-      delete (cleanedUpdates as any).createdAt;
-      delete (cleanedUpdates as any).updatedAt;
-      delete (cleanedUpdates as any).inventory;
-      delete (cleanedUpdates as any)._count;
+      delete (cleanedUpdates as Record<string, unknown>).barId;
+      delete (cleanedUpdates as Record<string, unknown>).bar;
+      delete (cleanedUpdates as Record<string, unknown>).createdAt;
+      delete (cleanedUpdates as Record<string, unknown>).updatedAt;
+      delete (cleanedUpdates as Record<string, unknown>).inventory;
+      delete (cleanedUpdates as Record<string, unknown>)._count;
 
       // Transform field names to match database schema
       const dataToSend = {
@@ -291,7 +300,7 @@ export default function BarDrinksPage() {
                           Edit
                         </button>
                         <button
-                          onClick={() => handleDeleteDrink(drink.id)}
+                          onClick={() => drink.id && handleDeleteDrink(drink.id)}
                           className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />

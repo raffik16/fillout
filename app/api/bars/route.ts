@@ -10,7 +10,7 @@ export async function GET() {
     console.log('Fetching bars...');
     const session = await getServerSession(authOptions);
     
-    let whereClause: any = { active: true };
+    let whereClause: Record<string, unknown> = { active: true };
     
     // If user is not a superadmin, filter to only bars they own/manage
     if (session?.user && session.user.role !== 'superadmin') {

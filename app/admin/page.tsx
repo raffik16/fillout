@@ -493,7 +493,7 @@ export default function AdminPage() {
               <>
                 {bars.length === 0 ? (
                   <div className="text-center py-12 text-gray-500">
-                    No bars created yet. Click "Add Bar" to get started.
+                    No bars created yet. Click &quot;Add Bar&quot; to get started.
                   </div>
                 ) : (
                   <div className="grid gap-4">
@@ -572,7 +572,7 @@ export default function AdminPage() {
               <>
                 {users.length === 0 ? (
                   <div className="text-center py-12 text-gray-500">
-                    No users created yet. Click "Add User" to get started.
+                    No users created yet. Click &quot;Add User&quot; to get started.
                   </div>
                 ) : (
                   <div className="grid gap-4">

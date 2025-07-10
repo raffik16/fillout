@@ -44,8 +44,8 @@ export default function Home() {
   const [wizardPreferences, setWizardPreferences] = useState<WizardPreferences | null>(null);
   const [showLocationInHeader, setShowLocationInHeader] = useState(false);
   const [currentLocation, setCurrentLocation] = useState<string>('');
-  const [selectedBar, setSelectedBar] = useState<string | null>(null);
-  const [barData, setBarData] = useState<any>(null);
+  const [, setSelectedBar] = useState<string | null>(null);
+  const [barData, setBarData] = useState<Record<string, unknown> | null>(null);
   const drinksGridRef = useRef<HTMLDivElement>(null);
 
   // Fetch weather data using centralized service

@@ -8,7 +8,7 @@ export function recommendDrinks(
   filters?: DrinkFilters,
   isMetricUnit: boolean = false
 ): DrinkRecommendation[] {
-  let filteredDrinks = drinks;
+  const filteredDrinks = drinks;
 
   // Score each drink based on weather matching
   const recommendations = filteredDrinks.map((drink) => {

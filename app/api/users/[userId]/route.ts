@@ -8,7 +8,7 @@ import { updateUserSchema, formatValidationErrors } from '@/lib/validation';
 // PUT /api/users/[userId] - Update user (requires superadmin)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -20,6 +20,7 @@ export async function PUT(
       );
     }
 
+    const resolvedParams = await params;
     const body = await request.json();
     
     // Validate input
@@ -34,7 +35,7 @@ export async function PUT(
     const { name, email, role, password, barAssignments = [] } = validationResult.data;
 
     // Prepare update data
-    const updateData: Record<string, any> = {
+    const updateData: Record<string, unknown> = {
       name,
       email,
       role,
@@ -49,7 +50,7 @@ export async function PUT(
     const user = await prisma.$transaction(async (tx) => {
       // Update user
       const updatedUser = await tx.user.update({
-        where: { id: params.userId },
+        where: { id: resolvedParams.userId },
         data: updateData,
         select: {
           id: true,
@@ -63,16 +64,16 @@ export async function PUT(
       // Update bar assignments
       // First, delete existing assignments
       await tx.userBar.deleteMany({
-        where: { userId: params.userId }
+        where: { userId: resolvedParams.userId }
       });
 
       // Then create new assignments
       if (barAssignments.length > 0) {
         await tx.userBar.createMany({
-          data: barAssignments.map((assignment: any) => ({
-            userId: params.userId,
-            barId: assignment.barId,
-            role: assignment.role || 'staff',
+          data: barAssignments.map((assignment: Record<string, unknown>) => ({
+            userId: resolvedParams.userId,
+            barId: assignment.barId as string,
+            role: (assignment.role as string) || 'staff',
           })),
         });
       }
@@ -92,10 +93,11 @@ export async function PUT(
 
 // DELETE /api/users/[userId] - Delete user (requires superadmin)
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { userId: string } }
+  _request: NextRequest,
+  { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const resolvedParams = await params;
     const session = await getServerSession(authOptions);
     
     if (!session?.user || !hasRequiredSystemRole(session.user.role, 'superadmin')) {
@@ -106,7 +108,7 @@ export async function DELETE(
     }
 
     // Don't allow deleting yourself
-    if (params.userId === session.user.id) {
+    if (resolvedParams.userId === session.user.id) {
       return NextResponse.json(
         { error: 'Cannot delete your own account' },
         { status: 400 }
@@ -114,7 +116,7 @@ export async function DELETE(
     }
 
     await prisma.user.delete({
-      where: { id: params.userId }
+      where: { id: resolvedParams.userId }
     });
 
     return NextResponse.json({ message: 'User deleted successfully' });

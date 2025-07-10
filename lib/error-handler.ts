@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 interface ErrorResponse {
   error: string;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 export class ApiError extends Error {
@@ -25,7 +25,7 @@ export function handleApiError(error: unknown): NextResponse<ErrorResponse> {
 
   // Handle Prisma errors
   if (error && typeof error === 'object' && 'code' in error) {
-    const prismaError = error as any;
+    const prismaError = error as Record<string, unknown>;
     
     // Handle unique constraint violations
     if (prismaError.code === 'P2002') {
@@ -58,14 +58,14 @@ export function handleApiError(error: unknown): NextResponse<ErrorResponse> {
   return NextResponse.json(
     { 
       error: 'Internal server error',
-      ...(isDevelopment && error instanceof Error && { details: error.message })
+      ...(isDevelopment && error instanceof Error && { details: { message: error.message } })
     },
     { status: 500 }
   );
 }
 
 // Helper function to wrap async route handlers
-export function withErrorHandler<T extends any[], R>(
+export function withErrorHandler<T extends readonly unknown[], R>(
   handler: (...args: T) => Promise<NextResponse<R>>
 ) {
   return async (...args: T): Promise<NextResponse<R | ErrorResponse>> => {

@@ -8,7 +8,7 @@ import { handleApiError, ApiError } from '@/lib/error-handler';
 import { apiRateLimit } from '@/lib/rate-limit';
 
 // GET /api/users - List all users (requires superadmin)
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions);
     
@@ -111,9 +111,9 @@ export async function POST(request: NextRequest) {
         role,
         password: hashedPassword,
         bars: {
-          create: barAssignments.map((assignment: any) => ({
-            barId: assignment.barId,
-            role: assignment.role || 'staff',
+          create: barAssignments.map((assignment: Record<string, unknown>) => ({
+            barId: assignment.barId as string,
+            role: (assignment.role as string) || 'staff',
           })),
         },
       },

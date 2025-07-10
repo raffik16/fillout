@@ -15,17 +15,11 @@ interface HeaderProps {
   temperature?: number;
   isMetricUnit?: boolean;
   showLocation?: boolean;
-  barData?: {
-    id: string;
-    slug: string;
-    name: string;
-    logo?: string;
-    theme?: any;
-  } | null;
+  barData?: Record<string, unknown> | null;
 }
 
 export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, location, temperature, isMetricUnit = false, showLocation = false, barData }) => {
-  const [bars, setBars] = useState<any[]>([]);
+  const [bars, setBars] = useState<Record<string, unknown>[]>([]);
   const [isLoadingBars, setIsLoadingBars] = useState(false);
   
   // Fetch available bars on mount
@@ -49,8 +43,8 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, lo
   const barOptions = [
     { value: '', label: 'All Bars' },
     ...bars.map(bar => ({
-      value: bar.slug,
-      label: bar.name
+      value: bar.slug as string,
+      label: bar.name as string
     }))
   ];
   
@@ -95,10 +89,10 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, lo
             className="flex items-center gap-3"
             whileHover={{ scale: 1.05 }}
           >
-            {barData?.logo ? (
+            {(barData as Record<string, unknown>)?.logo ? (
               <img 
-                src={barData.logo} 
-                alt={barData.name}
+                src={(barData as Record<string, unknown>).logo as string} 
+                alt={(barData as Record<string, unknown>).name as string}
                 className="w-8 h-8 object-cover rounded-full"
               />
             ) : (
@@ -106,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, lo
             )}
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-                {barData?.name || 'Drinkjoy'}
+                {((barData as Record<string, unknown>)?.name as string) || 'Drinkjoy'}
               </h1>
               <div className="relative overflow-hidden">
                 <motion.p 
@@ -138,7 +132,7 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, lo
             {!isLoadingBars && bars.length > 0 && (
               <Select
                 options={barOptions}
-                value={barData?.slug || ''}
+                value={(barData as Record<string, unknown>)?.slug as string || ''}
                 onChange={handleBarChange}
                 placeholder="Select a bar"
                 className="w-40"

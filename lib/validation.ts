@@ -94,7 +94,7 @@ export function formatValidationErrors(error: z.ZodError): string {
     if (error instanceof z.ZodError) {
       // Try the issues property (most common in Zod)
       if (error.issues && Array.isArray(error.issues)) {
-        return error.issues.map((err: any) => {
+        return error.issues.map((err: { path?: unknown[]; message?: string }) => {
           const path = err.path && Array.isArray(err.path) ? err.path.join('.') : 'unknown';
           const message = err.message || 'Invalid value';
           return `${path}: ${message}`;
@@ -102,8 +102,8 @@ export function formatValidationErrors(error: z.ZodError): string {
       }
       
       // Try the errors property (fallback)
-      if ((error as any).errors && Array.isArray((error as any).errors)) {
-        return (error as any).errors.map((err: any) => {
+      if ((error as unknown as Record<string, unknown>).errors && Array.isArray((error as unknown as Record<string, unknown>).errors)) {
+        return ((error as unknown as Record<string, unknown>).errors as Record<string, unknown>[]).map((err: Record<string, unknown>) => {
           const path = err.path && Array.isArray(err.path) ? err.path.join('.') : 'unknown';
           const message = err.message || 'Invalid value';
           return `${path}: ${message}`;
@@ -113,7 +113,7 @@ export function formatValidationErrors(error: z.ZodError): string {
     
     // Handle error objects with issues array (fallback)
     if (error && typeof error === 'object' && 'issues' in error && Array.isArray(error.issues)) {
-      return (error as any).issues.map((err: any) => {
+      return ((error as unknown as Record<string, unknown>).issues as Record<string, unknown>[]).map((err: Record<string, unknown>) => {
         const path = err.path && Array.isArray(err.path) ? err.path.join('.') : 'unknown';
         const message = err.message || 'Invalid value';
         return `${path}: ${message}`;
@@ -121,8 +121,8 @@ export function formatValidationErrors(error: z.ZodError): string {
     }
     
     // Handle error objects with errors array (fallback)
-    if (error && typeof error === 'object' && 'errors' in error && Array.isArray((error as any).errors)) {
-      return (error as any).errors.map((err: any) => {
+    if (error && typeof error === 'object' && 'errors' in error && Array.isArray((error as unknown as Record<string, unknown>).errors)) {
+      return ((error as unknown as Record<string, unknown>).errors as Record<string, unknown>[]).map((err: Record<string, unknown>) => {
         const path = err.path && Array.isArray(err.path) ? err.path.join('.') : 'unknown';
         const message = err.message || 'Invalid value';
         return `${path}: ${message}`;
@@ -134,8 +134,8 @@ export function formatValidationErrors(error: z.ZodError): string {
       error,
       type: typeof error,
       isZodError: error instanceof z.ZodError,
-      hasErrors: !!(error as any)?.errors,
-      hasIssues: !!(error as any)?.issues,
+      hasErrors: !!(error as unknown as Record<string, unknown>)?.errors,
+      hasIssues: !!(error as unknown as Record<string, unknown>)?.issues,
       keys: error ? Object.keys(error) : 'null',
       stringified: JSON.stringify(error, null, 2)
     });

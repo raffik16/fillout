@@ -15,7 +15,7 @@ import axios from 'axios';
 interface WizardResultsProps {
   preferences: WizardPreferences;
   weatherData?: WeatherData | null;
-  barData?: any;
+  barData?: Record<string, unknown> | null;
   onRetakeQuiz: () => void;
   onViewAll: (preferences: WizardPreferences, weatherData?: WeatherData | null) => void;
 }
@@ -36,7 +36,7 @@ export default function WizardResults({
   const [locationError, setLocationError] = useState<string | null>(null);
   const [imageLoading, setImageLoading] = useState(true);
   const [drinks, setDrinks] = useState<Drink[]>([]);
-  const [isLoadingDrinks, setIsLoadingDrinks] = useState(false);
+  const [, setIsLoadingDrinks] = useState(false);
 
   // Fetch drinks from the API
   const fetchDrinks = useCallback(async () => {

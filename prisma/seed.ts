@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-import drinksData from '../data/drinks.json';
+import { hashPassword } from '../lib/password';
+// import drinksData from '../data/drinks.json';
+const drinksData: { drinks: Record<string, unknown>[] } = { drinks: [] };
 
 const prisma = new PrismaClient();
 
@@ -25,11 +27,95 @@ async function main() {
 
   console.log(`Created/Updated bar: ${demoBar.name}`);
 
-  // Migrate drinks from JSON
-  const drinks = drinksData.drinks;
-  let createdCount = 0;
+  // Create admin user
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@drinkjoy.app';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+  const hashedPassword = await hashPassword(adminPassword);
 
-  for (const drink of drinks) {
+  const adminUser = await prisma.user.upsert({
+    where: { email: adminEmail },
+    update: {},
+    create: {
+      email: adminEmail,
+      name: 'Admin User',
+      password: hashedPassword,
+      role: 'superadmin',
+    },
+  });
+
+  console.log(`Created/Updated admin user: ${adminUser.email}`);
+
+  // Create sample drinks
+  const sampleDrinks = [
+    {
+      name: 'Classic Margarita',
+      category: 'cocktail',
+      description: 'A refreshing tequila-based cocktail with lime and triple sec',
+      price: 12.00,
+      abv: 15.0,
+      strength: 'medium',
+      glassType: 'Margarita Glass',
+      preparation: 'Shake with ice, strain into glass with salt rim',
+      ingredients: ['Tequila', 'Triple Sec', 'Lime Juice', 'Salt'],
+      flavorProfile: ['Citrus', 'Sour', 'Refreshing'],
+      happyHourEligible: true,
+    },
+    {
+      name: 'Old Fashioned',
+      category: 'cocktail',
+      description: 'A classic whiskey cocktail with sugar and bitters',
+      price: 14.00,
+      abv: 25.0,
+      strength: 'strong',
+      glassType: 'Old Fashioned Glass',
+      preparation: 'Muddle sugar with bitters, add whiskey and ice',
+      ingredients: ['Whiskey', 'Sugar', 'Angostura Bitters', 'Orange Peel'],
+      flavorProfile: ['Smooth', 'Bitter', 'Caramel'],
+      happyHourEligible: true,
+    },
+    {
+      name: 'Craft IPA',
+      category: 'beer',
+      description: 'Hoppy India Pale Ale with citrus notes',
+      price: 8.00,
+      abv: 6.5,
+      strength: 'medium',
+      glassType: 'Pint Glass',
+      preparation: 'Serve chilled',
+      ingredients: ['Hops', 'Malt', 'Yeast', 'Water'],
+      flavorProfile: ['Bitter', 'Citrus', 'Hoppy'],
+      happyHourEligible: true,
+    },
+    {
+      name: 'Cabernet Sauvignon',
+      category: 'wine',
+      description: 'Full-bodied red wine with dark fruit flavors',
+      price: 10.00,
+      abv: 13.5,
+      strength: 'medium',
+      glassType: 'Wine Glass',
+      preparation: 'Serve at room temperature',
+      ingredients: ['Cabernet Sauvignon Grapes'],
+      flavorProfile: ['Berry', 'Smooth', 'Rich'],
+      happyHourEligible: false,
+    },
+    {
+      name: 'Mojito',
+      category: 'cocktail',
+      description: 'Refreshing rum cocktail with mint and lime',
+      price: 11.00,
+      abv: 12.0,
+      strength: 'light',
+      glassType: 'Highball Glass',
+      preparation: 'Muddle mint with lime, add rum and soda water',
+      ingredients: ['White Rum', 'Fresh Mint', 'Lime Juice', 'Soda Water', 'Sugar'],
+      flavorProfile: ['Mint', 'Citrus', 'Refreshing'],
+      happyHourEligible: true,
+    },
+  ];
+
+  let createdCount = 0;
+  for (const drink of sampleDrinks) {
     try {
       const createdDrink = await prisma.drink.create({
         data: {
@@ -37,18 +123,17 @@ async function main() {
           name: drink.name,
           category: drink.category,
           description: drink.description,
-          price: drink.price ? parseFloat(drink.price.replace('$', '')) : 10.00,
+          price: drink.price,
           abv: drink.abv,
           strength: drink.strength,
-          glassType: drink.glass_type,
+          glassType: drink.glassType,
           preparation: drink.preparation,
-          imageUrl: drink.image_url,
-          happyHourEligible: drink.happy_hour || false,
-          ingredients: drink.ingredients || [],
-          flavorProfile: drink.flavor_profile || [],
-          weatherMatch: drink.weather_match || null,
-          occasions: drink.occasions || [],
-          servingSuggestions: drink.serving_suggestions || [],
+          happyHourEligible: drink.happyHourEligible,
+          ingredients: drink.ingredients,
+          flavorProfile: drink.flavorProfile,
+          weatherMatch: null,
+          occasions: [],
+          servingSuggestions: [],
         },
       });
 

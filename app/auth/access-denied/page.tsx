@@ -21,7 +21,7 @@ export default function AccessDenied() {
         <p className="text-gray-600 mb-6">
           {session?.user ? (
             <>
-              Sorry, you don't have permission to access this area. 
+              Sorry, you don&apos;t have permission to access this area. 
               Your current role is <span className="font-semibold">{session.user.role}</span>.
               <br /><br />
               Contact an administrator to request access.
