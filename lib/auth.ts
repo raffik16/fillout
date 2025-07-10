@@ -79,8 +79,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  
-  secret: process.env.NEXTAUTH_SECRET,
+
 };
 
 // Helper function to check if user has required role (for bar-specific roles)

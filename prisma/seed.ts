@@ -131,7 +131,7 @@ async function main() {
           happyHourEligible: drink.happyHourEligible,
           ingredients: drink.ingredients,
           flavorProfile: drink.flavorProfile,
-          weatherMatch: null,
+          weatherMatch: undefined,
           occasions: [],
           servingSuggestions: [],
         },
