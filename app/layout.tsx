@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   keywords: "drinks, cocktails, beer, wine, recipes, shopping, recommendations, perfect drink, bartender, mixology",
   authors: [{ name: "drinkjoy.app Team" }],
   alternates: {
-    canonical: "https://www.drinkjoy.app",
+    canonical: "https://drinkjoy-git-backend-raffi-website.vercel.app",
   },
   openGraph: {
     title: "drinkjoy.app - Curated Drinks with Recipes & Shopping",
