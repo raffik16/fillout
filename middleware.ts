@@ -37,9 +37,7 @@ export default withAuth(
 
 export const config = {
   matcher: [
-    // Protect admin routes
+    // Only protect admin routes
     '/admin/:path*',
-    // Don't protect API auth routes
-    '/((?!api/auth|_next/static|_next/image|favicon.ico).*)',
   ]
 };
