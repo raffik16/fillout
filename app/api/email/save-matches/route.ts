@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     // Send email with matches
     try {
       const { error } = await resend.emails.send({
-        from: 'Drink Wizard <hello@drinkwizard.com>',
+        from: process.env.FROM_EMAIL || 'Drink Wizard <onboarding@resend.dev>',
         to: [email],
         subject: '🍹 Your Perfect Drink Matches Are Here!',
         html: generateEmailHTML(matchedDrinks, preferences)

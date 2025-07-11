@@ -1,10 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Check, X } from 'lucide-react';
 import { DrinkRecommendation } from '@/app/types/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
+
+const WITTY_PHRASES = [
+  "Don't let these liquid treasures swim away! 🐠",
+  "Save these matches for your next adventure! 🗺️",
+  "Your perfect drinks deserve a permanent home! 🏠",
+  "Keep these matches close to your heart! 💕",
+  "Don't forget these liquid soulmates! 👯‍♀️",
+  "Bookmark these beauties for later! 📖",
+  "Your taste buds will thank you! 😋",
+  "Lock in these liquid legends! 🔒"
+];
 
 interface EmailCaptureFormProps {
   matchedDrinks: DrinkRecommendation[];
@@ -41,8 +52,8 @@ export default function EmailCaptureForm({ matchedDrinks, preferences }: EmailCa
         setStatus('success');
         setEmail('');
         setTimeout(() => {
-          setShowForm(false);
           setStatus('idle');
+          // Don't hide the form, allow multiple submissions
         }, 3000);
       } else {
         setStatus('error');
@@ -55,15 +66,11 @@ export default function EmailCaptureForm({ matchedDrinks, preferences }: EmailCa
     }
   };
 
-  const wittyPhrases = [
-    "Don't let these liquid treasures swim away! 🐠",
-    "Save these matches for your next adventure! 🗺️",
-    "Your perfect drinks deserve a permanent home! 🏠",
-    "Keep these matches close to your heart! 💕",
-    "Don't forget these liquid soulmates! 👯‍♀️"
-  ];
-
-  const randomPhrase = wittyPhrases[Math.floor(Math.random() * wittyPhrases.length)];
+  // Use useMemo to ensure phrase stays consistent per component mount
+  const randomPhrase = useMemo(() => 
+    WITTY_PHRASES[Math.floor(Math.random() * WITTY_PHRASES.length)], 
+    []
+  );
 
   if (!showForm) {
     return (
@@ -128,7 +135,7 @@ export default function EmailCaptureForm({ matchedDrinks, preferences }: EmailCa
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-gray-900 placeholder:text-gray-500 bg-white"
                 disabled={isSubmitting}
               />
             </div>

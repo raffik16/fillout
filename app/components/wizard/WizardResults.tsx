@@ -42,6 +42,7 @@ export default function WizardResults({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [recommendations, setRecommendations] = useState<DrinkRecommendation[]>([]);
   const [useWeather, setUseWeather] = useState(preferences.useWeather);
+  const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(true);
   const [dragDirection, setDragDirection] = useState<'left' | 'right' | null>(null);
   const [localWeatherData, setLocalWeatherData] = useState<WeatherData | null>(weatherData || null);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
@@ -49,10 +50,12 @@ export default function WizardResults({
   const [imageLoading, setImageLoading] = useState(true);
 
   const updateRecommendations = useCallback(async () => {
+    setIsLoadingRecommendations(true);
     const updatedPrefs = { ...preferences, useWeather };
     const recs = await matchDrinksToPreferences(updatedPrefs, localWeatherData, false, true);
     setRecommendations(recs);
     setCurrentIndex(0);
+    setIsLoadingRecommendations(false);
   }, [preferences, useWeather, localWeatherData]);
 
   const totalCards = recommendations.length + 1; // +1 for View All card
@@ -152,6 +155,18 @@ export default function WizardResults({
     }
     // If neither threshold is met, the card will snap back to center
   };
+
+  // Show loading state while recommendations are being fetched
+  if (isLoadingRecommendations) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400 mx-auto mb-4"></div>
+          <p className="text-gray-600">Finding your perfect matches...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!currentDrink && !isViewAllCard) return null;
 
