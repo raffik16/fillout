@@ -13,6 +13,7 @@ import weatherService from '@/lib/weatherService';
 import LikeButton from '@/app/components/ui/LikeButton';
 import EmailCaptureForm from '@/app/components/ui/EmailCaptureForm';
 import DrinkLikeCount from '@/app/components/wizard/DrinkLikeCount';
+import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 
 // Witty title generator based on match count
 function getWittyTitle(count: number): string {
@@ -160,10 +161,10 @@ export default function WizardResults({
   if (isLoadingRecommendations) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400 mx-auto mb-4"></div>
-          <p className="text-gray-600">Finding your perfect matches...</p>
-        </div>
+        <LoadingSpinner 
+          size="lg" 
+          text="Finding your perfect matches..."
+        />
       </div>
     );
   }
@@ -175,7 +176,7 @@ export default function WizardResults({
       <div>
         {/* Header */}
         <div className="flex justify-center items-center p-4">
-          <h2 className="text-2xl font-bold text-gray-800">
+          <h2 className="text-1xl font-bold text-gray-800">
             {preferences.category === 'featured' ? '⭐ Featured Drinks' : getWittyTitle(recommendations.length)}
           </h2>
         </div>
@@ -218,7 +219,7 @@ export default function WizardResults({
           >
             {isViewAllCard ? (
               /* All Matches Display */
-              <div className="bg-white rounded-3xl overflow-hidden max-h-[80vh] flex flex-col">
+              <div className="bg-white rounded-3xl overflow-hidden flex flex-col" style={{ maxHeight: 'calc(100dvh - 200px)' }}>
                 {/* Header */}
                 <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-6 text-center flex-shrink-0">
                   <div className="text-4xl mb-3">🎯</div>
@@ -229,7 +230,7 @@ export default function WizardResults({
                 </div>
 
                 {/* Scrollable Content */}
-                <div className="flex-1 overflow-y-auto p-4">
+                <div className="flex-1 overflow-y-auto p-4" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}>
                   <div className="space-y-4">
                     {recommendations.map((rec) => (
                       <div key={rec.drink.id} className="bg-gray-50 rounded-xl p-4 flex items-center gap-4">
@@ -458,10 +459,10 @@ export default function WizardResults({
             } ${isLoadingLocation ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             {isLoadingLocation ? (
-              <>
-                <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                Finding Location...
-              </>
+              <div className="flex items-center gap-2">
+                <LoadingSpinner size="sm" className="!m-0" />
+                <span>Finding Location...</span>
+              </div>
             ) : localWeatherData ? (
               <>
                 <div className="flex flex-col text-xs leading-tight">

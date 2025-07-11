@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Check, X } from 'lucide-react';
 import { DrinkRecommendation } from '@/app/types/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
+import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 
 const WITTY_PHRASES = [
   "Don't let these liquid treasures swim away! 🐠",
@@ -162,8 +163,8 @@ export default function EmailCaptureForm({ matchedDrinks, preferences }: EmailCa
             >
               {isSubmitting ? (
                 <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Saving Matches...
+                  <LoadingSpinner size="sm" className="!m-0" />
+                  <span>Saving Matches...</span>
                 </div>
               ) : (
                 `Save ${matchedDrinks.length} Perfect Matches`

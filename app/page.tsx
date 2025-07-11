@@ -10,6 +10,7 @@ import WizardResults from '@/app/components/wizard/WizardResults';
 import { PWAInstallPrompt } from '@/app/components/ui/PWAInstallPrompt';
 import { WeatherData } from '@/app/types/weather';
 import { WizardPreferences } from '@/app/types/wizard';
+import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -95,21 +96,6 @@ export default function Home() {
     }
   };
 
-  // Handle wizard skip
-  const handleWizardSkip = () => {
-    setShowWizard(false);
-    localStorage.setItem('wizardCompleted', 'skipped');
-    
-    // Check if age verification is needed
-    const ageVerified = localStorage.getItem('ageVerified');
-    if (ageVerified !== 'true') {
-      setShowAgeGateAfterWizard(true);
-      setIsAgeVerified(false);
-    } else {
-      // Skip to main app if already age verified
-      setIsAgeVerified(true);
-    }
-  };
 
   // Handle retake quiz
   const handleRetakeQuiz = () => {
@@ -134,7 +120,6 @@ export default function Home() {
     return (
       <DrinkWizard 
         onComplete={handleWizardComplete}
-        onSkip={handleWizardSkip}
         weatherData={weatherData}
       />
     );
@@ -149,7 +134,7 @@ export default function Home() {
   if (isAgeVerified === null) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-amber-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-amber-600"></div>
+        <LoadingSpinner size="lg" />
       </div>
     );
   }

@@ -86,10 +86,19 @@ function generateEmailHTML(matchedDrinks: Drink[], preferences: WizardPreference
         <div style="flex: 1;">
           <h3 style="margin: 0 0 8px 0; color: #1e293b; font-size: 18px; font-weight: 600;">${drink.name}</h3>
           <p style="margin: 0 0 12px 0; color: #64748b; font-size: 14px; line-height: 1.4;">${drink.description}</p>
-          <div style="display: flex; gap: 8px; font-size: 12px;">
-            <span style="background: #e2e8f0; color: #475569; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 500;">${drink.category}</span>
-            <span style="background: #e2e8f0; color: #475569; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 500;">${drink.strength}</span>
-            <span style="background: #e2e8f0; color: #475569; padding: 4px 8px; border-radius: 4px; font-weight: 500;">${drink.abv}% ABV</span>
+          <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; margin-top: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="color: #94a3b8; font-weight: 500; min-width: 60px;">Category:</span>
+              <span style="color: #475569; text-transform: capitalize;">${drink.category}</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="color: #94a3b8; font-weight: 500; min-width: 60px;">Strength:</span>
+              <span style="color: #475569; text-transform: capitalize;">${drink.strength}</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="color: #94a3b8; font-weight: 500; min-width: 60px;">ABV:</span>
+              <span style="color: #475569;">${drink.abv}%</span>
+            </div>
           </div>
         </div>
       </div>
