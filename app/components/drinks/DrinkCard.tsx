@@ -7,7 +7,6 @@ import { Card, CardContent } from '@/app/components/ui/Card';
 import { Drink, DrinkRecommendation } from '@/app/types/drinks';
 import { FiPercent, FiDroplet, FiBook, FiStar } from 'react-icons/fi';
 import { cn } from '@/lib/utils';
-import { shouldShowHappyHourIndicator, isCurrentlyHappyHour } from '@/lib/happyHour';
 
 interface DrinkCardProps {
   drink: Drink;
