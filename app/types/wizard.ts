@@ -1,4 +1,4 @@
-export type DrinkCategory = 'beer' | 'wine' | 'cocktail' | 'spirit' | 'non-alcoholic' | 'any';
+export type DrinkCategory = 'beer' | 'wine' | 'cocktail' | 'spirit' | 'non-alcoholic' | 'any' | 'featured';
 export type FlavorProfile = 'sweet' | 'bitter' | 'sour' | 'smooth';
 export type TemperaturePreference = 'cold' | 'cool' | 'room' | 'warm';
 export type AdventureLevel = 'classic' | 'bold' | 'fruity' | 'simple';

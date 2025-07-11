@@ -11,7 +11,8 @@ export const wizardQuestions: WizardQuestion[] = [
       { value: 'wine', label: 'Wine', emoji: '🍷' },
       { value: 'spirit', label: 'Spirits', emoji: '🥃' },
       { value: 'non-alcoholic', label: 'Non-Alcoholic', emoji: '🌿' },
-      { value: 'any', label: 'Surprise Me!', emoji: '🎲' }
+      { value: 'any', label: 'Surprise Me!', emoji: '🎲' },
+      { value: 'featured', label: 'Featured Drinks', emoji: '⭐' }
     ]
   },
   {

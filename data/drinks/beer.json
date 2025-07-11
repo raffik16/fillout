@@ -19,7 +19,8 @@
       "serving_suggestions": ["Serve very cold"],
       "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
       "glass_type": "Bottle",
-      "preparation": "Serve cold from bottle"
+      "preparation": "Serve cold from bottle",
+      "featured": true
     },
     {
       "id": "white-claw",

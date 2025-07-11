@@ -23,7 +23,8 @@
       "preparation": "Build over ice in copper mug",
       "happy_hour": true,
       "happy_hour_price": "$8",
-      "happy_hour_times": "3 PM - 6 PM"
+      "happy_hour_times": "3 PM - 6 PM",
+      "featured": true
     },
     {
       "id": "gin-mule",
@@ -155,7 +156,8 @@
       "serving_suggestions": ["Serve on the rocks", "Flame orange peel"],
       "image_url": "https://i.ibb.co/5hYqg3HW/image-17.jpg",
       "glass_type": "Rocks",
-      "preparation": "Muddle sugar with bitters, add whiskey, stir with ice"
+      "preparation": "Muddle sugar with bitters, add whiskey, stir with ice",
+      "featured": true
     },
     {
       "id": "white-russian",

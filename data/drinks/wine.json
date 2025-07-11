@@ -36,7 +36,8 @@
       ],
       "image_url": "https://images.unsplash.com/photo-1562601579-599dec564e06?w=400",
       "glass_type": "Wine glass",
-      "preparation": "Serve at 45-55°F"
+      "preparation": "Serve at 45-55°F",
+      "featured": true
     },
     {
       "id": "white",

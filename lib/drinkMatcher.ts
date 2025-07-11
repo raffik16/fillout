@@ -24,6 +24,7 @@ export function matchDrinksToPreferences(
     console.log('🔍 DEBUG: Total drinks in database:', allDrinks.length);
   }
 
+
   for (const drink of allDrinks) {
     let score = 0;
     const reasons: string[] = [];
@@ -57,7 +58,23 @@ export function matchDrinksToPreferences(
       if (debug) {
         console.log(`   🎯 Category check: preference="${preferences.category}" vs drink="${drink.category}"`);
       }
-      if (drink.category === preferences.category) {
+      
+      // Special handling for featured category
+      if (preferences.category === 'featured') {
+        // Only include featured drinks
+        if (!drink.featured) {
+          if (debug) {
+            console.log(`   ❌ Not a featured drink - EXCLUDED`);
+          }
+          continue; // Skip non-featured drinks
+        }
+        // Featured drinks get base points
+        score += 20;
+        reasons.push('⭐ Featured Drink');
+        if (debug) {
+          console.log(`   ✅ Featured drink! +20 points`);
+        }
+      } else if (drink.category === preferences.category) {
         score += 20;
         const categoryReasons: Record<string, string> = {
           'beer': 'Your preferred beer style',
@@ -173,6 +190,12 @@ export function matchDrinksToPreferences(
     if (preferences.occasion === 'casual' && drink.happy_hour) {
       score += 5;
       reasons.push('Perfect for happy hour');
+    }
+
+    // 10. Additional featured drink bonus (if featured drinks category selected)
+    if (preferences.category === 'featured' && drink.featured) {
+      score += 15; // Extra bonus to ensure featured drinks rank higher
+      reasons.push('Hand-picked by our experts');
     }
 
     if (debug) {

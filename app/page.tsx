@@ -90,21 +90,15 @@ export default function Home() {
       document.documentElement.classList.remove('dark');
     }
 
-    // Check if wizard has been completed
-    const wizardCompleted = localStorage.getItem('wizardCompleted');
-    const ageVerified = localStorage.getItem('ageVerified');
+    // Always show wizard on page load/refresh
+    setShowWizard(true);
     
-    if (!wizardCompleted) {
-      // First time user - show wizard first
-      setShowWizard(true);
-      setIsAgeVerified(null); // Will be checked after wizard
-    } else if (ageVerified === 'true') {
-      // Returning user who completed wizard and age verification
+    // Check age verification for when wizard is completed
+    const ageVerified = localStorage.getItem('ageVerified');
+    if (ageVerified === 'true') {
       setIsAgeVerified(true);
     } else {
-      // Wizard completed but age not verified
-      setShowAgeGateAfterWizard(true);
-      setIsAgeVerified(false);
+      setIsAgeVerified(null); // Will be checked after wizard
     }
 
     // Try to restore weather data from cache or auto-fetch

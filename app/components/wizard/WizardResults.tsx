@@ -145,7 +145,9 @@ export default function WizardResults({
       <div>
         {/* Header */}
         <div className="flex justify-center items-center p-4">
-          <h2 className="text-2xl font-bold text-gray-800">Your Perfect Matches</h2>
+          <h2 className="text-2xl font-bold text-gray-800">
+            {preferences.category === 'featured' ? '⭐ Featured Drinks' : 'Your Perfect Matches'}
+          </h2>
         </div>
 
       {/* Main Content */}

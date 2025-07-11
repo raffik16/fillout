@@ -26,6 +26,7 @@ export interface Drink {
   happy_hour?: boolean;
   happy_hour_price?: string;
   happy_hour_times?: string;
+  featured?: boolean;
 }
 
 export interface DrinkFilters {
