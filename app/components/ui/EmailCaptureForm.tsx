@@ -122,8 +122,11 @@ export default function EmailCaptureForm({ matchedDrinks, preferences }: EmailCa
               <Check className="w-6 h-6 text-green-600" />
             </div>
             <h5 className="font-semibold text-green-800 mb-2">Matches Saved! 🎉</h5>
-            <p className="text-sm text-green-600">
+            <p className="text-sm text-green-600 mb-2">
               Check your email for your perfect drink matches!
+            </p>
+            <p className="text-xs text-green-600">
+              📧 Don&apos;t see it? Check spam - even good drinks sometimes end up in sketchy places! 🍸
             </p>
           </motion.div>
         ) : (

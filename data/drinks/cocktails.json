@@ -186,7 +186,9 @@
       "preparation": "Build over ice, float cream",
       "happy_hour": true,
       "happy_hour_price": "$8",
-      "happy_hour_times": "3 PM - 6 PM"
+      "happy_hour_times": "3 PM - 6 PM",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "mezcal-mule",
@@ -208,7 +210,9 @@
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
       "image_url": "https://images.unsplash.com/photo-1570204865352-934c744d682c",
       "glass_type": "Copper Mug",
-      "preparation": "Build over ice in copper mug"
+      "preparation": "Build over ice in copper mug",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "black-jack-manhattan",
@@ -274,7 +278,9 @@
       "serving_suggestions": ["Serve in wine glass", "Garnish with lemon"],
       "image_url": "https://images.unsplash.com/photo-1564090654281-eb1db56d15fc",
       "glass_type": "Wine Glass",
-      "preparation": "Build over ice, top with sparkling wine"
+      "preparation": "Build over ice, top with sparkling wine",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "frozen-irish-coffee",
