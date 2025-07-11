@@ -24,7 +24,9 @@
       "happy_hour": true,
       "happy_hour_price": "$8",
       "happy_hour_times": "3 PM - 6 PM",
-      "featured": true
+      "featured": true,
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "gin-mule",
@@ -90,7 +92,9 @@
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
       "image_url": "https://images.unsplash.com/photo-1642715269428-1d0da19098ba",
       "glass_type": "Copper Mug",
-      "preparation": "Build over ice in copper mug"
+      "preparation": "Build over ice in copper mug",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "gin-gimlet",

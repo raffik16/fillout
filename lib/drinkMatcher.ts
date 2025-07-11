@@ -2,6 +2,7 @@ import { Drink, DrinkRecommendation } from '@/app/types/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
 import { getHappyHourBonus } from '@/lib/happyHour';
+import { getPopularDrinks } from '@/lib/supabase';
 import drinksData from '@/data/drinks/index.js';
 
 interface PreferenceScore {
@@ -10,18 +11,23 @@ interface PreferenceScore {
   reasons: string[];
 }
 
-export function matchDrinksToPreferences(
+export async function matchDrinksToPreferences(
   preferences: WizardPreferences,
   weatherData?: WeatherData | null,
   isMetricUnit: boolean = false,
   debug: boolean = false
-): DrinkRecommendation[] {
+): Promise<DrinkRecommendation[]> {
   const allDrinks = drinksData.drinks as Drink[];
   const scores: PreferenceScore[] = [];
+  
+  // Get popularity data
+  const popularDrinks = await getPopularDrinks();
+  const popularityMap = new Map(popularDrinks.map(p => [p.drink_id, p.like_count]));
 
   if (debug) {
     console.log('🔍 DEBUG: Matching drinks to preferences:', preferences);
     console.log('🔍 DEBUG: Total drinks in database:', allDrinks.length);
+    console.log('🔍 DEBUG: Popular drinks loaded:', popularDrinks.length);
   }
 
 
@@ -133,17 +139,26 @@ export function matchDrinksToPreferences(
     }
 
     // 5. Occasion matching (15 points max)
-    if (preferences.occasion && drink.occasions?.includes(preferences.occasion)) {
-      score += 15;
-      const occasionReasons: Record<string, string> = {
-        'casual': 'Perfect for relaxing',
-        'party': 'Great for parties',
-        'romantic': 'Sets the mood',
-        'relaxing': 'Helps you unwind',
-        'sports': 'Great for game day',
-        'exploring': 'Perfect for discovery'
-      };
-      reasons.push(occasionReasons[preferences.occasion]);
+    if (preferences.occasion) {
+      // Special handling for newly 21 and birthday occasions
+      if (preferences.occasion === 'newly21' && drink.funForTwentyOne) {
+        score += 25; // Extra bonus for newly 21 drinks
+        reasons.push('🎂 Perfect for your 21st celebration!');
+      } else if (preferences.occasion === 'birthday' && drink.goodForBDay) {
+        score += 25; // Extra bonus for birthday drinks
+        reasons.push('🎉 Perfect for your birthday celebration!');
+      } else if (drink.occasions?.includes(preferences.occasion)) {
+        score += 15;
+        const occasionReasons: Record<string, string> = {
+          'casual': 'Perfect for relaxing',
+          'party': 'Great for parties',
+          'romantic': 'Sets the mood',
+          'relaxing': 'Helps you unwind',
+          'sports': 'Great for game day',
+          'exploring': 'Perfect for discovery'
+        };
+        reasons.push(occasionReasons[preferences.occasion]);
+      }
     }
 
     // 6. Temperature preference (10 points max)
@@ -196,6 +211,25 @@ export function matchDrinksToPreferences(
     if (preferences.category === 'featured' && drink.featured) {
       score += 15; // Extra bonus to ensure featured drinks rank higher
       reasons.push('Hand-picked by our experts');
+    }
+
+    // 11. Popularity bonus (10 points max) - based on like count
+    const likeCount = popularityMap.get(drink.id) || 0;
+    if (likeCount > 0) {
+      const popularityBonus = Math.min(10, Math.floor(likeCount / 2)); // 2 likes = 1 point, max 10 points
+      score += popularityBonus;
+      
+      if (likeCount >= 20) {
+        reasons.push('🔥 Crowd favorite!');
+      } else if (likeCount >= 10) {
+        reasons.push('⭐ Popular choice');
+      } else if (likeCount >= 5) {
+        reasons.push('👍 Well-liked');
+      }
+      
+      if (debug) {
+        console.log(`   💝 Popularity bonus: ${popularityBonus} points (${likeCount} likes)`);
+      }
     }
 
     if (debug) {

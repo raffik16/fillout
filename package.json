@@ -11,6 +11,8 @@
   "dependencies": {
     "@serwist/next": "^9.0.15",
     "@serwist/sw": "^9.0.15",
+    "@supabase/supabase-js": "^2.50.5",
+    "@types/uuid": "^10.0.0",
     "axios": "^1.10.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.18.1",
@@ -19,9 +21,12 @@
     "react": "^19.0.0",
     "react-confetti": "^6.4.0",
     "react-dom": "^19.0.0",
+    "react-email": "^4.1.3",
     "react-icons": "^5.5.0",
     "react-use": "^17.6.0",
-    "tailwind-merge": "^3.3.1"
+    "resend": "^4.6.0",
+    "tailwind-merge": "^3.3.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

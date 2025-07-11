@@ -10,19 +10,34 @@ import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import weatherService from '@/lib/weatherService';
+import LikeButton from '@/app/components/ui/LikeButton';
+import EmailCaptureForm from '@/app/components/ui/EmailCaptureForm';
+import DrinkLikeCount from '@/app/components/wizard/DrinkLikeCount';
+
+// Witty title generator based on match count
+function getWittyTitle(count: number): string {
+  if (count === 0) return "No Matches Found 😢";
+  if (count === 1) return "Found 1 Perfect Match - It's Meant to Be! 💕";
+  if (count === 2) return "Found 2 Liquid Soulmates! 🥂";
+  if (count === 3) return "Found 3 Perfect Matches - The Holy Trinity! 🙏";
+  if (count === 4) return "Found 4 Fantastic Matches! 🎯";
+  if (count === 5) return "Found 5 Perfect Matches - High Five! 🙌";
+  if (count <= 7) return `Found ${count} Perfect Matches for You! 🎉`;
+  if (count <= 10) return `Found ${count} Liquid Legends! 🏆`;
+  return `Found ${count} Perfect Matches - You're Spoiled for Choice! 🤩`;
+}
 
 interface WizardResultsProps {
   preferences: WizardPreferences;
   weatherData?: WeatherData | null;
   onRetakeQuiz: () => void;
-  onViewAll: (preferences: WizardPreferences, weatherData?: WeatherData | null) => void;
+  onViewAll?: (preferences: WizardPreferences, weatherData?: WeatherData | null) => void;
 }
 
 export default function WizardResults({
   preferences,
   weatherData,
-  onRetakeQuiz,
-  onViewAll
+  onRetakeQuiz
 }: WizardResultsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [recommendations, setRecommendations] = useState<DrinkRecommendation[]>([]);
@@ -33,9 +48,9 @@ export default function WizardResults({
   const [locationError, setLocationError] = useState<string | null>(null);
   const [imageLoading, setImageLoading] = useState(true);
 
-  const updateRecommendations = useCallback(() => {
+  const updateRecommendations = useCallback(async () => {
     const updatedPrefs = { ...preferences, useWeather };
-    const recs = matchDrinksToPreferences(updatedPrefs, localWeatherData, false, true);
+    const recs = await matchDrinksToPreferences(updatedPrefs, localWeatherData, false, true);
     setRecommendations(recs);
     setCurrentIndex(0);
   }, [preferences, useWeather, localWeatherData]);
@@ -123,7 +138,7 @@ export default function WizardResults({
     }
   };
 
-  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const swipeThreshold = window.innerWidth * 0.15; // 15% of viewport width
     const velocityThreshold = 500; // velocity threshold for quick flicks
     
@@ -146,7 +161,7 @@ export default function WizardResults({
         {/* Header */}
         <div className="flex justify-center items-center p-4">
           <h2 className="text-2xl font-bold text-gray-800">
-            {preferences.category === 'featured' ? '⭐ Featured Drinks' : 'Your Perfect Matches'}
+            {preferences.category === 'featured' ? '⭐ Featured Drinks' : getWittyTitle(recommendations.length)}
           </h2>
         </div>
 
@@ -187,29 +202,77 @@ export default function WizardResults({
             }}
           >
             {isViewAllCard ? (
-              /* View All Card */
-              <div className="bg-white rounded-3xl overflow-hidden">
+              /* All Matches Display */
+              <div className="bg-white rounded-3xl overflow-hidden max-h-[80vh] flex flex-col">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-6 text-center">
-                  <div className="text-6xl mb-3">🐠</div>
-                  <div className="text-xl font-bold">There are plenty more fish in the sea!</div>
+                <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-6 text-center flex-shrink-0">
+                  <div className="text-4xl mb-3">🎯</div>
+                  <div className="text-xl font-bold">All Your Perfect Matches</div>
+                  <div className="text-sm opacity-90 mt-1">
+                    Found {recommendations.length} drinks just for you!
+                  </div>
                 </div>
 
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold mb-4 text-black text-center">
-                    Cast A Wider Net
-                  </h3>
-                  
-                  <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg p-4 mb-6">
-                    <p className="text-sm text-gray-700 text-center">
-                      We&apos;ve shown you <strong>{recommendations.length} perfect catches</strong>, but there&apos;s a whole sea of drinks waiting to be discovered!
-                    </p>
+                {/* Scrollable Content */}
+                <div className="flex-1 overflow-y-auto p-4">
+                  <div className="space-y-4">
+                    {recommendations.map((rec) => (
+                      <div key={rec.drink.id} className="bg-gray-50 rounded-xl p-4 flex items-center gap-4">
+                        {/* Drink Image */}
+                        <div className="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0 relative overflow-hidden">
+                          {rec.drink.image_url ? (
+                            <Image
+                              src={rec.drink.image_url}
+                              alt={rec.drink.name}
+                              fill
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="flex items-center justify-center h-full text-2xl">
+                              🍹
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* Drink Info */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h4 className="font-semibold text-gray-800 truncate">
+                              {rec.drink.name}
+                            </h4>
+                            <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full flex-shrink-0">
+                              {rec.score}%
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 truncate mb-2">
+                            {rec.drink.description}
+                          </p>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3 text-xs text-gray-500">
+                              <span>{rec.drink.category}</span>
+                              <span>{rec.drink.strength}</span>
+                              <span>{rec.drink.abv}% ABV</span>
+                            </div>
+                            <DrinkLikeCount drinkId={rec.drink.id} className="text-xs" />
+                          </div>
+                        </div>
+                        
+                        {/* Like Button */}
+                        <div className="flex-shrink-0">
+                          <LikeButton 
+                            drinkId={rec.drink.id} 
+                            size="sm"
+                          />
+                        </div>
+                      </div>
+                    ))}
                   </div>
+                </div>
 
-                  {/* Your Preferences Summary */}
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-gray-800 mb-3 text-center">Your Perfect Profile</h4>
+                {/* Footer */}
+                <div className="p-4 bg-gray-50 flex-shrink-0">
+                  <div className="mb-4">
+                    <h4 className="font-semibold text-gray-800 mb-2 text-center">Your Perfect Profile</h4>
                     <div className="flex flex-wrap gap-2 justify-center">
                       {preferences.flavor && (
                         <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
@@ -233,18 +296,11 @@ export default function WizardResults({
                       )}
                     </div>
                   </div>
-
-                  {/* CTA Button */}
-                  <button
-                    onClick={() => onViewAll(preferences, localWeatherData)}
-                    className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:from-purple-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
-                  >
-                    Dive Into the Deep End 🌊
-                  </button>
                   
-                  <p className="text-xs text-gray-500 text-center mt-3">
-                    Explore our full menu
-                  </p>
+                  <EmailCaptureForm 
+                    matchedDrinks={recommendations}
+                    preferences={preferences}
+                  />
                 </div>
               </div>
             ) : (
@@ -287,6 +343,15 @@ export default function WizardResults({
                       🎉 Happy Hour Special
                     </div>
                   )}
+                  
+                  {/* Like Button */}
+                  <div className="absolute bottom-3 right-3">
+                    <LikeButton 
+                      drinkId={currentDrink?.id || ''} 
+                      size="md"
+                      className="shadow-lg"
+                    />
+                  </div>
                 </div>
 
                 {/* Drink Info */}
@@ -308,6 +373,14 @@ export default function WizardResults({
                     <span>{currentDrink?.category}</span>
                     <span>{currentDrink?.strength}</span>
                     <span>{currentDrink?.abv}% ABV</span>
+                  </div>
+
+                  {/* Like Count */}
+                  <div className="flex justify-between items-center">
+                    <DrinkLikeCount drinkId={currentDrink?.id || ''} />
+                    <span className="text-xs text-gray-400">
+                      {recommendations[currentIndex]?.score}% match
+                    </span>
                   </div>
 
                 </div>

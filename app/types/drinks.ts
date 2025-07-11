@@ -1,7 +1,7 @@
 export type DrinkCategory = 'beer' | 'wine' | 'cocktail' | 'spirit' | 'non-alcoholic';
 export type FlavorProfile = 'sweet' | 'bitter' | 'sour' | 'savory' | 'refreshing' | 'fruity' | 'spicy' | 'smoky' | 'herbal';
 export type DrinkStrength = 'light' | 'medium' | 'strong' | 'non-alcoholic';
-export type Occasion = 'casual' | 'party' | 'romantic' | 'business' | 'relaxing' | 'celebration' | 'sports' | 'exploring';
+export type Occasion = 'casual' | 'party' | 'romantic' | 'business' | 'relaxing' | 'celebration' | 'sports' | 'exploring' | 'newly21' | 'birthday';
 
 export interface Drink {
   id: string;
@@ -27,6 +27,8 @@ export interface Drink {
   happy_hour_price?: string;
   happy_hour_times?: string;
   featured?: boolean;
+  funForTwentyOne?: boolean;
+  goodForBDay?: boolean;
 }
 
 export interface DrinkFilters {

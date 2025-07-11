@@ -69,7 +69,9 @@ export const wizardQuestions: WizardQuestion[] = [
       { value: 'business', label: 'Business Meeting', emoji: '💼' },
       { value: 'romantic', label: 'Romantic Dinner', emoji: '🌹' },
       { value: 'sports', label: 'Game Day', emoji: '🏈' },
-      { value: 'exploring', label: 'Exploring The Bar', emoji: '🍸' }
+      { value: 'exploring', label: 'Exploring The Bar', emoji: '🍸' },
+      { value: 'newly21', label: 'Newly 21!', emoji: '🎂' },
+      { value: 'birthday', label: 'It\'s My Birthday!', emoji: '🎉' }
     ]
   }
 ];
