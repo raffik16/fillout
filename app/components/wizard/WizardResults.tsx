@@ -268,7 +268,6 @@ export default function WizardResults({
                               <span>{rec.drink.strength}</span>
                               <span>{rec.drink.abv}% ABV</span>
                             </div>
-                            <DrinkLikeCount drinkId={rec.drink.id} className="text-xs" />
                           </div>
                         </div>
                         
