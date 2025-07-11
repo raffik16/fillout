@@ -278,6 +278,13 @@ export default function WizardResults({
                       🍹
                     </div>
                   )}
+                  
+                  {/* Happy Hour Badge */}
+                  {currentDrink?.happy_hour && (
+                    <div className="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
+                      🎉 Happy Hour Special
+                    </div>
+                  )}
                 </div>
 
                 {/* Drink Info */}
@@ -300,6 +307,7 @@ export default function WizardResults({
                     <span>{currentDrink?.strength}</span>
                     <span>{currentDrink?.abv}% ABV</span>
                   </div>
+
                 </div>
               </div>
             )}

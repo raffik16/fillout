@@ -72,7 +72,7 @@ export function getHappyHourBonus(drink: Drink, config: HappyHourConfig = DEFAUL
     return 0;
   }
   
-  return 10; // 10 point bonus for happy hour drinks during active hours
+  return 25; // 25 point bonus for happy hour drinks during active hours
 }
 
 /**
