@@ -268,7 +268,7 @@
       },
       "occasions": ["celebration", "romantic", "party"],
       "serving_suggestions": ["Serve in wine glass", "Garnish with lemon"],
-      "image_url": "https://images.unsplash.com/photo-1564090654281-eb1db56d15fc?w=400",
+      "image_url": "https://images.unsplash.com/photo-1564090654281-eb1db56d15fc",
       "glass_type": "Wine Glass",
       "preparation": "Build over ice, top with sparkling wine"
     },
@@ -334,7 +334,7 @@
       },
       "occasions": ["party", "relaxing", "casual"],
       "serving_suggestions": ["Serve over crushed ice", "Dust with nutmeg"],
-      "image_url": "https://images.unsplash.com/photo-1607644536940-6c300b5784c5?w=400",
+      "image_url": "https://images.unsplash.com/photo-1607644536940-6c300b5784c5",
       "glass_type": "Hurricane",
       "preparation": "Shake with ice, strain over crushed ice"
     }

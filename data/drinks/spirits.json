@@ -17,7 +17,7 @@
       },
       "occasions": ["business", "relaxing", "celebration"],
       "serving_suggestions": ["Serve neat or on rocks"],
-      "image_url": "https://images.unsplash.com/photo-1585703164392-171d7f8a0af5?w=400",
+      "image_url": "https://images.unsplash.com/photo-1585703164392-171d7f8a0af5",
       "glass_type": "Glencairn",
       "preparation": "Serve at room temperature"
     },
@@ -38,7 +38,7 @@
       },
       "occasions": ["party", "celebration", "casual"],
       "serving_suggestions": ["Serve neat or in cocktails"],
-      "image_url": "https://images.unsplash.com/photo-1643361197654-c1c33cb09bd5?w=400",
+      "image_url": "https://images.unsplash.com/photo-1643361197654-c1c33cb09bd5",
       "glass_type": "Shot",
       "preparation": "Serve at room temperature"
     },
@@ -59,7 +59,7 @@
       },
       "occasions": ["party", "casual", "celebration"],
       "serving_suggestions": ["Serve chilled as shot"],
-      "image_url": "https://images.unsplash.com/photo-1541705690759-58b15944552f?w=400",
+      "image_url": "https://images.unsplash.com/photo-1541705690759-58b15944552f",
       "glass_type": "Shot",
       "preparation": "Serve chilled",
       "happy_hour": true,
@@ -105,7 +105,7 @@
       },
       "occasions": ["party", "casual", "celebration"],
       "serving_suggestions": ["Shot and beer back"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13",
       "glass_type": "Shot + Beer",
       "preparation": "Serve together"
     }
