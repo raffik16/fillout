@@ -2,7 +2,7 @@ import { Drink, DrinkRecommendation } from '@/app/types/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
 import { getHappyHourBonus } from '@/lib/happyHour';
-import drinksData from '@/data/drinks.json';
+import drinksData from '@/data/drinks/index.js';
 
 interface PreferenceScore {
   drink: Drink;
@@ -70,8 +70,12 @@ export function matchDrinksToPreferences(
         if (debug) {
           console.log(`   ✅ Category MATCH! +20 points`);
         }
-      } else if (debug) {
-        console.log(`   ❌ Category mismatch - no points`);
+      } else {
+        // If category doesn't match, exclude this drink entirely
+        if (debug) {
+          console.log(`   ❌ Category mismatch - EXCLUDED`);
+        }
+        continue; // Skip this drink entirely
       }
     }
 
@@ -158,11 +162,11 @@ export function matchDrinksToPreferences(
       }
     }
 
-    // 8. Happy Hour bonus (10 points max) - for drinks during happy hour
+    // 8. Happy Hour bonus (25 points max) - for drinks during happy hour
     const happyHourBonus = getHappyHourBonus(drink);
     if (happyHourBonus > 0) {
       score += happyHourBonus;
-      reasons.push('Happy Hour special!');
+      reasons.push(`🍻 Happy Hour Special - ${drink.happy_hour_price}!`);
     }
 
     // 9. Casual occasion bonus for happy hour selection
@@ -185,8 +189,20 @@ export function matchDrinksToPreferences(
     }
   }
 
-  // Sort by score and take top matches
-  scores.sort((a, b) => b.score - a.score);
+  // Sort by score with happy hour priority
+  scores.sort((a, b) => {
+    // First priority: Happy hour drinks (always prioritized when happy hour is active)
+    const isHappyHourActive = getHappyHourBonus(a.drink) > 0 || getHappyHourBonus(b.drink) > 0;
+    const aIsHappyHour = isHappyHourActive && a.drink.happy_hour;
+    const bIsHappyHour = isHappyHourActive && b.drink.happy_hour;
+    
+    // If it's happy hour time, always put happy hour drinks first regardless of score
+    if (aIsHappyHour && !bIsHappyHour) return -1;
+    if (!aIsHappyHour && bIsHappyHour) return 1;
+    
+    // Second priority: Sort by score
+    return b.score - a.score;
+  });
   
   if (debug) {
     console.log(`\n🏆 DEBUG: Final Results (top 10 of ${scores.length} scored drinks):`);

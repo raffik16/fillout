@@ -1,7 +1,7 @@
 import { Drink, DrinkFilters, DrinkRecommendation } from '@/app/types/drinks';
 import { WeatherData } from '@/app/types/weather';
 import { getTemperatureCategory, getTimeOfDay } from '@/lib/utils';
-import drinksData from '@/data/drinks.json';
+import drinksData from '@/data/drinks/index.js';
 
 export function getAllDrinks(): Drink[] {
   return drinksData.drinks as Drink[];
@@ -77,10 +77,23 @@ export function recommendDrinks(
     };
   });
 
-  // Sort by score (highest first) and return
+  // Sort by score with happy hour priority
   return recommendations
     .filter((rec) => rec.score > 0)
-    .sort((a, b) => b.score - a.score);
+    .sort((a, b) => {
+      // First priority: Happy hour drinks (always prioritized when happy hour is active)
+      const { isCurrentlyHappyHour } = require('@/lib/happyHour');
+      const isHappyHourActive = isCurrentlyHappyHour();
+      const aIsHappyHour = isHappyHourActive && a.drink.happy_hour;
+      const bIsHappyHour = isHappyHourActive && b.drink.happy_hour;
+      
+      // If it's happy hour time, always put happy hour drinks first regardless of score
+      if (aIsHappyHour && !bIsHappyHour) return -1;
+      if (!aIsHappyHour && bIsHappyHour) return 1;
+      
+      // Second priority: Sort by score
+      return b.score - a.score;
+    });
 }
 
 function calculateWeatherScore(drink: Drink, weather: WeatherData): number {

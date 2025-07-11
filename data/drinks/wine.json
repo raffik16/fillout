@@ -1,0 +1,193 @@
+{
+  "drinks": [
+    {
+      "id": "rose",
+      "name": "Rosé",
+      "category": "wine",
+      "description": "Light and refreshing rosé wine",
+      "price": "$9",
+      "ingredients": [
+        "Grenache",
+        "Cinsault",
+        "Syrah grapes"
+      ],
+      "abv": 12,
+      "flavor_profile": [
+        "fruity",
+        "refreshing",
+        "sweet"
+      ],
+      "strength": "light",
+      "weather_match": {
+        "temp_min": 22,
+        "temp_max": 32,
+        "conditions": [
+          "clear"
+        ],
+        "ideal_temp": 27
+      },
+      "occasions": [
+        "casual",
+        "party",
+        "romantic"
+      ],
+      "serving_suggestions": [
+        "Serve well chilled"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1562601579-599dec564e06?w=400",
+      "glass_type": "Wine glass",
+      "preparation": "Serve at 45-55°F"
+    },
+    {
+      "id": "white",
+      "name": "White",
+      "category": "wine",
+      "description": "House white wine",
+      "price": "$9",
+      "ingredients": [
+        "White wine grapes"
+      ],
+      "abv": 12.5,
+      "flavor_profile": [
+        "fruity",
+        "crisp",
+        "refreshing"
+      ],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": 20,
+        "temp_max": 32,
+        "conditions": [
+          "clear",
+          "clouds"
+        ],
+        "ideal_temp": 26
+      },
+      "occasions": [
+        "casual",
+        "romantic",
+        "business"
+      ],
+      "serving_suggestions": [
+        "Serve chilled"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1561461056-77634126673a?w=400",
+      "glass_type": "White wine glass",
+      "preparation": "Serve at 45-50°F",
+      "happy_hour": true,
+      "happy_hour_price": "$7",
+      "happy_hour_times": "3 PM - 6 PM"
+    },
+    {
+      "id": "sauvignon-blanc",
+      "name": "Sauvignon Blanc",
+      "category": "wine",
+      "description": "Crisp white wine with citrus notes",
+      "price": "$9",
+      "ingredients": [
+        "Sauvignon Blanc grapes"
+      ],
+      "abv": 12.5,
+      "flavor_profile": [
+        "fruity",
+        "sour",
+        "refreshing"
+      ],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": 20,
+        "temp_max": 32,
+        "conditions": [
+          "clear",
+          "clouds"
+        ],
+        "ideal_temp": 26
+      },
+      "occasions": [
+        "casual",
+        "romantic",
+        "celebration"
+      ],
+      "serving_suggestions": [
+        "Serve chilled"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1561461056-77634126673a?w=400",
+      "glass_type": "White wine glass",
+      "preparation": "Serve at 45-50°F"
+    },
+    {
+      "id": "sparkling",
+      "name": "Sparkling",
+      "category": "wine",
+      "description": "House sparkling wine",
+      "price": "$9",
+      "ingredients": [
+        "Sparkling wine grapes"
+      ],
+      "abv": 11,
+      "flavor_profile": [
+        "fruity",
+        "refreshing",
+        "crisp"
+      ],
+      "strength": "light",
+      "weather_match": {
+        "temp_min": 18,
+        "temp_max": 32,
+        "conditions": [
+          "clear",
+          "clouds"
+        ],
+        "ideal_temp": 25
+      },
+      "occasions": [
+        "celebration",
+        "party",
+        "romantic"
+      ],
+      "serving_suggestions": [
+        "Serve well chilled"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1586161659976-2ff9a33f20b0?w=400",
+      "glass_type": "Flute",
+      "preparation": "Serve at 40-45°F"
+    },
+    {
+      "id": "red",
+      "name": "Red",
+      "category": "wine",
+      "description": "House red wine",
+      "price": "$9",
+      "ingredients": [
+        "Red wine grapes"
+      ],
+      "abv": 13.5,
+      "flavor_profile": [
+        "fruity",
+        "bitter",
+        "savory"
+      ],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": 8,
+        "temp_max": 20,
+        "conditions": [
+          "clouds",
+          "rain"
+        ],
+        "ideal_temp": 15
+      },
+      "occasions": [
+        "romantic",
+        "business",
+        "casual"
+      ],
+      "serving_suggestions": [
+        "Serve at room temperature"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400",
+      "glass_type": "Red wine glass",
+      "preparation": "Serve at 60-68°F"
+    }
+  ]
+}

@@ -7,7 +7,7 @@ export const wizardQuestions: WizardQuestion[] = [
     subtitle: "Choose your preferred drink category",
     options: [
       { value: 'cocktail', label: 'Cocktails', emoji: '🍸' },
-      { value: 'beer', label: 'Beer', emoji: '🍺' },
+      { value: 'beer', label: 'Beer/Cider', emoji: '🍺' },
       { value: 'wine', label: 'Wine', emoji: '🍷' },
       { value: 'spirit', label: 'Spirits', emoji: '🥃' },
       { value: 'non-alcoholic', label: 'Non-Alcoholic', emoji: '🌿' },
@@ -27,7 +27,7 @@ export const wizardQuestions: WizardQuestion[] = [
   },
   {
     id: 'temperature',
-    title: "How do you like to chill?",
+    title: "Whats your chill level?",
     subtitle: "Your ideal serving temperature",
     options: [
       { value: 'cold', label: 'Ice Cold', emoji: '❄️' },
@@ -54,16 +54,16 @@ export const wizardQuestions: WizardQuestion[] = [
     options: [
       { value: 'light', label: 'Easy Going', emoji: '🌸' },
       { value: 'medium', label: 'Balanced', emoji: '⚖️' },
-      { value: 'strong', label: 'Bring the Heat', emoji: '🔥' },
-      { value: 'non-alcoholic', label: 'Zero Proof Hero', emoji: '🦸' }
+      { value: 'strong', label: 'Bring the Power', emoji: '🔥' },
+      { value: 'non-alcoholic', label: 'Zero Proof', emoji: '🙅' }
     ]
   },
   {
     id: 'occasion',
     title: "What's the occasion?",
-    subtitle: "Where are you drinking?",
+    subtitle: "What's got you thristy?",
     options: [
-      { value: 'casual', label: 'Happy Hour', emoji: '🍺' },
+      { value: 'casual', label: 'Happy Hour', emoji: '🎉' },
       { value: 'celebration', label: 'Celebrating', emoji: '🥂' },
       { value: 'business', label: 'Business Meeting', emoji: '💼' },
       { value: 'romantic', label: 'Romantic Dinner', emoji: '🌹' },

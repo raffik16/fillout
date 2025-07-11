@@ -1,0 +1,113 @@
+{
+  "drinks": [
+    {
+      "id": "elijah-craig",
+      "name": "ELIJAH CRAIG",
+      "category": "spirit",
+      "description": "Premium bourbon whiskey",
+      "ingredients": ["Corn", "Rye", "Barley"],
+      "abv": 47,
+      "flavor_profile": ["sweet", "smoky", "spicy"],
+      "strength": "strong",
+      "weather_match": {
+        "temp_min": -10,
+        "temp_max": 20,
+        "conditions": ["rain", "clouds", "snow"],
+        "ideal_temp": 8
+      },
+      "occasions": ["business", "relaxing", "celebration"],
+      "serving_suggestions": ["Serve neat or on rocks"],
+      "image_url": "https://images.unsplash.com/photo-1585703164392-171d7f8a0af5?w=400",
+      "glass_type": "Glencairn",
+      "preparation": "Serve at room temperature"
+    },
+    {
+      "id": "giazabons-blanco",
+      "name": "GIAZABONS BLANCO",
+      "category": "spirit",
+      "description": "Premium blanco tequila",
+      "ingredients": ["Blue agave"],
+      "abv": 40,
+      "flavor_profile": ["herbal", "refreshing", "spicy"],
+      "strength": "strong",
+      "weather_match": {
+        "temp_min": 20,
+        "temp_max": 38,
+        "conditions": ["clear"],
+        "ideal_temp": 30
+      },
+      "occasions": ["party", "celebration", "casual"],
+      "serving_suggestions": ["Serve neat or in cocktails"],
+      "image_url": "https://images.unsplash.com/photo-1643361197654-c1c33cb09bd5?w=400",
+      "glass_type": "Shot",
+      "preparation": "Serve at room temperature"
+    },
+    {
+      "id": "fireball",
+      "name": "FIREBALL",
+      "category": "spirit",
+      "description": "Cinnamon whiskey liqueur",
+      "ingredients": ["Whiskey", "Cinnamon flavoring", "Sweeteners"],
+      "abv": 33,
+      "flavor_profile": ["sweet", "spicy"],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": -10,
+        "temp_max": 15,
+        "conditions": ["snow", "rain", "clouds"],
+        "ideal_temp": 5
+      },
+      "occasions": ["party", "casual", "celebration"],
+      "serving_suggestions": ["Serve chilled as shot"],
+      "image_url": "https://images.unsplash.com/photo-1541705690759-58b15944552f?w=400",
+      "glass_type": "Shot",
+      "preparation": "Serve chilled",
+      "happy_hour": true,
+      "happy_hour_price": "$4",
+      "happy_hour_times": "3 PM - 6 PM"
+    },
+    {
+      "id": "fernet",
+      "name": "FERNET",
+      "category": "spirit",
+      "description": "Italian bitter digestif",
+      "ingredients": ["Herbs", "Spices", "Alcohol"],
+      "abv": 39,
+      "flavor_profile": ["bitter", "herbal", "savory"],
+      "strength": "strong",
+      "weather_match": {
+        "temp_min": 10,
+        "temp_max": 25,
+        "conditions": ["clouds", "rain"],
+        "ideal_temp": 18
+      },
+      "occasions": ["business", "casual", "relaxing"],
+      "serving_suggestions": ["Serve neat or with cola"],
+      "image_url": "https://i.ibb.co/G4RyT2qd/image-15.jpg",
+      "glass_type": "Shot",
+      "preparation": "Serve at room temperature"
+    },
+    {
+      "id": "shot-beer-combo-10",
+      "name": "Shot & Beer Combo",
+      "category": "combo",
+      "description": "$10 ALL DAY - ORX AND HATCHI",
+      "price": "$10",
+      "ingredients": ["Shot of choice", "Beer of choice"],
+      "abv": 15,
+      "flavor_profile": ["varies"],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": 15,
+        "temp_max": 30,
+        "conditions": ["any"],
+        "ideal_temp": 22
+      },
+      "occasions": ["party", "casual", "celebration"],
+      "serving_suggestions": ["Shot and beer back"],
+      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "glass_type": "Shot + Beer",
+      "preparation": "Serve together"
+    }
+  ]
+}
