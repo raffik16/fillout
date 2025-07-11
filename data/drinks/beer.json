@@ -17,7 +17,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve very cold"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "/images/drinks/beer/miller-high-life.jpg",
       "glass_type": "Bottle",
       "preparation": "Serve cold from bottle",
       "featured": true
@@ -39,7 +39,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve over ice"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "/images/drinks/beer/white-claw.jpg",
       "glass_type": "Can",
       "preparation": "Serve chilled"
     },
@@ -60,7 +60,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve very cold"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "/images/drinks/beer/miller-lite.jpg",
       "glass_type": "Bottle",
       "preparation": "Serve cold from bottle",
       "happy_hour": true,
@@ -86,7 +86,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve very cold"],
-      "image_url": "https://i.ibb.co/fV2qHCcL/image-13.jpg",
+      "image_url": "/images/drinks/beer/common-space.jpg",
       "glass_type": "Pilsner",
       "preparation": "Serve at 38-42°F"
     },
@@ -109,7 +109,7 @@
       },
       "occasions": ["casual", "party"],
       "serving_suggestions": ["Serve chilled"],
-      "image_url": "https://i.ibb.co/G4QHRTw6/image-5.jpg",
+      "image_url": "/images/drinks/beer/three-weavers.jpg",
       "glass_type": "IPA Glass",
       "preparation": "Serve at 45-50°F"
     },
@@ -132,7 +132,7 @@
       },
       "occasions": ["casual", "relaxing"],
       "serving_suggestions": ["Two-part pour", "Serve at cellar temp"],
-      "image_url": "https://images.unsplash.com/photo-1632293416349-4a3ff46e3572",
+      "image_url": "/images/drinks/beer/guinness.jpg",
       "glass_type": "Pint",
       "preparation": "Perfect two-part pour"
     },
@@ -155,7 +155,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve with lime"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "/images/drinks/beer/modelo-especial.png",
       "glass_type": "Bottle",
       "preparation": "Serve ice cold"
     },
@@ -177,7 +177,7 @@
       },
       "occasions": ["casual", "party"],
       "serving_suggestions": ["Serve ice cold"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "/images/drinks/beer/bud-light.png",
       "glass_type": "Bottle",
       "preparation": "Serve very cold"
     },
@@ -199,7 +199,7 @@
       },
       "occasions": ["casual", "party"],
       "serving_suggestions": ["Serve cold"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "/images/drinks/beer/coors-banquet.png",
       "glass_type": "Bottle",
       "preparation": "Serve cold"
     },
@@ -221,7 +221,7 @@
       },
       "occasions": ["casual", "party"],
       "serving_suggestions": ["Serve ice cold"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "/images/drinks/beer/coors-light.jpg",
       "glass_type": "Bottle",
       "preparation": "Serve very cold"
     },
@@ -243,29 +243,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve with lime wedge"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
-      "glass_type": "Bottle",
-      "preparation": "Serve with lime"
-    },
-    {
-      "id": "corona-premier",
-      "name": "Corona Premier",
-      "category": "beer",
-      "description": "Light smooth beer",
-      "price": "$5",
-      "ingredients": ["Barley", "Corn", "Hops", "Water"],
-      "abv": 4,
-      "flavor_profile": ["refreshing", "light", "smooth"],
-      "strength": "light",
-      "weather_match": {
-        "temp_min": 24,
-        "temp_max": 38,
-        "conditions": ["clear"],
-        "ideal_temp": 32
-      },
-      "occasions": ["casual", "party", "relaxing"],
-      "serving_suggestions": ["Serve with lime wedge"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "/images/drinks/beer/corona.png",
       "glass_type": "Bottle",
       "preparation": "Serve with lime"
     },
@@ -287,7 +265,7 @@
       },
       "occasions": ["casual", "relaxing", "party"],
       "serving_suggestions": ["Serve chilled"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "/images/drinks/beer/golden-state.jpg",
       "glass_type": "Pint",
       "preparation": "Serve cold"
     },
@@ -309,7 +287,7 @@
       },
       "occasions": ["casual", "party"],
       "serving_suggestions": ["Serve very cold"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "/images/drinks/beer/michelob-ultra.png",
       "glass_type": "Bottle",
       "preparation": "Serve ice cold"
     },
@@ -331,7 +309,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve with lime"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "/images/drinks/beer/pacifico.jpg",
       "glass_type": "Bottle",
       "preparation": "Serve with lime wedge"
     },
@@ -353,7 +331,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve very cold"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "/images/drinks/beer/red-stripe.jpg",
       "glass_type": "Bottle",
       "preparation": "Serve ice cold"
     },
@@ -375,7 +353,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve over ice"],
-      "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400",
+      "image_url": "/images/drinks/beer/twisted-tea.jpg",
       "glass_type": "Can",
       "preparation": "Serve cold"
     }

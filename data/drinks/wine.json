@@ -34,7 +34,7 @@
       "serving_suggestions": [
         "Serve well chilled"
       ],
-      "image_url": "https://images.unsplash.com/photo-1562601579-599dec564e06?w=400",
+      "image_url": "https://images.unsplash.com/photo-1532313432596-0362b492b33c",
       "glass_type": "Wine glass",
       "preparation": "Serve at 45-55°F",
       "featured": true
@@ -72,7 +72,7 @@
       "serving_suggestions": [
         "Serve chilled"
       ],
-      "image_url": "https://images.unsplash.com/photo-1561461056-77634126673a?w=400",
+      "image_url": "https://images.unsplash.com/photo-1458945037814-389ec6994cbd",
       "glass_type": "White wine glass",
       "preparation": "Serve at 45-50°F",
       "happy_hour": true,
@@ -112,7 +112,7 @@
       "serving_suggestions": [
         "Serve chilled"
       ],
-      "image_url": "https://images.unsplash.com/photo-1561461056-77634126673a?w=400",
+      "image_url": "https://images.unsplash.com/photo-1635496732393-3a09812cce66",
       "glass_type": "White wine glass",
       "preparation": "Serve at 45-50°F"
     },
@@ -149,7 +149,7 @@
       "serving_suggestions": [
         "Serve well chilled"
       ],
-      "image_url": "https://images.unsplash.com/photo-1586161659976-2ff9a33f20b0?w=400",
+      "image_url": "https://images.unsplash.com/photo-1586161659976-2ff9a33f20b0",
       "glass_type": "Flute",
       "preparation": "Serve at 40-45°F"
     },
@@ -186,7 +186,7 @@
       "serving_suggestions": [
         "Serve at room temperature"
       ],
-      "image_url": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400",
+      "image_url": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3",
       "glass_type": "Red wine glass",
       "preparation": "Serve at 60-68°F"
     }
