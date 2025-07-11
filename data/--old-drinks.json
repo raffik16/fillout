@@ -133,8 +133,8 @@
       "preparation": "Shake whiskey sour, strain over ice, float wine"
     },
     {
-      "id": "tinys-old-fashioned",
-      "name": "Tiny's Old Fashioned",
+      "id": "old-fashioned",
+      "name": "Old Fashioned",
       "category": "cocktail",
       "description": "Whiskey, Sugar Cube, Angostura Bitters, Flamed Orange Peel",
       "ingredients": ["Whiskey", "Sugar cube", "Angostura bitters", "Orange peel"],

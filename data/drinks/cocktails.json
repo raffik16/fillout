@@ -18,7 +18,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
-      "image_url": "https://images.unsplash.com/photo-1671536055547-99f21db6e297?w=400",
+      "image_url": "https://images.unsplash.com/photo-1527628126150-086ff233b951",
       "glass_type": "Copper Mug",
       "preparation": "Build over ice in copper mug",
       "happy_hour": true,
@@ -44,7 +44,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
-      "image_url": "https://images.unsplash.com/photo-1671536055547-99f21db6e297?w=400",
+      "image_url": "https://images.unsplash.com/photo-1530992033544-03bb483376c3",
       "glass_type": "Copper Mug",
       "preparation": "Build over ice in copper mug"
     },
@@ -66,7 +66,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
-      "image_url": "https://images.unsplash.com/photo-1671536055547-99f21db6e297?w=400",
+      "image_url": "https://images.unsplash.com/photo-1690021416495-6a8b9059d21e",
       "glass_type": "Copper Mug",
       "preparation": "Build over ice in copper mug"
     },
@@ -88,7 +88,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
-      "image_url": "https://images.unsplash.com/photo-1671536055547-99f21db6e297?w=400",
+      "image_url": "https://images.unsplash.com/photo-1642715269428-1d0da19098ba",
       "glass_type": "Copper Mug",
       "preparation": "Build over ice in copper mug"
     },
@@ -110,7 +110,7 @@
       },
       "occasions": ["business", "romantic", "casual"],
       "serving_suggestions": ["Serve up in coupe", "Garnish with lime wheel"],
-      "image_url": "https://images.unsplash.com/photo-1587888637140-849b25d80ef9?w=400",
+      "image_url": "https://images.unsplash.com/photo-1686723342906-22961ce61fa5",
       "glass_type": "Coupe",
       "preparation": "Shake with ice, strain into chilled glass"
     },
@@ -132,13 +132,13 @@
       },
       "occasions": ["business", "romantic", "casual"],
       "serving_suggestions": ["Float red wine on top", "Serve on the rocks"],
-      "image_url": "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=400",
+      "image_url": "https://images.unsplash.com/photo-1635527726426-cc74da84703e",
       "glass_type": "Rocks",
       "preparation": "Shake whiskey sour, strain over ice, float wine"
     },
     {
-      "id": "tinys-old-fashioned",
-      "name": "Tiny's Old Fashioned",
+      "id": "old-fashioned",
+      "name": "Old Fashioned",
       "category": "cocktail",
       "description": "Whiskey, Sugar Cube, Angostura Bitters, Flamed Orange Peel",
       "ingredients": ["Whiskey", "Sugar cube", "Angostura bitters", "Orange peel"],
@@ -177,7 +177,7 @@
       },
       "occasions": ["casual", "relaxing", "party"],
       "serving_suggestions": ["Serve over ice", "Stir gently"],
-      "image_url": "https://images.unsplash.com/photo-1546171753-97d7676e4602?w=400",
+      "image_url": "https://images.unsplash.com/photo-1594068842621-b7796f576a36",
       "glass_type": "Rocks",
       "preparation": "Build over ice, float cream",
       "happy_hour": true,
@@ -202,7 +202,7 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
-      "image_url": "https://images.unsplash.com/photo-1671536055547-99f21db6e297?w=400",
+      "image_url": "https://images.unsplash.com/photo-1570204865352-934c744d682c",
       "glass_type": "Copper Mug",
       "preparation": "Build over ice in copper mug"
     },
@@ -251,8 +251,8 @@
       "preparation": "Stir equal parts with ice, strain over ice"
     },
     {
-      "id": "tiny-the-elder-spritz",
-      "name": "Tiny the Elder Spritz",
+      "id": "elder-spritz",
+      "name": "Elder Spritz",
       "category": "cocktail",
       "description": "Gin, St. Germaine Elderflower Liquor, Lemon, Sparkling Wine",
       "ingredients": ["Gin", "St. Germaine", "Lemon juice", "Sparkling wine"],
@@ -290,13 +290,13 @@
       },
       "occasions": ["casual", "party", "relaxing"],
       "serving_suggestions": ["Serve frozen", "Top with whipped cream"],
-      "image_url": "https://images.unsplash.com/photo-1678261739137-85881474209c?w=400",
+      "image_url": "https://images.unsplash.com/photo-1598294147169-fadc4e4a3ae4",
       "glass_type": "Hurricane",
       "preparation": "Blend with ice until smooth"
     },
     {
-      "id": "tinys-whiskey-sour-bach-shot",
-      "name": "Tiny's Whiskey Sour Bach Shot",
+      "id": "whiskey-sour",
+      "name": "Whiskey Sour",
       "category": "cocktail",
       "description": "House-brined Pickle Juice and a shot of Lost Irish Whiskey",
       "ingredients": ["Lost Irish Whiskey", "House-brined pickle juice"],
@@ -312,7 +312,7 @@
       },
       "occasions": ["party", "casual", "celebration"],
       "serving_suggestions": ["Serve as shot", "Chase with pickle juice"],
-      "image_url": "https://images.unsplash.com/photo-1541705690759-58b15944552f?w=400",
+      "image_url": "https://images.unsplash.com/photo-1514361526511-a1ecd83f89d1",
       "glass_type": "Shot",
       "preparation": "Serve whiskey with pickle juice chaser"
     },
@@ -337,28 +337,6 @@
       "image_url": "https://images.unsplash.com/photo-1607644536940-6c300b5784c5?w=400",
       "glass_type": "Hurricane",
       "preparation": "Shake with ice, strain over crushed ice"
-    },
-    {
-      "id": "jungle-bird",
-      "name": "Jungle Bird",
-      "category": "cocktail",
-      "description": "Gosling's Black Seal Rum, Campari, Pineapple, Lime",
-      "ingredients": ["Gosling's Black Seal Rum", "Campari", "Pineapple juice", "Lime juice"],
-      "price": "$14",
-      "abv": 16,
-      "flavor_profile": ["bitter", "fruity", "refreshing"],
-      "strength": "medium",
-      "weather_match": {
-        "temp_min": 22,
-        "temp_max": 36,
-        "conditions": ["clear", "clouds"],
-        "ideal_temp": 28
-      },
-      "occasions": ["party", "casual", "relaxing"],
-      "serving_suggestions": ["Serve over ice", "Garnish with pineapple"],
-      "image_url": "https://images.unsplash.com/photo-1607644536940-6c300b5784c5?w=400",
-      "glass_type": "Rocks",
-      "preparation": "Shake with ice, strain over fresh ice"
     }
   ]
 }
