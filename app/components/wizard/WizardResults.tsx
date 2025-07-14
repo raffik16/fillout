@@ -11,7 +11,6 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import weatherService from '@/lib/weatherService';
 import LikeButton from '@/app/components/ui/LikeButton';
-import EmailCaptureForm from '@/app/components/ui/EmailCaptureForm';
 import DrinkLikeCount from '@/app/components/wizard/DrinkLikeCount';
 import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 import WizardFullResults from './WizardFullResults';
