@@ -141,18 +141,6 @@ function generateEmailHTML(matchedDrinks: Drink[], preferences: WizardPreference
             
             ${drinksList}
             
-            <!-- Footer CTA -->
-            <div style="text-align: center; margin-top: 40px; padding: 24px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px;">
-              <div style="font-size: 24px; margin-bottom: 12px;">🌟</div>
-              <h3 style="margin: 0 0 8px 0; color: #1e293b; font-size: 16px; font-weight: 600;">Save This Email!</h3>
-              <p style="margin: 0 0 8px 0; color: #64748b; font-size: 14px;">
-                New drinks added weekly - come back to discover more matches.
-              </p>
-              <p style="margin: 0; color: #94a3b8; font-size: 12px;">
-                📧 Don&apos;t see this email? Check your spam folder - even the best drinks sometimes end up in questionable places! 🍸
-              </p>
-            </div>
-            
             <!-- Bottom -->
             <div style="text-align: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
               <p style="color: #94a3b8; font-size: 12px; margin: 0;">
