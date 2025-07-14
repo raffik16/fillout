@@ -18,12 +18,14 @@ export function mapWizardPreferencesToFilters(preferences: WizardPreferences): D
   // Map occasion preferences
   if (preferences.occasion) {
     const occasionMap: Record<string, Occasion[]> = {
-      'casual': ['casual', 'relaxing'],
-      'party': ['party', 'celebration'],
+      'casual': ['casual'],
+      'celebration': ['celebration'],
       'romantic': ['romantic'],
-      'relaxing': ['relaxing', 'casual'],
+      'business': ['business'],
       'sports': ['sports', 'casual'],
-      'exploring': ['exploring', 'casual']
+      'exploring': ['exploring', 'casual'],
+      'newly21': ['newly21'],
+      'birthday': ['birthday', 'celebration']
     };
     filters.occasions = occasionMap[preferences.occasion] || [];
   }
@@ -31,10 +33,10 @@ export function mapWizardPreferencesToFilters(preferences: WizardPreferences): D
   // Map flavor preferences
   if (preferences.flavor) {
     const flavorMap: Record<string, FlavorProfile[]> = {
-      'sweet': ['sweet', 'fruity'],
-      'bitter': ['bitter', 'herbal'],
-      'sour': ['sour', 'refreshing'],
-      'smooth': ['refreshing', 'savory']
+      'sweet': ['sweet'],
+      'bitter': ['bitter'],
+      'sour': ['sour'],
+      'smooth': ['smooth']
     };
     filters.flavors = flavorMap[preferences.flavor] || [];
   }

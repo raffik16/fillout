@@ -7,7 +7,7 @@
       "description": "Premium bourbon whiskey",
       "ingredients": ["Corn", "Rye", "Barley"],
       "abv": 47,
-      "flavor_profile": ["sweet", "smoky", "spicy"],
+      "flavor_profile": ["sweet"],
       "strength": "strong",
       "weather_match": {
         "temp_min": -10,
@@ -15,7 +15,7 @@
         "conditions": ["rain", "clouds", "snow"],
         "ideal_temp": 8
       },
-      "occasions": ["business", "relaxing", "celebration"],
+      "occasions": ["business", "celebration"],
       "serving_suggestions": ["Serve neat or on rocks"],
       "image_url": "https://images.unsplash.com/photo-1585703164392-171d7f8a0af5",
       "glass_type": "Glencairn",
@@ -28,7 +28,7 @@
       "description": "Premium blanco tequila",
       "ingredients": ["Blue agave"],
       "abv": 40,
-      "flavor_profile": ["herbal", "refreshing", "spicy"],
+      "flavor_profile": ["bitter"],
       "strength": "strong",
       "weather_match": {
         "temp_min": 20,
@@ -36,7 +36,7 @@
         "conditions": ["clear"],
         "ideal_temp": 30
       },
-      "occasions": ["party", "celebration", "casual"],
+      "occasions": ["celebration", "casual"],
       "serving_suggestions": ["Serve neat or in cocktails"],
       "image_url": "https://images.unsplash.com/photo-1643361197654-c1c33cb09bd5",
       "glass_type": "Shot",
@@ -49,7 +49,7 @@
       "description": "Cinnamon whiskey liqueur",
       "ingredients": ["Whiskey", "Cinnamon flavoring", "Sweeteners"],
       "abv": 33,
-      "flavor_profile": ["sweet", "spicy"],
+      "flavor_profile": ["sweet"],
       "strength": "medium",
       "weather_match": {
         "temp_min": -10,
@@ -69,12 +69,12 @@
     {
       "id": "shot-beer-combo-10",
       "name": "Shot & Beer Combo",
-      "category": "combo",
+      "category": "spirit",
       "description": "$10 ALL DAY - ORX AND HATCHI",
       "price": "$10",
       "ingredients": ["Shot of choice", "Beer of choice"],
       "abv": 15,
-      "flavor_profile": ["varies"],
+      "flavor_profile": ["sweet", "bitter"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 15,
@@ -82,7 +82,7 @@
         "conditions": ["any"],
         "ideal_temp": 22
       },
-      "occasions": ["party", "casual", "celebration"],
+      "occasions": ["casual", "celebration"],
       "serving_suggestions": ["Shot and beer back"],
       "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13",
       "glass_type": "Shot + Beer",

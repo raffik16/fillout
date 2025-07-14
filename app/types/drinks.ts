@@ -1,7 +1,7 @@
 export type DrinkCategory = 'beer' | 'wine' | 'cocktail' | 'spirit' | 'non-alcoholic';
-export type FlavorProfile = 'sweet' | 'bitter' | 'sour' | 'savory' | 'refreshing' | 'fruity' | 'spicy' | 'smoky' | 'herbal';
+export type FlavorProfile = 'sweet' | 'bitter' | 'sour' | 'smooth';
 export type DrinkStrength = 'light' | 'medium' | 'strong' | 'non-alcoholic';
-export type Occasion = 'casual' | 'party' | 'romantic' | 'business' | 'relaxing' | 'celebration' | 'sports' | 'exploring' | 'newly21' | 'birthday';
+export type Occasion = 'casual' | 'romantic' | 'business' | 'celebration' | 'sports' | 'exploring' | 'newly21' | 'birthday';
 
 export interface Drink {
   id: string;

@@ -13,8 +13,6 @@
       ],
       "abv": 12,
       "flavor_profile": [
-        "fruity",
-        "refreshing",
         "sweet"
       ],
       "strength": "light",
@@ -28,7 +26,6 @@
       },
       "occasions": [
         "casual",
-        "party",
         "romantic"
       ],
       "serving_suggestions": [
@@ -52,9 +49,7 @@
       ],
       "abv": 12.5,
       "flavor_profile": [
-        "fruity",
-        "crisp",
-        "refreshing"
+        "sweet"
       ],
       "strength": "medium",
       "weather_match": {
@@ -92,9 +87,8 @@
       ],
       "abv": 12.5,
       "flavor_profile": [
-        "fruity",
-        "sour",
-        "refreshing"
+        "sweet",
+        "sour"
       ],
       "strength": "medium",
       "weather_match": {
@@ -131,9 +125,7 @@
       ],
       "abv": 11,
       "flavor_profile": [
-        "fruity",
-        "refreshing",
-        "crisp"
+        "sweet"
       ],
       "strength": "light",
       "weather_match": {
@@ -147,7 +139,6 @@
       },
       "occasions": [
         "celebration",
-        "party",
         "romantic"
       ],
       "serving_suggestions": [
@@ -170,9 +161,8 @@
       ],
       "abv": 13.5,
       "flavor_profile": [
-        "fruity",
-        "bitter",
-        "savory"
+        "sweet",
+        "bitter"
       ],
       "strength": "medium",
       "weather_match": {

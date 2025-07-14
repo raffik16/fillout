@@ -8,7 +8,7 @@
       "price": "$5",
       "ingredients": ["Roasted barley", "Hops", "Yeast", "Water"],
       "abv": 0,
-      "flavor_profile": ["bitter", "savory", "smoky"],
+      "flavor_profile": ["bitter"],
       "strength": "non-alcoholic",
       "weather_match": {
         "temp_min": -5,
@@ -16,7 +16,7 @@
         "conditions": ["rain", "clouds", "mist"],
         "ideal_temp": 10
       },
-      "occasions": ["casual", "relaxing"],
+      "occasions": ["casual"],
       "serving_suggestions": ["Serve at cellar temperature"],
       "image_url": "https://i.ibb.co/xqDKhZmh/image-10.jpg",
       "glass_type": "Pint",
@@ -30,7 +30,7 @@
       "price": "$5",
       "ingredients": ["Barley", "Hops", "Water", "Yeast"],
       "abv": 0,
-      "flavor_profile": ["refreshing", "bitter"],
+      "flavor_profile": ["bitter"],
       "strength": "non-alcoholic",
       "weather_match": {
         "temp_min": 20,
@@ -38,7 +38,7 @@
         "conditions": ["clear", "clouds"],
         "ideal_temp": 28
       },
-      "occasions": ["casual", "party", "relaxing"],
+      "occasions": ["casual"],
       "serving_suggestions": ["Serve very cold"],
       "image_url": "https://images.unsplash.com/photo-1535958636474-b021ee887b13",
       "glass_type": "Bottle",
@@ -52,7 +52,7 @@
       "price": "$5",
       "ingredients": ["Mountain water"],
       "abv": 0,
-      "flavor_profile": ["refreshing"],
+      "flavor_profile": ["smooth"],
       "strength": "non-alcoholic",
       "weather_match": {
         "temp_min": 0,
@@ -60,7 +60,7 @@
         "conditions": ["any"],
         "ideal_temp": 25
       },
-      "occasions": ["any"],
+      "occasions": ["casual"],
       "serving_suggestions": ["Serve chilled"],
       "image_url": "https://images.unsplash.com/photo-1556679343-c7306c1976bc",
       "glass_type": "Can",
@@ -74,7 +74,7 @@
       "price": "$5",
       "ingredients": ["Carbonated mountain water"],
       "abv": 0,
-      "flavor_profile": ["refreshing", "crisp"],
+      "flavor_profile": ["smooth"],
       "strength": "non-alcoholic",
       "weather_match": {
         "temp_min": 0,
@@ -82,7 +82,7 @@
         "conditions": ["any"],
         "ideal_temp": 25
       },
-      "occasions": ["any"],
+      "occasions": ["casual"],
       "serving_suggestions": ["Serve chilled"],
       "image_url": "https://images.unsplash.com/photo-1556679343-c7306c1976bc",
       "glass_type": "Can",
@@ -96,7 +96,7 @@
       "price": "$8",
       "ingredients": ["Sparkling water", "Raspberry flavor", "CBD"],
       "abv": 0,
-      "flavor_profile": ["fruity", "refreshing"],
+      "flavor_profile": ["sweet"],
       "strength": "non-alcoholic",
       "weather_match": {
         "temp_min": 18,
@@ -104,7 +104,7 @@
         "conditions": ["clear", "clouds"],
         "ideal_temp": 26
       },
-      "occasions": ["relaxing", "casual"],
+      "occasions": ["casual"],
       "serving_suggestions": ["Serve chilled"],
       "image_url": "https://images.unsplash.com/photo-1556679343-c7306c1976bc",
       "glass_type": "Can",

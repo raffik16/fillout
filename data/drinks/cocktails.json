@@ -8,7 +8,7 @@
       "ingredients": ["Vodka", "Lime juice", "Ginger beer", "Lime wedge"],
       "price": "$10",
       "abv": 10,
-      "flavor_profile": ["spicy", "refreshing", "sour"],
+      "flavor_profile": ["sour"],
       "strength": "light",
       "weather_match": {
         "temp_min": 22,
@@ -16,7 +16,7 @@
         "conditions": ["clear", "clouds"],
         "ideal_temp": 28
       },
-      "occasions": ["casual", "party", "relaxing"],
+      "occasions": ["casual"],
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
       "image_url": "https://images.unsplash.com/photo-1527628126150-086ff233b951",
       "glass_type": "Copper Mug",
@@ -36,7 +36,7 @@
       "ingredients": ["Gin", "Lime juice", "Ginger beer", "Lime wedge"],
       "price": "$10",
       "abv": 10,
-      "flavor_profile": ["herbal", "refreshing", "spicy"],
+      "flavor_profile": ["bitter"],
       "strength": "light",
       "weather_match": {
         "temp_min": 20,
@@ -44,7 +44,7 @@
         "conditions": ["clear", "clouds"],
         "ideal_temp": 26
       },
-      "occasions": ["casual", "party", "relaxing"],
+      "occasions": ["casual"],
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
       "image_url": "https://images.unsplash.com/photo-1530992033544-03bb483376c3",
       "glass_type": "Copper Mug",
@@ -58,7 +58,7 @@
       "ingredients": ["Whiskey", "Lime juice", "Ginger beer", "Lime wedge"],
       "price": "$10",
       "abv": 12,
-      "flavor_profile": ["smoky", "spicy", "refreshing"],
+      "flavor_profile": ["bitter", "sour"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 18,
@@ -66,7 +66,7 @@
         "conditions": ["clear", "clouds"],
         "ideal_temp": 24
       },
-      "occasions": ["casual", "party", "relaxing"],
+      "occasions": ["casual"],
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
       "image_url": "https://images.unsplash.com/photo-1690021416495-6a8b9059d21e",
       "glass_type": "Copper Mug",
@@ -80,7 +80,7 @@
       "ingredients": ["Tequila", "Lime juice", "Ginger beer", "Lime wedge"],
       "price": "$10",
       "abv": 11,
-      "flavor_profile": ["refreshing", "spicy", "sour"],
+      "flavor_profile": ["sour"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 24,
@@ -88,7 +88,7 @@
         "conditions": ["clear", "clouds"],
         "ideal_temp": 30
       },
-      "occasions": ["casual", "party", "relaxing"],
+      "occasions": ["casual"],
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
       "image_url": "https://images.unsplash.com/photo-1642715269428-1d0da19098ba",
       "glass_type": "Copper Mug",
@@ -104,7 +104,7 @@
       "ingredients": ["Gin", "Lime cordial", "Fresh lime juice"],
       "price": "$10",
       "abv": 20,
-      "flavor_profile": ["sour", "refreshing", "herbal"],
+      "flavor_profile": ["sour", "bitter"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 20,
@@ -156,7 +156,7 @@
         "conditions": ["rain", "clouds", "snow"],
         "ideal_temp": 10
       },
-      "occasions": ["business", "relaxing", "romantic"],
+      "occasions": ["business", "romantic"],
       "serving_suggestions": ["Serve on the rocks", "Flame orange peel"],
       "image_url": "https://i.ibb.co/5hYqg3HW/image-17.jpg",
       "glass_type": "Rocks",
@@ -179,7 +179,7 @@
         "conditions": ["clouds", "rain", "mist"],
         "ideal_temp": 15
       },
-      "occasions": ["casual", "relaxing", "party"],
+      "occasions": ["casual"],
       "serving_suggestions": ["Serve over ice", "Stir gently"],
       "image_url": "https://images.unsplash.com/photo-1594068842621-b7796f576a36",
       "glass_type": "Rocks",
@@ -198,7 +198,7 @@
       "ingredients": ["Mezcal", "Lime juice", "Ginger beer", "Lime wedge"],
       "price": "$12",
       "abv": 12,
-      "flavor_profile": ["smoky", "spicy", "refreshing"],
+      "flavor_profile": ["bitter", "sour"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 20,
@@ -206,7 +206,7 @@
         "conditions": ["clear", "clouds"],
         "ideal_temp": 28
       },
-      "occasions": ["casual", "party", "relaxing"],
+      "occasions": ["casual"],
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
       "image_url": "https://images.unsplash.com/photo-1570204865352-934c744d682c",
       "glass_type": "Copper Mug",
@@ -222,7 +222,7 @@
       "ingredients": ["Buffalo Trace bourbon", "Averna", "Sweet vermouth", "Bitters", "Cherry juice"],
       "price": "$14",
       "abv": 28,
-      "flavor_profile": ["bitter", "sweet", "savory"],
+      "flavor_profile": ["bitter", "sweet"],
       "strength": "strong",
       "weather_match": {
         "temp_min": 2,
@@ -244,7 +244,7 @@
       "ingredients": ["Mezcal", "Campari", "Sweet vermouth", "Orange peel"],
       "price": "$12",
       "abv": 24,
-      "flavor_profile": ["bitter", "smoky", "herbal"],
+      "flavor_profile": ["bitter"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 15,
@@ -266,7 +266,7 @@
       "ingredients": ["Gin", "St. Germaine", "Lemon juice", "Sparkling wine"],
       "price": "$12",
       "abv": 10,
-      "flavor_profile": ["floral", "refreshing", "fruity"],
+      "flavor_profile": ["sweet"],
       "strength": "light",
       "weather_match": {
         "temp_min": 18,
@@ -274,7 +274,7 @@
         "conditions": ["clear", "clouds"],
         "ideal_temp": 25
       },
-      "occasions": ["celebration", "romantic", "party"],
+      "occasions": ["celebration", "romantic"],
       "serving_suggestions": ["Serve in wine glass", "Garnish with lemon"],
       "image_url": "https://images.unsplash.com/photo-1564090654281-eb1db56d15fc",
       "glass_type": "Wine Glass",
@@ -290,7 +290,7 @@
       "ingredients": ["Irish whiskey", "Coffee liqueur", "Fresh coffee", "Cream", "Ice"],
       "price": "$11",
       "abv": 15,
-      "flavor_profile": ["bitter", "sweet", "creamy"],
+      "flavor_profile": ["bitter", "sweet"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 20,
@@ -298,7 +298,7 @@
         "conditions": ["clear", "clouds"],
         "ideal_temp": 28
       },
-      "occasions": ["casual", "party", "relaxing"],
+      "occasions": ["casual"],
       "serving_suggestions": ["Serve frozen", "Top with whipped cream"],
       "image_url": "https://images.unsplash.com/photo-1598294147169-fadc4e4a3ae4",
       "glass_type": "Hurricane",
@@ -312,7 +312,7 @@
       "ingredients": ["Irish Whiskey", "Lemon juice", "Simple syrup", "Egg white"],
       "price": "$7",
       "abv": 20,
-      "flavor_profile": ["sour", "savory", "bitter"],
+      "flavor_profile": ["sour", "bitter"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 15,
@@ -320,7 +320,7 @@
         "conditions": ["clear", "clouds"],
         "ideal_temp": 22
       },
-      "occasions": ["party", "casual", "celebration"],
+      "occasions": ["casual", "celebration"],
       "serving_suggestions": ["Serve as shot", "Chase with pickle juice"],
       "image_url": "https://images.unsplash.com/photo-1514361526511-a1ecd83f89d1",
       "glass_type": "Shot",
@@ -334,7 +334,7 @@
       "ingredients": ["Pusser's Dark Rum", "Pineapple juice", "Orange juice", "Creme de Coco", "Nutmeg"],
       "price": "$14",
       "abv": 14,
-      "flavor_profile": ["sweet", "fruity", "spicy"],
+      "flavor_profile": ["sweet"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 24,
@@ -342,7 +342,7 @@
         "conditions": ["clear"],
         "ideal_temp": 30
       },
-      "occasions": ["party", "relaxing", "casual"],
+      "occasions": ["casual"],
       "serving_suggestions": ["Serve over crushed ice", "Dust with nutmeg"],
       "image_url": "https://images.unsplash.com/photo-1607644536940-6c300b5784c5",
       "glass_type": "Hurricane",

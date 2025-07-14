@@ -76,20 +76,18 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
     { value: 'sweet', label: 'Sweet' },
     { value: 'bitter', label: 'Bitter' },
     { value: 'sour', label: 'Sour' },
-    { value: 'refreshing', label: 'Refreshing' },
-    { value: 'fruity', label: 'Fruity' },
-    { value: 'spicy', label: 'Spicy' },
-    { value: 'herbal', label: 'Herbal' },
-    { value: 'smoky', label: 'Smoky' },
+    { value: 'smooth', label: 'Smooth' },
   ];
 
   const occasionOptions = [
     { value: 'casual', label: 'Casual' },
-    { value: 'party', label: 'Party' },
     { value: 'romantic', label: 'Romantic' },
     { value: 'business', label: 'Business' },
-    { value: 'relaxing', label: 'Relaxing' },
     { value: 'celebration', label: 'Celebration' },
+    { value: 'sports', label: 'Sports' },
+    { value: 'exploring', label: 'Exploring' },
+    { value: 'newly21', label: 'Newly 21' },
+    { value: 'birthday', label: 'Birthday' },
   ];
 
   const handleFilterChange = (key: keyof DrinkFiltersType, value: DrinkFiltersType[keyof DrinkFiltersType]) => {
@@ -300,7 +298,7 @@ export const DrinkFilters: React.FC<DrinkFiltersProps> = ({
                       onClick={clearFilters}
                       className="text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
                     >
-                      Clear all ilters
+                      Clear all filters
                     </button>
                   </div>
                 </motion.div>
