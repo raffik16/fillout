@@ -14,6 +14,7 @@ import LikeButton from '@/app/components/ui/LikeButton';
 import EmailCaptureForm from '@/app/components/ui/EmailCaptureForm';
 import DrinkLikeCount from '@/app/components/wizard/DrinkLikeCount';
 import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
+import WizardFullResults from './WizardFullResults';
 
 // Witty title generator based on match count
 function getWittyTitle(count: number): string {
@@ -49,6 +50,7 @@ export default function WizardResults({
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [imageLoading, setImageLoading] = useState(true);
+  const [showFullResults, setShowFullResults] = useState(false);
 
   const updateRecommendations = useCallback(async () => {
     setIsLoadingRecommendations(true);
@@ -59,8 +61,7 @@ export default function WizardResults({
     setIsLoadingRecommendations(false);
   }, [preferences, useWeather, localWeatherData]);
 
-  const totalCards = recommendations.length + 1; // +1 for View All card
-  const isViewAllCard = currentIndex === recommendations.length;
+  const totalCards = recommendations.length;
   const currentDrink = recommendations[currentIndex]?.drink;
   const currentScore = recommendations[currentIndex]?.score || 0;
   const matchMessage = getMatchMessage(currentScore);
@@ -169,7 +170,19 @@ export default function WizardResults({
     );
   }
 
-  if (!currentDrink && !isViewAllCard) return null;
+  // Show full results view if requested
+  if (showFullResults) {
+    return (
+      <WizardFullResults
+        recommendations={recommendations}
+        preferences={preferences}
+        weatherData={localWeatherData}
+        onBack={() => setShowFullResults(false)}
+      />
+    );
+  }
+
+  if (!currentDrink) return null;
 
   return (
     <motion.div 
@@ -190,7 +203,7 @@ export default function WizardResults({
       <div className="flex-1 flex items-center justify-center px-4 relative">
         <AnimatePresence mode="wait">
           <motion.div
-            key={isViewAllCard ? 'view-all' : currentDrink?.id}
+            key={currentDrink?.id}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.2}
@@ -222,117 +235,8 @@ export default function WizardResults({
               transition: { duration: 0.1 }
             }}
           >
-            {isViewAllCard ? (
-              /* All Matches Display - Mobile Optimized */
-              <div className="bg-white rounded-3xl overflow-hidden flex flex-col h-full max-h-[80vh] md:max-h-[calc(100dvh-200px)]">
-                {/* Header */}
-                <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-4 md:p-6 text-center flex-shrink-0">
-                  <div className="text-3xl md:text-4xl mb-2 md:mb-3">🎯</div>
-                  <div className="text-lg md:text-xl font-bold">All Your Perfect Matches</div>
-                  <div className="text-xs md:text-sm opacity-90 mt-1">
-                    Found {recommendations.length} drinks just for you!
-                  </div>
-                </div>
-
-                {/* Scrollable Content - Better Mobile Touch */}
-                <div 
-                  className="flex-1 overflow-y-auto p-3 md:p-4 overscroll-contain"
-                  style={{ 
-                    WebkitOverflowScrolling: 'touch', 
-                    touchAction: 'pan-y',
-                    scrollbarWidth: 'thin'
-                  }}
-                >
-                  <div className="space-y-3 md:space-y-4 pb-4">
-                    {recommendations.map((rec) => (
-                      <div key={rec.drink.id} className="bg-gray-50 rounded-xl p-3 md:p-4 flex items-center gap-3 md:gap-4">
-                        {/* Drink Image */}
-                        <div className="w-12 h-12 md:w-16 md:h-16 bg-gray-200 rounded-lg flex-shrink-0 relative overflow-hidden">
-                          {rec.drink.image_url ? (
-                            <Image
-                              src={rec.drink.image_url}
-                              alt={rec.drink.name}
-                              fill
-                              className="object-cover"
-                            />
-                          ) : (
-                            <div className="flex items-center justify-center h-full text-xl md:text-2xl">
-                              🍹
-                            </div>
-                          )}
-                        </div>
-                        
-                        {/* Drink Info */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <h4 className="font-semibold text-gray-800 truncate text-sm md:text-base">
-                              {rec.drink.name}
-                            </h4>
-                            <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full flex-shrink-0">
-                              {rec.score}%
-                            </span>
-                          </div>
-                          <p className="text-xs md:text-sm text-gray-600 truncate mb-1 md:mb-2">
-                            {rec.drink.description}
-                          </p>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 md:gap-3 text-xs text-gray-500">
-                              <span>{rec.drink.category}</span>
-                              <span>{rec.drink.strength}</span>
-                              <span>{rec.drink.abv}% ABV</span>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        {/* Like Button */}
-                        <div className="flex-shrink-0">
-                          <LikeButton 
-                            drinkId={rec.drink.id} 
-                            size="sm"
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Footer - More Mobile Friendly */}
-                <div className="p-3 md:p-4 bg-gray-50 flex-shrink-0 border-t border-gray-200">
-                  <div className="mb-3 md:mb-4">
-                    <h4 className="font-semibold text-gray-800 mb-2 text-center text-sm md:text-base">Your Perfect Profile</h4>
-                    <div className="flex flex-wrap gap-1 md:gap-2 justify-center">
-                      {preferences.flavor && (
-                        <span className="px-2 py-1 md:px-3 bg-purple-100 text-purple-700 rounded-full text-xs md:text-sm">
-                          {preferences.flavor} flavors
-                        </span>
-                      )}
-                      {preferences.strength && (
-                        <span className="px-2 py-1 md:px-3 bg-indigo-100 text-indigo-700 rounded-full text-xs md:text-sm">
-                          {preferences.strength} strength
-                        </span>
-                      )}
-                      {preferences.occasion && (
-                        <span className="px-2 py-1 md:px-3 bg-rose-100 text-rose-700 rounded-full text-xs md:text-sm">
-                          {preferences.occasion} vibes
-                        </span>
-                      )}
-                      {preferences.useWeather && localWeatherData && (
-                        <span className="px-2 py-1 md:px-3 bg-blue-100 text-blue-700 rounded-full text-xs md:text-sm">
-                          weather-matched
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <EmailCaptureForm 
-                    matchedDrinks={recommendations}
-                    preferences={preferences}
-                  />
-                </div>
-              </div>
-            ) : (
-              /* Regular Drink Card */
-              <div className="bg-white rounded-3xl overflow-hidden">
+            {/* Regular Drink Card */}
+            <div className="bg-white rounded-3xl overflow-hidden">
                 {/* Match Score */}
                 <div className="bg-gradient-to-r from-orange-400 to-rose-400 text-white p-4 text-center">
                   <div className="text-lg font-bold">{matchMessage}</div>
@@ -412,7 +316,6 @@ export default function WizardResults({
 
                 </div>
               </div>
-            )}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -439,7 +342,7 @@ export default function WizardResults({
                 key={index}
                 className={`h-2 rounded-full transition-all ${
                   index === currentIndex
-                    ? (index === recommendations.length ? 'bg-purple-500 w-8' : 'bg-orange-400 w-8')
+                    ? 'bg-orange-400 w-8'
                     : 'bg-gray-300 w-2'
                 }`}
               />
@@ -460,6 +363,15 @@ export default function WizardResults({
         </div>
 
         {/* Bottom Actions */}
+        <div className="flex gap-3 mb-4">
+          <button
+            onClick={() => setShowFullResults(true)}
+            className="flex-1 flex items-center justify-center gap-2 bg-purple-500 text-white py-3 rounded-xl font-semibold hover:bg-purple-600 transition-colors"
+          >
+            🎯 View All {recommendations.length} Matches
+          </button>
+        </div>
+        
         <div className="flex gap-3">
           <button
             onClick={toggleWeather}
