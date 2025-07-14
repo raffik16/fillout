@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WizardPreferences } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
@@ -9,15 +9,16 @@ import WizardQuestion from './WizardQuestion';
 import WizardProgress from './WizardProgress';
 import LoadingMatch from './LoadingMatch';
 import MatchReveal from './MatchReveal';
+import OverwhelmedAnimation from '../animations/OverwhelmedAnimation';
 import { ChevronLeft } from 'lucide-react';
 
 interface DrinkWizardProps {
   onComplete: (preferences: WizardPreferences) => void;
-  onSkip: () => void;
   weatherData?: WeatherData | null;
+  isRetake?: boolean;
 }
 
-export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
+export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizardProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [preferences, setPreferences] = useState<WizardPreferences>({
     category: null,
@@ -30,6 +31,8 @@ export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
   });
   const [showLoading, setShowLoading] = useState(false);
   const [showMatch, setShowMatch] = useState(false);
+  const [showOverwhelmed, setShowOverwhelmed] = useState(!isRetake);
+  const [hasShownOverwhelmed, setHasShownOverwhelmed] = useState(isRetake);
   const [navigationDirection, setNavigationDirection] = useState<'forward' | 'backward'>('forward');
 
   const handleAnswer = (value: string) => {
@@ -69,6 +72,26 @@ export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
     onComplete(preferences);
   };
 
+  const handleOverwhelmedComplete = () => {
+    setShowOverwhelmed(false);
+    setHasShownOverwhelmed(true);
+  };
+
+  // Show animation once on component mount
+  useEffect(() => {
+    if (!hasShownOverwhelmed) {
+      setShowOverwhelmed(true);
+    }
+  }, [hasShownOverwhelmed]);
+
+  if (showOverwhelmed) {
+    return (
+      <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-rose-50 flex flex-col items-center justify-center p-4">
+        <OverwhelmedAnimation onComplete={handleOverwhelmedComplete} />
+      </div>
+    );
+  }
+
   if (showLoading) {
     return <LoadingMatch />;
   }
@@ -84,13 +107,6 @@ export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
   return (
     <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-rose-50 flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Skip button */}
-        <button
-          onClick={onSkip}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors"
-        >
-          Skip
-        </button>
 
         {/* Question */}
         <AnimatePresence mode="wait">
@@ -133,6 +149,7 @@ export default function DrinkWizard({ onComplete, onSkip }: DrinkWizardProps) {
             <ChevronLeft className="w-6 h-6 text-gray-700 group-hover:text-gray-900 transition-colors" />
           </motion.button>
         )}
+
       </div>
     </div>
   );

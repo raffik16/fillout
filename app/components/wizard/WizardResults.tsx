@@ -10,38 +10,57 @@ import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import weatherService from '@/lib/weatherService';
+import LikeButton from '@/app/components/ui/LikeButton';
+import DrinkLikeCount from '@/app/components/wizard/DrinkLikeCount';
+import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
+import WizardFullResults from './WizardFullResults';
+
+// Witty title generator based on match count
+function getWittyTitle(count: number): string {
+  if (count === 0) return "No Matches Found 😢";
+  if (count === 1) return "Found 1 Perfect Match - It's Meant to Be! 💕";
+  if (count === 2) return "Found 2 Liquid Soulmates! 🥂";
+  if (count === 3) return "Found 3 Perfect Matches - The Holy Trinity! 🙏";
+  if (count === 4) return "Found 4 Fantastic Matches! 🎯";
+  if (count === 5) return "Found 5 Perfect Matches - High Five! 🙌";
+  if (count <= 7) return `Found ${count} Perfect Matches for You! 🎉`;
+  if (count <= 10) return `Found ${count} Liquid Legends! 🏆`;
+  return `Found ${count} Perfect Matches - You're Spoiled for Choice! 🤩`;
+}
 
 interface WizardResultsProps {
   preferences: WizardPreferences;
   weatherData?: WeatherData | null;
   onRetakeQuiz: () => void;
-  onViewAll: (preferences: WizardPreferences, weatherData?: WeatherData | null) => void;
+  onViewAll?: (preferences: WizardPreferences, weatherData?: WeatherData | null) => void;
 }
 
 export default function WizardResults({
   preferences,
   weatherData,
-  onRetakeQuiz,
-  onViewAll
+  onRetakeQuiz
 }: WizardResultsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [recommendations, setRecommendations] = useState<DrinkRecommendation[]>([]);
   const [useWeather, setUseWeather] = useState(preferences.useWeather);
+  const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(true);
   const [dragDirection, setDragDirection] = useState<'left' | 'right' | null>(null);
   const [localWeatherData, setLocalWeatherData] = useState<WeatherData | null>(weatherData || null);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [imageLoading, setImageLoading] = useState(true);
+  const [showFullResults, setShowFullResults] = useState(false);
 
-  const updateRecommendations = useCallback(() => {
+  const updateRecommendations = useCallback(async () => {
+    setIsLoadingRecommendations(true);
     const updatedPrefs = { ...preferences, useWeather };
-    const recs = matchDrinksToPreferences(updatedPrefs, localWeatherData, false, true);
+    const recs = await matchDrinksToPreferences(updatedPrefs, localWeatherData, false, true);
     setRecommendations(recs);
     setCurrentIndex(0);
+    setIsLoadingRecommendations(false);
   }, [preferences, useWeather, localWeatherData]);
 
-  const totalCards = recommendations.length + 1; // +1 for View All card
-  const isViewAllCard = currentIndex === recommendations.length;
+  const totalCards = recommendations.length;
   const currentDrink = recommendations[currentIndex]?.drink;
   const currentScore = recommendations[currentIndex]?.score || 0;
   const matchMessage = getMatchMessage(currentScore);
@@ -123,7 +142,7 @@ export default function WizardResults({
     }
   };
 
-  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const swipeThreshold = window.innerWidth * 0.15; // 15% of viewport width
     const velocityThreshold = 500; // velocity threshold for quick flicks
     
@@ -138,15 +157,44 @@ export default function WizardResults({
     // If neither threshold is met, the card will snap back to center
   };
 
-  if (!currentDrink && !isViewAllCard) return null;
+  // Show loading state while recommendations are being fetched
+  if (isLoadingRecommendations) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 flex items-center justify-center">
+        <LoadingSpinner 
+          size="lg" 
+          text="Finding your perfect matches..."
+        />
+      </div>
+    );
+  }
+
+  // Show full results view if requested
+  if (showFullResults) {
+    return (
+      <WizardFullResults
+        recommendations={recommendations}
+        preferences={preferences}
+        weatherData={localWeatherData}
+        onBack={() => setShowFullResults(false)}
+      />
+    );
+  }
+
+  if (!currentDrink) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50"
+    >
       <div>
         {/* Header */}
         <div className="flex justify-center items-center p-4">
-          <h2 className="text-2xl font-bold text-gray-800">
-            {preferences.category === 'featured' ? '⭐ Featured Drinks' : 'Your Perfect Matches'}
+          <h2 className="text-1xl font-bold text-gray-800">
+            {preferences.category === 'featured' ? '⭐ Featured Drinks' : getWittyTitle(recommendations.length)}
           </h2>
         </div>
 
@@ -154,7 +202,7 @@ export default function WizardResults({
       <div className="flex-1 flex items-center justify-center px-4 relative">
         <AnimatePresence mode="wait">
           <motion.div
-            key={isViewAllCard ? 'view-all' : currentDrink?.id}
+            key={currentDrink?.id}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.2}
@@ -186,70 +234,8 @@ export default function WizardResults({
               transition: { duration: 0.1 }
             }}
           >
-            {isViewAllCard ? (
-              /* View All Card */
-              <div className="bg-white rounded-3xl overflow-hidden">
-                {/* Header */}
-                <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-6 text-center">
-                  <div className="text-6xl mb-3">🐠</div>
-                  <div className="text-xl font-bold">There are plenty more fish in the sea!</div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold mb-4 text-black text-center">
-                    Cast A Wider Net
-                  </h3>
-                  
-                  <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg p-4 mb-6">
-                    <p className="text-sm text-gray-700 text-center">
-                      We&apos;ve shown you <strong>{recommendations.length} perfect catches</strong>, but there&apos;s a whole sea of drinks waiting to be discovered!
-                    </p>
-                  </div>
-
-                  {/* Your Preferences Summary */}
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-gray-800 mb-3 text-center">Your Perfect Profile</h4>
-                    <div className="flex flex-wrap gap-2 justify-center">
-                      {preferences.flavor && (
-                        <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
-                          {preferences.flavor} flavors
-                        </span>
-                      )}
-                      {preferences.strength && (
-                        <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
-                          {preferences.strength} strength
-                        </span>
-                      )}
-                      {preferences.occasion && (
-                        <span className="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-sm">
-                          {preferences.occasion} vibes
-                        </span>
-                      )}
-                      {preferences.useWeather && localWeatherData && (
-                        <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
-                          weather-matched
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* CTA Button */}
-                  <button
-                    onClick={() => onViewAll(preferences, localWeatherData)}
-                    className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:from-purple-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
-                  >
-                    Dive Into the Deep End 🌊
-                  </button>
-                  
-                  <p className="text-xs text-gray-500 text-center mt-3">
-                    Explore our full menu
-                  </p>
-                </div>
-              </div>
-            ) : (
-              /* Regular Drink Card */
-              <div className="bg-white rounded-3xl overflow-hidden">
+            {/* Regular Drink Card */}
+            <div className="bg-white rounded-3xl overflow-hidden">
                 {/* Match Score */}
                 <div className="bg-gradient-to-r from-orange-400 to-rose-400 text-white p-4 text-center">
                   <div className="text-lg font-bold">{matchMessage}</div>
@@ -287,6 +273,15 @@ export default function WizardResults({
                       🎉 Happy Hour Special
                     </div>
                   )}
+                  
+                  {/* Like Button */}
+                  <div className="absolute bottom-3 right-3">
+                    <LikeButton 
+                      drinkId={currentDrink?.id || ''} 
+                      size="md"
+                      className="shadow-lg"
+                    />
+                  </div>
                 </div>
 
                 {/* Drink Info */}
@@ -310,9 +305,16 @@ export default function WizardResults({
                     <span>{currentDrink?.abv}% ABV</span>
                   </div>
 
+                  {/* Like Count */}
+                  <div className="flex justify-between items-center">
+                    <DrinkLikeCount drinkId={currentDrink?.id || ''} />
+                    <span className="text-xs text-gray-400">
+                      {recommendations[currentIndex]?.score}% match
+                    </span>
+                  </div>
+
                 </div>
               </div>
-            )}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -339,7 +341,7 @@ export default function WizardResults({
                 key={index}
                 className={`h-2 rounded-full transition-all ${
                   index === currentIndex
-                    ? (index === recommendations.length ? 'bg-purple-500 w-8' : 'bg-orange-400 w-8')
+                    ? 'bg-orange-400 w-8'
                     : 'bg-gray-300 w-2'
                 }`}
               />
@@ -360,6 +362,15 @@ export default function WizardResults({
         </div>
 
         {/* Bottom Actions */}
+        <div className="flex gap-3 mb-4">
+          <button
+            onClick={() => setShowFullResults(true)}
+            className="flex-1 flex items-center justify-center gap-2 bg-purple-500 text-white py-3 rounded-xl font-semibold hover:bg-purple-600 transition-colors"
+          >
+            🎯 View All {recommendations.length} Matches
+          </button>
+        </div>
+        
         <div className="flex gap-3">
           <button
             onClick={toggleWeather}
@@ -371,10 +382,10 @@ export default function WizardResults({
             } ${isLoadingLocation ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             {isLoadingLocation ? (
-              <>
-                <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                Finding Location...
-              </>
+              <div className="flex items-center gap-2">
+                <LoadingSpinner size="sm" className="!m-0" />
+                <span>Finding Location...</span>
+              </div>
             ) : localWeatherData ? (
               <>
                 <div className="flex flex-col text-xs leading-tight">
@@ -412,6 +423,6 @@ export default function WizardResults({
         )}
       </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

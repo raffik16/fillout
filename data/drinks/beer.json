@@ -4,7 +4,7 @@
       "id": "miller-high-life",
       "name": "Miller High Life",
       "category": "beer",
-      "description": "MODELO",
+      "description": "The Champagne of Beers",
       "ingredients": ["Barley", "Hops", "Water", "Yeast"],
       "abv": 4.6,
       "flavor_profile": ["refreshing", "bitter"],
@@ -26,7 +26,7 @@
       "id": "white-claw",
       "name": "White Claw",
       "category": "beer",
-      "description": "MILLER LITE",
+      "description": "Hard seltzer with natural fruit flavors",
       "ingredients": ["Sparkling water", "Alcohol", "Natural flavors"],
       "abv": 5,
       "flavor_profile": ["refreshing", "fruity"],
@@ -41,13 +41,15 @@
       "serving_suggestions": ["Serve over ice"],
       "image_url": "/images/drinks/beer/white-claw.jpg",
       "glass_type": "Can",
-      "preparation": "Serve chilled"
+      "preparation": "Serve chilled",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "miller-lite",
       "name": "Miller Lite",
       "category": "beer",
-      "description": "MILLER LITE",
+      "description": "Great taste, less filling light beer",
       "ingredients": ["Barley", "Hops", "Water", "Yeast"],
       "abv": 4.2,
       "flavor_profile": ["refreshing", "bitter"],
@@ -65,7 +67,9 @@
       "preparation": "Serve cold from bottle",
       "happy_hour": true,
       "happy_hour_price": "$4",
-      "happy_hour_times": "3 PM - 6 PM"
+      "happy_hour_times": "3 PM - 6 PM",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "common-space",
@@ -157,7 +161,8 @@
       "serving_suggestions": ["Serve with lime"],
       "image_url": "/images/drinks/beer/modelo-especial.png",
       "glass_type": "Bottle",
-      "preparation": "Serve ice cold"
+      "preparation": "Serve ice cold",
+      "goodForBDay": true
     },
     {
       "id": "bud-light",
@@ -179,7 +184,9 @@
       "serving_suggestions": ["Serve ice cold"],
       "image_url": "/images/drinks/beer/bud-light.png",
       "glass_type": "Bottle",
-      "preparation": "Serve very cold"
+      "preparation": "Serve very cold",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "coors-banquet",
@@ -201,7 +208,8 @@
       "serving_suggestions": ["Serve cold"],
       "image_url": "/images/drinks/beer/coors-banquet.png",
       "glass_type": "Bottle",
-      "preparation": "Serve cold"
+      "preparation": "Serve cold",
+      "goodForBDay": true
     },
     {
       "id": "coors-light",
@@ -223,7 +231,9 @@
       "serving_suggestions": ["Serve ice cold"],
       "image_url": "/images/drinks/beer/coors-light.jpg",
       "glass_type": "Bottle",
-      "preparation": "Serve very cold"
+      "preparation": "Serve very cold",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "corona",
@@ -245,7 +255,9 @@
       "serving_suggestions": ["Serve with lime wedge"],
       "image_url": "/images/drinks/beer/corona.png",
       "glass_type": "Bottle",
-      "preparation": "Serve with lime"
+      "preparation": "Serve with lime",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "golden-state",
@@ -311,7 +323,9 @@
       "serving_suggestions": ["Serve with lime"],
       "image_url": "/images/drinks/beer/pacifico.jpg",
       "glass_type": "Bottle",
-      "preparation": "Serve with lime wedge"
+      "preparation": "Serve with lime wedge",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "red-stripe",
@@ -355,7 +369,9 @@
       "serving_suggestions": ["Serve over ice"],
       "image_url": "/images/drinks/beer/twisted-tea.jpg",
       "glass_type": "Can",
-      "preparation": "Serve cold"
+      "preparation": "Serve cold",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     }
   ]
 }

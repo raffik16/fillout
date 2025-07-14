@@ -8,6 +8,7 @@ import { Button } from '@/app/components/ui/Button';
 import { Card, CardContent } from '@/app/components/ui/Card';
 import { ProcessedRecipe, ProcessedBeer, ProcessedWine } from '@/app/types/recipe';
 import { CocktailDBService } from '@/lib/cocktaildb';
+import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 import { BeerWineService } from '@/lib/beerwine';
 import { Drink } from '@/app/types/drinks';
 import { cn } from '@/lib/utils';
@@ -270,7 +271,7 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ drink, isOpen, onClose
           <div className="p-6 overflow-y-auto max-h-[60vh]">
             {isLoading ? (
               <div className="flex items-center justify-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
+                <LoadingSpinner size="md" text="Loading recipe details..." />
               </div>
             ) : (
               <>

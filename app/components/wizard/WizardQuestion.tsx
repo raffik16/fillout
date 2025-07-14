@@ -18,7 +18,13 @@ export default function WizardQuestion({ question, onAnswer }: WizardQuestionPro
         <p className="text-lg text-gray-600 mb-8">{question.subtitle}</p>
       )}
 
-      <div className={`grid gap-4 ${question.id === 'category' && question.options.length === 7 ? 'grid-cols-2 md:grid-cols-2' : question.options.length === 6 ? 'grid-cols-2' : question.options.length > 4 ? 'grid-cols-2 md:grid-cols-3' : 'grid-cols-2'}`}>
+      <div className={`grid gap-4 ${
+        question.id === 'occasion' ? 'grid-cols-2' : 
+        question.id === 'category' && question.options.length === 7 ? 'grid-cols-2 md:grid-cols-2' : 
+        question.options.length === 6 ? 'grid-cols-2' : 
+        question.options.length > 4 ? 'grid-cols-2 md:grid-cols-3' : 
+        'grid-cols-2'
+      } ${question.id === 'occasion' ? 'max-w-2xl mx-auto' : ''}`}>
         {question.options.map((option, index) => {
           const isFeatured = option.value === 'featured';
           const isLastItem = question.id === 'category' && index === question.options.length - 1;

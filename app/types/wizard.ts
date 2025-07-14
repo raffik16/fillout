@@ -3,7 +3,7 @@ export type FlavorProfile = 'sweet' | 'bitter' | 'sour' | 'smooth';
 export type TemperaturePreference = 'cold' | 'cool' | 'room' | 'warm';
 export type AdventureLevel = 'classic' | 'bold' | 'fruity' | 'simple';
 export type StrengthPreference = 'light' | 'medium' | 'strong' | 'non-alcoholic';
-export type OccasionMood = 'casual' | 'party' | 'romantic' | 'relaxing' | 'sports' | 'exploring';
+export type OccasionMood = 'casual' | 'party' | 'romantic' | 'relaxing' | 'sports' | 'exploring' | 'newly21' | 'birthday';
 
 export interface WizardPreferences {
   category: DrinkCategory | null;

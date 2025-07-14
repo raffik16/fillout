@@ -37,7 +37,9 @@
       "image_url": "https://images.unsplash.com/photo-1532313432596-0362b492b33c",
       "glass_type": "Wine glass",
       "preparation": "Serve at 45-55°F",
-      "featured": true
+      "featured": true,
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "white",
@@ -114,7 +116,9 @@
       ],
       "image_url": "https://images.unsplash.com/photo-1635496732393-3a09812cce66",
       "glass_type": "White wine glass",
-      "preparation": "Serve at 45-50°F"
+      "preparation": "Serve at 45-50°F",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "sparkling",
@@ -151,7 +155,9 @@
       ],
       "image_url": "https://images.unsplash.com/photo-1586161659976-2ff9a33f20b0",
       "glass_type": "Flute",
-      "preparation": "Serve at 40-45°F"
+      "preparation": "Serve at 40-45°F",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "red",

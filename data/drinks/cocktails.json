@@ -24,7 +24,9 @@
       "happy_hour": true,
       "happy_hour_price": "$8",
       "happy_hour_times": "3 PM - 6 PM",
-      "featured": true
+      "featured": true,
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "gin-mule",
@@ -90,7 +92,9 @@
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
       "image_url": "https://images.unsplash.com/photo-1642715269428-1d0da19098ba",
       "glass_type": "Copper Mug",
-      "preparation": "Build over ice in copper mug"
+      "preparation": "Build over ice in copper mug",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "gin-gimlet",
@@ -163,7 +167,7 @@
       "id": "white-russian",
       "name": "White Russian",
       "category": "cocktail",
-      "description": "Here the Rug, Vodka, Kahlua, Oat Milk",
+      "description": "Creamy cocktail with vodka, coffee liqueur, and oat milk",
       "ingredients": ["Vodka", "Kahlua", "Oat milk"],
       "price": "$10",
       "abv": 12,
@@ -182,7 +186,9 @@
       "preparation": "Build over ice, float cream",
       "happy_hour": true,
       "happy_hour_price": "$8",
-      "happy_hour_times": "3 PM - 6 PM"
+      "happy_hour_times": "3 PM - 6 PM",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "mezcal-mule",
@@ -204,7 +210,9 @@
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
       "image_url": "https://images.unsplash.com/photo-1570204865352-934c744d682c",
       "glass_type": "Copper Mug",
-      "preparation": "Build over ice in copper mug"
+      "preparation": "Build over ice in copper mug",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "black-jack-manhattan",
@@ -270,13 +278,15 @@
       "serving_suggestions": ["Serve in wine glass", "Garnish with lemon"],
       "image_url": "https://images.unsplash.com/photo-1564090654281-eb1db56d15fc",
       "glass_type": "Wine Glass",
-      "preparation": "Build over ice, top with sparkling wine"
+      "preparation": "Build over ice, top with sparkling wine",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "frozen-irish-coffee",
       "name": "Frozen Irish Coffee",
       "category": "cocktail",
-      "description": "Get lit! We know you will love it!",
+      "description": "Frozen coffee cocktail with Irish whiskey and cream",
       "ingredients": ["Irish whiskey", "Coffee liqueur", "Fresh coffee", "Cream", "Ice"],
       "price": "$11",
       "abv": 15,
@@ -298,8 +308,8 @@
       "id": "whiskey-sour",
       "name": "Whiskey Sour",
       "category": "cocktail",
-      "description": "House-brined Pickle Juice and a shot of Lost Irish Whiskey",
-      "ingredients": ["Lost Irish Whiskey", "House-brined pickle juice"],
+      "description": "Classic whiskey cocktail with lemon juice and simple syrup",
+      "ingredients": ["Irish Whiskey", "Lemon juice", "Simple syrup", "Egg white"],
       "price": "$7",
       "abv": 20,
       "flavor_profile": ["sour", "savory", "bitter"],
