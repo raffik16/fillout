@@ -126,8 +126,8 @@ function generateEmailHTML(matchedDrinks: Drink[], preferences: WizardPreference
           <!-- Header -->
           <div style="background: #4f46e5; padding: 40px 20px; text-align: center; color: white;">
             <div style="font-size: 40px; margin-bottom: 16px;">🍹</div>
-            <h1 style="margin: 0 0 8px 0; font-size: 24px; font-weight: 600; color: white;">Your Perfect Drink Matches!</h1>
-            <p style="margin: 0; font-size: 16px; opacity: 0.9; color: white;">Crafted just for your taste</p>
+            <h1 style="margin: 0 0 8px 0; font-size: 24px; font-weight: 600; color: #FFF !important;">Your Perfect Drink Matches!</h1>
+            <p style="margin: 0; font-size: 16px; color: #FFF !important;">Crafted just for your taste</p>
           </div>
           
           <!-- Content -->
@@ -137,12 +137,6 @@ function generateEmailHTML(matchedDrinks: Drink[], preferences: WizardPreference
             <div style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; margin-bottom: 32px;">
               <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 16px; font-weight: 600;">🎯 Your Preferences</h3>
               <p style="margin: 0; color: #64748b; font-size: 14px;">${preferencesText}</p>
-            </div>
-            
-            <!-- Drinks Section -->
-            <div style="text-align: center; margin-bottom: 24px;">
-              <h2 style="color: #1e293b; margin: 0 0 8px 0; font-size: 20px; font-weight: 600;">Your Matched Drinks</h2>
-              <p style="color: #64748b; margin: 0; font-size: 14px;">We found ${matchedDrinks.length} perfect ${matchedDrinks.length === 1 ? 'match' : 'matches'} for you!</p>
             </div>
             
             ${drinksList}
