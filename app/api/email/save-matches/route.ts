@@ -126,8 +126,8 @@ function generateEmailHTML(matchedDrinks: Drink[], preferences: WizardPreference
           <!-- Header -->
           <div style="background: #4f46e5; padding: 40px 20px; text-align: center; color: white;">
             <div style="font-size: 40px; margin-bottom: 16px;">🍹</div>
-            <h1 style="margin: 0 0 8px 0; font-size: 24px; font-weight: 600;">Your Perfect Drink Matches!</h1>
-            <p style="margin: 0; font-size: 16px; opacity: 0.9;">Crafted just for your taste</p>
+            <h1 style="margin: 0 0 8px 0; font-size: 24px; font-weight: 600; color: white;">Your Perfect Drink Matches!</h1>
+            <p style="margin: 0; font-size: 16px; opacity: 0.9; color: white;">Crafted just for your taste</p>
           </div>
           
           <!-- Content -->
@@ -163,7 +163,7 @@ function generateEmailHTML(matchedDrinks: Drink[], preferences: WizardPreference
             <div style="text-align: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
               <p style="color: #94a3b8; font-size: 12px; margin: 0;">
                 Happy drinking! 🥂<br>
-                <strong style="color: #4f46e5;">The Drink Wizard Team</strong>
+                <strong style="color: #4f46e5;">The DrinkJoy Team</strong>
               </p>
             </div>
           </div>

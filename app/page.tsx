@@ -22,6 +22,7 @@ export default function Home() {
   const [wizardPreferences, setWizardPreferences] = useState<WizardPreferences | null>(null);
   const [showLocationInHeader] = useState(false);
   const [currentLocation] = useState<string>('');
+  const [isWizardRetake, setIsWizardRetake] = useState(false);
 
   // Check for dark mode preference and age verification
   useEffect(() => {
@@ -84,6 +85,7 @@ export default function Home() {
   const handleWizardComplete = (preferences: WizardPreferences) => {
     setWizardPreferences(preferences);
     setShowWizard(false);
+    setIsWizardRetake(false); // Reset retake flag after completion
     localStorage.setItem('wizardPreferences', JSON.stringify(preferences));
     
     // Check if age verification is needed
@@ -101,6 +103,7 @@ export default function Home() {
   const handleRetakeQuiz = () => {
     setShowWizardResults(false);
     setShowWizard(true);
+    setIsWizardRetake(true);
   };
 
   // Handle view all from wizard results (unused in current implementation)
@@ -108,11 +111,13 @@ export default function Home() {
     // For now, just restart the wizard since we removed the main drinks view
     setShowWizardResults(false);
     setShowWizard(true);
+    setIsWizardRetake(true);
   };
 
   // Handle show wizard from CTA
   const handleShowWizard = () => {
     setShowWizard(true);
+    setIsWizardRetake(false); // Reset retake flag for new wizard sessions
   };
 
   // Show wizard if needed
@@ -121,6 +126,7 @@ export default function Home() {
       <DrinkWizard 
         onComplete={handleWizardComplete}
         weatherData={weatherData}
+        isRetake={isWizardRetake}
       />
     );
   }

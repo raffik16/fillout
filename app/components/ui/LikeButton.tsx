@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Heart } from 'lucide-react';
 import { getSessionId } from '@/lib/session';
+import LoadingSpinner from './LoadingSpinner';
 
 interface LikeButtonProps {
   drinkId: string;
@@ -14,6 +15,7 @@ export default function LikeButton({ drinkId, className = '', size = 'md' }: Lik
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [sessionId, setSessionId] = useState<string>('');
 
   const sizeClasses = {
@@ -38,6 +40,8 @@ export default function LikeButton({ drinkId, className = '', size = 'md' }: Lik
       }
     } catch (error) {
       console.error('Error fetching like status:', error);
+    } finally {
+      setIsInitialLoading(false);
     }
   }, [drinkId]);
 
@@ -90,24 +94,29 @@ export default function LikeButton({ drinkId, className = '', size = 'md' }: Lik
     }
   };
 
+  if (isInitialLoading) {
+    return (
+      <div className={`flex items-center justify-center rounded-full bg-white ${buttonSizeClasses[size]} ${className}`}>
+        <LoadingSpinner size="sm" className="!m-0 !w-3 !h-3" />
+      </div>
+    );
+  }
+
   return (
     <button
       onClick={handleLikeToggle}
       disabled={isLoading}
       className={`
         flex items-center gap-1 rounded-full transition-all duration-200 
-        ${isLiked 
-          ? 'bg-red-50 text-red-500 hover:bg-red-100' 
-          : 'bg-gray-50 text-gray-400 hover:bg-gray-100 hover:text-red-500'
-        }
+        bg-white text-red-500 hover:bg-red-50
         ${buttonSizeClasses[size]}
         ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}
         ${className}
       `}
     >
       <Heart 
-        className={`${sizeClasses[size]} transition-all duration-200 ${
-          isLiked ? 'fill-current' : ''
+        className={`${sizeClasses[size]} transition-all duration-200 stroke-2 ${
+          isLiked ? 'fill-red-500 stroke-red-500' : 'fill-white stroke-red-500'
         }`}
       />
       {likeCount > 0 && (

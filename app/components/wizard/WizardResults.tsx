@@ -172,7 +172,12 @@ export default function WizardResults({
   if (!currentDrink && !isViewAllCard) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50"
+    >
       <div>
         {/* Header */}
         <div className="flex justify-center items-center p-4">
@@ -218,24 +223,31 @@ export default function WizardResults({
             }}
           >
             {isViewAllCard ? (
-              /* All Matches Display */
-              <div className="bg-white rounded-3xl overflow-hidden flex flex-col" style={{ maxHeight: 'calc(100dvh - 200px)' }}>
+              /* All Matches Display - Mobile Optimized */
+              <div className="bg-white rounded-3xl overflow-hidden flex flex-col h-full max-h-[80vh] md:max-h-[calc(100dvh-200px)]">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-6 text-center flex-shrink-0">
-                  <div className="text-4xl mb-3">🎯</div>
-                  <div className="text-xl font-bold">All Your Perfect Matches</div>
-                  <div className="text-sm opacity-90 mt-1">
+                <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-4 md:p-6 text-center flex-shrink-0">
+                  <div className="text-3xl md:text-4xl mb-2 md:mb-3">🎯</div>
+                  <div className="text-lg md:text-xl font-bold">All Your Perfect Matches</div>
+                  <div className="text-xs md:text-sm opacity-90 mt-1">
                     Found {recommendations.length} drinks just for you!
                   </div>
                 </div>
 
-                {/* Scrollable Content */}
-                <div className="flex-1 overflow-y-auto p-4" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}>
-                  <div className="space-y-4">
+                {/* Scrollable Content - Better Mobile Touch */}
+                <div 
+                  className="flex-1 overflow-y-auto p-3 md:p-4 overscroll-contain"
+                  style={{ 
+                    WebkitOverflowScrolling: 'touch', 
+                    touchAction: 'pan-y',
+                    scrollbarWidth: 'thin'
+                  }}
+                >
+                  <div className="space-y-3 md:space-y-4 pb-4">
                     {recommendations.map((rec) => (
-                      <div key={rec.drink.id} className="bg-gray-50 rounded-xl p-4 flex items-center gap-4">
+                      <div key={rec.drink.id} className="bg-gray-50 rounded-xl p-3 md:p-4 flex items-center gap-3 md:gap-4">
                         {/* Drink Image */}
-                        <div className="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0 relative overflow-hidden">
+                        <div className="w-12 h-12 md:w-16 md:h-16 bg-gray-200 rounded-lg flex-shrink-0 relative overflow-hidden">
                           {rec.drink.image_url ? (
                             <Image
                               src={rec.drink.image_url}
@@ -244,7 +256,7 @@ export default function WizardResults({
                               className="object-cover"
                             />
                           ) : (
-                            <div className="flex items-center justify-center h-full text-2xl">
+                            <div className="flex items-center justify-center h-full text-xl md:text-2xl">
                               🍹
                             </div>
                           )}
@@ -253,18 +265,18 @@ export default function WizardResults({
                         {/* Drink Info */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <h4 className="font-semibold text-gray-800 truncate">
+                            <h4 className="font-semibold text-gray-800 truncate text-sm md:text-base">
                               {rec.drink.name}
                             </h4>
                             <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full flex-shrink-0">
                               {rec.score}%
                             </span>
                           </div>
-                          <p className="text-sm text-gray-600 truncate mb-2">
+                          <p className="text-xs md:text-sm text-gray-600 truncate mb-1 md:mb-2">
                             {rec.drink.description}
                           </p>
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3 text-xs text-gray-500">
+                            <div className="flex items-center gap-2 md:gap-3 text-xs text-gray-500">
                               <span>{rec.drink.category}</span>
                               <span>{rec.drink.strength}</span>
                               <span>{rec.drink.abv}% ABV</span>
@@ -284,28 +296,28 @@ export default function WizardResults({
                   </div>
                 </div>
 
-                {/* Footer */}
-                <div className="p-4 bg-gray-50 flex-shrink-0">
-                  <div className="mb-4">
-                    <h4 className="font-semibold text-gray-800 mb-2 text-center">Your Perfect Profile</h4>
-                    <div className="flex flex-wrap gap-2 justify-center">
+                {/* Footer - More Mobile Friendly */}
+                <div className="p-3 md:p-4 bg-gray-50 flex-shrink-0 border-t border-gray-200">
+                  <div className="mb-3 md:mb-4">
+                    <h4 className="font-semibold text-gray-800 mb-2 text-center text-sm md:text-base">Your Perfect Profile</h4>
+                    <div className="flex flex-wrap gap-1 md:gap-2 justify-center">
                       {preferences.flavor && (
-                        <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
+                        <span className="px-2 py-1 md:px-3 bg-purple-100 text-purple-700 rounded-full text-xs md:text-sm">
                           {preferences.flavor} flavors
                         </span>
                       )}
                       {preferences.strength && (
-                        <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
+                        <span className="px-2 py-1 md:px-3 bg-indigo-100 text-indigo-700 rounded-full text-xs md:text-sm">
                           {preferences.strength} strength
                         </span>
                       )}
                       {preferences.occasion && (
-                        <span className="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-sm">
+                        <span className="px-2 py-1 md:px-3 bg-rose-100 text-rose-700 rounded-full text-xs md:text-sm">
                           {preferences.occasion} vibes
                         </span>
                       )}
                       {preferences.useWeather && localWeatherData && (
-                        <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
+                        <span className="px-2 py-1 md:px-3 bg-blue-100 text-blue-700 rounded-full text-xs md:text-sm">
                           weather-matched
                         </span>
                       )}
@@ -500,6 +512,6 @@ export default function WizardResults({
         )}
       </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

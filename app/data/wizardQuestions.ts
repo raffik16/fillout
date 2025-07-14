@@ -27,30 +27,8 @@ export const wizardQuestions: WizardQuestion[] = [
     ]
   },
   {
-    id: 'temperature',
-    title: "Whats your chill level?",
-    subtitle: "Your ideal serving temperature",
-    options: [
-      { value: 'cold', label: 'Ice Cold', emoji: '❄️' },
-      { value: 'cool', label: 'Cool & Refreshing', emoji: '🌊' },
-      { value: 'room', label: 'Room Temp', emoji: '🌡️' },
-      { value: 'warm', label: 'Warm & Cozy', emoji: '☕' }
-    ]
-  },
-  {
-    id: 'adventure',
-    title: "Pick your adventure style",
-    subtitle: "How bold are you feeling?",
-    options: [
-      { value: 'classic', label: 'Classic & Timeless', emoji: '🎩' },
-      { value: 'bold', label: 'Bold & Experimental', emoji: '🚀' },
-      { value: 'fruity', label: 'Fruity & Fun', emoji: '🌴' },
-      { value: 'simple', label: 'Simple & Clean', emoji: '💎' }
-    ]
-  },
-  {
     id: 'strength',
-    title: "What's your power level?",
+    title: "What's your style?",
     subtitle: "Choose your strength",
     options: [
       { value: 'light', label: 'Easy Going', emoji: '🌸' },

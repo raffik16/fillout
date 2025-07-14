@@ -152,7 +152,7 @@ export default function EmailCaptureForm({ matchedDrinks, preferences }: EmailCa
                 className="rounded text-purple-600 focus:ring-purple-500"
               />
               <label htmlFor="privacy">
-                I agree to receive drink recommendations via email
+                I want to subscribe to receive drink recommendations and updates
               </label>
             </div>
             
