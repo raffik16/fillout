@@ -10,6 +10,7 @@ import WizardProgress from './WizardProgress';
 import LoadingMatch from './LoadingMatch';
 import MatchReveal from './MatchReveal';
 import OverwhelmedAnimation from '../animations/OverwhelmedAnimation';
+import ColorSplashAnimation from '../animations/ColorSplashAnimation';
 import { ChevronLeft } from 'lucide-react';
 
 interface DrinkWizardProps {
@@ -32,6 +33,7 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
   const [showLoading, setShowLoading] = useState(false);
   const [showMatch, setShowMatch] = useState(false);
   const [showOverwhelmed, setShowOverwhelmed] = useState(!isRetake);
+  const [showColorSplash, setShowColorSplash] = useState(false);
   const [hasShownOverwhelmed, setHasShownOverwhelmed] = useState(isRetake);
   const [navigationDirection, setNavigationDirection] = useState<'forward' | 'backward'>('forward');
 
@@ -74,7 +76,12 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
 
   const handleOverwhelmedComplete = () => {
     setShowOverwhelmed(false);
+    setShowColorSplash(true);
     setHasShownOverwhelmed(true);
+  };
+
+  const handleColorSplashComplete = () => {
+    setShowColorSplash(false);
   };
 
   // Show animation once on component mount
@@ -90,6 +97,10 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
         <OverwhelmedAnimation onComplete={handleOverwhelmedComplete} />
       </div>
     );
+  }
+
+  if (showColorSplash) {
+    return <ColorSplashAnimation onComplete={handleColorSplashComplete} />;
   }
 
   if (showLoading) {
