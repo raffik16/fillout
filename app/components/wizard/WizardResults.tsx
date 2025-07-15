@@ -12,7 +12,6 @@ import { cn } from '@/lib/utils';
 import weatherService from '@/lib/weatherService';
 import LikeButton from '@/app/components/ui/LikeButton';
 import OrderButton from '@/app/components/ui/OrderButton';
-import DrinkLikeCount from '@/app/components/wizard/DrinkLikeCount';
 import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 import WizardFullResults from './WizardFullResults';
 
@@ -244,7 +243,7 @@ export default function WizardResults({
                 </div>
 
                 {/* Drink Image */}
-                <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200">
+                <div className="relative h-60 bg-gradient-to-br from-gray-100 to-gray-200">
                   {currentDrink?.image_url ? (
                     <>
                       {imageLoading && (
@@ -294,12 +293,12 @@ export default function WizardResults({
                 {/* Drink Info */}
                 <div className="p-3">
                   <h3 className="text-2xl font-bold mb-2 text-black">{currentDrink?.name}</h3>
-                  <p className="text-gray-600 mb-4">{currentDrink?.description}</p>
+                  <p className="text-gray-600 mb-4 text-sm min-h-[2.5rem]">{currentDrink?.description}</p>
                   
                   {/* Match Reasons */}
                   {recommendations[currentIndex]?.reasons && recommendations[currentIndex].reasons.length > 0 && (
                     <div className="bg-orange-50 rounded-lg p-3 mb-4">
-                      <p className="text-sm text-orange-800">
+                      <p className="text-sm text-orange-800 min-h-[2.5rem]">
                         {recommendations[currentIndex].reasons.join(' • ')}
                       </p>
                     </div>
@@ -310,14 +309,6 @@ export default function WizardResults({
                     <span>{currentDrink?.category}</span>
                     <span>{currentDrink?.strength}</span>
                     <span>{currentDrink?.abv}% ABV</span>
-                  </div>
-
-                  {/* Like Count */}
-                  <div className="flex justify-between items-center">
-                    <DrinkLikeCount drinkId={currentDrink?.id || ''} />
-                    <span className="text-xs text-gray-400">
-                      {recommendations[currentIndex]?.score}% match
-                    </span>
                   </div>
 
                 </div>
