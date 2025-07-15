@@ -47,7 +47,7 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
       if (value === 'none') {
         updatedPreferences = {
           ...preferences,
-          allergies: ['none']
+          allergies: ['none'] as AllergyType[]
         };
       } else {
         // Toggle the allergy in the array
@@ -59,13 +59,13 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
           const newAllergies = filteredAllergies.filter(a => a !== value);
           updatedPreferences = {
             ...preferences,
-            allergies: newAllergies.length > 0 ? newAllergies : ['none']
+            allergies: newAllergies.length > 0 ? newAllergies as AllergyType[] : ['none'] as AllergyType[]
           };
         } else {
           // Add to selection
           updatedPreferences = {
             ...preferences,
-            allergies: [...filteredAllergies, value as AllergyType]
+            allergies: [...filteredAllergies, value as AllergyType] as AllergyType[]
           };
         }
       }
@@ -73,7 +73,7 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
       updatedPreferences = {
         ...preferences,
         [question.id]: value
-      };
+      } as WizardPreferences;
     }
     
     setPreferences(updatedPreferences);
