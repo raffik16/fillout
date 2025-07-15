@@ -243,7 +243,7 @@ export default function WizardResults({
                 </div>
 
                 {/* Drink Image */}
-                <div className="relative h-60 bg-gradient-to-br from-gray-100 to-gray-200">
+                <div className="relative h-55 bg-gradient-to-br from-gray-100 to-gray-200">
                   {currentDrink?.image_url ? (
                     <>
                       {imageLoading && (
