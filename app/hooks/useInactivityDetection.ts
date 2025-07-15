@@ -9,7 +9,7 @@ interface UseInactivityDetectionOptions {
 }
 
 export function useInactivityDetection({
-  timeout = 10000, // 10 seconds default
+  timeout = 15000, // 15 seconds default
   onInactive,
   onActive
 }: UseInactivityDetectionOptions = {}) {
