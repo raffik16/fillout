@@ -224,7 +224,7 @@ export async function getUserOrders(sessionId: string) {
 }
 
 // Real-time subscription helpers
-export function subscribeToLikes(drinkId: string, callback: (payload: any) => void) {
+export function subscribeToLikes(drinkId: string, callback: () => void) {
   return supabase
     .channel(`likes:${drinkId}`)
     .on(
@@ -240,7 +240,7 @@ export function subscribeToLikes(drinkId: string, callback: (payload: any) => vo
     .subscribe()
 }
 
-export function subscribeToOrders(drinkId: string, callback: (payload: any) => void) {
+export function subscribeToOrders(drinkId: string, callback: () => void) {
   return supabase
     .channel(`orders:${drinkId}`)
     .on(

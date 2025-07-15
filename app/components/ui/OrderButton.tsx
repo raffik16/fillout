@@ -46,12 +46,12 @@ export default function OrderButton({ drinkId, drinkName, className = '' }: Orde
   const [promptState, setPromptState] = useState<PromptState>('hidden');
   const [sessionId, setSessionId] = useState<string>('');
   const [locallyOrdered, setLocallyOrdered] = useState(false);
-  const { orderCount, hasOrdered } = useRealtimeStats(drinkId);
+  const { hasOrdered } = useRealtimeStats(drinkId);
   
   // Check if already ordered (either from Supabase or localStorage)
   const alreadyOrdered = hasOrdered || locallyOrdered;
   
-  const { isInactive } = useInactivityDetection({
+  useInactivityDetection({
     timeout: 10000, // 10 seconds
     onInactive: () => {
       if (!alreadyOrdered && promptState === 'hidden') {

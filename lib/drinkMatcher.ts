@@ -1,8 +1,23 @@
-import { Drink, DrinkRecommendation } from '@/app/types/drinks';
-import { WizardPreferences } from '@/app/types/wizard';
+import { Drink, DrinkRecommendation, Occasion } from '@/app/types/drinks';
+import { WizardPreferences, OccasionMood } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
 import { getHappyHourBonus } from '@/lib/happyHour';
 import { getPopularDrinks } from '@/lib/supabase';
+
+// Map wizard occasions to drink occasions
+function mapOccasion(wizardOccasion: OccasionMood): Occasion {
+  const mapping: Record<OccasionMood, Occasion> = {
+    'casual': 'casual',
+    'party': 'celebration',
+    'romantic': 'romantic', 
+    'relaxing': 'casual',
+    'sports': 'sports',
+    'exploring': 'exploring',
+    'newly21': 'newly21',
+    'birthday': 'birthday'
+  };
+  return mapping[wizardOccasion];
+}
 import drinksData from '@/data/drinks/index.js';
 
 interface PreferenceScore {
@@ -121,8 +136,8 @@ export async function matchDrinksToPreferences(
     if (preferences.adventure) {
       const adventureMap: Record<string, (drink: Drink) => boolean> = {
         'classic': (d) => ['Old Fashioned', 'Martini', 'Manhattan', 'Whiskey Sour', 'Margarita'].includes(d.name),
-        'bold': (d) => d.flavor_profile.includes('spicy') || d.flavor_profile.includes('smoky') || d.strength === 'strong',
-        'fruity': (d) => d.flavor_profile.includes('fruity'),
+        'bold': (d) => d.flavor_profile.includes('bitter') || d.strength === 'strong',
+        'fruity': (d) => d.flavor_profile.includes('sweet'),
         'simple': (d) => (d.ingredients?.length || 0) <= 3 || d.category === 'beer' || d.category === 'wine'
       };
 
@@ -147,7 +162,7 @@ export async function matchDrinksToPreferences(
       } else if (preferences.occasion === 'birthday' && drink.goodForBDay) {
         score += 25; // Extra bonus for birthday drinks
         reasons.push('🎉 Perfect for your birthday celebration!');
-      } else if (drink.occasions?.includes(preferences.occasion)) {
+      } else if (preferences.occasion && drink.occasions?.includes(mapOccasion(preferences.occasion))) {
         score += 15;
         const occasionReasons: Record<string, string> = {
           'casual': 'Perfect for relaxing',

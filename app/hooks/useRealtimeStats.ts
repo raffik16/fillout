@@ -10,7 +10,6 @@ import {
   subscribeToOrders
 } from '@/lib/supabase';
 import { getSessionId } from '@/lib/session';
-import { RealtimeChannel } from '@supabase/supabase-js';
 
 interface DrinkStats {
   likeCount: number;
@@ -30,10 +29,6 @@ export function useRealtimeStats(drinkId: string): DrinkStats {
   });
   
   const [sessionId, setSessionId] = useState<string>('');
-  const [channels, setChannels] = useState<{
-    likes?: RealtimeChannel;
-    orders?: RealtimeChannel;
-  }>({});
 
   // Fetch initial stats
   const fetchStats = useCallback(async (sessionId: string) => {
@@ -112,13 +107,11 @@ export function useRealtimeStats(drinkId: string): DrinkStats {
     const likesChannel = subscribeToLikes(drinkId, handleLikeUpdate);
     
     // Only subscribe to orders if the table exists
-    let ordersChannel;
+    let ordersChannel: ReturnType<typeof subscribeToOrders> | undefined;
     try {
       ordersChannel = subscribeToOrders(drinkId, handleOrderUpdate);
-      setChannels({ likes: likesChannel, orders: ordersChannel });
     } catch (error) {
       console.warn('Orders subscription not available:', error);
-      setChannels({ likes: likesChannel });
     }
 
     // Cleanup subscriptions

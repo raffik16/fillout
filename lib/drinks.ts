@@ -208,9 +208,9 @@ function generateRecommendationReasons(
   }
 
   // Flavor profile reasons
-  if (tempCategory === 'hot' && drink.flavor_profile.includes('refreshing')) {
+  if (tempCategory === 'hot' && drink.flavor_profile.includes('smooth')) {
     reasons.push('Refreshing choice for hot weather');
-  } else if (tempCategory === 'cold' && (drink.flavor_profile.includes('spicy') || drink.flavor_profile.includes('smoky'))) {
+  } else if (tempCategory === 'cold' && drink.flavor_profile.includes('bitter')) {
     reasons.push('Warming flavors for cold weather');
   }
 
