@@ -57,11 +57,11 @@ export default function LikeButton({ drinkId, className = '', size = 'md' }: Lik
     if (isLoading || !sessionId) return;
     
     setIsLoading(true);
-    const action = isLiked ? 'unlike' : 'like';
     
     // Optimistic update
-    setIsLiked(!isLiked);
-    setLikeCount(prev => isLiked ? prev - 1 : prev + 1);
+    const newLikedState = !isLiked;
+    setIsLiked(newLikedState);
+    setLikeCount(prev => newLikedState ? prev + 1 : prev - 1);
     
     try {
       const response = await fetch('/api/likes', {
@@ -71,13 +71,14 @@ export default function LikeButton({ drinkId, className = '', size = 'md' }: Lik
         },
         body: JSON.stringify({
           drinkId,
-          sessionId,
-          action
+          sessionId
         })
       });
       
       if (response.ok) {
         const data = await response.json();
+        // Use server response for authoritative state
+        setIsLiked(data.liked);
         setLikeCount(data.likeCount);
       } else {
         // Revert optimistic update on error

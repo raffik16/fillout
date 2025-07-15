@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import weatherService from '@/lib/weatherService';
 import LikeButton from '@/app/components/ui/LikeButton';
+import OrderButton from '@/app/components/ui/OrderButton';
 import DrinkLikeCount from '@/app/components/wizard/DrinkLikeCount';
 import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 import WizardFullResults from './WizardFullResults';
@@ -282,6 +283,12 @@ export default function WizardResults({
                       className="shadow-lg"
                     />
                   </div>
+
+                  {/* Order Button */}
+                  <OrderButton 
+                    drinkId={currentDrink?.id || ''} 
+                    drinkName={currentDrink?.name || ''}
+                  />
                 </div>
 
                 {/* Drink Info */}

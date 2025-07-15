@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react';
 import { Header } from '@/app/components/layout/Header';
 import { Footer } from '@/app/components/layout/Footer';
 import PopularDrinksWidget from '@/app/components/analytics/PopularDrinksWidget';
-import { BarChart3, Users, Heart, TrendingUp } from 'lucide-react';
+import { BarChart3, Users, Heart, TrendingUp, ShoppingCart } from 'lucide-react';
 
 interface Analytics {
   totalLikes: number;
   totalUsers: number;
   totalDrinks: number;
+  totalOrders: number;
+  totalOrderUsers: number;
 }
 
 export default function AnalyticsPage() {
@@ -17,7 +19,9 @@ export default function AnalyticsPage() {
   const [analytics, setAnalytics] = useState<Analytics>({
     totalLikes: 0,
     totalUsers: 0,
-    totalDrinks: 0
+    totalDrinks: 0,
+    totalOrders: 0,
+    totalOrderUsers: 0
   });
 
   useEffect(() => {
@@ -49,18 +53,30 @@ export default function AnalyticsPage() {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const response = await fetch('/api/analytics/popular-drinks');
-        if (response.ok) {
-          const data = await response.json();
-          const drinks = data.data || [];
+        const [drinksResponse, ordersResponse] = await Promise.all([
+          fetch('/api/analytics/popular-drinks'),
+          fetch('/api/analytics/orders')
+        ]);
+        
+        if (drinksResponse.ok) {
+          const drinksData = await drinksResponse.json();
+          const drinks = drinksData.data || [];
           
           const totalLikes = drinks.reduce((sum: number, drink: { like_count: number }) => sum + drink.like_count, 0);
           const totalUsers = drinks.reduce((sum: number, drink: { unique_users: number }) => sum + drink.unique_users, 0);
           
+          let ordersStats = { totalOrders: 0, totalOrderUsers: 0 };
+          if (ordersResponse.ok) {
+            const ordersData = await ordersResponse.json();
+            ordersStats = ordersData.data || ordersStats;
+          }
+          
           setAnalytics({
             totalLikes,
             totalUsers,
-            totalDrinks: drinks.length
+            totalDrinks: drinks.length,
+            totalOrders: ordersStats.totalOrders,
+            totalOrderUsers: ordersStats.totalOrderUsers
           });
         }
       } catch (error) {
@@ -93,7 +109,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border p-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
@@ -131,6 +147,34 @@ export default function AnalyticsPage() {
                 <p className="text-sm text-gray-600 dark:text-gray-400">Popular Drinks</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
                   {analytics.totalDrinks.toLocaleString()}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                <ShoppingCart className="w-5 h-5 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Total Orders</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {analytics.totalOrders.toLocaleString()}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                <Users className="w-5 h-5 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Order Users</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {analytics.totalOrderUsers.toLocaleString()}
                 </p>
               </div>
             </div>

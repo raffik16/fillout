@@ -7,6 +7,7 @@ import { WeatherData } from '@/app/types/weather';
 import { ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
 import LikeButton from '@/app/components/ui/LikeButton';
+import DrinkStatsDisplay from '@/app/components/ui/DrinkStatsDisplay';
 import EmailCaptureForm from '@/app/components/ui/EmailCaptureForm';
 
 interface WizardFullResultsProps {
@@ -88,12 +89,13 @@ export default function WizardFullResults({
                 <p className="text-sm text-gray-600 mb-2 line-clamp-2">
                   {rec.drink.description}
                 </p>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
                   <div className="flex items-center gap-3 text-xs text-gray-500">
                     <span className="capitalize">{rec.drink.category}</span>
                     <span className="capitalize">{rec.drink.strength}</span>
                     <span>{rec.drink.abv}% ABV</span>
                   </div>
+                  <DrinkStatsDisplay drinkId={rec.drink.id} />
                 </div>
                 
                 {/* Match Reasons */}
