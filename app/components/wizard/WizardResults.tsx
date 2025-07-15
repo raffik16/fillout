@@ -193,7 +193,7 @@ export default function WizardResults({
       <div>
         {/* Header */}
         <div className="flex justify-center items-center p-4">
-          <h2 className="text-1xl font-bold text-gray-800">
+          <h2 className="text-sm font-bold text-gray-800">
             {preferences.category === 'featured' ? '⭐ Featured Drinks' : getWittyTitle(recommendations.length)}
           </h2>
         </div>
