@@ -52,9 +52,9 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
       } else {
         // Toggle the allergy in the array
         const currentAllergies = preferences.allergies || [];
-        const filteredAllergies = currentAllergies.filter(a => a !== 'none');
+        const filteredAllergies = currentAllergies.filter(a => a !== 'none') as Exclude<AllergyType, 'none'>[];
         
-        if (filteredAllergies.includes(value as AllergyType)) {
+        if (filteredAllergies.includes(value as Exclude<AllergyType, 'none'>)) {
           // Remove if already selected
           const newAllergies = filteredAllergies.filter(a => a !== value);
           updatedPreferences = {
