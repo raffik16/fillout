@@ -2,23 +2,21 @@
 
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import Confetti from 'react-confetti';
-import { useWindowSize } from 'react-use';
+import ColorSplashAnimation from '../animations/ColorSplashAnimation';
 
 interface MatchRevealProps {
   onComplete: () => void;
 }
 
 export default function MatchReveal({ onComplete }: MatchRevealProps) {
-  const [showConfetti, setShowConfetti] = useState(true);
+  const [showColorSplash, setShowColorSplash] = useState(true);
   const [countdown, setCountdown] = useState(5);
   const [isVisible, setIsVisible] = useState(true);
-  const { width, height } = useWindowSize();
 
   useEffect(() => {
-    const confettiTimer = setTimeout(() => {
-      setShowConfetti(false);
-    }, 5000);
+    const colorSplashTimer = setTimeout(() => {
+      setShowColorSplash(false);
+    }, 2000);
     
     // Countdown timer
     const countdownInterval = setInterval(() => {
@@ -38,21 +36,15 @@ export default function MatchReveal({ onComplete }: MatchRevealProps) {
     }, 1000);
     
     return () => {
-      clearTimeout(confettiTimer);
+      clearTimeout(colorSplashTimer);
       clearInterval(countdownInterval);
     };
   }, [onComplete]);
 
   return (
     <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-rose-50 flex flex-col items-center justify-center p-4">
-      {showConfetti && (
-        <Confetti
-          width={width}
-          height={height}
-          colors={['#fb923c', '#f97316', '#ea580c', '#fbbf24', '#f59e0b']}
-          numberOfPieces={200}
-          recycle={false}
-        />
+      {showColorSplash && (
+        <ColorSplashAnimation onComplete={() => setShowColorSplash(false)} />
       )}
 
       <motion.div
@@ -66,7 +58,7 @@ export default function MatchReveal({ onComplete }: MatchRevealProps) {
           duration: 0.8,
           bounce: 0.4
         }}
-        className="text-center will-change-transform"
+        className="text-center will-change-transform relative z-10"
       >
         <div className="text-6xl sm:text-7xl md:text-8xl mb-6 min-h-[5rem] flex items-center justify-center" aria-label="Celebration">
           🎉
@@ -95,9 +87,7 @@ export default function MatchReveal({ onComplete }: MatchRevealProps) {
             >
               {countdown}
             </motion.div>
-            <p className="text-sm text-gray-500">
-              Showing results in {countdown} second{countdown !== 1 ? 's' : ''}
-            </p>
+           
           </div>
         </motion.div>
 

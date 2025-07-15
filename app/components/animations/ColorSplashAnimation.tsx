@@ -27,7 +27,7 @@ export default function ColorSplashAnimation({ onComplete }: ColorSplashAnimatio
   return (
     <div 
       className="fixed inset-0 overflow-hidden"
-      style={{ backgroundColor: 'oklch(98% .016 73.684)' }}
+      style={{ backgroundColor: 'oklch(98% .016 73.684)', transform: 'scaleY(-1)' }}
     >
       {drinkColors.map((color, index) => (
         <motion.svg
