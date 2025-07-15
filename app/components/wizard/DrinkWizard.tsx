@@ -75,9 +75,14 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
   };
 
   const handleOverwhelmedComplete = () => {
-    setShowOverwhelmed(false);
+    // Start color splash animation immediately
     setShowColorSplash(true);
     setHasShownOverwhelmed(true);
+    
+    // Hide overwhelmed animation after a short delay for overlap
+    setTimeout(() => {
+      setShowOverwhelmed(false);
+    }, 300); // 300ms overlap
   };
 
   const handleColorSplashComplete = () => {
@@ -91,16 +96,28 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
     }
   }, [hasShownOverwhelmed]);
 
-  if (showOverwhelmed) {
+  if (showOverwhelmed || showColorSplash) {
     return (
-      <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-rose-50 flex flex-col items-center justify-center p-4">
-        <OverwhelmedAnimation onComplete={handleOverwhelmedComplete} />
+      <div className="fixed inset-0">
+        {/* Color splash animation (behind) */}
+        {showColorSplash && (
+          <ColorSplashAnimation onComplete={handleColorSplashComplete} />
+        )}
+        
+        {/* Overwhelmed animation (in front, with fade out) */}
+        {showOverwhelmed && (
+          <div 
+            className="fixed inset-0 bg-gradient-to-br from-orange-50 to-rose-50 flex flex-col items-center justify-center p-4 transition-opacity duration-300"
+            style={{ 
+              opacity: showColorSplash ? 0 : 1,
+              zIndex: showColorSplash ? 10 : 20 
+            }}
+          >
+            <OverwhelmedAnimation onComplete={handleOverwhelmedComplete} />
+          </div>
+        )}
       </div>
     );
-  }
-
-  if (showColorSplash) {
-    return <ColorSplashAnimation onComplete={handleColorSplashComplete} />;
   }
 
   if (showLoading) {

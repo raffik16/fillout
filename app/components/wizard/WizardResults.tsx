@@ -292,13 +292,13 @@ export default function WizardResults({
 
                 {/* Drink Info */}
                 <div className="p-3">
-                  <h3 className="text-1xl font-bold mb-2 text-black">{currentDrink?.name}</h3>
+                  <h3 className="text-1xl font-bold mb-2 bg-gradient-to-r from-orange-500 via-rose-500 to-purple-500 bg-clip-text text-transparent animate-gradient-x">{currentDrink?.name}</h3>
                   <p className="text-gray-600 mb-4 text-sm min-h-[3.5rem]">{currentDrink?.description}</p>
                   
                   {/* Match Reasons */}
                   {recommendations[currentIndex]?.reasons && recommendations[currentIndex].reasons.length > 0 && (
-                    <div className="bg-orange-50 rounded-lg p-3 mb-4">
-                      <p className="text-sm text-orange-800 min-h-[3.5rem]">
+                    <div className="bg-orange-50 rounded-lg p-1.5 mb-4 min-h-[3rem]">
+                      <p className="text-sm text-orange-800 ">
                         {recommendations[currentIndex].reasons.join(' • ')}
                       </p>
                     </div>
