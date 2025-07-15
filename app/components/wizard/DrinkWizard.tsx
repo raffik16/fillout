@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { WizardPreferences } from '@/app/types/wizard';
+import { WizardPreferences, AllergyType } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
 import { wizardQuestions } from '@/app/data/wizardQuestions';
 import WizardQuestion from './WizardQuestion';
@@ -54,7 +54,7 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
         const currentAllergies = preferences.allergies || [];
         const filteredAllergies = currentAllergies.filter(a => a !== 'none');
         
-        if (filteredAllergies.includes(value as any)) {
+        if (filteredAllergies.includes(value as AllergyType)) {
           // Remove if already selected
           const newAllergies = filteredAllergies.filter(a => a !== value);
           updatedPreferences = {
@@ -65,7 +65,7 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
           // Add to selection
           updatedPreferences = {
             ...preferences,
-            allergies: [...filteredAllergies, value as any]
+            allergies: [...filteredAllergies, value as AllergyType]
           };
         }
       }

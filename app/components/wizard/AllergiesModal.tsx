@@ -118,7 +118,7 @@ export default function AllergiesModal({ isOpen, onClose, currentAllergies, onUp
             {/* Content */}
             <div className="p-6">
               <p className="text-sm text-gray-600 mb-4">
-                Select all allergies that apply to you. We'll exclude drinks containing these ingredients to keep you safe.
+                Select all allergies that apply to you. We&apos;ll exclude drinks containing these ingredients to keep you safe.
               </p>
 
               <div className="space-y-3">
@@ -154,7 +154,7 @@ export default function AllergiesModal({ isOpen, onClose, currentAllergies, onUp
               {selectedAllergies.filter(a => a !== 'none').length > 1 && (
                 <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                   <p className="text-sm text-blue-800">
-                    <strong>Multiple allergies selected:</strong> We'll exclude drinks containing ANY of your selected allergens.
+                    <strong>Multiple allergies selected:</strong> We&apos;ll exclude drinks containing ANY of your selected allergens.
                   </p>
                 </div>
               )}
