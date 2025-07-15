@@ -408,7 +408,7 @@ export default function WizardResults({
               </>
             ) : (
               <>
-                Weather Based Results
+                Weather Based Matches
               </>
             )}
           </button>

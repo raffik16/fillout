@@ -51,38 +51,31 @@ export default function WizardQuestion({ question, onAnswer, selectedValue }: Wi
               transition={{ delay: index * 0.175 }}
               whileTap={{ scale: 0.95 }}
             >
-              {/* Animated border inset - only for non-featured options */}
-              {!isFeatured && (
-                <motion.div
-                  className="absolute inset-0 rounded-2xl border-2 border-orange-400 pointer-events-none"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={isSelected ? { 
-                    opacity: 1, 
-                    scale: 1,
-                    x: 0,
-                    y: 0
-                  } : { 
-                    opacity: 0, 
-                    scale: 0.8 
-                  }}
-                  whileHover={!isSelected ? {
-                    opacity: 0.6,
-                    scale: 0.95,
-                    x: -10,
-                    y: -10
-                  } : {}}
-                  whileTap={!isSelected ? {
-                    opacity: 0.8,
-                    scale: 0.9,
-                    x: -10,
-                    y: -10
-                  } : {}}
-                  transition={{ 
-                    duration: 0.3,
-                    ease: "easeOut"
-                  }}
-                />
-              )}
+              {/* Animated border inset - for all options */}
+              <motion.div
+                className="absolute inset-2 rounded-2xl border-2 border-orange-400 bg-opacity-10 pointer-events-none"
+                style={{ left: 0, top: 0, bottom: 0, right: 0 }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={isSelected ? { 
+                  opacity: 1, 
+                  scale: 1
+                } : { 
+                  opacity: 0, 
+                  scale: 0.8 
+                }}
+                whileHover={!isSelected ? {
+                  opacity: 0.6,
+                  scale: 0.95
+                } : {}}
+                whileTap={{
+                  opacity: 1,
+                  scale: 1
+                }}
+                transition={{ 
+                  duration: 0.05,
+                  ease: "easeOut"
+                }}
+              />
               <div className={`${isLastItem ? 'flex items-center justify-center gap-4' : ''}`}>
                 <div className={`${isLastItem ? 'text-4xl' : 'text-5xl mb-3'}`}>{option.emoji}</div>
                 <div className={`font-semibold ${isFeatured ? 'text-white' : 'text-gray-800'} ${isLastItem ? 'text-lg' : ''}`}>
