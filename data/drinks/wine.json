@@ -7,9 +7,11 @@
       "description": "Light and refreshing rosé wine",
       "price": "$9",
       "ingredients": [
-        "Grenache",
-        "Cinsault",
-        "Syrah grapes"
+        "Grenache grapes",
+        "Cinsault grapes",
+        "Syrah grapes",
+        "Sulfites",
+        "Yeast"
       ],
       "abv": 12,
       "flavor_profile": [
@@ -45,7 +47,10 @@
       "description": "House white wine",
       "price": "$9",
       "ingredients": [
-        "White wine grapes"
+        "White wine grapes",
+        "Sulfites",
+        "Yeast",
+        "Potassium metabisulfite"
       ],
       "abv": 12.5,
       "flavor_profile": [
@@ -83,7 +88,10 @@
       "description": "Crisp white wine with citrus notes",
       "price": "$9",
       "ingredients": [
-        "Sauvignon Blanc grapes"
+        "Sauvignon Blanc grapes",
+        "Sulfites",
+        "Yeast",
+        "Ascorbic acid"
       ],
       "abv": 12.5,
       "flavor_profile": [
@@ -121,7 +129,11 @@
       "description": "House sparkling wine",
       "price": "$9",
       "ingredients": [
-        "Sparkling wine grapes"
+        "Champagne grapes",
+        "Sulfites",
+        "Yeast",
+        "Tirage solution",
+        "Sugar"
       ],
       "abv": 11,
       "flavor_profile": [
@@ -157,7 +169,11 @@
       "description": "House red wine",
       "price": "$9",
       "ingredients": [
-        "Red wine grapes"
+        "Red wine grapes",
+        "Sulfites",
+        "Yeast",
+        "Tannins",
+        "Egg whites"
       ],
       "abv": 13.5,
       "flavor_profile": [

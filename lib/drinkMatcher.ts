@@ -3,6 +3,7 @@ import { WizardPreferences, OccasionMood } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
 import { getHappyHourBonus } from '@/lib/happyHour';
 import { getPopularDrinks } from '@/lib/supabase';
+import { isSafeForAllergies } from '@/lib/allergenDetector';
 
 // Map wizard occasions to drink occasions
 function mapOccasion(wizardOccasion: OccasionMood): Occasion {
@@ -52,6 +53,17 @@ export async function matchDrinksToPreferences(
 
     if (debug) {
       console.log(`\n🍹 DEBUG: Scoring "${drink.name}" (category: ${drink.category}, strength: ${drink.strength}, abv: ${drink.abv})`);
+    }
+
+    // 0. ALLERGY FILTERING - FIRST PRIORITY (Safety first!)
+    if (preferences.allergies && preferences.allergies.length > 0) {
+      const isSafe = isSafeForAllergies(drink.ingredients, preferences.allergies);
+      if (!isSafe) {
+        if (debug) {
+          console.log(`   ❌ ALLERGY EXCLUSION: Contains allergens for user with allergies: ${preferences.allergies.join(', ')}`);
+        }
+        continue; // Skip this drink entirely - safety first!
+      }
     }
 
     // 1. Flavor matching (25 points max)

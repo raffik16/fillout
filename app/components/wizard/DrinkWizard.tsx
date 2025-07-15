@@ -28,6 +28,7 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
     adventure: null,
     strength: null,
     occasion: null,
+    allergies: null,
     useWeather: true
   });
   const [showLoading, setShowLoading] = useState(false);
@@ -39,10 +40,42 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
 
   const handleAnswer = (value: string) => {
     const question = wizardQuestions[currentQuestion];
-    const updatedPreferences = {
-      ...preferences,
-      [question.id]: value
-    };
+    let updatedPreferences;
+    
+    // Special handling for allergies (multi-select)
+    if (question.id === 'allergies') {
+      if (value === 'none') {
+        updatedPreferences = {
+          ...preferences,
+          allergies: ['none']
+        };
+      } else {
+        // Toggle the allergy in the array
+        const currentAllergies = preferences.allergies || [];
+        const filteredAllergies = currentAllergies.filter(a => a !== 'none');
+        
+        if (filteredAllergies.includes(value as any)) {
+          // Remove if already selected
+          const newAllergies = filteredAllergies.filter(a => a !== value);
+          updatedPreferences = {
+            ...preferences,
+            allergies: newAllergies.length > 0 ? newAllergies : ['none']
+          };
+        } else {
+          // Add to selection
+          updatedPreferences = {
+            ...preferences,
+            allergies: [...filteredAllergies, value as any]
+          };
+        }
+      }
+    } else {
+      updatedPreferences = {
+        ...preferences,
+        [question.id]: value
+      };
+    }
+    
     setPreferences(updatedPreferences);
     setNavigationDirection('forward');
 
@@ -154,6 +187,7 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
             <WizardQuestion
               question={wizardQuestions[currentQuestion]}
               onAnswer={handleAnswer}
+              selectedValue={preferences[wizardQuestions[currentQuestion].id]}
             />
           </motion.div>
         </AnimatePresence>

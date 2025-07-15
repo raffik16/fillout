@@ -6,9 +6,10 @@ import { WizardQuestion as WizardQuestionType } from '@/app/types/wizard';
 interface WizardQuestionProps {
   question: WizardQuestionType;
   onAnswer: (value: string) => void;
+  selectedValue?: string | string[] | null;
 }
 
-export default function WizardQuestion({ question, onAnswer }: WizardQuestionProps) {
+export default function WizardQuestion({ question, onAnswer, selectedValue }: WizardQuestionProps) {
   return (
     <div className="text-center mb-8">
       <h2 className="text-3xl font-bold mb-2 text-gray-800">
@@ -29,6 +30,11 @@ export default function WizardQuestion({ question, onAnswer }: WizardQuestionPro
           const isFeatured = option.value === 'featured';
           const isLastItem = question.id === 'category' && index === question.options.length - 1;
           
+          // Check if this option is selected
+          const isSelected = Array.isArray(selectedValue) 
+            ? selectedValue.includes(option.value)
+            : selectedValue === option.value;
+          
           return (
             <motion.button
               key={option.value}
@@ -38,13 +44,45 @@ export default function WizardQuestion({ question, onAnswer }: WizardQuestionPro
                   ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white hover:from-purple-700 hover:to-purple-600' 
                   : 'bg-white hover:border-orange-300'
                 } 
-                rounded-2xl p-6 transition-all transform hover:scale-105 border-2 
+                rounded-2xl p-6 transition-all transform hover:scale-105 border-2 relative overflow-hidden
                 ${isFeatured ? 'border-transparent' : 'border-transparent'}
                 ${isLastItem ? 'col-span-2 md:col-span-2' : ''}
               `}
               transition={{ delay: index * 0.175 }}
               whileTap={{ scale: 0.95 }}
             >
+              {/* Animated border inset - only for non-featured options */}
+              {!isFeatured && (
+                <motion.div
+                  className="absolute inset-0 rounded-2xl border-2 border-orange-400 pointer-events-none"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={isSelected ? { 
+                    opacity: 1, 
+                    scale: 1,
+                    x: 0,
+                    y: 0
+                  } : { 
+                    opacity: 0, 
+                    scale: 0.8 
+                  }}
+                  whileHover={!isSelected ? {
+                    opacity: 0.6,
+                    scale: 0.95,
+                    x: -10,
+                    y: -10
+                  } : {}}
+                  whileTap={!isSelected ? {
+                    opacity: 0.8,
+                    scale: 0.9,
+                    x: -10,
+                    y: -10
+                  } : {}}
+                  transition={{ 
+                    duration: 0.3,
+                    ease: "easeOut"
+                  }}
+                />
+              )}
               <div className={`${isLastItem ? 'flex items-center justify-center gap-4' : ''}`}>
                 <div className={`${isLastItem ? 'text-4xl' : 'text-5xl mb-3'}`}>{option.emoji}</div>
                 <div className={`font-semibold ${isFeatured ? 'text-white' : 'text-gray-800'} ${isLastItem ? 'text-lg' : ''}`}>

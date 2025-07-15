@@ -51,5 +51,18 @@ export const wizardQuestions: WizardQuestion[] = [
       { value: 'newly21', label: 'Newly 21!', emoji: '🎂' },
       { value: 'birthday', label: 'It\'s My Birthday!', emoji: '🎉' }
     ]
+  },
+  {
+    id: 'allergies',
+    title: "Any allergies we should know about?",
+    subtitle: "Help us keep you safe and find drinks you can enjoy",
+    options: [
+      { value: 'none', label: 'No Allergies', emoji: '✅' },
+      { value: 'gluten', label: 'Gluten', emoji: '🌾' },
+      { value: 'dairy', label: 'Dairy', emoji: '🥛' },
+      { value: 'nuts', label: 'Nuts', emoji: '🥜' },
+      { value: 'eggs', label: 'Eggs', emoji: '🥚' },
+      { value: 'soy', label: 'Soy', emoji: '🫘' }
+    ]
   }
 ];

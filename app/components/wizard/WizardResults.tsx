@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { DrinkRecommendation } from '@/app/types/drinks';
-import { WizardPreferences } from '@/app/types/wizard';
+import { WizardPreferences, AllergyType } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
 import { matchDrinksToPreferences, getMatchMessage } from '@/lib/drinkMatcher';
 import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
@@ -14,6 +14,7 @@ import LikeButton from '@/app/components/ui/LikeButton';
 import OrderButton from '@/app/components/ui/OrderButton';
 import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 import WizardFullResults from './WizardFullResults';
+import AllergiesModal from './AllergiesModal';
 
 // Witty title generator based on match count
 function getWittyTitle(count: number): string {
@@ -50,20 +51,32 @@ export default function WizardResults({
   const [locationError, setLocationError] = useState<string | null>(null);
   const [imageLoading, setImageLoading] = useState(true);
   const [showFullResults, setShowFullResults] = useState(false);
+  const [showAllergiesModal, setShowAllergiesModal] = useState(false);
+  const [currentAllergies, setCurrentAllergies] = useState<AllergyType[]>(preferences.allergies || []);
 
   const updateRecommendations = useCallback(async () => {
     setIsLoadingRecommendations(true);
-    const updatedPrefs = { ...preferences, useWeather };
+    const updatedPrefs = { ...preferences, useWeather, allergies: currentAllergies };
     const recs = await matchDrinksToPreferences(updatedPrefs, localWeatherData, false, true);
     setRecommendations(recs);
     setCurrentIndex(0);
     setIsLoadingRecommendations(false);
-  }, [preferences, useWeather, localWeatherData]);
+  }, [preferences, useWeather, localWeatherData, currentAllergies]);
+
+  const handleAllergiesUpdate = (newAllergies: AllergyType[]) => {
+    // Update the current allergies state
+    setCurrentAllergies(newAllergies);
+    setShowAllergiesModal(false);
+    // updateRecommendations will be called automatically due to the dependency on currentAllergies
+  };
 
   const totalCards = recommendations.length;
   const currentDrink = recommendations[currentIndex]?.drink;
   const currentScore = recommendations[currentIndex]?.score || 0;
   const matchMessage = getMatchMessage(currentScore);
+  
+  // Count active allergies (excluding 'none')
+  const activeAllergiesCount = currentAllergies.filter(allergy => allergy !== 'none').length;
 
   useEffect(() => {
     updateRecommendations();
@@ -401,6 +414,18 @@ export default function WizardResults({
           </button>
           
           <button
+            onClick={() => setShowAllergiesModal(true)}
+            className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-xl font-semibold border border-gray-300 hover:bg-orange-50 transition-colors"
+          >
+            Allergies
+            {activeAllergiesCount > 0 && (
+              <span className="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[20px] h-5 flex items-center justify-center">
+                {activeAllergiesCount}
+              </span>
+            )}
+          </button>
+          
+          <button
             onClick={onRetakeQuiz}
             className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-xl font-semibold border border-gray-300 hover:bg-gray-50 transition-colors"
           >
@@ -421,6 +446,14 @@ export default function WizardResults({
         )}
       </div>
       </div>
+      
+      {/* Allergies Modal */}
+      <AllergiesModal
+        isOpen={showAllergiesModal}
+        onClose={() => setShowAllergiesModal(false)}
+        currentAllergies={currentAllergies}
+        onUpdate={handleAllergiesUpdate}
+      />
     </motion.div>
   );
 }

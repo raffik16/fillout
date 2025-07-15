@@ -4,6 +4,7 @@ export type TemperaturePreference = 'cold' | 'cool' | 'room' | 'warm';
 export type AdventureLevel = 'classic' | 'bold' | 'fruity' | 'simple';
 export type StrengthPreference = 'light' | 'medium' | 'strong' | 'non-alcoholic';
 export type OccasionMood = 'casual' | 'party' | 'romantic' | 'relaxing' | 'sports' | 'exploring' | 'newly21' | 'birthday';
+export type AllergyType = 'gluten' | 'dairy' | 'nuts' | 'eggs' | 'soy' | 'none';
 
 export interface WizardPreferences {
   category: DrinkCategory | null;
@@ -12,6 +13,7 @@ export interface WizardPreferences {
   adventure: AdventureLevel | null;
   strength: StrengthPreference | null;
   occasion: OccasionMood | null;
+  allergies: AllergyType[] | null;
   useWeather: boolean;
 }
 
