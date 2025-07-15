@@ -192,14 +192,14 @@ export default function WizardResults({
     >
       <div>
         {/* Header */}
-        <div className="flex justify-center items-center p-4">
+        <div className="flex justify-center items-center p-2">
           <h2 className="text-sm font-bold text-gray-800">
             {preferences.category === 'featured' ? '⭐ Featured Drinks' : getWittyTitle(recommendations.length)}
           </h2>
         </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex items-center justify-center px-4 relative">
+      <div className="flex-1 flex items-center justify-center px-2 relative">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentDrink?.id}
@@ -237,7 +237,7 @@ export default function WizardResults({
             {/* Regular Drink Card */}
             <div className="bg-white rounded-3xl overflow-hidden">
                 {/* Match Score */}
-                <div className="bg-gradient-to-r from-orange-400 to-rose-400 text-white p-4 text-center">
+                <div className="bg-gradient-to-r from-orange-400 to-rose-400 text-white p-2 text-center">
                   <div className="text-lg font-bold">{matchMessage}</div>
                   <div className="text-sm opacity-90">Match Score: {currentScore}%</div>
                 </div>
@@ -291,13 +291,13 @@ export default function WizardResults({
                 </div>
 
                 {/* Drink Info */}
-                <div className="p-3">
+                <div className="p-2">
                   <h3 className="text-1xl font-bold mb-2 bg-gradient-to-r from-orange-500 via-rose-500 to-purple-500 bg-clip-text text-transparent animate-gradient-x">{currentDrink?.name}</h3>
-                  <p className="text-gray-600 mb-4 text-sm min-h-[3.5rem]">{currentDrink?.description}</p>
+                  <p className="text-gray-600 mb-2 text-sm min-h-[3.5rem]">{currentDrink?.description}</p>
                   
                   {/* Match Reasons */}
                   {recommendations[currentIndex]?.reasons && recommendations[currentIndex].reasons.length > 0 && (
-                    <div className="bg-orange-50 rounded-lg p-1.5 mb-4 min-h-[3rem]">
+                    <div className="bg-orange-50 rounded-lg p-2 mb-2 min-h-[3rem]">
                       <p className="text-sm text-orange-800 ">
                         {recommendations[currentIndex].reasons.join(' • ')}
                       </p>
@@ -305,7 +305,7 @@ export default function WizardResults({
                   )}
 
                   {/* Quick Info */}
-                  <div className="flex justify-between text-sm text-gray-500 mb-4">
+                  <div className="flex justify-between text-sm text-gray-500 mb-2">
                     <span>{currentDrink?.category}</span>
                     <span>{currentDrink?.strength}</span>
                     <span>{currentDrink?.abv}% ABV</span>
@@ -318,12 +318,12 @@ export default function WizardResults({
       </div>
 
       {/* Navigation */}
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-4">
+      <div className="p-2">
+        <div className="flex items-center justify-between mb-2">
           <button
             onClick={goToPrevious}
             disabled={currentIndex === 0}
-            className={`p-3 rounded-full ${
+            className={`p-2 rounded-full ${
               currentIndex === 0
                 ? 'bg-gray-200 text-gray-400'
                 : 'bg-white hover:bg-gray-100 text-gray-800'
@@ -349,7 +349,7 @@ export default function WizardResults({
           <button
             onClick={goToNext}
             disabled={currentIndex === totalCards - 1}
-            className={`p-3 rounded-full ${
+            className={`p-2 rounded-full ${
               currentIndex === totalCards - 1
                 ? 'bg-gray-200 text-gray-400'
                 : 'bg-white hover:bg-gray-100 text-gray-800'
@@ -360,10 +360,10 @@ export default function WizardResults({
         </div>
 
         {/* Bottom Actions */}
-        <div className="flex gap-3 mb-4">
+        <div className="flex gap-3 mb-2">
           <button
             onClick={() => setShowFullResults(true)}
-            className="flex-1 flex items-center justify-center gap-2 bg-purple-500 text-white py-3 rounded-xl font-semibold hover:bg-purple-600 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 bg-purple-500 text-white py-2 rounded-xl font-semibold hover:bg-purple-600 transition-colors"
           >
             🎯 View All {recommendations.length} Matches
           </button>
@@ -373,7 +373,7 @@ export default function WizardResults({
           <button
             onClick={toggleWeather}
             disabled={isLoadingLocation}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold transition-colors ${
+            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl font-semibold transition-colors ${
               useWeather && localWeatherData
                 ? 'bg-blue-500 text-white hover:bg-blue-600'
                 : 'bg-white text-gray-800 border border-gray-300 hover:bg-blue-50'
@@ -402,7 +402,7 @@ export default function WizardResults({
           
           <button
             onClick={onRetakeQuiz}
-            className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-3 rounded-xl font-semibold border border-gray-300 hover:bg-gray-50 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-xl font-semibold border border-gray-300 hover:bg-gray-50 transition-colors"
           >
             <RefreshCw className="w-5 h-5" />
             Retake
