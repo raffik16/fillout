@@ -310,7 +310,7 @@
       "description": "Mexican pilsner",
       "price": "$5",
       "ingredients": ["Barley malt", "Corn", "Hops", "Water", "Yeast"],
-      "abv": 4.5,
+      "abv": 4.4,
       "flavor_profile": ["smooth"],
       "strength": "light",
       "weather_match": {
