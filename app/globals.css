@@ -3,8 +3,9 @@
 @theme {
   --default-transition-duration: 200ms;
   --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  --default-font-family: var(--font-geist-sans);
-  --default-mono-font-family: var(--font-geist-mono);
+  --default-font-family: var(--font-open-sans);
+  --font-family-heading: var(--font-chango);
+  --font-family-body: var(--font-open-sans);
 }
 
 @variant dark (.dark &);
@@ -12,8 +13,8 @@
 :root {
   --color-background: #ffffff;
   --color-foreground: #171717;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-body: var(--font-open-sans);
+  --font-heading: var(--font-chango);
 }
 
 .dark {
@@ -29,11 +30,26 @@ html {
 body {
   background: var(--color-background);
   color: var(--color-foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-open-sans), Arial, Helvetica, sans-serif;
   /* min-height: 100vh; */
   overflow-x: hidden;
   transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
   text-rendering: optimizeLegibility;
+}
+
+/* Headings use Chango */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-chango), Impact, Arial Black, sans-serif;
+  font-weight: 400;
+}
+
+/* Utility classes for explicit font usage */
+.font-heading {
+  font-family: var(--font-chango), Impact, Arial Black, sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-open-sans), Arial, Helvetica, sans-serif;
 }
 
 /* Custom scrollbar */
