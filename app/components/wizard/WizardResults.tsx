@@ -252,7 +252,7 @@ export default function WizardResults({
                 {/* Match Score */}
                 <div className="bg-gradient-to-r from-orange-400 to-rose-400 text-white p-2 text-center">
                   <div className="text-lg font-bold">{matchMessage}</div>
-                  <div className="text-sm opacity-90">Match Score: {currentScore}%</div>
+                  <div className="text-sm font-bold">Match Score: {currentScore}%</div>
                 </div>
 
                 {/* Drink Image */}
