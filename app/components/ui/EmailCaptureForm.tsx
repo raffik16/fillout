@@ -52,10 +52,7 @@ export default function EmailCaptureForm({ matchedDrinks, preferences }: EmailCa
       if (response.ok) {
         setStatus('success');
         setEmail('');
-        setTimeout(() => {
-          setStatus('idle');
-          // Keep the form open, don't auto-close
-        }, 3000);
+        // Success message stays visible permanently
       } else {
         setStatus('error');
       }
