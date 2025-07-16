@@ -4,7 +4,7 @@
   --default-transition-duration: 200ms;
   --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   --default-font-family: var(--font-open-sans);
-  --font-family-heading: var(--font-chango);
+  --font-family-heading: var(--font-inter);
   --font-family-body: var(--font-open-sans);
 }
 
@@ -14,7 +14,7 @@
   --color-background: #ffffff;
   --color-foreground: #171717;
   --font-body: var(--font-open-sans);
-  --font-heading: var(--font-chango);
+  --font-heading: var(--font-inter);
 }
 
 .dark {
@@ -37,15 +37,15 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Headings use Chango */
+/* Headings use Inter */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-chango), Impact, Arial Black, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-inter), Arial, sans-serif;
+  font-weight: 900;
 }
 
 /* Utility classes for explicit font usage */
 .font-heading {
-  font-family: var(--font-chango), Impact, Arial Black, sans-serif;
+  font-family: var(--font-inter), Arial, sans-serif;
 }
 
 .font-body {

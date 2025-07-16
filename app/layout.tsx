@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Open_Sans, Chango } from "next/font/google";
+import { Open_Sans, Inter } from "next/font/google";
 import "./globals.css";
 
 const openSans = Open_Sans({
@@ -7,10 +7,9 @@ const openSans = Open_Sans({
   subsets: ["latin"],
 });
 
-const chango = Chango({
-  variable: "--font-chango",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -59,7 +58,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${openSans.variable} ${chango.variable} antialiased`}
+        className={`${openSans.variable} ${inter.variable} antialiased`}
       >
         {children}
       </body>
