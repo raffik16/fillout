@@ -54,7 +54,7 @@ export default function EmailCaptureForm({ matchedDrinks, preferences }: EmailCa
         setEmail('');
         setTimeout(() => {
           setStatus('idle');
-          setShowForm(false); // Auto-close the form after success
+          // Keep the form open, don't auto-close
         }, 3000);
       } else {
         setStatus('error');
