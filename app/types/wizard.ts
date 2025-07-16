@@ -2,7 +2,7 @@ export type DrinkCategory = 'beer' | 'wine' | 'cocktail' | 'spirit' | 'non-alcoh
 export type FlavorProfile = 'sweet' | 'bitter' | 'sour' | 'smooth';
 export type TemperaturePreference = 'cold' | 'cool' | 'room' | 'warm';
 export type AdventureLevel = 'classic' | 'bold' | 'fruity' | 'simple';
-export type StrengthPreference = 'light' | 'medium' | 'strong' | 'non-alcoholic';
+export type StrengthPreference = 'light' | 'medium' | 'strong';
 export type OccasionMood = 'casual' | 'party' | 'romantic' | 'relaxing' | 'sports' | 'exploring' | 'newly21' | 'birthday';
 export type AllergyType = 'gluten' | 'dairy' | 'nuts' | 'eggs' | 'soy' | 'none';
 

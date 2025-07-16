@@ -134,13 +134,12 @@ export async function matchDrinksToPreferences(
       const strengthMap: Record<string, string> = {
         'light': 'light',
         'medium': 'medium',
-        'strong': 'strong',
-        'non-alcoholic': 'non-alcoholic'
+        'strong': 'strong'
       };
 
       if (drink.strength === strengthMap[preferences.strength]) {
         score += 20;
-        reasons.push(`${preferences.strength === 'non-alcoholic' ? 'Zero proof' : preferences.strength.charAt(0).toUpperCase() + preferences.strength.slice(1)} strength`);
+        reasons.push(`${preferences.strength.charAt(0).toUpperCase() + preferences.strength.slice(1)} strength`);
       }
     }
 

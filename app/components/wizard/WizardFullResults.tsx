@@ -120,7 +120,13 @@ export default function WizardFullResults({
         {/* Footer with preferences and email capture */}
         <div className="p-4 bg-white mx-4 rounded-xl mb-4 shadow-sm">
           <div className="mb-4">
-            <h4 className="font-semibold text-gray-800 mb-2 text-center">Your Perfect Profile</h4>
+            <h4 className="font-semibold text-gray-800 mb-2 text-center">
+              Your Perfect {preferences.category && preferences.category !== 'any' && preferences.category !== 'featured'
+                ? preferences.category === 'non-alcoholic' 
+                  ? 'Non-Alcoholic' 
+                  : preferences.category.charAt(0).toUpperCase() + preferences.category.slice(1)
+                : ''} Profile
+            </h4>
             <div className="flex flex-wrap gap-2 justify-center">
               {preferences.flavor && (
                 <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">

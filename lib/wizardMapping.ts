@@ -7,10 +7,9 @@ export function mapWizardPreferencesToFilters(preferences: WizardPreferences): D
   // Map strength preferences
   if (preferences.strength) {
     const strengthMap: Record<string, DrinkStrength[]> = {
-      'light': ['light', 'non-alcoholic'],
-      'medium': ['light', 'medium'],
-      'strong': ['medium', 'strong'],
-      'non-alcoholic': ['non-alcoholic']
+      'light': ['light'],
+      'medium': ['medium'],
+      'strong': ['strong']
     };
     filters.strength = strengthMap[preferences.strength] || [];
   }

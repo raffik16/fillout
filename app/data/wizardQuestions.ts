@@ -33,8 +33,7 @@ export const wizardQuestions: WizardQuestion[] = [
     options: [
       { value: 'light', label: 'Easy Going', emoji: '🌸' },
       { value: 'medium', label: 'Balanced', emoji: '⚖️' },
-      { value: 'strong', label: 'Bring the Power', emoji: '🔥' },
-      { value: 'non-alcoholic', label: 'Zero Proof', emoji: '🙅' }
+      { value: 'strong', label: 'Bring the Power', emoji: '🔥' }
     ]
   },
   {

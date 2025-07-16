@@ -20,6 +20,7 @@ export default function WizardQuestion({ question, onAnswer, selectedValue }: Wi
       )}
 
       <div className={`grid gap-4 ${
+        question.id === 'strength' ? 'grid-cols-1 max-w-md mx-auto' :
         question.id === 'occasion' ? 'grid-cols-2' : 
         question.id === 'category' && question.options.length === 7 ? 'grid-cols-2 md:grid-cols-2' : 
         question.options.length === 6 ? 'grid-cols-2' : 
