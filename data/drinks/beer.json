@@ -372,6 +372,30 @@
       "preparation": "Serve cold",
       "funForTwentyOne": true,
       "goodForBDay": true
+    },
+    {
+      "id": "corona-extra",
+      "name": "Corona Extra",
+      "category": "beer",
+      "description": "Mexican lager with a refreshing, smooth taste",
+      "ingredients": ["Water", "Barley Malt", "Non-Malted Cereals", "Hops"],
+      "price": "$5",
+      "abv": 4.6,
+      "flavor_profile": ["smooth"],
+      "strength": "light",
+      "weather_match": {
+        "temp_min": 24,
+        "temp_max": 38,
+        "conditions": ["clear"],
+        "ideal_temp": 32
+      },
+      "occasions": ["casual"],
+      "serving_suggestions": ["Serve with lime wedge", "Serve ice cold"],
+      "image_url": "/images/drinks/beer/corona.png",
+      "glass_type": "Bottle",
+      "preparation": "Serve with lime",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     }
   ]
 }
