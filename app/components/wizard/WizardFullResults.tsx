@@ -35,20 +35,9 @@ export default function WizardFullResults({
 
   // Check if there are more drinks available when component mounts
   useEffect(() => {
-    const checkForMoreDrinks = async () => {
-      try {
-        const currentIds = recommendations.map(rec => rec.drink.id);
-        // Always show the button to expand search
-        setHasMoreDrinks(true);
-      } catch (error) {
-        console.error('Failed to check for more drinks:', error);
-        setHasMoreDrinks(false);
-      } finally {
-        setIsCheckingMore(false);
-      }
-    };
-    
-    checkForMoreDrinks();
+    // Always show the button to expand search
+    setHasMoreDrinks(true);
+    setIsCheckingMore(false);
   }, [recommendations, preferences]);
 
   const loadDrinksWithoutAllergies = async () => {
