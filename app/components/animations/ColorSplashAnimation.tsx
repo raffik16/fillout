@@ -4,10 +4,18 @@ import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 
 interface ColorSplashAnimationProps {
-  onComplete: () => void;
+  onComplete?: () => void;
+  repeat?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
 }
 
-export default function ColorSplashAnimation({ onComplete }: ColorSplashAnimationProps) {
+export default function ColorSplashAnimation({ 
+  onComplete, 
+  repeat = false, 
+  size = 'lg',
+  className = ''
+}: ColorSplashAnimationProps) {
   const drinkColors = [
     '#DC2626', // Red wine
     '#3B82F6', // Blue cocktail 
@@ -17,17 +25,32 @@ export default function ColorSplashAnimation({ onComplete }: ColorSplashAnimatio
   ];
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      onComplete();
-    }, 2000);
+    if (onComplete && !repeat) {
+      const timer = setTimeout(() => {
+        onComplete();
+      }, 2000);
 
-    return () => clearTimeout(timer);
-  }, [onComplete]);
+      return () => clearTimeout(timer);
+    }
+  }, [onComplete, repeat]);
+
+  const sizeClasses = {
+    sm: 'w-8 h-8',
+    md: 'w-16 h-16', 
+    lg: 'w-full h-full'
+  };
+
+  const containerClass = size === 'lg' 
+    ? "fixed inset-0 overflow-hidden" 
+    : `relative ${sizeClasses[size]} overflow-hidden rounded-full`;
 
   return (
     <div 
-      className="fixed inset-0 overflow-hidden"
-      style={{ backgroundColor: 'oklch(98% .016 73.684)', transform: 'scaleY(-1)' }}
+      className={`${containerClass} ${className}`}
+      style={{ 
+        backgroundColor: size === 'lg' ? 'oklch(98% .016 73.684)' : 'transparent', 
+        transform: size === 'lg' ? 'scaleY(-1)' : 'none' 
+      }}
     >
       {drinkColors.map((color, index) => (
         <motion.svg
@@ -43,7 +66,9 @@ export default function ColorSplashAnimation({ onComplete }: ColorSplashAnimatio
           transition={{
             duration: 1.6,
             delay: index * 0.15,
-            ease: "easeOut"
+            ease: "easeOut",
+            repeat: repeat ? Infinity : 0,
+            repeatType: "loop"
           }}
           style={{ zIndex: drinkColors.length - index }}
         >
@@ -84,8 +109,8 @@ export default function ColorSplashAnimation({ onComplete }: ColorSplashAnimatio
               duration: 1.2,
               delay: index * 0.15,
               ease: "easeInOut",
-              repeat: 1,
-              repeatType: "reverse"
+              repeat: repeat ? Infinity : 1,
+              repeatType: repeat ? "loop" : "reverse"
             }}
           />
           
@@ -127,8 +152,8 @@ export default function ColorSplashAnimation({ onComplete }: ColorSplashAnimatio
               duration: 1.4,
               delay: index * 0.15 + 0.2,
               ease: "easeInOut",
-              repeat: 1,
-              repeatType: "reverse"
+              repeat: repeat ? Infinity : 1,
+              repeatType: repeat ? "loop" : "reverse"
             }}
           />
         </motion.svg>

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Heart } from 'lucide-react';
 import { getSessionId } from '@/lib/session';
-import LoadingSpinner from './LoadingSpinner';
+import ColorSplashAnimation from '@/app/components/animations/ColorSplashAnimation';
 
 interface LikeButtonProps {
   drinkId: string;
@@ -98,7 +98,7 @@ export default function LikeButton({ drinkId, className = '', size = 'md' }: Lik
   if (isInitialLoading) {
     return (
       <div className={`flex items-center justify-center rounded-full bg-white ${buttonSizeClasses[size]} ${className}`}>
-        <LoadingSpinner size="sm" className="!m-0 !w-3 !h-3" />
+        <ColorSplashAnimation size="sm" repeat={true} />
       </div>
     );
   }

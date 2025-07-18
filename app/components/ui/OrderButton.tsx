@@ -6,7 +6,7 @@ import { X, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { useInactivityDetection } from '@/app/hooks/useInactivityDetection';
 import { useRealtimeStats } from '@/app/hooks/useRealtimeStats';
 import { getSessionId } from '@/lib/session';
-import LoadingSpinner from './LoadingSpinner';
+import ColorSplashAnimation from '@/app/components/animations/ColorSplashAnimation';
 
 // Temporary localStorage functions until Supabase table is created
 const ORDERS_KEY = 'drink_orders_temp';
@@ -177,7 +177,7 @@ export default function OrderButton({ drinkId, drinkName, className = '' }: Orde
 
         {promptState === 'loading' && (
           <div className="flex items-center justify-center py-2">
-            <LoadingSpinner size="sm" className="!m-0" />
+            <ColorSplashAnimation size="sm" repeat={true} />
           </div>
         )}
 

@@ -11,7 +11,7 @@ import LikeButton from '@/app/components/ui/LikeButton';
 import DrinkStatsDisplay from '@/app/components/ui/DrinkStatsDisplay';
 import EmailCaptureForm from '@/app/components/ui/EmailCaptureForm';
 import { getAdditionalDrinks } from '@/lib/drinkMatcher';
-import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
+import ColorSplashAnimation from '@/app/components/animations/ColorSplashAnimation';
 
 interface WizardFullResultsProps {
   recommendations: DrinkRecommendation[];
@@ -38,8 +38,8 @@ export default function WizardFullResults({
     const checkForMoreDrinks = async () => {
       try {
         const currentIds = recommendations.map(rec => rec.drink.id);
-        const additionalDrinks = await getAdditionalDrinks(preferences, currentIds, 2); // Just check for 2 to see if any exist
-        setHasMoreDrinks(additionalDrinks.length > 1); // Only show if more than 1 drink available
+        // Always show the button to expand search
+        setHasMoreDrinks(true);
       } catch (error) {
         console.error('Failed to check for more drinks:', error);
         setHasMoreDrinks(false);
@@ -57,11 +57,17 @@ export default function WizardFullResults({
     
     try {
       const currentIds = allRecommendations.map(rec => rec.drink.id);
-      const prefsWithoutAllergies = { ...preferences, allergies: [] };
-      const additionalDrinks = await getAdditionalDrinks(prefsWithoutAllergies, currentIds, 10);
+      // Remove allergy restrictions and open up category to show more variety
+      const updatedPrefs = {
+        ...preferences,
+        allergies: [],
+        category: 'any' as const
+      };
+      const additionalDrinks = await getAdditionalDrinks(updatedPrefs, currentIds, 10);
       
       if (additionalDrinks.length > 0) {
         setAllRecommendations([...allRecommendations, ...additionalDrinks]);
+        setHasMoreDrinks(false); // Hide the button after loading
       }
     } catch (error) {
       console.error('Failed to load drinks without allergies:', error);
@@ -76,10 +82,16 @@ export default function WizardFullResults({
     setIsLoadingMore(true);
     try {
       const currentIds = allRecommendations.map(rec => rec.drink.id);
-      const additionalDrinks = await getAdditionalDrinks(preferences, currentIds, 20);
+      // Remove allergy restrictions and open up category to show more variety
+      const updatedPrefs = {
+        ...preferences,
+        allergies: [],
+        category: 'any' as const
+      };
+      const additionalDrinks = await getAdditionalDrinks(updatedPrefs, currentIds, 20);
       
-      if (additionalDrinks.length === 0 && preferences.allergies && preferences.allergies.length > 0 && !preferences.allergies.includes('none')) {
-        // No drinks found due to allergies
+      if (additionalDrinks.length === 0) {
+        // No drinks found at all
         setShowNoMoreDrinksMessage(true);
       } else {
         setAllRecommendations([...allRecommendations, ...additionalDrinks]);
@@ -203,7 +215,7 @@ export default function WizardFullResults({
                       >
                         {isLoadingMore ? (
                           <>
-                            <LoadingSpinner size="sm" className="!m-0" />
+                            <ColorSplashAnimation size="sm" repeat={true} />
                             <span>Loading...</span>
                           </>
                         ) : (
@@ -216,7 +228,7 @@ export default function WizardFullResults({
                     </div>
                   </div>
                   <p className="text-center text-sm text-gray-500 mt-2">
-                    Explore drinks outside your preferences
+                    Explore drinks from all categories (ignoring allergies and preferences)
                   </p>
                 </div>
               ) : null}
@@ -254,7 +266,7 @@ export default function WizardFullResults({
                   >
                     {isLoadingMore ? (
                       <>
-                        <LoadingSpinner size="sm" className="!m-0" />
+                        <ColorSplashAnimation size="sm" repeat={true} />
                         <span>Loading...</span>
                       </>
                     ) : (

@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 import weatherService from '@/lib/weatherService';
 import LikeButton from '@/app/components/ui/LikeButton';
 import OrderButton from '@/app/components/ui/OrderButton';
-import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
+import ColorSplashAnimation from '@/app/components/animations/ColorSplashAnimation';
 import WizardFullResults from './WizardFullResults';
 import AllergiesModal from './AllergiesModal';
 
@@ -81,8 +81,8 @@ export default function WizardResults({
         setAdditionalDrinks(additional);
         setHasLoadedAdditional(true);
         
-        // If no additional drinks found and user has allergies, show the special card
-        if (additional.length === 0 && currentAllergies.length > 0 && !currentAllergies.includes('none')) {
+        // If no additional drinks found, show the special card
+        if (additional.length === 0) {
           setShowNoMoreDrinksCard(true);
         }
       } catch (error) {
@@ -103,7 +103,14 @@ export default function WizardResults({
 
   const loadDrinksWithoutAllergies = async () => {
     try {
-      const updatedPrefs = { ...preferences, useWeather, allergies: [] }; // Remove allergy restrictions
+      // Remove allergy restrictions and open up category to show more variety
+      const updatedPrefs = { 
+        ...preferences, 
+        useWeather, 
+        allergies: [], 
+        category: 'any' as const 
+      };
+      
       const excludeIds = allDrinks.map(rec => rec.drink.id);
       const additional = await getAdditionalDrinks(updatedPrefs, excludeIds, 5); // Load 5 more
       
@@ -112,7 +119,7 @@ export default function WizardResults({
         setShowNoMoreDrinksCard(false); // Hide the special card
       }
     } catch (error) {
-      console.error('Failed to load drinks without allergies:', error);
+      console.error('Failed to load more drinks:', error);
     }
   };
 
@@ -243,10 +250,15 @@ export default function WizardResults({
   if (isLoadingRecommendations) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 flex items-center justify-center">
-        <LoadingSpinner 
-          size="lg" 
-          text="Finding your perfect matches..."
+        <ColorSplashAnimation 
+          repeat={true}
+          size="lg"
         />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <p className="text-xl font-semibold text-gray-800 z-10">
+            Finding your perfect matches...
+          </p>
+        </div>
       </div>
     );
   }
@@ -320,7 +332,6 @@ export default function WizardResults({
               /* Special No More Drinks Card */
               <div className="bg-white rounded-3xl overflow-hidden">
                 <div className="bg-gradient-to-r from-purple-400 to-pink-400 text-white p-4 text-center">
-                  <div className="text-6xl mb-2">🤷‍♂️</div>
                   <div className="text-xl font-bold">Oops! We&apos;re All Out!</div>
                 </div>
                 
@@ -330,17 +341,22 @@ export default function WizardResults({
                   </h3>
                   
                   <p className="text-gray-600 mb-6 text-lg">
-                    Looks like your allergies have us stumped! We&apos;ve searched high and low, 
-                    but couldn&apos;t find any more drinks that match your specific needs.
+                    {activeAllergiesCount > 0 
+                      ? "Looks like your allergies have us stumped! We've searched high and low, but couldn't find any more drinks that match your specific needs."
+                      : "You've got some seriously specific taste! We've exhausted our collection trying to match your unique preferences."
+                    }
                   </p>
                   
                   <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 mb-6">
                     <p className="text-yellow-800 font-semibold mb-2">
-                      🎭 Plot Twist Alert!
+                      Plot Twist!
                     </p>
                     <p className="text-yellow-700 text-sm">
                       Want to live dangerously? We can show you more drinks without 
-                      your allergy filters. (Don&apos;t worry, we&apos;ll still mark which ones to avoid!)
+                      {activeAllergiesCount > 0 
+                        ? " your allergy filters. (Don't worry, we'll still mark which ones to avoid!)"
+                        : " your strict preferences. You might discover something unexpected!"
+                      }
                     </p>
                   </div>
                   
@@ -348,11 +364,14 @@ export default function WizardResults({
                     onClick={loadDrinksWithoutAllergies}
                     className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-bold hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
                   >
-                    🚀 Show Me Everything!
+                    Show More Drinks
                   </button>
                   
                   <p className="text-xs text-gray-500 mt-4">
-                    (We&apos;ll clearly mark which drinks contain your allergens)
+                    {activeAllergiesCount > 0 
+                      ? "(We'll clearly mark which drinks contain your allergens)"
+                      : "(Explore drinks outside your current preferences)"
+                    }
                   </p>
                 </div>
               </div>
@@ -367,10 +386,10 @@ export default function WizardResults({
                     : "bg-gradient-to-r from-orange-400 to-rose-400"
                 )}>
                   <div className="text-lg font-bold">
-                    {isShowingAdditionalDrink ? "More Options" : matchMessage}
+                    {matchMessage}
                   </div>
                   <div className="text-sm font-bold">
-                    {isShowingAdditionalDrink ? "Explore More Drinks" : `Match Score: ${currentScore}%`}
+                    Match Score: {currentScore}%
                   </div>
                 </div>
 
@@ -508,7 +527,7 @@ export default function WizardResults({
             onClick={() => setShowFullResults(true)}
             className="flex-1 flex items-center justify-center gap-2 bg-purple-500 text-white py-2 rounded-xl font-semibold hover:bg-purple-600 transition-colors"
           >
-            View All {totalCards} Matches
+            View All Matches
           </button>
         </div>
         
@@ -524,7 +543,7 @@ export default function WizardResults({
           >
             {isLoadingLocation ? (
               <div className="flex items-center gap-2">
-                <LoadingSpinner size="sm" className="!m-0" />
+                <ColorSplashAnimation size="sm" repeat={true} />
                 <span>Finding Location...</span>
               </div>
             ) : localWeatherData ? (

@@ -10,7 +10,7 @@ import WizardResults from '@/app/components/wizard/WizardResults';
 import { PWAInstallPrompt } from '@/app/components/ui/PWAInstallPrompt';
 import { WeatherData } from '@/app/types/weather';
 import { WizardPreferences } from '@/app/types/wizard';
-import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
+import ColorSplashAnimation from '@/app/components/animations/ColorSplashAnimation';
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -140,7 +140,7 @@ export default function Home() {
   if (isAgeVerified === null) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-amber-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+        <ColorSplashAnimation size="lg" repeat={true} />
       </div>
     );
   }
