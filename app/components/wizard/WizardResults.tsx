@@ -5,8 +5,8 @@ import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { DrinkRecommendation } from '@/app/types/drinks';
 import { WizardPreferences, AllergyType } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
-import { matchDrinksToPreferences, getMatchMessage } from '@/lib/drinkMatcher';
-import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
+import { matchDrinksToPreferences, getMatchMessage, getAdditionalDrinks } from '@/lib/drinkMatcher';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import weatherService from '@/lib/weatherService';
@@ -53,15 +53,24 @@ export default function WizardResults({
   const [showFullResults, setShowFullResults] = useState(false);
   const [showAllergiesModal, setShowAllergiesModal] = useState(false);
   const [currentAllergies, setCurrentAllergies] = useState<AllergyType[]>(preferences.allergies || []);
+  const [additionalDrinks, setAdditionalDrinks] = useState<DrinkRecommendation[]>([]);
+  const [hasLoadedAdditional, setHasLoadedAdditional] = useState(false);
 
   const updateRecommendations = useCallback(async () => {
     setIsLoadingRecommendations(true);
     const updatedPrefs = { ...preferences, useWeather, allergies: currentAllergies };
+    console.log('🔄 Fetching new randomized recommendations...');
     const recs = await matchDrinksToPreferences(updatedPrefs, localWeatherData, false, true);
+    console.log('✅ Received recommendations:', recs.map(r => r.drink.name));
     setRecommendations(recs);
     setCurrentIndex(0);
     setIsLoadingRecommendations(false);
+    
+    // Reset additional drinks when preferences change
+    setAdditionalDrinks([]);
+    setHasLoadedAdditional(false);
   }, [preferences, useWeather, localWeatherData, currentAllergies]);
+
 
   const handleAllergiesUpdate = (newAllergies: AllergyType[]) => {
     // Update the current allergies state
@@ -70,10 +79,27 @@ export default function WizardResults({
     // updateRecommendations will be called automatically due to the dependency on currentAllergies
   };
 
-  const totalCards = recommendations.length;
-  const currentDrink = recommendations[currentIndex]?.drink;
-  const currentScore = recommendations[currentIndex]?.score || 0;
+  // Load additional drinks when reaching the last recommendation
+  const loadAdditionalDrinks = useCallback(async () => {
+    if (hasLoadedAdditional) return;
+    
+    try {
+      const excludeIds = recommendations.map(rec => rec.drink.id);
+      const additional = await getAdditionalDrinks(preferences, excludeIds, 10);
+      setAdditionalDrinks(additional);
+      setHasLoadedAdditional(true);
+    } catch (error) {
+      console.error('Failed to load additional drinks:', error);
+    }
+  }, [preferences, recommendations, hasLoadedAdditional]);
+
+  // Combined array of all drinks (recommendations + additional)
+  const allDrinks = [...recommendations, ...additionalDrinks];
+  const totalCards = allDrinks.length;
+  const currentDrink = allDrinks[currentIndex]?.drink;
+  const currentScore = allDrinks[currentIndex]?.score || 0;
   const matchMessage = getMatchMessage(currentScore);
+  const isShowingAdditionalDrink = currentIndex >= recommendations.length;
   
   // Count active allergies (excluding 'none')
   const activeAllergiesCount = currentAllergies.filter(allergy => allergy !== 'none').length;
@@ -92,7 +118,12 @@ export default function WizardResults({
     window.scrollTo(0, 0);
   }, []);
 
-  const goToNext = () => {
+  const goToNext = async () => {
+    // Load additional drinks if we're at the last recommendation
+    if (currentIndex === recommendations.length - 1 && !hasLoadedAdditional) {
+      await loadAdditionalDrinks();
+    }
+    
     if (currentIndex < totalCards - 1) {
       setDragDirection('left');
       setTimeout(() => {
@@ -250,9 +281,18 @@ export default function WizardResults({
             {/* Regular Drink Card */}
             <div className="bg-white rounded-3xl overflow-hidden">
                 {/* Match Score */}
-                <div className="bg-gradient-to-r from-orange-400 to-rose-400 text-white p-2 text-center">
-                  <div className="text-lg font-bold">{matchMessage}</div>
-                  <div className="text-sm font-bold">Match Score: {currentScore}%</div>
+                <div className={cn(
+                  "text-white p-2 text-center",
+                  isShowingAdditionalDrink 
+                    ? "bg-gradient-to-r from-purple-400 to-indigo-400" 
+                    : "bg-gradient-to-r from-orange-400 to-rose-400"
+                )}>
+                  <div className="text-lg font-bold">
+                    {isShowingAdditionalDrink ? "More Options" : matchMessage}
+                  </div>
+                  <div className="text-sm font-bold">
+                    {isShowingAdditionalDrink ? "Explore More Drinks" : `Match Score: ${currentScore}%`}
+                  </div>
                 </div>
 
                 {/* Drink Image */}
@@ -309,10 +349,20 @@ export default function WizardResults({
                   <p className="text-gray-600 mb-2 text-sm min-h-[3.5rem]">{currentDrink?.description}</p>
                   
                   {/* Match Reasons */}
-                  {recommendations[currentIndex]?.reasons && recommendations[currentIndex].reasons.length > 0 && (
-                    <div className="bg-orange-50 rounded-lg p-2 mb-2 min-h-[3rem]">
-                      <p className="text-sm text-orange-800 ">
-                        {recommendations[currentIndex].reasons.join(' • ')}
+                  {allDrinks[currentIndex]?.reasons && allDrinks[currentIndex].reasons.length > 0 && (
+                    <div className={cn(
+                      "rounded-lg p-2 mb-2 min-h-[3rem]",
+                      isShowingAdditionalDrink 
+                        ? "bg-purple-50" 
+                        : "bg-orange-50"
+                    )}>
+                      <p className={cn(
+                        "text-sm",
+                        isShowingAdditionalDrink 
+                          ? "text-purple-800" 
+                          : "text-orange-800"
+                      )}>
+                        {allDrinks[currentIndex].reasons.join(' • ')}
                       </p>
                     </div>
                   )}
@@ -378,7 +428,7 @@ export default function WizardResults({
             onClick={() => setShowFullResults(true)}
             className="flex-1 flex items-center justify-center gap-2 bg-purple-500 text-white py-2 rounded-xl font-semibold hover:bg-purple-600 transition-colors"
           >
-            🎯 View All {recommendations.length} Matches
+            View All {recommendations.length} Matches
           </button>
         </div>
         
@@ -429,8 +479,7 @@ export default function WizardResults({
             onClick={onRetakeQuiz}
             className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-xl font-semibold border border-gray-300 hover:bg-gray-50 transition-colors"
           >
-            <RefreshCw className="w-5 h-5" />
-            Retake
+            Retake Quiz
           </button>
         </div>
 

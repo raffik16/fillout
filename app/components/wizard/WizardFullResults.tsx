@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { DrinkRecommendation } from '@/app/types/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
@@ -9,6 +10,8 @@ import Image from 'next/image';
 import LikeButton from '@/app/components/ui/LikeButton';
 import DrinkStatsDisplay from '@/app/components/ui/DrinkStatsDisplay';
 import EmailCaptureForm from '@/app/components/ui/EmailCaptureForm';
+import { getAdditionalDrinks } from '@/lib/drinkMatcher';
+import LoadingSpinner from '@/app/components/ui/LoadingSpinner';
 
 interface WizardFullResultsProps {
   recommendations: DrinkRecommendation[];
@@ -23,6 +26,26 @@ export default function WizardFullResults({
   weatherData,
   onBack
 }: WizardFullResultsProps) {
+  const [allRecommendations, setAllRecommendations] = useState<DrinkRecommendation[]>(recommendations);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [hasLoadedMore, setHasLoadedMore] = useState(false);
+
+  const loadMoreDrinks = async () => {
+    if (hasLoadedMore || isLoadingMore) return;
+    
+    setIsLoadingMore(true);
+    try {
+      const currentIds = allRecommendations.map(rec => rec.drink.id);
+      const additionalDrinks = await getAdditionalDrinks(preferences, currentIds, 20);
+      setAllRecommendations([...allRecommendations, ...additionalDrinks]);
+      setHasLoadedMore(true);
+    } catch (error) {
+      console.error('Failed to load more drinks:', error);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 300 }}
@@ -43,7 +66,7 @@ export default function WizardFullResults({
           <div className="text-2xl mb-1">🎯</div>
           <div className="text-lg font-bold">All Your Perfect Matches</div>
           <div className="text-xs opacity-90">
-            Found {recommendations.length} drinks just for you!
+            Found {allRecommendations.length} drinks just for you!
           </div>
         </div>
         <div className="w-9" /> {/* Spacer for centering */}
@@ -52,7 +75,7 @@ export default function WizardFullResults({
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto">
         <div className="p-4 space-y-4">
-          {recommendations.map((rec) => (
+          {allRecommendations.sort((a, b) => b.score - a.score).map((rec) => (
             <motion.div
               key={rec.drink.id}
               initial={{ opacity: 0, y: 20 }}
@@ -115,6 +138,39 @@ export default function WizardFullResults({
               </div>
             </motion.div>
           ))}
+          
+          {/* Divider and Load More Section */}
+          {!hasLoadedMore && recommendations.length > 0 && (
+            <div className="mt-8 mb-4">
+              <div className="relative flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300"></div>
+                </div>
+                <div className="relative bg-gradient-to-br from-orange-50 to-rose-50 px-4">
+                  <button
+                    onClick={loadMoreDrinks}
+                    disabled={isLoadingMore}
+                    className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
+                  >
+                    {isLoadingMore ? (
+                      <>
+                        <LoadingSpinner size="sm" className="!m-0" />
+                        <span>Loading...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>🍹</span>
+                        <span>Show More Drinks</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+              <p className="text-center text-sm text-gray-500 mt-2">
+                Explore drinks outside your preferences
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Footer with preferences and email capture */}
@@ -152,7 +208,7 @@ export default function WizardFullResults({
           </div>
           
           <EmailCaptureForm 
-            matchedDrinks={recommendations}
+            matchedDrinks={allRecommendations.slice(0, recommendations.length)}
             preferences={preferences}
           />
         </div>

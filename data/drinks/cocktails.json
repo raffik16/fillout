@@ -4,7 +4,7 @@
       "id": "moscow-mule",
       "name": "Moscow Mule",
       "category": "cocktail",
-      "description": "Vodka, Lime, Ginger Beer",
+      "description": "A refreshing cocktail combining smooth vodka with zesty lime juice and spicy ginger beer, served in a traditional copper mug.",
       "ingredients": ["Vodka", "Lime juice", "Ginger beer", "Lime wedge"],
       "price": "$10",
       "abv": 10,
@@ -58,7 +58,7 @@
       "ingredients": ["Whiskey", "Lime juice", "Ginger beer", "Lime wedge"],
       "price": "$10",
       "abv": 12,
-      "flavor_profile": ["bitter", "sour"],
+      "flavor_profile": ["bitter", "sour", "smokey"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 18,
@@ -70,7 +70,9 @@
       "serving_suggestions": ["Serve in copper mug", "Garnish with lime"],
       "image_url": "https://images.unsplash.com/photo-1690021416495-6a8b9059d21e",
       "glass_type": "Copper Mug",
-      "preparation": "Build over ice in copper mug"
+      "preparation": "Build over ice in copper mug",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "tequila-mule",
@@ -100,7 +102,7 @@
       "id": "gin-gimlet",
       "name": "Gin Gimlet",
       "category": "cocktail",
-      "description": "Gin, House-made Lime Cordial. Served Up",
+      "description": "A classic cocktail featuring premium gin and house-made lime cordial, served up in a chilled coupe glass for a crisp, citrusy experience.",
       "ingredients": ["Gin", "Lime cordial", "Fresh lime juice"],
       "price": "$10",
       "abv": 20,
@@ -116,7 +118,9 @@
       "serving_suggestions": ["Serve up in coupe", "Garnish with lime wheel"],
       "image_url": "https://images.unsplash.com/photo-1686723342906-22961ce61fa5",
       "glass_type": "Coupe",
-      "preparation": "Shake with ice, strain into chilled glass"
+      "preparation": "Shake with ice, strain into chilled glass",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "new-york-sour",
@@ -171,7 +175,7 @@
       "ingredients": ["Vodka", "Kahlua", "Oat milk", "Simple syrup"],
       "price": "$10",
       "abv": 12,
-      "flavor_profile": ["sweet", "creamy", "bitter"],
+      "flavor_profile": ["sweet", "creamy", "bitter", "mellow"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 5,
@@ -198,7 +202,7 @@
       "ingredients": ["Mezcal", "Lime juice", "Ginger beer", "Lime wedge"],
       "price": "$12",
       "abv": 12,
-      "flavor_profile": ["bitter", "sour"],
+      "flavor_profile": ["bitter", "sour", "smokey"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 20,
@@ -222,7 +226,7 @@
       "ingredients": ["Buffalo Trace bourbon", "Averna", "Sweet vermouth", "Angostura bitters", "Cherry juice", "Maraschino cherry"],
       "price": "$14",
       "abv": 28,
-      "flavor_profile": ["bitter", "sweet"],
+      "flavor_profile": ["bitter", "sweet", "smokey"],
       "strength": "strong",
       "weather_match": {
         "temp_min": 2,
@@ -244,7 +248,7 @@
       "ingredients": ["Mezcal", "Campari", "Sweet vermouth", "Orange peel"],
       "price": "$12",
       "abv": 24,
-      "flavor_profile": ["bitter"],
+      "flavor_profile": ["bitter", "smokey"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 15,
@@ -266,7 +270,7 @@
       "ingredients": ["Gin", "St. Germaine elderflower liqueur", "Fresh lemon juice", "Prosecco", "Lemon twist"],
       "price": "$12",
       "abv": 10,
-      "flavor_profile": ["sweet"],
+      "flavor_profile": ["sweet", "mellow"],
       "strength": "light",
       "weather_match": {
         "temp_min": 18,
@@ -302,13 +306,15 @@
       "serving_suggestions": ["Serve frozen", "Top with whipped cream"],
       "image_url": "https://images.unsplash.com/photo-1598294147169-fadc4e4a3ae4",
       "glass_type": "Hurricane",
-      "preparation": "Blend with ice until smooth"
+      "preparation": "Blend with ice until smooth",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "whiskey-sour",
       "name": "Whiskey Sour",
       "category": "cocktail",
-      "description": "Classic whiskey cocktail with lemon juice and simple syrup",
+      "description": "A timeless cocktail blending smooth Irish whiskey with fresh lemon juice and simple syrup, topped with a silky egg white foam.",
       "ingredients": ["Irish whiskey", "Fresh lemon juice", "Simple syrup", "Egg white", "Angostura bitters"],
       "price": "$7",
       "abv": 20,
@@ -321,10 +327,12 @@
         "ideal_temp": 22
       },
       "occasions": ["casual", "celebration"],
-      "serving_suggestions": ["Serve as shot", "Chase with pickle juice"],
+      "serving_suggestions": ["Serve over ice", "Garnish with lemon wheel and cherry"],
       "image_url": "https://images.unsplash.com/photo-1514361526511-a1ecd83f89d1",
-      "glass_type": "Shot",
-      "preparation": "Serve whiskey with pickle juice chaser"
+      "glass_type": "Rocks",
+      "preparation": "Shake with ice, strain over fresh ice, garnish with lemon and cherry",
+      "funForTwentyOne": true,
+      "goodForBDay": true
     },
     {
       "id": "painkiller",
@@ -334,7 +342,7 @@
       "ingredients": ["Pusser's Dark Rum", "Pineapple juice", "Orange juice", "Creme de Coco", "Coconut cream", "Nutmeg"],
       "price": "$14",
       "abv": 14,
-      "flavor_profile": ["sweet"],
+      "flavor_profile": ["sweet", "mellow"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 24,

@@ -34,7 +34,7 @@ export async function matchDrinksToPreferences(
   debug: boolean = false
 ): Promise<DrinkRecommendation[]> {
   const allDrinks = drinksData.drinks as Drink[];
-  const scores: PreferenceScore[] = [];
+  let scores: PreferenceScore[] = [];
   
   // Get popularity data
   const popularDrinks = await getPopularDrinks();
@@ -69,6 +69,8 @@ export async function matchDrinksToPreferences(
     // 1. Flavor matching (25 points max)
     if (preferences.flavor) {
       const flavorMap: Record<string, string[]> = {
+        'crisp': ['crisp', 'clean', 'refreshing', 'bright'],
+        'smokey': ['smokey', 'peaty', 'smoky', 'charred'],
         'sweet': ['sweet', 'fruity'],
         'bitter': ['bitter', 'herbal'],
         'sour': ['sour', 'citrus'],
@@ -164,6 +166,38 @@ export async function matchDrinksToPreferences(
       }
     }
 
+    // 4.5 Compound matching - bonus points for perfect combinations (10 points max)
+    if (preferences.flavor && preferences.occasion) {
+      // Sweet + Party = sweet cocktails get bonus
+      if (preferences.flavor === 'sweet' && (preferences.occasion === 'party' || preferences.occasion === 'birthday') && 
+          drink.category === 'cocktail' && drink.flavor_profile.includes('sweet')) {
+        score += 10;
+        reasons.push('Perfect party cocktail');
+      }
+      
+      // Crisp + Romantic = smooth wines and spirits get bonus
+      if (preferences.flavor === 'crisp' && preferences.occasion === 'romantic' && 
+          (drink.category === 'wine' || (drink.category === 'spirit' && drink.strength !== 'strong'))) {
+        score += 10;
+        reasons.push('Romantic and refreshing');
+      }
+      
+      // Smokey + Business = whiskeys and aged spirits get bonus
+      if (preferences.flavor === 'smokey' && preferences.occasion === 'business' && 
+          (drink.name.toLowerCase().includes('whiskey') || drink.name.toLowerCase().includes('bourbon') || 
+           drink.name.toLowerCase().includes('scotch'))) {
+        score += 10;
+        reasons.push('Professional choice');
+      }
+      
+      // Sour + Sports = beers and refreshing cocktails get bonus
+      if (preferences.flavor === 'sour' && preferences.occasion === 'sports' && 
+          (drink.category === 'beer' || (drink.flavor_profile.includes('sour') && drink.strength === 'light'))) {
+        score += 10;
+        reasons.push('Game day refresher');
+      }
+    }
+
     // 5. Occasion matching (15 points max)
     if (preferences.occasion) {
       // Special handling for newly 21 and birthday occasions
@@ -205,6 +239,7 @@ export async function matchDrinksToPreferences(
     if (preferences.useWeather && weatherData) {
       const temp = weatherData.current.temp;
       const weatherCondition = weatherData.current.main.toLowerCase() || '';
+      const description = weatherData.current.description?.toLowerCase() || '';
 
       // Temperature matching
       if (drink.weather_match) {
@@ -213,9 +248,30 @@ export async function matchDrinksToPreferences(
           reasons.push(`Great for ${Math.round(isMetricUnit ? temp : temp * 9/5 + 32)}°${isMetricUnit ? 'C' : 'F'}`);
         }
 
-        // Weather condition matching
+        // Weather condition matching with enhanced logic
         if (drink.weather_match.conditions?.includes(weatherCondition)) {
           score += 5;
+          
+          // Extra bonus for perfect weather matches
+          if (weatherCondition === 'rain' && drink.category === 'spirit') {
+            score += 3;
+            reasons.push('Cozy rainy day drink');
+          } else if (weatherCondition === 'clear' && drink.weather_match.ideal_temp >= 25) {
+            score += 3;
+            reasons.push('Perfect for sunny weather');
+          } else if ((weatherCondition === 'snow' || temp < 5) && 
+                    (drink.name.toLowerCase().includes('toddy') || 
+                     drink.preparation?.toLowerCase().includes('warm') ||
+                     drink.weather_match.ideal_temp <= 10)) {
+            score += 3;
+            reasons.push('Warms you up');
+          }
+        }
+        
+        // Humidity consideration (if available in weather data)
+        if (description.includes('humid') && drink.strength === 'light') {
+          score += 2;
+          reasons.push('Refreshing in humidity');
         }
       }
     }
@@ -268,27 +324,94 @@ export async function matchDrinksToPreferences(
     }
 
     if (score > 0) {
-      scores.push({ drink, score, reasons });
+      // Add small random variance to scores for better mixing (±3 points)
+      const randomVariance = (Math.random() - 0.5) * 6;
+      
+      // Occasionally give a random drink a bigger boost for more variety
+      const randomBoost = Math.random() < 0.1 ? Math.random() * 10 : 0;
+      
+      // Special case: if base score is very high (80+), give chance for 100%
+      const perfectMatchBonus = score >= 80 && Math.random() < 0.15 ? (100 - score) : 0;
+      
+      const randomizedScore = score + randomVariance + randomBoost + perfectMatchBonus;
+      const finalScore = Math.max(0, Math.round(randomizedScore));
+      
+      // Ensure perfect matches can reach 100%
+      const cappedScore = Math.min(100, finalScore);
+      
+      if (debug && perfectMatchBonus > 0) {
+        console.log(`🎯 Perfect match bonus: "${drink.name}" boosted to 100%`);
+      }
+      
+      scores.push({ drink, score: cappedScore, reasons });
+      
+      if (debug && randomBoost > 0) {
+        console.log(`🎲 Random boost: "${drink.name}" got +${randomBoost.toFixed(1)} points`);
+      }
     }
   }
 
-  // Sort by score with happy hour priority
+  // Group drinks by score ranges for better randomization
+  const scoreGroups = new Map<number, PreferenceScore[]>();
+  scores.forEach(item => {
+    // Group by 10-point ranges for more mixing (e.g., 80-89, 70-79, etc.)
+    const groupKey = Math.floor(item.score / 10) * 10;
+    if (!scoreGroups.has(groupKey)) {
+      scoreGroups.set(groupKey, []);
+    }
+    scoreGroups.get(groupKey)!.push(item);
+  });
+
+  // Shuffle within each score group using Fisher-Yates algorithm
+  scoreGroups.forEach((group, scoreRange) => {
+    if (debug) {
+      console.log(`🎲 Shuffling ${group.length} drinks in ${scoreRange}-${scoreRange + 9} score range`);
+    }
+    // Fisher-Yates shuffle algorithm
+    for (let i = group.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [group[i], group[j]] = [group[j], group[i]];
+    }
+  });
+
+  // Rebuild scores array with shuffled groups
+  const shuffledScores: PreferenceScore[] = [];
+  const sortedGroupKeys = Array.from(scoreGroups.keys()).sort((a, b) => b - a);
+  
+  sortedGroupKeys.forEach(key => {
+    const group = scoreGroups.get(key)!;
+    
+    // Special handling for happy hour drinks
+    const isHappyHourActive = group.some(item => getHappyHourBonus(item.drink) > 0);
+    if (isHappyHourActive) {
+      // Put happy hour drinks first within the group
+      const happyHourDrinks = group.filter(item => item.drink.happy_hour);
+      const regularDrinks = group.filter(item => !item.drink.happy_hour);
+      shuffledScores.push(...happyHourDrinks, ...regularDrinks);
+    } else {
+      shuffledScores.push(...group);
+    }
+  });
+
+  scores = shuffledScores;
+  
+  // Final sort: Ensure 90%+ matches are always at the front
+  const perfectMatches = scores.filter(s => s.score >= 90);
+  if (debug && perfectMatches.length > 0) {
+    console.log(`🌟 Found ${perfectMatches.length} exceptional matches (90%+) - prioritizing to front!`);
+  }
+  
   scores.sort((a, b) => {
-    // First priority: Happy hour drinks (always prioritized when happy hour is active)
-    const isHappyHourActive = getHappyHourBonus(a.drink) > 0 || getHappyHourBonus(b.drink) > 0;
-    const aIsHappyHour = isHappyHourActive && a.drink.happy_hour;
-    const bIsHappyHour = isHappyHourActive && b.drink.happy_hour;
+    // First priority: 90%+ matches always come first
+    if (a.score >= 90 && b.score < 90) return -1;
+    if (a.score < 90 && b.score >= 90) return 1;
     
-    // If it's happy hour time, always put happy hour drinks first regardless of score
-    if (aIsHappyHour && !bIsHappyHour) return -1;
-    if (!aIsHappyHour && bIsHappyHour) return 1;
-    
-    // Second priority: Sort by score
-    return b.score - a.score;
+    // If both are 90%+ or both are under 90%, maintain randomized order
+    return 0;
   });
   
   if (debug) {
-    console.log(`\n🏆 DEBUG: Final Results (top 10 of ${scores.length} scored drinks):`);
+    console.log(`\n🏆 DEBUG: Final Results (top 10 of ${scores.length} scored drinks) - Randomized at ${new Date().toLocaleTimeString()}:`);
     scores.slice(0, 10).forEach((result, index) => {
       console.log(`${index + 1}. "${result.drink.name}" - ${result.score} points (${result.drink.category}, ${result.drink.strength}, ${result.drink.abv}% ABV)`);
       console.log(`   Reasons: ${result.reasons.join(', ')}`);
@@ -308,4 +431,113 @@ export function getMatchMessage(score: number): string {
   if (score >= 60) return "Great Match! ⭐";
   if (score >= 40) return "Good Match! 👍";
   return "Worth a Try! 🤔";
+}
+
+// Function to get additional drinks that weren't in the initial matches
+export async function getAdditionalDrinks(
+  preferences: WizardPreferences,
+  excludeIds: string[],
+  limit: number = 20
+): Promise<DrinkRecommendation[]> {
+  const allDrinks = drinksData.drinks as Drink[];
+  
+  // Get popularity data
+  const popularDrinks = await getPopularDrinks();
+  const popularityMap = new Map(popularDrinks.map(p => [p.drink_id, p.like_count]));
+  
+  // Filter out already shown drinks and apply basic category filter
+  const availableDrinks = allDrinks.filter(drink => {
+    // Exclude already shown drinks
+    if (excludeIds.includes(drink.id)) return false;
+    
+    // Apply category filter if specified
+    if (preferences.category && preferences.category !== 'any') {
+      if (preferences.category === 'featured' && !drink.featured) return false;
+      if (preferences.category !== 'featured' && drink.category !== preferences.category) return false;
+    }
+    
+    // Apply allergy filter
+    if (preferences.allergies && preferences.allergies.length > 0) {
+      const isSafe = isSafeForAllergies(drink.ingredients, preferences.allergies);
+      if (!isSafe) return false;
+    }
+    
+    return true;
+  });
+  
+  // Calculate basic scores for additional drinks
+  const scoredDrinks = availableDrinks.map(drink => {
+    let score = 15; // Base score for additional drinks
+    const reasons = ['More options to explore!'];
+    
+    // Basic flavor matching (10 points)
+    if (preferences.flavor) {
+      const flavorMap: Record<string, string[]> = {
+        'crisp': ['crisp', 'clean', 'refreshing', 'bright'],
+        'smokey': ['smokey', 'peaty', 'smoky', 'charred'],
+        'sweet': ['sweet', 'fruity'],
+        'bitter': ['bitter', 'herbal'],
+        'sour': ['sour', 'citrus'],
+        'smooth': ['smooth', 'creamy', 'mild']
+      };
+      
+      const preferredFlavors = flavorMap[preferences.flavor] || [];
+      const matchingFlavors = drink.flavor_profile.filter(f => 
+        preferredFlavors.some(pf => f.toLowerCase().includes(pf))
+      );
+      
+      if (matchingFlavors.length > 0) {
+        score += 10;
+        reasons.push(`${preferences.flavor} flavors`);
+      }
+    }
+    
+    // Category already matches (5 points)
+    score += 5;
+    reasons.push('Same category');
+    
+    // Strength matching (8 points)
+    if (preferences.strength && drink.strength === preferences.strength) {
+      score += 8;
+      reasons.push(`${preferences.strength} strength`);
+    }
+    
+    // Featured bonus (5 points)
+    if (drink.featured) {
+      score += 5;
+      reasons.push('Featured drink');
+    }
+    
+    // Happy hour bonus (10 points)
+    const happyHourBonus = getHappyHourBonus(drink);
+    if (happyHourBonus > 0) {
+      score += 10;
+      reasons.push('Happy hour special');
+    }
+    
+    // Popularity bonus (5 points max)
+    const likeCount = popularityMap.get(drink.id) || 0;
+    if (likeCount > 0) {
+      const popularityBonus = Math.min(5, Math.floor(likeCount / 4));
+      score += popularityBonus;
+      if (likeCount >= 10) {
+        reasons.push('Popular choice');
+      }
+    }
+    
+    // Add small random variance (±3 points)
+    const randomVariance = (Math.random() - 0.5) * 6;
+    const finalScore = Math.max(15, Math.min(65, Math.round(score + randomVariance)));
+    
+    return {
+      drink,
+      score: finalScore,
+      reasons: reasons.slice(0, 3) // Limit to 3 reasons
+    };
+  });
+  
+  // Sort by score (descending) and take the top drinks
+  scoredDrinks.sort((a, b) => b.score - a.score);
+  
+  return scoredDrinks.slice(0, limit);
 }

@@ -20,10 +20,12 @@ export const wizardQuestions: WizardQuestion[] = [
     title: "What's your vibe?",
     subtitle: "Pick your flavor personality",
     options: [
+      { value: 'crisp', label: 'Crisp', emoji: '❄️' },
+      { value: 'smokey', label: 'Smokey', emoji: '🔥' },
       { value: 'sweet', label: 'Sweet Tooth', emoji: '🍬' },
       { value: 'bitter', label: 'Bitter is Better', emoji: '🌿' },
       { value: 'sour', label: 'Sour Power', emoji: '🍋' },
-      { value: 'smooth', label: 'Smooth Operator', emoji: '🥃' }
+      { value: 'smooth', label: 'Smooth Operator', emoji: '✨' }
     ]
   },
   {
@@ -31,9 +33,9 @@ export const wizardQuestions: WizardQuestion[] = [
     title: "What's your style?",
     subtitle: "Choose your strength",
     options: [
-      { value: 'light', label: 'Easy Going', emoji: '🌸' },
       { value: 'medium', label: 'Balanced', emoji: '⚖️' },
-      { value: 'strong', label: 'Bring the Power', emoji: '🔥' }
+      { value: 'light', label: 'Easy Going', emoji: '🌸' },
+      { value: 'strong', label: 'Bring the Power', emoji: '💪' }
     ]
   },
   {
@@ -48,7 +50,7 @@ export const wizardQuestions: WizardQuestion[] = [
       { value: 'sports', label: 'Game Day', emoji: '🏈' },
       { value: 'exploring', label: 'Exploring The Bar', emoji: '🍸' },
       { value: 'newly21', label: 'Newly 21!', emoji: '🎂' },
-      { value: 'birthday', label: 'It\'s My Birthday!', emoji: '🎉' }
+      { value: 'birthday', label: 'It\'s My Birthday!', emoji: '🎈' }
     ]
   },
   {

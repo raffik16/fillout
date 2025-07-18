@@ -45,7 +45,7 @@ export default function WizardQuestion({ question, onAnswer, selectedValue }: Wi
                   ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white hover:from-purple-700 hover:to-purple-600' 
                   : 'bg-white hover:border-orange-300'
                 } 
-                rounded-2xl p-6 transition-all transform hover:scale-105 border-2 relative overflow-hidden
+                rounded-2xl p-4 sm:p-6 transition-all transform hover:scale-105 border-2 relative overflow-hidden
                 ${isFeatured ? 'border-transparent' : 'border-transparent'}
                 ${isLastItem ? 'col-span-2 md:col-span-2' : ''}
               `}

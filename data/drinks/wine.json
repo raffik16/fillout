@@ -15,7 +15,8 @@
       ],
       "abv": 12,
       "flavor_profile": [
-        "sweet"
+        "sweet",
+        "mellow"
       ],
       "strength": "light",
       "weather_match": {
@@ -44,7 +45,7 @@
       "id": "white",
       "name": "White",
       "category": "wine",
-      "description": "House white wine",
+      "description": "A crisp, well-balanced white wine blend featuring bright citrus notes and a clean finish. Pairs beautifully with seafood and light dishes.",
       "price": "$9",
       "ingredients": [
         "White wine grapes",
@@ -54,7 +55,8 @@
       ],
       "abv": 12.5,
       "flavor_profile": [
-        "sweet"
+        "sweet",
+        "mellow"
       ],
       "strength": "medium",
       "weather_match": {
@@ -126,7 +128,7 @@
       "id": "sparkling",
       "name": "Sparkling",
       "category": "wine",
-      "description": "House sparkling wine",
+      "description": "A celebratory sparkling wine with delicate bubbles and fresh fruit flavors. Light and refreshing with a crisp finish.",
       "price": "$9",
       "ingredients": [
         "Champagne grapes",
@@ -137,7 +139,8 @@
       ],
       "abv": 11,
       "flavor_profile": [
-        "sweet"
+        "sweet",
+        "mellow"
       ],
       "strength": "light",
       "weather_match": {
@@ -166,7 +169,7 @@
       "id": "red",
       "name": "Red",
       "category": "wine",
-      "description": "House red wine",
+      "description": "A smooth, medium-bodied red wine with notes of dark berries and subtle spice. Perfect for casual dining and relaxed evenings.",
       "price": "$9",
       "ingredients": [
         "Red wine grapes",
@@ -201,6 +204,91 @@
       "image_url": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3",
       "glass_type": "Red wine glass",
       "preparation": "Serve at 60-68°F"
+    },
+    {
+      "id": "pinot-noir",
+      "name": "Pinot Noir",
+      "category": "wine",
+      "description": "Elegant red wine with cherry and earthy notes",
+      "price": "$12",
+      "ingredients": [
+        "Pinot Noir grapes",
+        "Sulfites",
+        "Yeast",
+        "Oak tannins"
+      ],
+      "abv": 13,
+      "flavor_profile": [
+        "smooth",
+        "mellow"
+      ],
+      "strength": "medium",
+      "weather_match": {
+        "temp_min": 10,
+        "temp_max": 22,
+        "conditions": [
+          "clouds",
+          "rain",
+          "clear"
+        ],
+        "ideal_temp": 16
+      },
+      "occasions": [
+        "romantic",
+        "business",
+        "celebration"
+      ],
+      "serving_suggestions": [
+        "Serve slightly chilled",
+        "Pairs well with salmon and mushrooms"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1592037044533-7057ec1d3599",
+      "glass_type": "Burgundy glass",
+      "preparation": "Serve at 55-60°F",
+      "featured": true
+    },
+    {
+      "id": "cabernet-sauvignon",
+      "name": "Cabernet Sauvignon",
+      "category": "wine",
+      "description": "Bold red wine with dark fruit and oak flavors",
+      "price": "$12",
+      "ingredients": [
+        "Cabernet Sauvignon grapes",
+        "Sulfites",
+        "Yeast",
+        "Oak tannins",
+        "Egg whites"
+      ],
+      "abv": 14,
+      "flavor_profile": [
+        "bitter",
+        "smokey"
+      ],
+      "strength": "strong",
+      "weather_match": {
+        "temp_min": 5,
+        "temp_max": 18,
+        "conditions": [
+          "clouds",
+          "rain",
+          "snow"
+        ],
+        "ideal_temp": 12
+      },
+      "occasions": [
+        "business",
+        "romantic",
+        "celebration"
+      ],
+      "serving_suggestions": [
+        "Serve at room temperature",
+        "Pairs excellently with red meat"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb",
+      "glass_type": "Bordeaux glass",
+      "preparation": "Serve at 60-65°F, decant for 30 minutes",
+      "goodForBDay": true
     }
   ]
 }
