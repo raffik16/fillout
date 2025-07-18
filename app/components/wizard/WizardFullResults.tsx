@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { DrinkRecommendation } from '@/app/types/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
