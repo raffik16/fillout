@@ -46,10 +46,10 @@ export default function WizardFullResults({
     
     try {
       const currentIds = allRecommendations.map(rec => rec.drink.id);
-      // Remove allergy restrictions and open up category to show more variety
+      // Keep allergy restrictions but open up category to show more variety
       const updatedPrefs = {
         ...preferences,
-        allergies: [],
+        allergies: preferences.allergies, // Keep allergies to ensure safety
         category: 'any' as const
       };
       const additionalDrinks = await getAdditionalDrinks(updatedPrefs, currentIds, 10);
@@ -71,10 +71,10 @@ export default function WizardFullResults({
     setIsLoadingMore(true);
     try {
       const currentIds = allRecommendations.map(rec => rec.drink.id);
-      // Remove allergy restrictions and open up category to show more variety
+      // Keep allergy restrictions but open up category to show more variety
       const updatedPrefs = {
         ...preferences,
-        allergies: [],
+        allergies: preferences.allergies, // Keep allergies to ensure safety
         category: 'any' as const
       };
       const additionalDrinks = await getAdditionalDrinks(updatedPrefs, currentIds, 20);
@@ -217,7 +217,7 @@ export default function WizardFullResults({
                     </div>
                   </div>
                   <p className="text-center text-sm text-gray-500 mt-2">
-                    Explore drinks from all categories (ignoring allergies and preferences)
+                    Explore drinks from all categories (keeping your allergy restrictions)
                   </p>
                 </div>
               ) : null}

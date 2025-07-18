@@ -103,11 +103,11 @@ export default function WizardResults({
 
   const loadDrinksWithoutAllergies = async () => {
     try {
-      // Remove allergy restrictions and open up category to show more variety
+      // Keep allergy restrictions but open up category to show more variety
       const updatedPrefs = { 
         ...preferences, 
         useWeather, 
-        allergies: [], 
+        allergies: currentAllergies, // Keep current allergies to ensure safety
         category: 'any' as const 
       };
       
