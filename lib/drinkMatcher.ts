@@ -15,7 +15,8 @@ function mapOccasion(wizardOccasion: OccasionMood): Occasion {
     'sports': 'sports',
     'exploring': 'exploring',
     'newly21': 'newly21',
-    'birthday': 'birthday'
+    'birthday': 'birthday',
+    'business': 'business'
   };
   return mapping[wizardOccasion];
 }
