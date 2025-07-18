@@ -95,11 +95,6 @@ function generateEmailHTML(matchedDrinks: DrinkRecommendation[], preferences: Wi
             </span>
           </div>
           <p style="margin: 0 0 12px 0; color: #64748b; font-size: 14px; line-height: 1.4;">${recommendation.drink.description}</p>
-          ${recommendation.reasons && recommendation.reasons.length > 0 ? `
-            <div style="background: #fef3c7; border: 1px solid #fbbf24; padding: 8px 12px; border-radius: 6px; margin-bottom: 12px;">
-              <span style="color: #92400e; font-size: 12px; font-weight: 500;">Why it matches: ${recommendation.reasons.join(', ')}</span>
-            </div>
-          ` : ''}
           <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; margin-top: 8px;">
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="color: #94a3b8; font-weight: 500; min-width: 60px;">Category:</span>
