@@ -81,7 +81,7 @@ function generateEmailHTML(matchedDrinks: DrinkRecommendation[], preferences: Wi
     <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
       <div style="display: flex; align-items: center; gap: 16px;">
         ${recommendation.drink.image_url ? `
-          <img src="${recommendation.drink.image_url}&w=150" alt="${recommendation.drink.name}" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+          <img src="${recommendation.drink.image_url}?w=150" alt="${recommendation.drink.name}" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
         ` : `
           <div style="background: #4f46e5; width: 60px; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
             ${recommendation.drink.category === 'cocktail' ? '🍹' : recommendation.drink.category === 'beer' ? '🍺' : '🍷'}
