@@ -44,7 +44,7 @@ export default function EmailCaptureForm({ matchedDrinks, preferences }: EmailCa
         },
         body: JSON.stringify({
           email: email.trim(),
-          matchedDrinks: matchedDrinks.map(rec => rec.drink),
+          matchedDrinks: matchedDrinks,
           preferences
         })
       });
