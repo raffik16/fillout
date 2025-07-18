@@ -132,17 +132,27 @@ export async function matchDrinksToPreferences(
       }
     }
 
-    // 3. Strength matching (20 points max)
+    // 3. Strength matching (20 points max) - Based on actual ABV for accuracy
     if (preferences.strength) {
-      const strengthMap: Record<string, string> = {
-        'light': 'light',
-        'medium': 'medium',
-        'strong': 'strong'
-      };
-
-      if (drink.strength === strengthMap[preferences.strength]) {
+      let matchesStrength = false;
+      
+      // Use ABV-based strength categorization for accurate matching
+      if (preferences.strength === 'light' && drink.abv <= 12) {
+        matchesStrength = true;
+      } else if (preferences.strength === 'medium' && drink.abv > 12 && drink.abv <= 25) {
+        matchesStrength = true;
+      } else if (preferences.strength === 'strong' && drink.abv > 25) {
+        matchesStrength = true;
+      }
+      
+      if (matchesStrength) {
         score += 20;
-        reasons.push(`${preferences.strength.charAt(0).toUpperCase() + preferences.strength.slice(1)} strength`);
+        const strengthLabels = {
+          'light': 'Easy Going',
+          'medium': 'Balanced', 
+          'strong': 'Bring the Power'
+        };
+        reasons.push(`${strengthLabels[preferences.strength]} (${drink.abv}% ABV)`);
       }
     }
 

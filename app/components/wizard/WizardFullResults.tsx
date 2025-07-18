@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { DrinkRecommendation } from '@/app/types/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
@@ -29,6 +29,46 @@ export default function WizardFullResults({
   const [allRecommendations, setAllRecommendations] = useState<DrinkRecommendation[]>(recommendations);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasLoadedMore, setHasLoadedMore] = useState(false);
+  const [hasMoreDrinks, setHasMoreDrinks] = useState(false);
+  const [isCheckingMore, setIsCheckingMore] = useState(true);
+  const [showNoMoreDrinksMessage, setShowNoMoreDrinksMessage] = useState(false);
+
+  // Check if there are more drinks available when component mounts
+  useEffect(() => {
+    const checkForMoreDrinks = async () => {
+      try {
+        const currentIds = recommendations.map(rec => rec.drink.id);
+        const additionalDrinks = await getAdditionalDrinks(preferences, currentIds, 2); // Just check for 2 to see if any exist
+        setHasMoreDrinks(additionalDrinks.length > 1); // Only show if more than 1 drink available
+      } catch (error) {
+        console.error('Failed to check for more drinks:', error);
+        setHasMoreDrinks(false);
+      } finally {
+        setIsCheckingMore(false);
+      }
+    };
+    
+    checkForMoreDrinks();
+  }, [recommendations, preferences]);
+
+  const loadDrinksWithoutAllergies = async () => {
+    setIsLoadingMore(true);
+    setShowNoMoreDrinksMessage(false);
+    
+    try {
+      const currentIds = allRecommendations.map(rec => rec.drink.id);
+      const prefsWithoutAllergies = { ...preferences, allergies: [] };
+      const additionalDrinks = await getAdditionalDrinks(prefsWithoutAllergies, currentIds, 10);
+      
+      if (additionalDrinks.length > 0) {
+        setAllRecommendations([...allRecommendations, ...additionalDrinks]);
+      }
+    } catch (error) {
+      console.error('Failed to load drinks without allergies:', error);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
 
   const loadMoreDrinks = async () => {
     if (hasLoadedMore || isLoadingMore) return;
@@ -37,7 +77,14 @@ export default function WizardFullResults({
     try {
       const currentIds = allRecommendations.map(rec => rec.drink.id);
       const additionalDrinks = await getAdditionalDrinks(preferences, currentIds, 20);
-      setAllRecommendations([...allRecommendations, ...additionalDrinks]);
+      
+      if (additionalDrinks.length === 0 && preferences.allergies && preferences.allergies.length > 0 && !preferences.allergies.includes('none')) {
+        // No drinks found due to allergies
+        setShowNoMoreDrinksMessage(true);
+      } else {
+        setAllRecommendations([...allRecommendations, ...additionalDrinks]);
+      }
+      
       setHasLoadedMore(true);
     } catch (error) {
       console.error('Failed to load more drinks:', error);
@@ -140,17 +187,70 @@ export default function WizardFullResults({
           ))}
           
           {/* Divider and Load More Section */}
-          {!hasLoadedMore && recommendations.length > 0 && (
-            <div className="mt-8 mb-4">
-              <div className="relative flex items-center justify-center">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300"></div>
+          {!hasLoadedMore && !isCheckingMore && recommendations.length > 0 && (
+            <>
+              {hasMoreDrinks ? (
+                <div className="mt-8 mb-4">
+                  <div className="relative flex items-center justify-center">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div className="relative bg-gradient-to-br from-orange-50 to-rose-50 px-4">
+                      <button
+                        onClick={loadMoreDrinks}
+                        disabled={isLoadingMore}
+                        className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
+                      >
+                        {isLoadingMore ? (
+                          <>
+                            <LoadingSpinner size="sm" className="!m-0" />
+                            <span>Loading...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>🍹</span>
+                            <span>Show More Drinks</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  <p className="text-center text-sm text-gray-500 mt-2">
+                    Explore drinks outside your preferences
+                  </p>
                 </div>
-                <div className="relative bg-gradient-to-br from-orange-50 to-rose-50 px-4">
+              ) : null}
+            </>
+          )}
+          
+          {/* No More Drinks Due to Allergies Message */}
+          {showNoMoreDrinksMessage && (
+            <div className="mt-8 mb-4 mx-4">
+              <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border-2 border-purple-200">
+                <div className="text-center">
+                  <div className="text-5xl mb-3">🤔</div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">
+                    Your Allergies Have Us Beat!
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    We've searched every nook and cranny, but couldn't find more drinks 
+                    that match both your preferences AND allergy requirements.
+                  </p>
+                  
+                  <div className="bg-white rounded-lg p-4 mb-4 border border-purple-100">
+                    <p className="text-sm text-purple-800 font-semibold mb-1">
+                      🎪 Want to See What You're Missing?
+                    </p>
+                    <p className="text-xs text-purple-600">
+                      We can show you drinks without allergy filters 
+                      (we'll clearly mark which ones to avoid!)
+                    </p>
+                  </div>
+                  
                   <button
-                    onClick={loadMoreDrinks}
+                    onClick={loadDrinksWithoutAllergies}
                     disabled={isLoadingMore}
-                    className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
                   >
                     {isLoadingMore ? (
                       <>
@@ -159,16 +259,13 @@ export default function WizardFullResults({
                       </>
                     ) : (
                       <>
-                        <span>🍹</span>
-                        <span>Show More Drinks</span>
+                        <span>🎯</span>
+                        <span>Show Me Everything!</span>
                       </>
                     )}
                   </button>
                 </div>
               </div>
-              <p className="text-center text-sm text-gray-500 mt-2">
-                Explore drinks outside your preferences
-              </p>
             </div>
           )}
         </div>
@@ -202,6 +299,11 @@ export default function WizardFullResults({
               {preferences.useWeather && weatherData && (
                 <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
                   weather-matched
+                </span>
+              )}
+              {preferences.allergies && preferences.allergies.length > 0 && !preferences.allergies.includes('none') && (
+                <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm">
+                  🚫 {preferences.allergies.join(', ')} free
                 </span>
               )}
             </div>

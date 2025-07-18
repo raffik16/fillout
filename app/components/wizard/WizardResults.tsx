@@ -55,6 +55,7 @@ export default function WizardResults({
   const [currentAllergies, setCurrentAllergies] = useState<AllergyType[]>(preferences.allergies || []);
   const [additionalDrinks, setAdditionalDrinks] = useState<DrinkRecommendation[]>([]);
   const [hasLoadedAdditional, setHasLoadedAdditional] = useState(false);
+  const [showNoMoreDrinksCard, setShowNoMoreDrinksCard] = useState(false);
 
   const updateRecommendations = useCallback(async () => {
     setIsLoadingRecommendations(true);
@@ -64,11 +65,32 @@ export default function WizardResults({
     console.log('✅ Received recommendations:', recs.map(r => r.drink.name));
     setRecommendations(recs);
     setCurrentIndex(0);
-    setIsLoadingRecommendations(false);
     
     // Reset additional drinks when preferences change
     setAdditionalDrinks([]);
     setHasLoadedAdditional(false);
+    
+    // If we have less than 10 recommendations, automatically load additional drinks
+    if (recs.length < 10 && recs.length > 0) {
+      console.log(`📊 Only ${recs.length} recommendations found. Loading additional drinks...`);
+      try {
+        const excludeIds = recs.map(rec => rec.drink.id);
+        const additionalCount = 10 - recs.length; // Fill up to 10 total
+        const additional = await getAdditionalDrinks(updatedPrefs, excludeIds, additionalCount);
+        console.log(`✅ Loaded ${additional.length} additional drinks`);
+        setAdditionalDrinks(additional);
+        setHasLoadedAdditional(true);
+        
+        // If no additional drinks found and user has allergies, show the special card
+        if (additional.length === 0 && currentAllergies.length > 0 && !currentAllergies.includes('none')) {
+          setShowNoMoreDrinksCard(true);
+        }
+      } catch (error) {
+        console.error('Failed to load additional drinks:', error);
+      }
+    }
+    
+    setIsLoadingRecommendations(false);
   }, [preferences, useWeather, localWeatherData, currentAllergies]);
 
 
@@ -77,6 +99,21 @@ export default function WizardResults({
     setCurrentAllergies(newAllergies);
     setShowAllergiesModal(false);
     // updateRecommendations will be called automatically due to the dependency on currentAllergies
+  };
+
+  const loadDrinksWithoutAllergies = async () => {
+    try {
+      const updatedPrefs = { ...preferences, useWeather, allergies: [] }; // Remove allergy restrictions
+      const excludeIds = allDrinks.map(rec => rec.drink.id);
+      const additional = await getAdditionalDrinks(updatedPrefs, excludeIds, 5); // Load 5 more
+      
+      if (additional.length > 0) {
+        setAdditionalDrinks([...additionalDrinks, ...additional]);
+        setShowNoMoreDrinksCard(false); // Hide the special card
+      }
+    } catch (error) {
+      console.error('Failed to load drinks without allergies:', error);
+    }
   };
 
   // Load additional drinks when reaching the last recommendation
@@ -95,11 +132,12 @@ export default function WizardResults({
 
   // Combined array of all drinks (recommendations + additional)
   const allDrinks = [...recommendations, ...additionalDrinks];
-  const totalCards = allDrinks.length;
-  const currentDrink = allDrinks[currentIndex]?.drink;
-  const currentScore = allDrinks[currentIndex]?.score || 0;
+  const totalCards = allDrinks.length + (showNoMoreDrinksCard ? 1 : 0);
+  const isShowingNoMoreCard = showNoMoreDrinksCard && currentIndex === allDrinks.length;
+  const currentDrink = !isShowingNoMoreCard ? allDrinks[currentIndex]?.drink : null;
+  const currentScore = !isShowingNoMoreCard ? (allDrinks[currentIndex]?.score || 0) : 0;
   const matchMessage = getMatchMessage(currentScore);
-  const isShowingAdditionalDrink = currentIndex >= recommendations.length;
+  const isShowingAdditionalDrink = currentIndex >= recommendations.length && !isShowingNoMoreCard;
   
   // Count active allergies (excluding 'none')
   const activeAllergiesCount = currentAllergies.filter(allergy => allergy !== 'none').length;
@@ -225,7 +263,7 @@ export default function WizardResults({
     );
   }
 
-  if (!currentDrink) return null;
+  if (!currentDrink && !isShowingNoMoreCard) return null;
 
   return (
     <motion.div 
@@ -246,7 +284,7 @@ export default function WizardResults({
       <div className="flex-1 flex items-center justify-center px-2 relative">
         <AnimatePresence mode="wait">
           <motion.div
-            key={currentDrink?.id}
+            key={isShowingNoMoreCard ? 'no-more-drinks' : currentDrink?.id}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.2}
@@ -278,8 +316,49 @@ export default function WizardResults({
               transition: { duration: 0.1 }
             }}
           >
-            {/* Regular Drink Card */}
-            <div className="bg-white rounded-3xl overflow-hidden">
+            {isShowingNoMoreCard ? (
+              /* Special No More Drinks Card */
+              <div className="bg-white rounded-3xl overflow-hidden">
+                <div className="bg-gradient-to-r from-purple-400 to-pink-400 text-white p-4 text-center">
+                  <div className="text-6xl mb-2">🤷‍♂️</div>
+                  <div className="text-xl font-bold">Oops! We're All Out!</div>
+                </div>
+                
+                <div className="p-6 text-center">
+                  <h3 className="text-2xl font-bold mb-4 text-gray-800">
+                    That's All, Folks! 🎬
+                  </h3>
+                  
+                  <p className="text-gray-600 mb-6 text-lg">
+                    Looks like your allergies have us stumped! We've searched high and low, 
+                    but couldn't find any more drinks that match your specific needs.
+                  </p>
+                  
+                  <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 mb-6">
+                    <p className="text-yellow-800 font-semibold mb-2">
+                      🎭 Plot Twist Alert!
+                    </p>
+                    <p className="text-yellow-700 text-sm">
+                      Want to live dangerously? We can show you more drinks without 
+                      your allergy filters. (Don't worry, we'll still mark which ones to avoid!)
+                    </p>
+                  </div>
+                  
+                  <button
+                    onClick={loadDrinksWithoutAllergies}
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-bold hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
+                  >
+                    🚀 Show Me Everything!
+                  </button>
+                  
+                  <p className="text-xs text-gray-500 mt-4">
+                    (We'll clearly mark which drinks contain your allergens)
+                  </p>
+                </div>
+              </div>
+            ) : (
+              /* Regular Drink Card */
+              <div className="bg-white rounded-3xl overflow-hidden">
                 {/* Match Score */}
                 <div className={cn(
                   "text-white p-2 text-center",
@@ -376,6 +455,7 @@ export default function WizardResults({
 
                 </div>
               </div>
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -428,7 +508,7 @@ export default function WizardResults({
             onClick={() => setShowFullResults(true)}
             className="flex-1 flex items-center justify-center gap-2 bg-purple-500 text-white py-2 rounded-xl font-semibold hover:bg-purple-600 transition-colors"
           >
-            View All {recommendations.length} Matches
+            View All {totalCards} Matches
           </button>
         </div>
         
@@ -458,7 +538,7 @@ export default function WizardResults({
               </>
             ) : (
               <>
-                Weather Based Matches
+               Weather Based
               </>
             )}
           </button>
@@ -479,7 +559,7 @@ export default function WizardResults({
             onClick={onRetakeQuiz}
             className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-xl font-semibold border border-gray-300 hover:bg-gray-50 transition-colors"
           >
-            Retake Quiz
+            Retake
           </button>
         </div>
 

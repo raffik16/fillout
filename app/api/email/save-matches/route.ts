@@ -118,7 +118,9 @@ function generateEmailHTML(matchedDrinks: DrinkRecommendation[], preferences: Wi
     preferences.category && `Category: ${preferences.category}`,
     preferences.flavor && `Flavor: ${preferences.flavor}`,
     preferences.strength && `Strength: ${preferences.strength}`,
-    preferences.occasion && `Occasion: ${preferences.occasion}`
+    preferences.occasion && `Occasion: ${preferences.occasion}`,
+    preferences.allergies && preferences.allergies.length > 0 && !preferences.allergies.includes('none') && 
+      `Allergies: ${preferences.allergies.join(', ')} free`
   ].filter(Boolean).join(' • ')
   
   return `
