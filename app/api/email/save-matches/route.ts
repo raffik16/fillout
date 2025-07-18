@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { saveEmailSignup } from '@/lib/supabase'
 import { Resend } from 'resend'
-import { Drink } from '@/app/types/drinks'
+import { DrinkRecommendation } from '@/app/types/drinks'
 import { WizardPreferences } from '@/app/types/wizard'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
@@ -76,28 +76,42 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function generateEmailHTML(matchedDrinks: Drink[], preferences: WizardPreferences): string {
-  const drinksList = matchedDrinks.map(drink => `
+function generateEmailHTML(matchedDrinks: DrinkRecommendation[], preferences: WizardPreferences): string {
+  const drinksList = matchedDrinks.map(recommendation => `
     <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
       <div style="display: flex; align-items: center; gap: 16px;">
-        <div style="background: #4f46e5; width: 50px; height: 50px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-          ${drink.category === 'cocktail' ? '🍹' : drink.category === 'beer' ? '🍺' : '🍷'}
-        </div>
+        ${recommendation.drink.image_url ? `
+          <img src="${recommendation.drink.image_url}&w=150" alt="${recommendation.drink.name}" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+        ` : `
+          <div style="background: #4f46e5; width: 60px; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+            ${recommendation.drink.category === 'cocktail' ? '🍹' : recommendation.drink.category === 'beer' ? '🍺' : '🍷'}
+          </div>
+        `}
         <div style="flex: 1;">
-          <h3 style="margin: 0 0 8px 0; color: #1e293b; font-size: 18px; font-weight: 600;">${drink.name}</h3>
-          <p style="margin: 0 0 12px 0; color: #64748b; font-size: 14px; line-height: 1.4;">${drink.description}</p>
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+            <h3 style="margin: 0; color: #1e293b; font-size: 18px; font-weight: 600;">${recommendation.drink.name}</h3>
+            <span style="background: #10b981; color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+              ${recommendation.score}% Match
+            </span>
+          </div>
+          <p style="margin: 0 0 12px 0; color: #64748b; font-size: 14px; line-height: 1.4;">${recommendation.drink.description}</p>
+          ${recommendation.reasons && recommendation.reasons.length > 0 ? `
+            <div style="background: #fef3c7; border: 1px solid #fbbf24; padding: 8px 12px; border-radius: 6px; margin-bottom: 12px;">
+              <span style="color: #92400e; font-size: 12px; font-weight: 500;">Why it matches: ${recommendation.reasons.join(', ')}</span>
+            </div>
+          ` : ''}
           <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; margin-top: 8px;">
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="color: #94a3b8; font-weight: 500; min-width: 60px;">Category:</span>
-              <span style="color: #475569; text-transform: capitalize;">${drink.category}</span>
+              <span style="color: #475569; text-transform: capitalize;">${recommendation.drink.category}</span>
             </div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="color: #94a3b8; font-weight: 500; min-width: 60px;">Strength:</span>
-              <span style="color: #475569; text-transform: capitalize;">${drink.strength}</span>
+              <span style="color: #475569; text-transform: capitalize;">${recommendation.drink.strength}</span>
             </div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="color: #94a3b8; font-weight: 500; min-width: 60px;">ABV:</span>
-              <span style="color: #475569;">${drink.abv}%</span>
+              <span style="color: #475569;">${recommendation.drink.abv}%</span>
             </div>
           </div>
         </div>
