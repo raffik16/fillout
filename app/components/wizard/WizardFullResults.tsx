@@ -233,17 +233,17 @@ export default function WizardFullResults({
                     Your Allergies Have Us Beat!
                   </h3>
                   <p className="text-gray-600 mb-4">
-                    We've searched every nook and cranny, but couldn't find more drinks 
+                    We&apos;ve searched every nook and cranny, but couldn&apos;t find more drinks 
                     that match both your preferences AND allergy requirements.
                   </p>
                   
                   <div className="bg-white rounded-lg p-4 mb-4 border border-purple-100">
                     <p className="text-sm text-purple-800 font-semibold mb-1">
-                      🎪 Want to See What You're Missing?
+                      🎪 Want to See What You&apos;re Missing?
                     </p>
                     <p className="text-xs text-purple-600">
                       We can show you drinks without allergy filters 
-                      (we'll clearly mark which ones to avoid!)
+                      (we&apos;ll clearly mark which ones to avoid!)
                     </p>
                   </div>
                   

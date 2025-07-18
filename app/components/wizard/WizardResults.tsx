@@ -321,17 +321,17 @@ export default function WizardResults({
               <div className="bg-white rounded-3xl overflow-hidden">
                 <div className="bg-gradient-to-r from-purple-400 to-pink-400 text-white p-4 text-center">
                   <div className="text-6xl mb-2">🤷‍♂️</div>
-                  <div className="text-xl font-bold">Oops! We're All Out!</div>
+                  <div className="text-xl font-bold">Oops! We&apos;re All Out!</div>
                 </div>
                 
                 <div className="p-6 text-center">
                   <h3 className="text-2xl font-bold mb-4 text-gray-800">
-                    That's All, Folks! 🎬
+                    That&apos;s All, Folks! 🎬
                   </h3>
                   
                   <p className="text-gray-600 mb-6 text-lg">
-                    Looks like your allergies have us stumped! We've searched high and low, 
-                    but couldn't find any more drinks that match your specific needs.
+                    Looks like your allergies have us stumped! We&apos;ve searched high and low, 
+                    but couldn&apos;t find any more drinks that match your specific needs.
                   </p>
                   
                   <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 mb-6">
@@ -340,7 +340,7 @@ export default function WizardResults({
                     </p>
                     <p className="text-yellow-700 text-sm">
                       Want to live dangerously? We can show you more drinks without 
-                      your allergy filters. (Don't worry, we'll still mark which ones to avoid!)
+                      your allergy filters. (Don&apos;t worry, we&apos;ll still mark which ones to avoid!)
                     </p>
                   </div>
                   
@@ -352,7 +352,7 @@ export default function WizardResults({
                   </button>
                   
                   <p className="text-xs text-gray-500 mt-4">
-                    (We'll clearly mark which drinks contain your allergens)
+                    (We&apos;ll clearly mark which drinks contain your allergens)
                   </p>
                 </div>
               </div>
