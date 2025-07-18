@@ -3,7 +3,7 @@ export type FlavorProfile = 'crisp' | 'smokey' | 'sweet' | 'bitter' | 'sour' | '
 export type TemperaturePreference = 'cold' | 'cool' | 'room' | 'warm';
 export type AdventureLevel = 'classic' | 'bold' | 'fruity' | 'simple';
 export type StrengthPreference = 'light' | 'medium' | 'strong';
-export type OccasionMood = 'casual' | 'party' | 'romantic' | 'relaxing' | 'sports' | 'exploring' | 'newly21' | 'birthday';
+export type OccasionMood = 'casual' | 'party' | 'romantic' | 'relaxing' | 'sports' | 'exploring' | 'newly21' | 'birthday' | 'business';
 export type AllergyType = 'gluten' | 'dairy' | 'nuts' | 'eggs' | 'soy' | 'none';
 
 export interface WizardPreferences {
