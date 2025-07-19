@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { DrinkRecommendation } from '@/app/types/drinks';
-import { WizardPreferences } from '@/app/types/wizard';
+import { WizardPreferences, AllergyType } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
 import { ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
@@ -18,13 +18,15 @@ interface WizardFullResultsProps {
   preferences: WizardPreferences;
   weatherData?: WeatherData | null;
   onBack: () => void;
+  currentAllergies?: AllergyType[];
 }
 
 export default function WizardFullResults({
   recommendations,
   preferences,
   weatherData,
-  onBack
+  onBack,
+  currentAllergies
 }: WizardFullResultsProps) {
   const [allRecommendations, setAllRecommendations] = useState<DrinkRecommendation[]>(recommendations);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -34,6 +36,40 @@ export default function WizardFullResults({
   const [hasExpandedToAllCategories, setHasExpandedToAllCategories] = useState(false);
   const [isAutoLoading, setIsAutoLoading] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  const loadDrinksFromAllCategories = useCallback(async (isAutoLoad = false) => {
+    setIsLoadingMore(true);
+    setShowNoMoreDrinksMessage(false);
+    if (isAutoLoad) setIsAutoLoading(true);
+    
+    try {
+      const currentIds = allRecommendations.map(rec => rec.drink.id);
+      const updatedPrefs = {
+        ...preferences,
+        allergies: currentAllergies || preferences.allergies
+      };
+      const additionalDrinks = await getAdditionalDrinksFromAllCategories(
+        updatedPrefs,
+        currentIds,
+        15 // Load 15 more at once for better UX
+      );
+      
+      if (additionalDrinks.length > 0) {
+        setAllRecommendations(prev => [...prev, ...additionalDrinks]);
+        setHasExpandedToAllCategories(true); // Mark that we've expanded
+        setHasMoreDrinks(false); // Hide the button after first expansion
+      } else {
+        // If no drinks found from all categories, we're truly at the end
+        setShowNoMoreDrinksMessage(true);
+        setHasMoreDrinks(false);
+      }
+    } catch (error) {
+      console.error('Failed to load drinks from all categories:', error);
+    } finally {
+      setIsLoadingMore(false);
+      if (isAutoLoad) setIsAutoLoading(false);
+    }
+  }, [allRecommendations, preferences, currentAllergies]);
 
   // Check if there are more drinks available when component mounts
   useEffect(() => {
@@ -67,37 +103,7 @@ export default function WizardFullResults({
     return () => {
       observer.disconnect();
     };
-  }, [hasExpandedToAllCategories, isLoadingMore, showNoMoreDrinksMessage, isAutoLoading]);
-
-  const loadDrinksFromAllCategories = useCallback(async (isAutoLoad = false) => {
-    setIsLoadingMore(true);
-    setShowNoMoreDrinksMessage(false);
-    if (isAutoLoad) setIsAutoLoading(true);
-    
-    try {
-      const currentIds = allRecommendations.map(rec => rec.drink.id);
-      const additionalDrinks = await getAdditionalDrinksFromAllCategories(
-        preferences,
-        currentIds,
-        15 // Load 15 more at once for better UX
-      );
-      
-      if (additionalDrinks.length > 0) {
-        setAllRecommendations(prev => [...prev, ...additionalDrinks]);
-        setHasExpandedToAllCategories(true); // Mark that we've expanded
-        setHasMoreDrinks(false); // Hide the button after first expansion
-      } else {
-        // If no drinks found from all categories, we're truly at the end
-        setShowNoMoreDrinksMessage(true);
-        setHasMoreDrinks(false);
-      }
-    } catch (error) {
-      console.error('Failed to load drinks from all categories:', error);
-    } finally {
-      setIsLoadingMore(false);
-      if (isAutoLoad) setIsAutoLoading(false);
-    }
-  }, [allRecommendations, preferences]);
+  }, [hasExpandedToAllCategories, isLoadingMore, showNoMoreDrinksMessage, isAutoLoading, loadDrinksFromAllCategories]);
 
 
   return (
@@ -309,9 +315,9 @@ export default function WizardFullResults({
                   weather-matched
                 </span>
               )}
-              {preferences.allergies && preferences.allergies.length > 0 && !preferences.allergies.includes('none') && (
+              {(currentAllergies || preferences.allergies) && (currentAllergies || preferences.allergies)!.length > 0 && !(currentAllergies || preferences.allergies)!.includes('none') && (
                 <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm">
-                  🚫 {preferences.allergies.join(', ')} free
+                  🚫 {(currentAllergies || preferences.allergies)!.join(', ')} free
                 </span>
               )}
             </div>
@@ -319,7 +325,10 @@ export default function WizardFullResults({
           
           <EmailCaptureForm 
             matchedDrinks={allRecommendations}
-            preferences={preferences}
+            preferences={{
+              ...preferences,
+              allergies: currentAllergies || preferences.allergies
+            }}
           />
         </div>
       </div>

@@ -270,6 +270,7 @@ export default function WizardResults({
         preferences={preferences}
         weatherData={localWeatherData}
         onBack={() => setShowFullResults(false)}
+        currentAllergies={currentAllergies}
       />
     );
   }
