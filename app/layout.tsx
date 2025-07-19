@@ -13,17 +13,33 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "drinkjoy.app - Curated Drinks with Recipes & Shopping",
-  description: "Find your perfect drink match. Explore curated cocktails, beers, and wines with detailed recipes and shopping links for every occasion.",
-  keywords: "drinks, cocktails, beer, wine, recipes, shopping, recommendations, perfect drink, bartender, mixology",
-  authors: [{ name: "drinkjoy.app Team" }],
+  title: "DrinkJoy - AI-Powered Drink Recommendations & Discovery",
+  description: "Discover your perfect drink with smart recommendations! Get personalized cocktail, beer, wine, and spirit suggestions based on your taste preferences, allergies, and occasion. Features weather-based recommendations, happy hour specials, and allergy-safe filtering.",
+  keywords: "drink recommendations, cocktail finder, beer finder, wine recommendations, drink discovery, personalized drinks, AI bartender, allergy-safe drinks, weather-based drinks, happy hour specials, drink matching, beverage recommendations, cocktail recipes, mixology, drink preferences",
+  authors: [{ name: "DrinkJoy Team" }],
   alternates: {
     canonical: "https://www.drinkjoy.app",
   },
   openGraph: {
-    title: "drinkjoy.app - Curated Drinks with Recipes & Shopping",
-    description: "Find your perfect drink match with detailed recipes and shopping links.",
+    title: "DrinkJoy - AI-Powered Drink Recommendations & Discovery",
+    description: "Answer a few questions to discover drinks perfectly matched to your taste! Features allergy filtering, weather-based suggestions, and personalized recommendations for every occasion.",
     type: "website",
+    url: "https://www.drinkjoy.app",
+    siteName: "DrinkJoy",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "DrinkJoy - Discover Your Perfect Drink Match",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DrinkJoy - AI-Powered Drink Recommendations",
+    description: "Answer a few questions to discover drinks perfectly matched to your taste preferences and dietary needs!",
+    images: ["/og-image.jpg"],
   },
   manifest: "/manifest.json",
   appleWebApp: {
