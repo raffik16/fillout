@@ -258,7 +258,7 @@ export default function WizardFullResults({
                 <div className="text-center">
                   <div className="text-5xl mb-3">🤔</div>
                   <h3 className="text-xl font-bold text-gray-800 mb-2">
-                    That&apos;s All, Folks! 🎬
+                    Mission Complete! 🏆
                   </h3>
                   <p className="text-gray-600 mb-4">
                     You&apos;ve seen every single drink in our entire database that matches your preferences and allergy restrictions. 

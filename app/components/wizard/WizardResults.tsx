@@ -287,7 +287,7 @@ export default function WizardResults({
         {/* Header */}
         <div className="flex justify-center items-center p-2">
           <h2 className="text-sm font-bold text-gray-800">
-            {preferences.category === 'featured' ? '⭐ Featured Drinks' : getWittyTitle(recommendations.length)}
+            {preferences.category === 'featured' ? '⭐ Featured Drinks' : getWittyTitle(allDrinks.length)}
           </h2>
         </div>
 
@@ -354,7 +354,7 @@ export default function WizardResults({
                 
                 <div className="p-6 text-center">
                   <h3 className="text-2xl font-bold mb-4 text-gray-800">
-                    That&apos;s All, Folks! 🎬
+                    End of This Round! 🥃
                   </h3>
                   
                   <p className="text-gray-600 mb-6 text-lg">
