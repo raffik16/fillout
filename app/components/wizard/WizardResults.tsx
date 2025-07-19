@@ -26,7 +26,7 @@ function getWittyTitle(count: number): string {
   if (count === 5) return "Found 5 Perfect Matches - High Five! 🙌";
   if (count <= 7) return `Found ${count} Perfect Matches for You! 🎉`;
   if (count <= 10) return `Found ${count} Liquid Legends! 🏆`;
-  return `Found ${count} Perfect Matches - You're Spoiled for Choice! 🤩`;
+  return `Found ${count} Worthy Matches - You're Spoiled for Choice! 🤩`;
 }
 
 interface WizardResultsProps {
@@ -511,18 +511,31 @@ export default function WizardResults({
             <ChevronLeft className="w-6 h-6" />
           </button>
 
-          {/* Progress Dots */}
-          <div className="flex gap-2">
-            {Array.from({ length: totalCards }).map((_, index) => (
-              <div
-                key={index}
-                className={`h-2 rounded-full transition-all ${
-                  index === currentIndex
-                    ? 'bg-orange-400 w-8'
-                    : 'bg-gray-300 w-2'
-                }`}
-              />
-            ))}
+          {/* Progress Indicator */}
+          <div className="flex items-center justify-center min-w-0">
+            {totalCards <= 10 ? (
+              /* Traditional dots for small counts */
+              <div className="flex gap-2">
+                {Array.from({ length: totalCards }).map((_, index) => (
+                  <div
+                    key={index}
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentIndex
+                        ? 'bg-orange-400 w-8'
+                        : 'bg-gray-300 w-2'
+                    }`}
+                  />
+                ))}
+              </div>
+            ) : (
+              /* Compact progress bar for large counts */
+              <div className="h-2 bg-gray-300 rounded-full w-24 relative overflow-hidden">
+                <div 
+                  className="h-full bg-orange-400 rounded-full transition-all duration-300"
+                  style={{ width: `${((currentIndex + 1) / totalCards) * 100}%` }}
+                />
+              </div>
+            )}
           </div>
 
           <button

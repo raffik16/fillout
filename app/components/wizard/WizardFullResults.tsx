@@ -223,8 +223,7 @@ export default function WizardFullResults({
                     </div>
                   </div>
                   <p className="text-center text-sm text-gray-500 mt-2">
-                    Discover drinks from all categories while keeping your allergy filters active.<br/>
-                    <span className="text-xs text-blue-600">After clicking, more drinks will auto-load as you scroll down!</span>
+                    Discover drinks from other categories while keeping your allergy preferences.<br/>
                   </p>
                 </div>
               ) : null}
