@@ -164,7 +164,7 @@ export default function EmailCaptureForm({ matchedDrinks, preferences }: EmailCa
                   <span>Saving Matches...</span>
                 </div>
               ) : (
-                `Save ${matchedDrinks.length} Perfect Matches`
+                `Save Top ${matchedDrinks.length} Matches`
               )}
             </button>
             

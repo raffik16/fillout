@@ -320,7 +320,7 @@ export default function WizardFullResults({
           </div>
           
           <EmailCaptureForm 
-            matchedDrinks={allRecommendations.slice(0, recommendations.length)}
+            matchedDrinks={allRecommendations}
             preferences={preferences}
           />
         </div>
