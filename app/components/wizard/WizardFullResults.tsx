@@ -257,11 +257,10 @@ export default function WizardFullResults({
               <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border-2 border-purple-200">
                 <div className="text-center">
                   <h3 className="text-xl font-bold text-gray-800 mb-2">
-                    End of This Round!
+                    Feeling Inspired Yet?
                   </h3>
                   <p className="text-gray-600 mb-4">
-                    You&apos;ve seen every single drink in our entire database that matches your preferences and allergy restrictions. 
-                    You&apos;re a true drink explorer!
+                    You should be inspired by now! With this many drinks under your belt, go on, ask the bartender what&apos;s on your mind.
                   </p>
                   
                   <div className="bg-white rounded-lg p-4 mb-4 border border-purple-100">

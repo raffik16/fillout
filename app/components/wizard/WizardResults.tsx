@@ -354,14 +354,11 @@ export default function WizardResults({
                 
                 <div className="p-6 text-center">
                   <h3 className="text-2xl font-bold mb-4 text-gray-800">
-                    End of This Round! 🥃
+                    Feeling Inspired Yet?
                   </h3>
                   
                   <p className="text-gray-600 mb-6 text-lg">
-                    {activeAllergiesCount > 0 
-                      ? "We've found all the drinks in your selected category that are safe for your allergies. No more matches in this category!"
-                      : "You've seen all the drinks that match your specific preferences in this category!"
-                    }
+                    You should be inspired by now! Go on, ask the bartender what&apos;s on your mind - or let us show you more liquid possibilities.
                   </p>
                   
                   <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 mb-6">
