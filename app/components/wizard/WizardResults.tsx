@@ -58,6 +58,7 @@ export default function WizardResults({
   const [showNoMoreDrinksCard, setShowNoMoreDrinksCard] = useState(false);
   const [hasExpandedToAllCategories, setHasExpandedToAllCategories] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isAtAbsoluteEnd, setIsAtAbsoluteEnd] = useState(false);
 
   const updateRecommendations = useCallback(async () => {
     setIsLoadingRecommendations(true);
@@ -75,6 +76,9 @@ export default function WizardResults({
     
     // Reset the expanded flag when preferences change
     setHasExpandedToAllCategories(false);
+    
+    // Reset absolute end flag when recommendations update
+    setIsAtAbsoluteEnd(false);
     
     // If we have exhausted all drinks in the category (found very few), show the special card
     if (recs.length === 0 || (recs.length < 5 && preferences.category !== 'any')) {
@@ -106,12 +110,21 @@ export default function WizardResults({
         setAdditionalDrinks([...additionalDrinks, ...additional]);
         setShowNoMoreDrinksCard(false); // Hide the special card
         setHasExpandedToAllCategories(true); // Mark that we've expanded
+        setIsAtAbsoluteEnd(false); // Reset absolute end flag
+        return additional.length; // Return number of drinks loaded
       } else {
         // If no drinks found from all categories, we're truly at the end
-        setShowNoMoreDrinksCard(true);
+        // Only show the card if we haven't expanded yet (first time)
+        if (!hasExpandedToAllCategories) {
+          setShowNoMoreDrinksCard(true);
+        }
+        setHasExpandedToAllCategories(true);
+        setIsAtAbsoluteEnd(true); // Mark that we're at absolute end
+        return 0; // No drinks loaded
       }
     } catch (error) {
       console.error('Failed to load more drinks:', error);
+      return 0; // No drinks loaded due to error
     } finally {
       setIsLoadingMore(false);
     }
@@ -149,19 +162,28 @@ export default function WizardResults({
   const goToNext = async () => {
     // Check if we're at the last actual drink (not counting the special card)
     if (currentIndex === allDrinks.length - 1 && !showNoMoreDrinksCard) {
-      // If we've already expanded to all categories, automatically load more
+      // If we've already expanded to all categories, automatically load more without showing the card
       if (hasExpandedToAllCategories && !isLoadingMore) {
-        await loadDrinksFromAllCategories();
-        // Always advance after loading (either to new drinks or to the final card)
-        setDragDirection('left');
-        setTimeout(() => {
-          setCurrentIndex(currentIndex + 1);
-          setDragDirection(null);
-        }, 100);
+        const loadedCount = await loadDrinksFromAllCategories();
+        // Only advance if we actually loaded more drinks
+        if (loadedCount > 0) {
+          setDragDirection('left');
+          setTimeout(() => {
+            setCurrentIndex(currentIndex + 1);
+            setDragDirection(null);
+          }, 100);
+        } else {
+          // No more drinks available - start over from the beginning
+          setDragDirection('left');
+          setTimeout(() => {
+            setCurrentIndex(0);
+            setDragDirection(null);
+          }, 100);
+        }
         return;
       }
       
-      // Otherwise, show the special card for first time reaching end
+      // First time reaching end - show the special card once
       setShowNoMoreDrinksCard(true);
       // Advance the index to show the special card
       setDragDirection('left');
@@ -176,6 +198,13 @@ export default function WizardResults({
       setDragDirection('left');
       setTimeout(() => {
         setCurrentIndex(currentIndex + 1);
+        setDragDirection(null);
+      }, 100);
+    } else if (currentIndex === totalCards - 1) {
+      // We're at the absolute end (including any special cards) - start over
+      setDragDirection('left');
+      setTimeout(() => {
+        setCurrentIndex(0);
         setDragDirection(null);
       }, 100);
     }
@@ -286,10 +315,15 @@ export default function WizardResults({
     >
       <div>
         {/* Header */}
-        <div className="flex justify-center items-center p-2">
+        <div className="flex flex-col justify-center items-center p-2">
           <h2 className="text-sm font-bold text-gray-800">
             {preferences.category === 'featured' ? '⭐ Featured Drinks' : getWittyTitle(allDrinks.length)}
           </h2>
+          {isAtAbsoluteEnd && currentIndex === allDrinks.length - 1 && (
+            <p className="text-xs text-gray-500 mt-1">
+              Swipe or click next to start over! 🔄
+            </p>
+          )}
         </div>
 
       {/* Main Content */}
@@ -538,9 +572,9 @@ export default function WizardResults({
 
           <button
             onClick={goToNext}
-            disabled={(currentIndex === totalCards - 1 && showNoMoreDrinksCard) || isLoadingMore}
+            disabled={isLoadingMore}
             className={`p-2 rounded-full ${
-              (currentIndex === totalCards - 1 && showNoMoreDrinksCard) || isLoadingMore
+              isLoadingMore
                 ? 'bg-gray-200 text-gray-400'
                 : 'bg-white hover:bg-gray-100 text-gray-800'
             } transition-colors`}

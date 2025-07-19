@@ -52,7 +52,7 @@ export default function OrderButton({ drinkId, drinkName, className = '' }: Orde
   const alreadyOrdered = hasOrdered || locallyOrdered;
   
   useInactivityDetection({
-    timeout: 15000, // 15 seconds
+    timeout: 22500, // 22.5 seconds
     onInactive: () => {
       if (!alreadyOrdered && promptState === 'hidden') {
         setPromptState('order');
