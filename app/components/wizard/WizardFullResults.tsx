@@ -256,9 +256,8 @@ export default function WizardFullResults({
             <div className="mt-8 mb-4 mx-4">
               <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border-2 border-purple-200">
                 <div className="text-center">
-                  <div className="text-5xl mb-3">🤔</div>
                   <h3 className="text-xl font-bold text-gray-800 mb-2">
-                    Mission Complete! 🏆
+                    End of This Round!
                   </h3>
                   <p className="text-gray-600 mb-4">
                     You&apos;ve seen every single drink in our entire database that matches your preferences and allergy restrictions. 

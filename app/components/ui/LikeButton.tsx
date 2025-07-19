@@ -98,7 +98,7 @@ export default function LikeButton({ drinkId, className = '', size = 'md' }: Lik
   if (isInitialLoading) {
     return (
       <div className={`flex items-center justify-center rounded-full bg-white ${buttonSizeClasses[size]} ${className}`}>
-        <ColorSplashAnimation size="sm" repeat={true} />
+        <ColorSplashAnimation className='h-[20px] w-[20px]' size="sm" repeat={true} />
       </div>
     );
   }
