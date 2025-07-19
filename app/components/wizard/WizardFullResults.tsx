@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { DrinkRecommendation } from '@/app/types/drinks';
 import { WizardPreferences } from '@/app/types/wizard';
@@ -10,7 +10,7 @@ import Image from 'next/image';
 import LikeButton from '@/app/components/ui/LikeButton';
 import DrinkStatsDisplay from '@/app/components/ui/DrinkStatsDisplay';
 import EmailCaptureForm from '@/app/components/ui/EmailCaptureForm';
-import { getAdditionalDrinks } from '@/lib/drinkMatcher';
+import { getAdditionalDrinksFromAllCategories } from '@/lib/drinkMatcher';
 import ColorSplashAnimation from '@/app/components/animations/ColorSplashAnimation';
 
 interface WizardFullResultsProps {
@@ -28,10 +28,12 @@ export default function WizardFullResults({
 }: WizardFullResultsProps) {
   const [allRecommendations, setAllRecommendations] = useState<DrinkRecommendation[]>(recommendations);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [hasLoadedMore, setHasLoadedMore] = useState(false);
   const [hasMoreDrinks, setHasMoreDrinks] = useState(false);
   const [isCheckingMore, setIsCheckingMore] = useState(true);
   const [showNoMoreDrinksMessage, setShowNoMoreDrinksMessage] = useState(false);
+  const [hasExpandedToAllCategories, setHasExpandedToAllCategories] = useState(false);
+  const [isAutoLoading, setIsAutoLoading] = useState(false);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // Check if there are more drinks available when component mounts
   useEffect(() => {
@@ -40,59 +42,63 @@ export default function WizardFullResults({
     setIsCheckingMore(false);
   }, [recommendations, preferences]);
 
-  const loadDrinksWithoutAllergies = async () => {
+  // Intersection Observer for auto-loading more drinks
+  useEffect(() => {
+    if (!hasExpandedToAllCategories || isLoadingMore || showNoMoreDrinksMessage || !loadMoreRef.current) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && !isAutoLoading) {
+          loadDrinksFromAllCategories(true);
+        }
+      },
+      {
+        root: null,
+        rootMargin: '100px', // Start loading 100px before the element comes into view
+        threshold: 0.1
+      }
+    );
+
+    observer.observe(loadMoreRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasExpandedToAllCategories, isLoadingMore, showNoMoreDrinksMessage, isAutoLoading]);
+
+  const loadDrinksFromAllCategories = useCallback(async (isAutoLoad = false) => {
     setIsLoadingMore(true);
     setShowNoMoreDrinksMessage(false);
+    if (isAutoLoad) setIsAutoLoading(true);
     
     try {
       const currentIds = allRecommendations.map(rec => rec.drink.id);
-      // Keep allergy restrictions but open up category to show more variety
-      const updatedPrefs = {
-        ...preferences,
-        allergies: preferences.allergies, // Keep allergies to ensure safety
-        category: 'any' as const
-      };
-      const additionalDrinks = await getAdditionalDrinks(updatedPrefs, currentIds, 10);
+      const additionalDrinks = await getAdditionalDrinksFromAllCategories(
+        preferences,
+        currentIds,
+        15 // Load 15 more at once for better UX
+      );
       
       if (additionalDrinks.length > 0) {
-        setAllRecommendations([...allRecommendations, ...additionalDrinks]);
-        setHasMoreDrinks(false); // Hide the button after loading
-      }
-    } catch (error) {
-      console.error('Failed to load drinks without allergies:', error);
-    } finally {
-      setIsLoadingMore(false);
-    }
-  };
-
-  const loadMoreDrinks = async () => {
-    if (hasLoadedMore || isLoadingMore) return;
-    
-    setIsLoadingMore(true);
-    try {
-      const currentIds = allRecommendations.map(rec => rec.drink.id);
-      // Keep allergy restrictions but open up category to show more variety
-      const updatedPrefs = {
-        ...preferences,
-        allergies: preferences.allergies, // Keep allergies to ensure safety
-        category: 'any' as const
-      };
-      const additionalDrinks = await getAdditionalDrinks(updatedPrefs, currentIds, 20);
-      
-      if (additionalDrinks.length === 0) {
-        // No drinks found at all
-        setShowNoMoreDrinksMessage(true);
+        setAllRecommendations(prev => [...prev, ...additionalDrinks]);
+        setHasExpandedToAllCategories(true); // Mark that we've expanded
+        setHasMoreDrinks(false); // Hide the button after first expansion
       } else {
-        setAllRecommendations([...allRecommendations, ...additionalDrinks]);
+        // If no drinks found from all categories, we're truly at the end
+        setShowNoMoreDrinksMessage(true);
+        setHasMoreDrinks(false);
       }
-      
-      setHasLoadedMore(true);
     } catch (error) {
-      console.error('Failed to load more drinks:', error);
+      console.error('Failed to load drinks from all categories:', error);
     } finally {
       setIsLoadingMore(false);
+      if (isAutoLoad) setIsAutoLoading(false);
     }
-  };
+  }, [allRecommendations, preferences]);
+
 
   return (
     <motion.div
@@ -188,7 +194,7 @@ export default function WizardFullResults({
           ))}
           
           {/* Divider and Load More Section */}
-          {!hasLoadedMore && !isCheckingMore && recommendations.length > 0 && (
+          {!hasExpandedToAllCategories && !isCheckingMore && recommendations.length > 0 && (
             <>
               {hasMoreDrinks ? (
                 <div className="mt-8 mb-4">
@@ -198,7 +204,7 @@ export default function WizardFullResults({
                     </div>
                     <div className="relative bg-gradient-to-br from-orange-50 to-rose-50 px-4">
                       <button
-                        onClick={loadMoreDrinks}
+                        onClick={() => loadDrinksFromAllCategories()}
                         disabled={isLoadingMore}
                         className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
                       >
@@ -210,20 +216,42 @@ export default function WizardFullResults({
                         ) : (
                           <>
                             <span>🍹</span>
-                            <span>Show More Drinks</span>
+                            <span>Explore All Categories</span>
                           </>
                         )}
                       </button>
                     </div>
                   </div>
                   <p className="text-center text-sm text-gray-500 mt-2">
-                    Explore drinks from all categories (keeping your allergy restrictions)
+                    Discover drinks from all categories while keeping your allergy filters active.<br/>
+                    <span className="text-xs text-blue-600">After clicking, more drinks will auto-load as you scroll down!</span>
                   </p>
                 </div>
               ) : null}
             </>
           )}
           
+          {/* Intersection Observer trigger and auto-loading indicator */}
+          {hasExpandedToAllCategories && !showNoMoreDrinksMessage && (
+            <div ref={loadMoreRef} className="mt-4 mb-4 mx-4 text-center">
+              {isAutoLoading ? (
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border-2 border-blue-200">
+                  <ColorSplashAnimation size="md" repeat={true} />
+                  <p className="text-blue-700 font-semibold mt-3 mb-1">
+                    ✨ Loading More Perfect Matches...
+                  </p>
+                  <p className="text-blue-600 text-sm">
+                    Searching through all categories for more drinks you&apos;ll love!
+                  </p>
+                </div>
+              ) : (
+                <div className="h-4 w-full opacity-0">
+                  {/* Invisible trigger element for Intersection Observer */}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* No More Drinks Due to Allergies Message */}
           {showNoMoreDrinksMessage && (
             <div className="mt-8 mb-4 mx-4">
@@ -231,40 +259,22 @@ export default function WizardFullResults({
                 <div className="text-center">
                   <div className="text-5xl mb-3">🤔</div>
                   <h3 className="text-xl font-bold text-gray-800 mb-2">
-                    Your Allergies Have Us Beat!
+                    That&apos;s All, Folks! 🎬
                   </h3>
                   <p className="text-gray-600 mb-4">
-                    We&apos;ve searched every nook and cranny, but couldn&apos;t find more drinks 
-                    that match both your preferences AND allergy requirements.
+                    You&apos;ve seen every single drink in our entire database that matches your preferences and allergy restrictions. 
+                    You&apos;re a true drink explorer!
                   </p>
                   
                   <div className="bg-white rounded-lg p-4 mb-4 border border-purple-100">
                     <p className="text-sm text-purple-800 font-semibold mb-1">
-                      🎪 Want to See What You&apos;re Missing?
+                      🏆 Congratulations!
                     </p>
                     <p className="text-xs text-purple-600">
-                      We can show you drinks without allergy filters 
-                      (we&apos;ll clearly mark which ones to avoid!)
+                      You&apos;ve discovered every drink we have that matches your taste and dietary needs. 
+                      Time to try some of your favorites!
                     </p>
                   </div>
-                  
-                  <button
-                    onClick={loadDrinksWithoutAllergies}
-                    disabled={isLoadingMore}
-                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
-                  >
-                    {isLoadingMore ? (
-                      <>
-                        <ColorSplashAnimation size="sm" repeat={true} />
-                        <span>Loading...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>🎯</span>
-                        <span>Show Me Everything!</span>
-                      </>
-                    )}
-                  </button>
                 </div>
               </div>
             </div>

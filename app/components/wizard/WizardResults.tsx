@@ -5,7 +5,7 @@ import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { DrinkRecommendation } from '@/app/types/drinks';
 import { WizardPreferences, AllergyType } from '@/app/types/wizard';
 import { WeatherData } from '@/app/types/weather';
-import { matchDrinksToPreferences, getMatchMessage, getAdditionalDrinks } from '@/lib/drinkMatcher';
+import { matchDrinksToPreferences, getMatchMessage, getAdditionalDrinksFromAllCategories } from '@/lib/drinkMatcher';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -54,40 +54,31 @@ export default function WizardResults({
   const [showAllergiesModal, setShowAllergiesModal] = useState(false);
   const [currentAllergies, setCurrentAllergies] = useState<AllergyType[]>(preferences.allergies || []);
   const [additionalDrinks, setAdditionalDrinks] = useState<DrinkRecommendation[]>([]);
-  const [hasLoadedAdditional, setHasLoadedAdditional] = useState(false);
+  // Removed hasLoadedAdditional - no longer needed since we load all drinks upfront
   const [showNoMoreDrinksCard, setShowNoMoreDrinksCard] = useState(false);
+  const [hasExpandedToAllCategories, setHasExpandedToAllCategories] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const updateRecommendations = useCallback(async () => {
     setIsLoadingRecommendations(true);
     const updatedPrefs = { ...preferences, useWeather, allergies: currentAllergies };
-    console.log('🔄 Fetching new randomized recommendations...');
-    const recs = await matchDrinksToPreferences(updatedPrefs, localWeatherData, false, true);
-    console.log('✅ Received recommendations:', recs.map(r => r.drink.name));
+    const recs = await matchDrinksToPreferences(updatedPrefs, localWeatherData, false, false, 50); // Get up to 50 matches
     setRecommendations(recs);
     setCurrentIndex(0);
     
     // Reset additional drinks when preferences change
     setAdditionalDrinks([]);
-    setHasLoadedAdditional(false);
+    // Reset handled above
     
-    // If we have less than 10 recommendations, automatically load additional drinks
-    if (recs.length < 10 && recs.length > 0) {
-      console.log(`📊 Only ${recs.length} recommendations found. Loading additional drinks...`);
-      try {
-        const excludeIds = recs.map(rec => rec.drink.id);
-        const additionalCount = 10 - recs.length; // Fill up to 10 total
-        const additional = await getAdditionalDrinks(updatedPrefs, excludeIds, additionalCount);
-        console.log(`✅ Loaded ${additional.length} additional drinks`);
-        setAdditionalDrinks(additional);
-        setHasLoadedAdditional(true);
-        
-        // If no additional drinks found, show the special card
-        if (additional.length === 0) {
-          setShowNoMoreDrinksCard(true);
-        }
-      } catch (error) {
-        console.error('Failed to load additional drinks:', error);
-      }
+    // Always reset the no more drinks card when updating recommendations
+    setShowNoMoreDrinksCard(false);
+    
+    // Reset the expanded flag when preferences change
+    setHasExpandedToAllCategories(false);
+    
+    // If we have exhausted all drinks in the category (found very few), show the special card
+    if (recs.length === 0 || (recs.length < 5 && preferences.category !== 'any')) {
+      setShowNoMoreDrinksCard(true);
     }
     
     setIsLoadingRecommendations(false);
@@ -101,41 +92,32 @@ export default function WizardResults({
     // updateRecommendations will be called automatically due to the dependency on currentAllergies
   };
 
-  const loadDrinksWithoutAllergies = async () => {
+  const loadDrinksFromAllCategories = async () => {
     try {
-      // Keep allergy restrictions but open up category to show more variety
-      const updatedPrefs = { 
-        ...preferences, 
-        useWeather, 
-        allergies: currentAllergies, // Keep current allergies to ensure safety
-        category: 'any' as const 
-      };
-      
+      setIsLoadingMore(true);
       const excludeIds = allDrinks.map(rec => rec.drink.id);
-      const additional = await getAdditionalDrinks(updatedPrefs, excludeIds, 5); // Load 5 more
+      const additional = await getAdditionalDrinksFromAllCategories(
+        { ...preferences, useWeather, allergies: currentAllergies },
+        excludeIds,
+        15 // Load 15 more at once for better UX
+      );
       
       if (additional.length > 0) {
         setAdditionalDrinks([...additionalDrinks, ...additional]);
         setShowNoMoreDrinksCard(false); // Hide the special card
+        setHasExpandedToAllCategories(true); // Mark that we've expanded
+      } else {
+        // If no drinks found from all categories, we're truly at the end
+        setShowNoMoreDrinksCard(true);
       }
     } catch (error) {
       console.error('Failed to load more drinks:', error);
+    } finally {
+      setIsLoadingMore(false);
     }
   };
 
-  // Load additional drinks when reaching the last recommendation
-  const loadAdditionalDrinks = useCallback(async () => {
-    if (hasLoadedAdditional) return;
-    
-    try {
-      const excludeIds = recommendations.map(rec => rec.drink.id);
-      const additional = await getAdditionalDrinks(preferences, excludeIds, 10);
-      setAdditionalDrinks(additional);
-      setHasLoadedAdditional(true);
-    } catch (error) {
-      console.error('Failed to load additional drinks:', error);
-    }
-  }, [preferences, recommendations, hasLoadedAdditional]);
+  // No longer loading additional drinks dynamically since we get all upfront
 
   // Combined array of all drinks (recommendations + additional)
   const allDrinks = [...recommendations, ...additionalDrinks];
@@ -145,6 +127,7 @@ export default function WizardResults({
   const currentScore = !isShowingNoMoreCard ? (allDrinks[currentIndex]?.score || 0) : 0;
   const matchMessage = getMatchMessage(currentScore);
   const isShowingAdditionalDrink = currentIndex >= recommendations.length && !isShowingNoMoreCard;
+  
   
   // Count active allergies (excluding 'none')
   const activeAllergiesCount = currentAllergies.filter(allergy => allergy !== 'none').length;
@@ -164,9 +147,29 @@ export default function WizardResults({
   }, []);
 
   const goToNext = async () => {
-    // Load additional drinks if we're at the last recommendation
-    if (currentIndex === recommendations.length - 1 && !hasLoadedAdditional) {
-      await loadAdditionalDrinks();
+    // Check if we're at the last actual drink (not counting the special card)
+    if (currentIndex === allDrinks.length - 1 && !showNoMoreDrinksCard) {
+      // If we've already expanded to all categories, automatically load more
+      if (hasExpandedToAllCategories && !isLoadingMore) {
+        await loadDrinksFromAllCategories();
+        // Always advance after loading (either to new drinks or to the final card)
+        setDragDirection('left');
+        setTimeout(() => {
+          setCurrentIndex(currentIndex + 1);
+          setDragDirection(null);
+        }, 100);
+        return;
+      }
+      
+      // Otherwise, show the special card for first time reaching end
+      setShowNoMoreDrinksCard(true);
+      // Advance the index to show the special card
+      setDragDirection('left');
+      setTimeout(() => {
+        setCurrentIndex(currentIndex + 1);
+        setDragDirection(null);
+      }, 100);
+      return;
     }
     
     if (currentIndex < totalCards - 1) {
@@ -189,14 +192,12 @@ export default function WizardResults({
   };
 
   const fetchWeatherData = async () => {
-    console.log('WizardResults: Starting weather data fetch...');
     setIsLoadingLocation(true);
     setLocationError(null);
     
     try {
       // Use centralized weather service which handles caching and location logic
       const weatherData = await weatherService.getWeatherData();
-      console.log('WizardResults: Weather data received from service');
       
       setLocalWeatherData(weatherData);
       setUseWeather(true);
@@ -207,7 +208,6 @@ export default function WizardResults({
       setUseWeather(false);
     } finally {
       setIsLoadingLocation(false);
-      console.log('WizardResults: Weather fetch completed');
     }
   };
 
@@ -216,7 +216,6 @@ export default function WizardResults({
       // First check if there's cached weather data we can use
       const cachedWeather = weatherService.getCachedWeatherData();
       if (cachedWeather) {
-        console.log('WizardResults: Using cached weather data');
         setLocalWeatherData(cachedWeather);
         setUseWeather(true);
         return;
@@ -231,7 +230,7 @@ export default function WizardResults({
     }
   };
 
-  const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handleDragEnd = async (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const swipeThreshold = window.innerWidth * 0.15; // 15% of viewport width
     const velocityThreshold = 500; // velocity threshold for quick flicks
     
@@ -239,9 +238,9 @@ export default function WizardResults({
     if ((info.offset.x > swipeThreshold || info.velocity.x > velocityThreshold) && currentIndex > 0) {
       // Swipe right - go to previous
       goToPrevious();
-    } else if ((info.offset.x < -swipeThreshold || info.velocity.x < -velocityThreshold) && currentIndex < totalCards - 1) {
-      // Swipe left - go to next
-      goToNext();
+    } else if ((info.offset.x < -swipeThreshold || info.velocity.x < -velocityThreshold)) {
+      // Swipe left - go to next (let goToNext handle the bounds checking)
+      await goToNext();
     }
     // If neither threshold is met, the card will snap back to center
   };
@@ -328,7 +327,25 @@ export default function WizardResults({
               transition: { duration: 0.1 }
             }}
           >
-            {isShowingNoMoreCard ? (
+            {isLoadingMore ? (
+              /* Loading More Drinks Card */
+              <div className="bg-white rounded-3xl overflow-hidden">
+                <div className="bg-gradient-to-r from-blue-400 to-purple-400 text-white p-4 text-center">
+                  <div className="text-xl font-bold">Loading More Drinks...</div>
+                </div>
+                
+                <div className="p-6 text-center">
+                  <ColorSplashAnimation size="lg" repeat={true} />
+                  <h3 className="text-2xl font-bold mb-4 text-gray-800 mt-4">
+                    Finding More Perfect Matches! ✨
+                  </h3>
+                  
+                  <p className="text-gray-600 mb-6 text-lg">
+                    Searching through all categories for more drinks you&apos;ll love...
+                  </p>
+                </div>
+              </div>
+            ) : isShowingNoMoreCard ? (
               /* Special No More Drinks Card */
               <div className="bg-white rounded-3xl overflow-hidden">
                 <div className="bg-gradient-to-r from-purple-400 to-pink-400 text-white p-4 text-center">
@@ -342,35 +359,35 @@ export default function WizardResults({
                   
                   <p className="text-gray-600 mb-6 text-lg">
                     {activeAllergiesCount > 0 
-                      ? "Looks like your allergies have us stumped! We've searched high and low, but couldn't find any more drinks that match your specific needs."
-                      : "You've got some seriously specific taste! We've exhausted our collection trying to match your unique preferences."
+                      ? "We've found all the drinks in your selected category that are safe for your allergies. No more matches in this category!"
+                      : "You've seen all the drinks that match your specific preferences in this category!"
                     }
                   </p>
                   
                   <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 mb-6">
                     <p className="text-yellow-800 font-semibold mb-2">
-                      Plot Twist!
+                      Want to Explore More?
                     </p>
                     <p className="text-yellow-700 text-sm">
-                      Want to live dangerously? We can show you more drinks without 
+                      We can show you drinks from all categories 
                       {activeAllergiesCount > 0 
-                        ? " your allergy filters. (Don't worry, we'll still mark which ones to avoid!)"
-                        : " your strict preferences. You might discover something unexpected!"
+                        ? "while still keeping your allergy restrictions for safety."
+                        : "that might surprise you with new flavors!"
                       }
                     </p>
                   </div>
                   
                   <button
-                    onClick={loadDrinksWithoutAllergies}
+                    onClick={loadDrinksFromAllCategories}
                     className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-bold hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
                   >
-                    Show More Drinks
+                    Explore All Categories
                   </button>
                   
                   <p className="text-xs text-gray-500 mt-4">
                     {activeAllergiesCount > 0 
-                      ? "(We'll clearly mark which drinks contain your allergens)"
-                      : "(Explore drinks outside your current preferences)"
+                      ? "(Your allergy filters will remain active for safety)"
+                      : "(Discover drinks from categories you haven't tried yet)"
                     }
                   </p>
                 </div>
@@ -484,9 +501,9 @@ export default function WizardResults({
         <div className="flex items-center justify-between mb-2">
           <button
             onClick={goToPrevious}
-            disabled={currentIndex === 0}
+            disabled={currentIndex === 0 || isLoadingMore}
             className={`p-2 rounded-full ${
-              currentIndex === 0
+              currentIndex === 0 || isLoadingMore
                 ? 'bg-gray-200 text-gray-400'
                 : 'bg-white hover:bg-gray-100 text-gray-800'
             } transition-colors`}
@@ -510,9 +527,9 @@ export default function WizardResults({
 
           <button
             onClick={goToNext}
-            disabled={currentIndex === totalCards - 1}
+            disabled={(currentIndex === totalCards - 1 && showNoMoreDrinksCard) || isLoadingMore}
             className={`p-2 rounded-full ${
-              currentIndex === totalCards - 1
+              (currentIndex === totalCards - 1 && showNoMoreDrinksCard) || isLoadingMore
                 ? 'bg-gray-200 text-gray-400'
                 : 'bg-white hover:bg-gray-100 text-gray-800'
             } transition-colors`}

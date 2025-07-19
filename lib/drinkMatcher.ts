@@ -32,7 +32,8 @@ export async function matchDrinksToPreferences(
   preferences: WizardPreferences,
   weatherData?: WeatherData | null,
   isMetricUnit: boolean = false,
-  debug: boolean = false
+  debug: boolean = false,
+  limit: number = 10
 ): Promise<DrinkRecommendation[]> {
   const allDrinks = drinksData.drinks as Drink[];
   let scores: PreferenceScore[] = [];
@@ -48,6 +49,7 @@ export async function matchDrinksToPreferences(
   }
 
 
+
   for (const drink of allDrinks) {
     let score = 0;
     const reasons: string[] = [];
@@ -55,6 +57,7 @@ export async function matchDrinksToPreferences(
     if (debug) {
       console.log(`\n🍹 DEBUG: Scoring "${drink.name}" (category: ${drink.category}, strength: ${drink.strength}, abv: ${drink.abv})`);
     }
+
 
     // 0. ALLERGY FILTERING - FIRST PRIORITY (Safety first!)
     if (preferences.allergies && preferences.allergies.length > 0) {
@@ -422,18 +425,25 @@ export async function matchDrinksToPreferences(
   });
   
   if (debug) {
-    console.log(`\n🏆 DEBUG: Final Results (top 10 of ${scores.length} scored drinks) - Randomized at ${new Date().toLocaleTimeString()}:`);
-    scores.slice(0, 10).forEach((result, index) => {
+    console.log(`\n🏆 DEBUG: Final Results (top ${limit} of ${scores.length} scored drinks) - Randomized at ${new Date().toLocaleTimeString()}:`);
+    console.log(`📊 LIMIT REQUESTED: ${limit}`);
+    console.log(`📊 SCORES ARRAY LENGTH: ${scores.length}`);
+    console.log(`📊 RETURNING: ${Math.min(limit, scores.length)} drinks`);
+    scores.slice(0, limit).forEach((result, index) => {
       console.log(`${index + 1}. "${result.drink.name}" - ${result.score} points (${result.drink.category}, ${result.drink.strength}, ${result.drink.abv}% ABV)`);
       console.log(`   Reasons: ${result.reasons.join(', ')}`);
     });
   }
   
-  return scores.slice(0, 10).map(({ drink, score, reasons }) => ({
+  const finalResults = scores.slice(0, limit).map(({ drink, score, reasons }) => ({
     drink,
     score,
     reasons
   }));
+  
+  console.log(`🎯 RETURNING ${finalResults.length} drinks to WizardResults`);
+  
+  return finalResults;
 }
 
 // Helper function to get a fun match message based on score
@@ -551,4 +561,21 @@ export async function getAdditionalDrinks(
   scoredDrinks.sort((a, b) => b.score - a.score);
   
   return scoredDrinks.slice(0, limit);
+}
+
+// Function to get additional drinks from all categories while maintaining allergy restrictions
+export async function getAdditionalDrinksFromAllCategories(
+  preferences: WizardPreferences,
+  excludeIds: string[],
+  limit: number = 10
+): Promise<DrinkRecommendation[]> {
+  // Create a new preferences object that opens up the category but keeps allergies
+  const expandedPrefs = {
+    ...preferences,
+    allergies: preferences.allergies, // Explicitly keep allergy restrictions
+    category: 'any' as const // Open up to all categories
+  };
+  
+  // Use the existing getAdditionalDrinks function with expanded preferences
+  return getAdditionalDrinks(expandedPrefs, excludeIds, limit);
 }
