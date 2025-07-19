@@ -168,31 +168,7 @@ export default function Home() {
         showLocation={showLocationInHeader}
       />
       
-      <main className="container mx-auto px-4 py-8 main-container">
-        {/* Simple Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-amber-600 to-blue-600 bg-clip-text text-transparent">
-            Find Your Perfect Drink
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300">
-            Take our drink wizard to discover your perfect match
-          </p>
-        </motion.div>
-
-        {/* Start Wizard Button */}
-        <div className="text-center">
-          <button
-            onClick={handleShowWizard}
-            className="bg-gradient-to-r from-amber-600 to-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-amber-700 hover:to-blue-700 transition-all duration-200 transform hover:scale-105 active:scale-95"
-          >
-            🪄 Start Your Drink Journey
-          </button>
-        </div>
-      </main>
+    
 
       <Footer />
       
