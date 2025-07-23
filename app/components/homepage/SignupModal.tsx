@@ -123,7 +123,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                         Thanks for your interest!
                       </h3>
                       <p className="text-gray-600">
-                        We'll be in touch soon with updates about DrinkJoy.
+                        We&apos;ll be in touch soon with updates about DrinkJoy.
                       </p>
                     </motion.div>
                   ) : (
