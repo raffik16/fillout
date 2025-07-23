@@ -46,6 +46,8 @@ export function Navigation() {
               </button>
               <Link 
                 href="/app"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors duration-200 font-medium"
               >
                 Explore App
@@ -89,6 +91,8 @@ export function Navigation() {
             </button>
             <Link 
               href="/app"
+              target="_blank"
+              rel="noopener noreferrer"
               className="block w-full text-left bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium"
             >
               Explore App

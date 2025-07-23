@@ -42,6 +42,8 @@ export function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mx-4">
               <Link 
                 href="/app"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-red-600 text-white px-8 py-4 rounded-full hover:bg-red-700 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center"
               >
                 Explore App
@@ -56,7 +58,7 @@ export function Hero() {
           </div>
           
           {/* Interactive Mobile Preview */}
-          <div className="relative flex items-center justify-center px-6 sm:px-4">
+          <div className="relative hidden lg:flex items-center justify-center px-6 sm:px-4">
             <motion.div 
               className="relative"
               animate={{ 

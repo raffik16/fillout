@@ -19,6 +19,8 @@ export function CTA() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link 
             href="/app"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-white text-red-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center"
           >
             Explore App
