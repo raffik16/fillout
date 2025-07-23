@@ -1,7 +1,7 @@
-# DrinkJoy Project Context
+# Drinkjoy Project Context
 
 ## Project Overview
-DrinkJoy is a beverage recommendation application that helps users find drinks based on their preferences and dietary restrictions.
+Drinkjoy is a beverage recommendation application that helps users find drinks based on their preferences and dietary restrictions.
 
 ## Complete Feature List
 

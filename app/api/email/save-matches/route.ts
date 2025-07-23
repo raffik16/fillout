@@ -156,7 +156,7 @@ function generateEmailHTML(matchedDrinks: DrinkRecommendation[], preferences: Wi
             <div style="text-align: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
               <p style="color: #94a3b8; font-size: 12px; margin: 0;">
                 Happy drinking! 🥂<br>
-                <strong style="color: #4f46e5;">The DrinkJoy Team</strong>
+                <strong style="color: #4f46e5;">The Drinkjoy Team</strong>
               </p>
             </div>
           </div>

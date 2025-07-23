@@ -1,6 +1,6 @@
 {
-  "name": "DrinkJoy - Smart Drink Recommendations",
-  "short_name": "DrinkJoy",
+  "name": "Drinkjoy - Smart Drink Recommendations",
+  "short_name": "Drinkjoy",
   "description": "AI-powered drink discovery for every occasion",
   "start_url": "/",
   "display": "standalone",

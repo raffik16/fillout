@@ -13,31 +13,31 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "DrinkJoy - AI-Powered Drink Recommendations & Discovery",
+  title: "Drinkjoy - AI-Powered Drink Recommendations & Discovery",
   description: "Discover your perfect drink with smart recommendations! Get personalized cocktail, beer, wine, and spirit suggestions based on your taste preferences, allergies, and occasion. Features weather-based recommendations, happy hour specials, and allergy-safe filtering.",
   keywords: "drink recommendations, cocktail finder, beer finder, wine recommendations, drink discovery, personalized drinks, AI bartender, allergy-safe drinks, weather-based drinks, happy hour specials, drink matching, beverage recommendations, cocktail recipes, mixology, drink preferences",
-  authors: [{ name: "DrinkJoy Team" }],
+  authors: [{ name: "Drinkjoy Team" }],
   alternates: {
     canonical: "https://www.drinkjoy.app",
   },
   openGraph: {
-    title: "DrinkJoy - AI-Powered Drink Recommendations & Discovery",
+    title: "Drinkjoy - AI-Powered Drink Recommendations & Discovery",
     description: "Answer a few questions to discover drinks perfectly matched to your taste! Features allergy filtering, weather-based suggestions, and personalized recommendations for every occasion.",
     type: "website",
     url: "https://www.drinkjoy.app",
-    siteName: "DrinkJoy",
+    siteName: "Drinkjoy",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "DrinkJoy - Discover Your Perfect Drink Match",
+        alt: "Drinkjoy - Discover Your Perfect Drink Match",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "DrinkJoy - AI-Powered Drink Recommendations",
+    title: "Drinkjoy - AI-Powered Drink Recommendations",
     description: "Answer a few questions to discover drinks perfectly matched to your taste preferences and dietary needs!",
     images: ["/og-image.jpg"],
   },
@@ -45,14 +45,14 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "DrinkJoy",
+    title: "Drinkjoy",
   },
   other: {
     "google-site-verification": "CUmUB5IiLmsWNTMzNNs-WOhytVbT_fz7HuEZHG5I65U",
     "mobile-web-app-capable": "yes",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
-    "apple-mobile-web-app-title": "DrinkJoy",
+    "apple-mobile-web-app-title": "Drinkjoy",
     "msapplication-TileColor": "#0a0a0a",
     "msapplication-config": "/browserconfig.xml",
   },

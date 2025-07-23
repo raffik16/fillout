@@ -29,7 +29,7 @@ export function Hero() {
         <div className="grid lg:grid-cols-2 gap-12 items-center justify-center box-border">
           <div className="text-center lg:text-left px-6 sm:px-4">
             <h1 className="text-3xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
-              DrinkJoy
+              Drinkjoy
               <span className="block text-red-600">AI-Powered Drink</span>
               <span className="block text-orange-600">Recommendations</span>
             </h1>
@@ -109,7 +109,7 @@ export function Hero() {
                             🍹
                           </motion.div>
                           <h3 className="text-xl font-bold text-gray-800 mb-2">
-                            Try DrinkJoy Live!
+                            Try Drinkjoy Live!
                           </h3>
                           <p className="text-sm text-gray-600 mb-6">
                             Experience the magic of AI-powered drink recommendations
@@ -188,7 +188,7 @@ export function Hero() {
                                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                                   className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full mx-auto mb-4"
                                 />
-                                <p className="text-sm text-gray-600">Loading DrinkJoy...</p>
+                                <p className="text-sm text-gray-600">Loading Drinkjoy...</p>
                               </div>
                             </motion.div>
                           )}
@@ -198,7 +198,7 @@ export function Hero() {
                         <iframe
                           src="/app"
                           className="w-full h-full border-0"
-                          title="DrinkJoy App Preview"
+                          title="Drinkjoy App Preview"
                           onLoad={() => setIsLoading(false)}
                         />
                       </motion.div>

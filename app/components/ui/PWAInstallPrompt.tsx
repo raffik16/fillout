@@ -102,7 +102,7 @@ export const PWAInstallPrompt = () => {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white">
-                  Install DrinkJoy
+                  Install Drinkjoy
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
                   Get the full app experience

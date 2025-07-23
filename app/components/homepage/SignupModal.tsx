@@ -34,7 +34,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
           email: formData.email,
           business: formData.business,
           message: formData.message,
-          subject: `DrinkJoy Interest from ${formData.name}`,
+          subject: `Drinkjoy Interest from ${formData.name}`,
         }),
       });
 
@@ -88,7 +88,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                 >
                   <X className="w-4 h-4" />
                 </button>
-                <h2 className="text-2xl font-bold mb-2">Join DrinkJoy!</h2>
+                <h2 className="text-2xl font-bold mb-2">Join Drinkjoy!</h2>
                 <p className="text-red-100">
                   Get early access and exclusive updates
                 </p>
@@ -123,7 +123,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                         Thanks for your interest!
                       </h3>
                       <p className="text-gray-600">
-                        We&apos;ll be in touch soon with updates about DrinkJoy.
+                        We&apos;ll be in touch soon with updates about Drinkjoy.
                       </p>
                     </motion.div>
                   ) : (
@@ -194,7 +194,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                       {/* Message Field */}
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          How do you plan to use DrinkJoy?
+                          How do you plan to use Drinkjoy?
                         </label>
                         <div className="relative">
                           <MessageSquare className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
@@ -204,7 +204,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                             onChange={handleInputChange}
                             rows={3}
                             className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none placeholder-gray-500 text-gray-900"
-                            placeholder="Tell us how you plan to use DrinkJoy - for personal use, your bar/restaurant, events, etc..."
+                            placeholder="Tell us how you plan to use Drinkjoy - for personal use, your bar/restaurant, events, etc..."
                           />
                         </div>
                       </div>

@@ -12,7 +12,7 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     name: "Sarah M.",
-    text: "DrinkJoy helped me find the perfect drink for my date night! The recommendations were spot on.",
+    text: "Drinkjoy helped me find the perfect drink for my date night! The recommendations were spot on.",
     rating: 5
   },
   {
