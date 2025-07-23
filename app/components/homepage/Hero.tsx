@@ -26,20 +26,20 @@ export function Hero() {
   return (
     <section className="pt-20 pb-16 bg-gradient-to-br from-red-50 to-orange-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="text-center lg:text-left">
-            <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
+        <div className="grid lg:grid-cols-2 gap-12 items-center justify-center box-border">
+          <div className="text-center lg:text-left px-6 sm:px-4">
+            <h1 className="text-3xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
               DrinkJoy
               <span className="block text-red-600">AI-Powered Drink</span>
               <span className="block text-orange-600">Recommendations</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+            <p className="text-lg text-gray-600 mb-8 leading-relaxed">
               Discover your perfect drink with smart recommendations! Get personalized cocktail, beer, wine, and spirit suggestions based on your taste preferences, allergies, and occasion.
             </p>
             <p className="text-lg text-gray-500 mb-8 font-medium">
               Powered by AI for the perfect match
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mx-4">
               <Link 
                 href="/app"
                 className="bg-red-600 text-white px-8 py-4 rounded-full hover:bg-red-700 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center"
@@ -56,7 +56,7 @@ export function Hero() {
           </div>
           
           {/* Interactive Mobile Preview */}
-          <div className="relative flex items-center justify-center">
+          <div className="relative flex items-center justify-center px-6 sm:px-4">
             <motion.div 
               className="relative"
               animate={{ 
@@ -65,7 +65,7 @@ export function Hero() {
               transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               {/* Phone Frame */}
-              <div className="relative mx-auto" style={{ width: '420px', height: '780px' }}>
+              <div className="relative mx-auto w-80 h-[600px] sm:w-[420px] sm:h-[780px]">
                 {/* Phone Shell with glow effect */}
                 <motion.div 
                   className="absolute inset-0 bg-gray-900 rounded-[3rem] shadow-2xl"
