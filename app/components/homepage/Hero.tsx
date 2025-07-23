@@ -126,6 +126,16 @@ export function Hero() {
                         </div>
                         
                         {/* Animated elements */}
+                          <motion.div
+                            className="absolute top-20 left-4 text-2xl"
+                            animate={{ 
+                              x: [-10, 10, -10],
+                              rotate: [-15, 15, -15]
+                            }}
+                            transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+                          >
+                          🍸
+                          </motion.div>
                         <motion.div
                           className="absolute top-4 right-4 text-2xl"
                           animate={{ 
@@ -133,8 +143,8 @@ export function Hero() {
                             rotate: [-10, 10, -10]
                           }}
                           transition={{ duration: 3, repeat: Infinity }}
-                        >
-                          🍸
+                          >
+                        🍺
                         </motion.div>
                         <motion.div
                           className="absolute bottom-4 left-4 text-2xl"
@@ -143,18 +153,18 @@ export function Hero() {
                             rotate: [10, -10, 10]
                           }}
                           transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
-                        >
-                          🍺
+                          >
+                          🍷
                         </motion.div>
                         <motion.div
-                          className="absolute top-20 left-4 text-2xl"
+                          className="absolute bottom-4 right-4 text-2xl"
                           animate={{ 
-                            x: [-10, 10, -10],
-                            rotate: [-15, 15, -15]
+                            y: [-8, 8, -8],
+                            rotate: [8, -8, 8]
                           }}
-                          transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+                          transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
                         >
-                          🍷
+                          🥃
                         </motion.div>
                       </motion.div>
                     ) : (

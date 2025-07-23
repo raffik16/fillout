@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 
-export function HomepageFooter() {
+export function GlobalFooter() {
   return (
     <footer className="bg-gray-900 text-white py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,10 +18,26 @@ export function HomepageFooter() {
           <div>
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-300 hover:text-red-400 transition-colors">About Us</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-red-400 transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-red-400 transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-red-400 transition-colors">Contact Us</a></li>
+              <li>
+                <Link href="/about" className="text-gray-300 hover:text-red-400 transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="text-gray-300 hover:text-red-400 transition-colors">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="text-gray-300 hover:text-red-400 transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-gray-300 hover:text-red-400 transition-colors">
+                  Contact Us
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
