@@ -10,6 +10,7 @@ export function Hero() {
   const [isAppLoaded, setIsAppLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+  const [isUserInteracting, setIsUserInteracting] = useState(false);
 
   const handlePreviewClick = () => {
     setIsLoading(true);
@@ -34,7 +35,8 @@ export function Hero() {
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
-        animate={{ y: [0, -20, 0] }}
+        animate={!isUserInteracting ? { y: [0, -20, 0] } : {}}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
 
       />
       
@@ -96,13 +98,13 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 1.2 }}
             >
               <motion.span
-                animate={{ 
+                animate={!isUserInteracting ? { 
                   textShadow: [
                     "0 0 0px rgba(255,255,255,0.8)",
                     "0 0 10px rgba(255,255,255,0.8)",
                     "0 0 0px rgba(255,255,255,0.8)"
                   ]
-                }}
+                } : {}}
                 transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
               >
                 Powered by AI for the perfect match
@@ -159,9 +161,9 @@ export function Hero() {
               {/* Phone Frame */}
               <motion.div 
                 className="relative mx-auto w-80 h-[600px] sm:w-[420px] sm:h-[780px]"
-                animate={{ 
+                animate={!isUserInteracting ? { 
                   y: [0, -8, 0],
-                }}
+                } : {}}
                 transition={{ 
                   duration: 6,
                   repeat: Infinity,
@@ -228,40 +230,40 @@ export function Hero() {
                         {/* Animated elements */}
                           <motion.div
                             className="absolute top-20 left-4 text-2xl"
-                            animate={{ 
+                            animate={!isUserInteracting ? { 
                               x: [-10, 10, -10],
                               rotate: [-15, 15, -15]
-                            }}
+                            } : {}}
                             transition={{ duration: 3, repeat: Infinity, delay: 1 }}
                           >
                           🍸
                           </motion.div>
                         <motion.div
                           className="absolute top-4 right-4 text-2xl"
-                          animate={{ 
+                          animate={!isUserInteracting ? { 
                             y: [-10, 10, -10],
                             rotate: [-10, 10, -10]
-                          }}
+                          } : {}}
                           transition={{ duration: 3, repeat: Infinity }}
                           >
                         🍺
                         </motion.div>
                         <motion.div
                           className="absolute bottom-4 left-4 text-2xl"
-                          animate={{ 
+                          animate={!isUserInteracting ? { 
                             y: [10, -10, 10],
                             rotate: [10, -10, 10]
-                          }}
+                          } : {}}
                           transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
                           >
                           🍷
                         </motion.div>
                         <motion.div
                           className="absolute bottom-4 right-4 text-2xl"
-                          animate={{ 
+                          animate={!isUserInteracting ? { 
                             y: [-8, 8, -8],
                             rotate: [8, -8, 8]
-                          }}
+                          } : {}}
                           transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
                         >
                           🥃
@@ -275,6 +277,8 @@ export function Hero() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         className="h-full relative"
+                        onMouseEnter={() => setIsUserInteracting(true)}
+                        onMouseLeave={() => setIsUserInteracting(false)}
                       >
                         {/* Close Button */}
                         <button
@@ -310,6 +314,8 @@ export function Hero() {
                           className="w-full h-full border-0"
                           title="Drinkjoy App Preview"
                           onLoad={() => setIsLoading(false)}
+                          onFocus={() => setIsUserInteracting(true)}
+                          onBlur={() => setIsUserInteracting(false)}
                         />
                       </motion.div>
                     )}

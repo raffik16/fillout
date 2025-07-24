@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Zap, Cloud, Clock, Shield } from 'lucide-react';
+import { Zap, Database, Users, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface Feature {
@@ -14,26 +14,26 @@ interface Feature {
 const features: Feature[] = [
   {
     icon: <Zap className="w-8 h-8" />,
-    title: "Personalized Recommendations",
-    description: "Tailored suggestions based on your unique tastes, allergies, and occasion.",
-    keyword: "personalized drinks"
+    title: "AI-Powered Recommendations",
+    description: "Advanced matching algorithm considers your taste preferences, occasion, and mood for perfect suggestions.",
+    keyword: "AI recommendations"
   },
   {
-    icon: <Cloud className="w-8 h-8" />,
-    title: "Weather-Based Recommendations",
-    description: "Let the weather inspire your drink choice with smart suggestions.",
-    keyword: "weather-based drinks"
+    icon: <Database className="w-8 h-8" />,
+    title: "Comprehensive Drink Database",
+    description: "Access thousands of drinks across cocktails, beer, wine, spirits, and non-alcoholic options.",
+    keyword: "drink database"
   },
   {
-    icon: <Clock className="w-8 h-8" />,
-    title: "Happy Hour Specials",
-    description: "Find the best deals and discounts near you in real-time.",
-    keyword: "happy hour specials"
+    icon: <Users className="w-8 h-8" />,
+    title: "Smart Occasion Matching",
+    description: "Whether it's happy hour, a celebration, or business meeting - we match drinks to your moment.",
+    keyword: "occasion matching"
   },
   {
     icon: <Shield className="w-8 h-8" />,
     title: "Allergy-Safe Filtering",
-    description: "Enjoy drinks without worrying about allergens with smart filtering.",
+    description: "Enjoy drinks worry-free with comprehensive allergen detection and filtering.",
     keyword: "allergy-safe drinks"
   }
 ];

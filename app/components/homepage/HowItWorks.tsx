@@ -28,8 +28,8 @@ const steps: Step[] = [
   },
   {
     number: "04",
-    title: "Find or make your drink",
-    description: "Discover nearby places or get detailed recipes to make at home."
+    title: "Discover and Save Your Matches",
+    description: "Like your favorites and build your personal drink collection for future reference."
   }
 ];
 
