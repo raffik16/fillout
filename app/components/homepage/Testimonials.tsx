@@ -53,24 +53,20 @@ export function Testimonials() {
       scale: 1,
       rotateY: 0,
       transition: {
-        duration: 0.8,
-        ease: "easeOut"
+        duration: 0.8
       }
     }
   };
 
   const starVariants = {
     hidden: { opacity: 0, scale: 0 },
-    visible: (i: number) => ({
+    visible: {
       opacity: 1,
       scale: 1,
       transition: {
-        delay: i * 0.1,
-        type: "spring",
-        stiffness: 400,
-        damping: 10
+        duration: 0.5
       }
-    })
+    }
   };
 
   return (
@@ -89,11 +85,11 @@ export function Testimonials() {
               {[...Array(5)].map((_, i) => (
                 <motion.div
                   key={i}
-                  custom={i}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
                   variants={starVariants}
+                  transition={{ delay: i * 0.1 }}
                 >
                   <Star className="w-6 h-6 fill-yellow-400 text-yellow-400" />
                 </motion.div>
@@ -133,13 +129,12 @@ export function Testimonials() {
                 {[...Array(testimonial.rating)].map((_, i) => (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, scale: 0, rotate: -180 }}
-                    whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                    initial={{ opacity: 0, scale: 0 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{
                       delay: 0.5 + index * 0.2 + i * 0.1,
-                      type: "spring",
-                      stiffness: 300
+                      duration: 0.3
                     }}
                   >
                     <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
