@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Star, User } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface Testimonial {
   name: string;
@@ -28,47 +29,151 @@ const testimonials: Testimonial[] = [
 ];
 
 export function Testimonials() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const testimonialVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 50,
+      scale: 0.9,
+      rotateY: -10
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      rotateY: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const starVariants = {
+    hidden: { opacity: 0, scale: 0 },
+    visible: (i: number) => ({
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delay: i * 0.1,
+        type: "spring",
+        stiffness: 400,
+        damping: 10
+      }
+    })
+  };
+
   return (
     <section id="testimonials" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our Users Say</h2>
           <div className="flex items-center justify-center gap-2 mb-4">
             <div className="flex">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+                <motion.div
+                  key={i}
+                  custom={i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={starVariants}
+                >
+                  <Star className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+                </motion.div>
               ))}
             </div>
-            <span className="text-lg font-semibold text-gray-700">4.9/5 from 2,500+ users</span>
+            <motion.span 
+              className="text-lg font-semibold text-gray-700"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+              4.9/5 from 2,500+ users
+            </motion.span>
           </div>
-        </div>
+        </motion.div>
         
-        <div className="grid md:grid-cols-3 gap-8">
+        <motion.div 
+          className="grid md:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
           {testimonials.map((testimonial, index) => (
-            <div 
+            <motion.div 
               key={index}
-              className="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              variants={testimonialVariants}
+              className="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+              whileHover={{ 
+                y: -10,
+                scale: 1.02,
+                transition: { duration: 0.2 }
+              }}
             >
               <div className="flex mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0, rotate: -180 }}
+                    whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      delay: 0.5 + index * 0.2 + i * 0.1,
+                      type: "spring",
+                      stiffness: 300
+                    }}
+                  >
+                    <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  </motion.div>
                 ))}
               </div>
               <p className="text-gray-700 leading-relaxed mb-6 text-lg italic">
                 &ldquo;{testimonial.text}&rdquo;
               </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-red-200 rounded-full flex items-center justify-center">
+              <motion.div 
+                className="flex items-center gap-3"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.8 + index * 0.2 }}
+              >
+                <motion.div 
+                  className="w-12 h-12 bg-red-200 rounded-full flex items-center justify-center"
+                  whileHover={{ 
+                    scale: 1.1,
+                    rotate: 360,
+                    transition: { duration: 0.5 }
+                  }}
+                >
                   <User className="w-6 h-6 text-red-600" />
-                </div>
+                </motion.div>
                 <div>
                   <p className="font-semibold text-gray-900">{testimonial.name}</p>
                   <p className="text-gray-600">Verified User</p>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

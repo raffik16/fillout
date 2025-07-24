@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface Step {
   number: string;
@@ -33,34 +34,108 @@ const steps: Step[] = [
 ];
 
 export function HowItWorks() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const stepVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 40,
+      rotateX: -15
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      transition: {
+        duration: 0.8
+      }
+    }
+  };
+
+  const chevronVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: {
+        duration: 0.5,
+        delay: 0.5
+      }
+    }
+  };
+
   return (
     <section id="how-it-works" className="py-20 bg-gradient-to-br from-gray-50 to-red-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="text-4xl font-bold text-gray-900 mb-4">How Drinkjoy Works</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Get personalized drink recommendations in four simple steps
           </p>
-        </div>
+        </motion.div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <motion.div 
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
           {steps.map((step, index) => (
-            <div key={index} className="text-center relative">
-              <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 mb-6 group">
-                <div className="text-6xl font-bold text-red-600 mb-4 group-hover:scale-110 transition-transform duration-200">
+            <motion.div 
+              key={index} 
+              className="text-center relative"
+              variants={stepVariants}
+            >
+              <motion.div 
+                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 mb-6 group"
+                whileHover={{ 
+                  scale: 1.05,
+                  transition: { duration: 0.2 }
+                }}
+              >
+                <motion.div 
+                  className="text-6xl font-bold text-red-600 mb-4"
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ 
+                    delay: 0.2 + index * 0.1,
+                    type: "spring",
+                    stiffness: 200
+                  }}
+                >
                   {step.number}
-                </div>
+                </motion.div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">{step.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{step.description}</p>
-              </div>
+              </motion.div>
               {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2">
+                <motion.div 
+                  className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2"
+                  variants={chevronVariants}
+                >
                   <ChevronRight className="w-8 h-8 text-red-300" />
-                </div>
+                </motion.div>
               )}
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
