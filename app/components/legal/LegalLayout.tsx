@@ -27,7 +27,6 @@ export function LegalLayout({ title, children, breadcrumb }: LegalLayoutProps) {
                 height={32} 
                 className="h-8 w-auto"
               />
-              Drinkjoy
             </Link>
             <Link 
               href="/" 
