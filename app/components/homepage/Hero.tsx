@@ -24,7 +24,7 @@ export function Hero() {
   };
 
   return (
-    <section className="pt-20 pb-16 relative min-h-[80vh] overflow-hidden">
+    <section className="pt-20 pb-16 relative min-h-[80vh]">
       {/* Background Image with Parallax */}
       <motion.div
         className="absolute inset-0 z-0"
@@ -35,7 +35,7 @@ export function Hero() {
           backgroundRepeat: 'no-repeat',
         }}
         animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+
       />
       
       {/* Overlay for better text readability */}
