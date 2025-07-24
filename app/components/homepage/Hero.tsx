@@ -26,8 +26,8 @@ export function Hero() {
 
   return (
     <section className="pt-20 pb-16 relative min-h-[80vh]">
-      {/* Background Image with Parallax */}
-      <motion.div
+      {/* Background Image */}
+      <div
         className="absolute inset-0 z-0"
         style={{
           backgroundImage: 'url(/images/drinks/cocktails/hero-bg.jpg)',
@@ -35,12 +35,9 @@ export function Hero() {
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
-        animate={!isUserInteracting ? { y: [0, -20, 0] } : {}}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-
       />
       
-      {/* Overlay for better text readability */}
+      {/* Static Overlay for text readability */}
       <div className="absolute inset-0 bg-gradient-to-br from-black/75 via-black/75 to-black/85 z-10" />
       
       {/* Content */}

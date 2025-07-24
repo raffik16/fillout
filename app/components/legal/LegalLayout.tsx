@@ -2,7 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Home } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowLeft } from 'lucide-react';
 import { GlobalFooter } from '../layout/GlobalFooter';
 
 interface LegalLayoutProps {
@@ -19,7 +20,13 @@ export function LegalLayout({ title, children, breadcrumb }: LegalLayoutProps) {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-red-600 hover:text-red-700 transition-colors">
-              <Home className="w-6 h-6" />
+              <Image 
+                src="/logo.png" 
+                alt="Drinkjoy Logo" 
+                width={96} 
+                height={32} 
+                className="h-8 w-auto"
+              />
               Drinkjoy
             </Link>
             <Link 

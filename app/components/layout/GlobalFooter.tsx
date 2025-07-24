@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function GlobalFooter() {
   return (
@@ -9,7 +10,15 @@ export function GlobalFooter() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
-            <h3 className="text-2xl font-bold text-red-400 mb-4">Drinkjoy</h3>
+            <div className="flex items-center gap-3 mb-4">
+              <Image 
+                src="/logo.png" 
+                alt="Drinkjoy Logo" 
+                width={120} 
+                height={40} 
+                className="h-10 w-auto"
+              />
+            </div>
             <p className="text-gray-300 leading-relaxed mb-6 max-w-md">
               AI-powered drink recommendations and discovery platform. Find your perfect drink match.
             </p>

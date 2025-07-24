@@ -138,7 +138,27 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">9. Children&apos;s Privacy</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">9. Third-Party Attributions</h2>
+          <p className="text-gray-700 leading-relaxed mb-4">
+            We use certain third-party resources in our Service:
+          </p>
+          <p className="text-gray-700 leading-relaxed mb-4">
+            The Drinkjoy logo icon is made with &quot;Drink&quot; by Anggara Putra from{' '}
+            <a 
+              href="https://thenounproject.com/browse/icons/term/drink/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              title="Drink Icons"
+              className="text-red-600 underline hover:text-red-700"
+            >
+              Noun Project
+            </a>{' '}
+            (CC BY 3.0)
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">10. Children&apos;s Privacy</h2>
           <p className="text-gray-700 leading-relaxed mb-4">
             While our Service provides non-alcoholic beverage recommendations to users of all ages, 
             we do not knowingly collect personal information from children under 13 without parental 
@@ -147,7 +167,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">10. Changes to This Privacy Policy</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">11. Changes to This Privacy Policy</h2>
           <p className="text-gray-700 leading-relaxed mb-4">
             We may update this Privacy Policy from time to time. We will notify you of any changes by 
             posting the new Privacy Policy on this page and updating the &quot;Last Updated&quot; date.

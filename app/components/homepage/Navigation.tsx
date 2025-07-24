@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 
 export function Navigation() {
@@ -20,7 +21,15 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-red-600">Drinkjoy</h1>
+            <Link href="/" className="flex items-center gap-2">
+              <Image 
+                src="/logo.png" 
+                alt="Drinkjoy Logo" 
+                width={96} 
+                height={32} 
+                className="h-8 w-auto"
+              />
+            </Link>
           </div>
           
           {/* Desktop Navigation */}

@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FiSun, FiMoon } from 'react-icons/fi';
-import { GiBeerBottle } from 'react-icons/gi';
 import { Button } from '@/app/components/ui/Button';
 
 interface HeaderProps {
@@ -45,11 +45,14 @@ export const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleDarkMode, lo
             className="flex items-center gap-3"
             whileHover={{ scale: 1.05 }}
           >
-            <GiBeerBottle className="w-8 h-8 text-amber-600" />
+            <Image 
+              src="/logo.png" 
+              alt="Drinkjoy Logo" 
+              width={96} 
+              height={32} 
+              className="h-8 w-auto"
+            />
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-                Drinkjoy
-              </h1>
               <div className="relative overflow-hidden">
                 <motion.p 
                   className="text-xs text-gray-600 dark:text-gray-400"
