@@ -24,19 +24,37 @@ export function Hero() {
   };
 
   return (
-    <section className="pt-20 pb-16 bg-gradient-to-br from-red-50 to-orange-50">
+    <section className="pt-20 pb-16 relative min-h-[80vh] overflow-hidden">
+      {/* Background Image with Parallax */}
+      <motion.div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: 'url(/images/drinks/cocktails/hero-bg.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+        animate={{ y: [0, -20, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+      />
+      
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/75 via-black/75 to-black/85 z-10" />
+      
+      {/* Content */}
+      <div className="relative z-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center justify-center box-border">
           <div className="text-center lg:text-left px-6 sm:px-4">
-            <h1 className="text-3xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
+            <h1 className="text-3xl lg:text-6xl font-bold text-white leading-tight mb-6 drop-shadow-lg">
               Drinkjoy
-              <span className="block text-red-600">AI-Powered Drink</span>
-              <span className="block text-orange-600">Recommendations</span>
+              <span className="block text-red-400">AI-Powered Drink</span>
+              <span className="block text-orange-400">Recommendations</span>
             </h1>
-            <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+            <p className="text-lg text-white/90 mb-8 leading-relaxed drop-shadow-md">
               Discover your perfect drink with smart recommendations! Get personalized cocktail, beer, wine, and spirit suggestions based on your taste preferences, allergies, and occasion.
             </p>
-            <p className="text-lg text-gray-500 mb-8 font-medium">
+            <p className="text-lg text-white/80 mb-8 font-medium drop-shadow-md">
               Powered by AI for the perfect match
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mx-4">
@@ -50,7 +68,7 @@ export function Hero() {
               </Link>
               <button 
                 onClick={() => setIsSignupModalOpen(true)}
-                className="border-2 border-red-600 text-red-600 px-8 py-4 rounded-full hover:bg-red-600 hover:text-white transition-all duration-200 font-semibold text-lg"
+                className="border-2 border-red-600 text-red-600 px-8 py-4 rounded-full hover:bg-red-600 hover:text-white transition-all duration-200 font-semibold text-lg bg-white"
               >
                 Sign Up
               </button>
@@ -244,6 +262,7 @@ export function Hero() {
             </motion.div>
           </div>
         </div>
+      </div>
       </div>
       
       {/* Signup Modal */}
