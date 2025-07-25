@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { FiUser } from 'react-icons/fi';
@@ -143,9 +144,11 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className
                   <div className="flex items-start gap-2">
                     {drink.image_url ? (
                       <div className="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden">
-                        <img 
+                        <Image 
                           src={drink.image_url} 
                           alt={drink.name}
+                          width={48}
+                          height={48}
                           className="w-full h-full object-cover"
                           onError={(e) => {
                             // Fallback to icon if image fails to load
