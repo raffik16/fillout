@@ -1,7 +1,6 @@
-import { SubscriptionPlan } from './billing';
 import { WizardPreferences } from './wizard';
 
-export type OnboardingStep = 'welcome' | 'preferences' | 'subscription' | 'completion';
+export type OnboardingStep = 'welcome' | 'preferences' | 'completion';
 
 export interface OnboardingProgress {
   currentStep: OnboardingStep;
@@ -21,10 +20,6 @@ export interface OnboardingData {
   preferences?: WizardPreferences;
   preferencesCompleted: boolean;
   
-  // Subscription step data
-  selectedPlan?: SubscriptionPlan;
-  subscriptionCompleted: boolean;
-  skipSubscription?: boolean;
   
   // Completion data
   finalStepCompleted: boolean;
@@ -53,8 +48,6 @@ export const validateStep = (step: OnboardingStep, data: OnboardingData): boolea
       return data.welcomeCompleted && data.hasSeenIntro;
     case 'preferences':
       return data.preferencesCompleted && !!data.preferences;
-    case 'subscription':
-      return data.subscriptionCompleted || data.skipSubscription === true;
     case 'completion':
       return data.finalStepCompleted;
     default:
@@ -63,7 +56,7 @@ export const validateStep = (step: OnboardingStep, data: OnboardingData): boolea
 };
 
 export const getNextStep = (currentStep: OnboardingStep): OnboardingStep | null => {
-  const stepOrder: OnboardingStep[] = ['welcome', 'preferences', 'subscription', 'completion'];
+  const stepOrder: OnboardingStep[] = ['welcome', 'preferences', 'completion'];
   const currentIndex = stepOrder.indexOf(currentStep);
   
   if (currentIndex < stepOrder.length - 1) {
@@ -74,7 +67,7 @@ export const getNextStep = (currentStep: OnboardingStep): OnboardingStep | null 
 };
 
 export const getPreviousStep = (currentStep: OnboardingStep): OnboardingStep | null => {
-  const stepOrder: OnboardingStep[] = ['welcome', 'preferences', 'subscription', 'completion'];
+  const stepOrder: OnboardingStep[] = ['welcome', 'preferences', 'completion'];
   const currentIndex = stepOrder.indexOf(currentStep);
   
   if (currentIndex > 0) {
@@ -85,7 +78,7 @@ export const getPreviousStep = (currentStep: OnboardingStep): OnboardingStep | n
 };
 
 export const calculateProgress = (progress: OnboardingProgress): number => {
-  const totalSteps = 4; // welcome, preferences, subscription, completion
+  const totalSteps = 3; // welcome, preferences, completion
   const completedCount = progress.completedSteps.length;
   return Math.round((completedCount / totalSteps) * 100);
 };
@@ -94,7 +87,6 @@ export const DEFAULT_ONBOARDING_DATA: OnboardingData = {
   welcomeCompleted: false,
   hasSeenIntro: false,
   preferencesCompleted: false,
-  subscriptionCompleted: false,
   finalStepCompleted: false,
 };
 

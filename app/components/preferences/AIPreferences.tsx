@@ -22,7 +22,6 @@ import { Card, CardContent, CardHeader } from '@/app/components/ui/Card';
 import { Button } from '@/app/components/ui/Button';
 import { UserDrinkPreferences, PreferenceValidation, AIPersonality, RecommendationStyle } from '@/app/types/preferences';
 import { cn } from '@/lib/utils';
-import { PremiumGate } from '@/app/components/gates';
 
 interface AIPreferencesProps {
   preferences: UserDrinkPreferences;
@@ -183,12 +182,6 @@ export default function AIPreferences({ preferences, onChange, errors }: AIPrefe
       </div>
 
       {/* AI Personality Selection */}
-      <PremiumGate 
-        plan="premium"
-        feature="Advanced AI Personality"
-        title="Premium AI Personalities"
-        description="Unlock advanced AI personalities for a more personalized chat experience."
-      >
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
@@ -243,15 +236,8 @@ export default function AIPreferences({ preferences, onChange, errors }: AIPrefe
           </div>
         </CardContent>
       </Card>
-      </PremiumGate>
 
       {/* Recommendation Style */}
-      <PremiumGate 
-        plan="premium"
-        feature="Advanced Recommendation Styles"
-        title="Premium Recommendation Engine"
-        description="Access advanced recommendation styles including experimental and adventurous options."
-      >
         <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
@@ -305,7 +291,6 @@ export default function AIPreferences({ preferences, onChange, errors }: AIPrefe
           </div>
         </CardContent>
       </Card>
-      </PremiumGate>
 
       {/* Interaction Settings */}
       <Card>
@@ -375,12 +360,6 @@ export default function AIPreferences({ preferences, onChange, errors }: AIPrefe
       </Card>
 
       {/* AI Insights */}
-      <PremiumGate 
-        plan="pro"
-        feature="AI Analytics & Insights"
-        title="Pro Analytics Dashboard"
-        description="Get detailed insights into your AI interactions and drinking preferences."
-      >
         <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
         <CardContent className="p-6">
           <div className="flex items-start gap-3">
@@ -431,7 +410,6 @@ export default function AIPreferences({ preferences, onChange, errors }: AIPrefe
           </div>
         </CardContent>
       </Card>
-      </PremiumGate>
     </div>
   );
 }
