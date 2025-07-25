@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Header } from '@/app/components/layout/Header';
 import { Footer } from '@/app/components/layout/Footer';
 import PopularDrinksWidget from '@/app/components/analytics/PopularDrinksWidget';
-import { BarChart3s, Heart, TrendingUp, ShoppingCart } from 'lucide-react';
+import { BarChart3, Users, Heart, TrendingUp, ShoppingCart } from 'lucide-react';
 
 interface Analytics {
   totalLikes: number;
@@ -112,7 +112,7 @@ export default function AnalyticsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border p-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
                 <Heart className="w-5 h-5 text-red-600" />
               </div>
               <div>

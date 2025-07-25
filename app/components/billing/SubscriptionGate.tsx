@@ -1,14 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useUser } from '@clerk/nextjs';
 import { Lock, Crown, Zap } from 'lucide-react';
-import { SubscriptionPlan } from '@/app/types/billing';
 import { PRICING_PLANS } from '@/lib/billing';
 import UpgradePrompt from './UpgradePrompt';
 
 interface SubscriptionGateProps {
-  requiredPlan: SubscriptionPlan;
+  requiredPlan: string;
   feature: string;
   children: React.ReactNode;
   fallback?: React.ReactNode;
@@ -22,7 +20,8 @@ export default function SubscriptionGate({
   fallback,
   className = ''
 }: SubscriptionGateProps) {
-  const { user, isLoaded } = useUser();
+  const user = null;
+  const isLoaded = true;
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
 

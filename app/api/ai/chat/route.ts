@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { auth } from '@clerk/nextjs/server';
 import { createClient } from '@supabase/supabase-js';
-import { getCurrentPlan, trackUsage, getUserUsage } from '@/lib/billing/subscription';
-import { PRICING_PLANS } from '@/lib/billing/plans';
 import drinksData from '@/data/drinks';
 const drinks = (drinksData?.drinks || drinksData || []);
 
@@ -22,7 +19,7 @@ function getSmartDrinkMatches(preferences: {
   
   const scoredDrinks = drinks.map(drink => {
     let score = 0;
-    let matchReasons = [];
+    const matchReasons = [];
 
     // Category match (high priority)
     if (preferences.category && preferences.category !== 'any' && preferences.category !== 'featured') {
@@ -49,7 +46,7 @@ function getSmartDrinkMatches(preferences: {
         'sweet': ['sweet', 'fruity'],
         'sour': ['sour', 'tart', 'citrus'],
         'bitter': ['bitter'],
-        'smoky': ['smoky', 'smokey'],
+        'smoky': ['smoky'],
         'crisp': ['crisp', 'fresh', 'clean', 'refreshing'],
         'smooth': ['smooth', 'mellow']
       };
@@ -180,9 +177,9 @@ function getSmartDrinkMatches(preferences: {
   const otherMatches = sortedDrinks.filter(item => item.score >= 10 && item.score < 30 && item.allergyCompatible);
 
   return {
-    perfectMatches: perfectMatches.slice(0, 3),
-    goodMatches: goodMatches.slice(0, 3),
-    otherMatches: otherMatches.slice(0, 2)
+    perfectMatches: perfectMatches.slice(0, 5),
+    goodMatches: goodMatches.slice(0, 5),
+    otherMatches: otherMatches.slice(0, 5)
   };
 }
 
@@ -194,9 +191,6 @@ const supabase = createClient(
 export async function POST(request: NextRequest) {
   try {
     const { message, sessionId, conversationHistory = [] } = await request.json();
-    
-    // Get user info (optional - works for both authenticated and anonymous users)
-    const { userId } = await auth();
     
     if (!message || !sessionId) {
       return NextResponse.json(
@@ -222,29 +216,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check usage limits for authenticated users
-    if (userId) {
-      const currentPlan = await getCurrentPlan(userId);
-      const planFeatures = PRICING_PLANS.find(p => p.id === currentPlan)?.features;
-      
-      if (planFeatures && typeof planFeatures.aiChats === 'number') {
-        const usage = await getUserUsage(userId, 'aiChats');
-        const currentUsage = usage.aiChats || 0;
-        
-        if (currentUsage >= planFeatures.aiChats) {
-          return NextResponse.json({
-            error: 'AI chat limit reached',
-            code: 'USAGE_LIMIT_EXCEEDED',
-            usage: {
-              current: currentUsage,
-              limit: planFeatures.aiChats,
-              resetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-            },
-            upgradeRequired: true
-          }, { status: 429 });
-        }
-      }
-    }
 
     const sampleDrinks = Array.isArray(drinks) ? drinks.slice(0, 5).map(drink => ({
       name: drink.name,
@@ -258,11 +229,11 @@ export async function POST(request: NextRequest) {
     })) : [];
 
     // Build conversation context with Carla Tortelli personality
-    let systemPrompt = `You are Carla Tortelli, the sharp-tongued waitress from Cheers. You've been slinging drinks at this dump for 20 years and you know every cocktail ever invented, even if most customers don't deserve 'em. You're from Boston, got eight kids, and your patience ran out sometime in the Reagan administration.
+    const systemPrompt = `You are Carla Tortelli, the sharp-tongued waitress from Cheers. You've been slinging drinks at this dump for 20 years and you know every cocktail ever invented, even if most customers don't deserve 'em. You're from Boston, got eight kids, and your patience ran out sometime in the Reagan administration.
 
     Your job is finding out what these people want to drink through conversation - but you do it YOUR way, with attitude:
     - Category: cocktail, beer, wine, spirit, non-alcoholic, any, featured
-    - Flavor: crisp, smokey, sweet, bitter, sour, smooth
+    - Flavor: crisp, smoky, sweet, bitter, sour, smooth
     - Strength: light (for lightweights), medium (normal people), strong (hair on your chest)
     - Occasion: casual (just another Tuesday), celebration, business, romantic (good luck with that), sports, exploring, newly21 (oh great, another kid), birthday
     - Allergies: none, gluten, dairy, nuts, eggs, soy
@@ -299,6 +270,14 @@ export async function POST(request: NextRequest) {
     - Always remember ALL their stupid restrictions
     - When they add MORE restrictions after you already started, act annoyed but UPDATE everything
 
+    CONVERSATION FLOW RULES:
+    - Track what info you already have - don't ask again!
+    - If user says "surprise me" or gives vague answers, pick reasonable defaults and move on
+    - If they give you category AND flavor in one message, extract both and jump to strength  
+    - Be EFFICIENT - no more than 6 questions total
+    - Always make sure to ask for allergies!
+    - For "surprise me" requests: default to cocktail, medium strength, casual occasion, no allergies, and pick a random flavor
+    
     For ongoing conversation, provide JSON like this (but hide it behind Carla's personality):
     {
       "message": "Alright, what kinda flavors you want? And don't say 'surprise me' or you're gettin' tap water.",
@@ -307,14 +286,16 @@ export async function POST(request: NextRequest) {
     }
 
     INFORMATION YOU NEED BEFORE RECOMMENDATIONS:
-    Gotta get ALL of these or the order's wrong:
+    Ask these IN ORDER, ONE AT A TIME. Don't repeat questions you already asked:
     1. Category - "Beer, wine, or you want me to actually make somethin'?"
-    2. Flavor - "Sweet like candy or bitter like my ex-husband?"
+    2. Flavor - "Sweet like candy or bitter like my ex-husband?" 
     3. Strength - "You want training wheels or the real deal?"
     4. Occasion - "This for a date or drownin' your sorrows?"
     5. Allergies - "What's gonna kill ya besides my charm?"
+    
+    IMPORTANT: If user gives you multiple pieces of info at once (like "I want a strong smoky cocktail"), extract ALL the info and skip those questions. Don't ask again what they already told you!
 
-    When you got ALL 5 pieces, provide final JSON with Carla's touch:
+    When you got ALL 6 pieces, provide final JSON with Carla's touch:
 
     For normal requests:
     {
@@ -363,23 +344,6 @@ export async function POST(request: NextRequest) {
 
     Current conversation:`;
 
-    // Add premium AI context for premium/pro users
-    if (userId) {
-      const currentPlan = await getCurrentPlan(userId);
-      const planFeatures = PRICING_PLANS.find(p => p.id === currentPlan)?.features;
-      
-      if (planFeatures?.advancedAIContext) {
-        systemPrompt += `
-
-PREMIUM FEATURES ENABLED:
-- You have access to advanced context about seasonal trends, cocktail history, and professional bartending techniques
-- You can provide detailed recipe variations and substitutions
-- You can suggest premium ingredients and artisanal preparations
-- You can offer advanced pairing suggestions with food, atmosphere, and occasions
-- Consider regional preferences and craft cocktail trends
-- Include information about glassware, garnishes, and presentation techniques`;
-      }
-    }
 
     // Build conversation context for Gemini
     let conversationText = systemPrompt + "\n\n";
@@ -425,7 +389,7 @@ PREMIUM FEATURES ENABLED:
           console.log('Good matches:', goodMatches.map(m => `${m.drink.name} (score: ${m.score})`));
 
           // Smart fallback logic when no good matches exist
-          let allMatches = [];
+          const allMatches = [];
           
           if (perfectMatches.length > 0) {
             allMatches.push(...perfectMatches.map(item => ({ 
@@ -436,8 +400,8 @@ PREMIUM FEATURES ENABLED:
             })));
           }
           
-          if (goodMatches.length > 0 && allMatches.length < 6) {
-            const needed = 6 - allMatches.length;
+          if (goodMatches.length > 0 && allMatches.length < 12) {
+            const needed = 12 - allMatches.length;
             allMatches.push(...goodMatches.slice(0, needed).map(item => ({ 
               ...item.drink, 
               matchQuality: 'good',
@@ -446,8 +410,8 @@ PREMIUM FEATURES ENABLED:
             })));
           }
           
-          if (otherMatches.length > 0 && allMatches.length < 6) {
-            const needed = 6 - allMatches.length;
+          if (otherMatches.length > 0 && allMatches.length < 12) {
+            const needed = 12 - allMatches.length;
             allMatches.push(...otherMatches.slice(0, needed).map(item => ({ 
               ...item.drink, 
               matchQuality: 'other',
@@ -473,7 +437,7 @@ PREMIUM FEATURES ENABLED:
               console.log(`Found ${glutenFreeAlternatives.length} gluten-free alternatives for beer request`);
               
               glutenFreeAlternatives.forEach(drink => {
-                if (allMatches.length < 6) {
+                if (allMatches.length < 12) {
                   allMatches.push({
                     ...drink,
                     matchQuality: 'alternative',
@@ -509,18 +473,31 @@ PREMIUM FEATURES ENABLED:
             if (perfectCount > 0) {
               extractedMessage += `\n\n🎯 **${perfectCount} Perfect Match${perfectCount > 1 ? 'es' : ''}:**`;
               if (goodCount > 0) {
-                extractedMessage += `\n✨ **Plus ${goodCount} Good Alternative${goodCount > 1 ? 's' : ''}:**`;
+                // Special case for exactly 3 good matches
+                if (goodCount === 3) {
+                  extractedMessage += `\n✨ **3 Great Options for You:**`;
+                } else {
+                  extractedMessage += `\n✨ **Plus ${goodCount} Good Alternative${goodCount > 1 ? 's' : ''}:**`;
+                }
               }
             } else if (goodCount > 0) {
-              extractedMessage += `\n\n✨ **${goodCount} Great Option${goodCount > 1 ? 's' : ''} for You:**`;
-            } else if (alternativeCount > 0) {
+              // Special case for exactly 3 good matches when no perfect matches
+              if (goodCount === 3) {
+                extractedMessage += `\n\n✨ **3 Great Options for You:**`;
+              } else {
+                extractedMessage += `\n\n✨ **${goodCount} Great Option${goodCount > 1 ? 's' : ''} for You:**`;
+              }
+            }
+            
+            // Add alternative options with proper title
+            if (alternativeCount > 0) {
               // Special messaging for alternative recommendations
               if (preferences.category === 'beer' && preferences.allergies?.includes('gluten')) {
-                extractedMessage += `\n\n💡 **Since gluten-free beers are limited, here are ${alternativeCount} great gluten-free alternative${alternativeCount > 1 ? 's' : ''}:**`;
+                extractedMessage += `\n\n💡 **Also worth trying (gluten-free alternatives):**`;
               } else {
-                extractedMessage += `\n\n💡 **${alternativeCount} Alternative Recommendation${alternativeCount > 1 ? 's' : ''}:**`;
+                extractedMessage += `\n\n💡 **Also worth trying:**`;
               }
-            } else {
+            } else if (perfectCount === 0 && goodCount === 0) {
               extractedMessage += "\n\n🍹 **Here are some recommendations:**";
             }
           }
@@ -544,7 +521,7 @@ PREMIUM FEATURES ENABLED:
 
     // Save conversation to database
     const conversationData = {
-      user_id: userId,
+      user_id: null, // No authentication, all users are anonymous
       session_id: sessionId,
       messages: [
         ...conversationHistory,
@@ -566,38 +543,6 @@ PREMIUM FEATURES ENABLED:
         ignoreDuplicates: false 
       });
 
-    // Track usage for authenticated users
-    if (userId) {
-      try {
-        await trackUsage(userId, 'aiChats', 1);
-      } catch (error) {
-        console.error('Error tracking AI chat usage:', error);
-        // Don't fail the request if usage tracking fails
-      }
-    }
-
-    // Get updated usage info to include in response
-    let usageInfo = null;
-    if (userId) {
-      try {
-        const currentPlan = await getCurrentPlan(userId);
-        const planFeatures = PRICING_PLANS.find(p => p.id === currentPlan)?.features;
-        
-        if (planFeatures && typeof planFeatures.aiChats === 'number') {
-          const usage = await getUserUsage(userId, 'aiChats');
-          const currentUsage = usage.aiChats || 0;
-          
-          usageInfo = {
-            current: currentUsage,
-            limit: planFeatures.aiChats,
-            plan: currentPlan,
-            remaining: Math.max(0, planFeatures.aiChats - currentUsage)
-          };
-        }
-      } catch (error) {
-        console.error('Error getting usage info:', error);
-      }
-    }
 
     console.log('Final API response quickButtons:', quickButtons);
     
@@ -608,18 +553,17 @@ PREMIUM FEATURES ENABLED:
       ready,
       sessionId,
       quickButtons,
-      drinks: drinksForMessage,
-      usage: usageInfo
+      drinks: drinksForMessage
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error in AI chat:', error);
     
     // Log the full error object for debugging
-    if (error.status) {
-      console.error('API Error Status:', error.status);
-      console.error('API Error Headers:', error.headers);
-      console.error('API Error Body:', error.error);
+    if (error && typeof error === 'object' && 'status' in error) {
+      console.error('API Error Status:', (error as { status?: number }).status);
+      console.error('API Error Headers:', (error as { headers?: unknown }).headers);
+      console.error('API Error Body:', (error as { error?: unknown }).error);
     }
     
     // Provide more specific error messages for debugging
@@ -642,14 +586,16 @@ PREMIUM FEATURES ENABLED:
           { status: 400 }
         );
       }
-      if (error.message.includes('invalid') || (error as any).status === 400) {
+      if (error instanceof Error && (error.message.includes('invalid') || (error as { status?: number }).status === 400)) {
         return NextResponse.json(
           { error: 'Invalid request format. Please try again.' },
           { status: 400 }
         );
       }
       // Log the full error for debugging
-      console.error('Full Google AI API error message:', error.message);
+      if (error instanceof Error) {
+        console.error('Full Google AI API error message:', error.message);
+      }
     }
     
     return NextResponse.json(

@@ -316,7 +316,7 @@ export default function WizardFullResults({
                 </span>
               )}
               {(currentAllergies || preferences.allergies) && (currentAllergies || preferences.allergies)!.length > 0 && !(currentAllergies || preferences.allergies)!.includes('none') && (
-                <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm">
+                <span className="px-3 py-1 bg-purple-100 text-red-700 rounded-full text-sm">
                   🚫 {(currentAllergies || preferences.allergies)!.join(', ')} free
                 </span>
               )}

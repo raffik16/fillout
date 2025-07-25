@@ -196,7 +196,7 @@ export class CarlaJoyAgent {
       extracted.flavor = 'sour';
     } else if (lowerMessage.includes('bitter')) {
       extracted.flavor = 'bitter';
-    } else if (lowerMessage.includes('smoky') || lowerMessage.includes('smokey')) {
+    } else if (lowerMessage.includes('smoky')) {
       extracted.flavor = 'smoky';
     } else if (lowerMessage.includes('crisp') || lowerMessage.includes('refreshing') || lowerMessage.includes('clean')) {
       extracted.flavor = 'crisp';

@@ -172,7 +172,7 @@ export default function CategoryPreferences({ preferences, onChange, errors }: C
     const colorMap = {
       purple: { border: 'border-purple-200', bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-800 dark:text-purple-200' },
       amber: { border: 'border-amber-200', bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-800 dark:text-amber-200' },
-      red: { border: 'border-red-200', bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-800 dark:text-red-200' },
+      red: { border: 'border-red-200', bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-red-800 dark:text-red-200' },
       orange: { border: 'border-purple-200', bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-800 dark:text-purple-200' },
       green: { border: 'border-green-200', bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-800 dark:text-green-200' },
       blue: { border: 'border-blue-200', bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-800 dark:text-blue-200' },

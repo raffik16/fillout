@@ -122,7 +122,7 @@ export const DEFAULT_PREFERENCES: UserDrinkPreferences = {
   
   flavorIntensities: {
     crisp: 'medium',
-    smokey: 'medium',
+    smoky: 'medium',
     sweet: 'medium',
     bitter: 'medium',
     sour: 'medium',

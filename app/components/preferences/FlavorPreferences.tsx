@@ -27,7 +27,7 @@ const FLAVOR_PROFILES: Record<FlavorProfile, {
     description: 'Clean, refreshing drinks with bright acidity',
     examples: ['Pinot Grigio', 'Gin & Tonic', 'Pilsner'],
   },
-  smokey: {
+  smoky: {
     icon: Coffee,
     color: 'gray',
     description: 'Rich, earthy flavors with depth and complexity',
@@ -113,7 +113,7 @@ export default function FlavorPreferences({ preferences, onChange, errors }: Fla
       yellow: isActive ? 'bg-yellow-100 dark:bg-yellow-900/30 border-yellow-500 text-yellow-800 dark:text-yellow-200' : 'border-yellow-200 hover:bg-yellow-50 dark:hover:bg-yellow-900/10',
       purple: isActive ? 'bg-purple-100 dark:bg-purple-900/30 border-purple-500 text-purple-800 dark:text-purple-200' : 'border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/10',
       amber: isActive ? 'bg-amber-100 dark:bg-amber-900/30 border-amber-500 text-amber-800 dark:text-amber-200' : 'border-amber-200 hover:bg-amber-50 dark:hover:bg-amber-900/10',
-      red: isActive ? 'bg-red-100 dark:bg-red-900/30 border-red-500 text-red-800 dark:text-red-200' : 'border-red-200 hover:bg-red-50 dark:hover:bg-red-900/10',
+      red: isActive ? 'bg-purple-100 dark:bg-purple-900/30 border-red-500 text-red-800 dark:text-red-200' : 'border-red-200 hover:bg-purple-50 dark:hover:bg-purple-900/10',
     };
     return colors[color as keyof typeof colors] || colors.gray;
   };

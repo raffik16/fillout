@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useUser } from '@clerk/nextjs';
 import { 
   CheckCircle, 
   AlertTriangle, 
@@ -23,7 +22,8 @@ export default function SubscriptionStatus({
   className = '', 
   showManageButton = true 
 }: SubscriptionStatusProps) {
-  const { user, isLoaded } = useUser();
+  const user = null;
+  const isLoaded = true;
   const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -83,7 +83,7 @@ export default function SubscriptionStatus({
         return 'text-yellow-700 bg-yellow-100 dark:text-yellow-300 dark:bg-yellow-900';
       case 'canceled':
       case 'unpaid':
-        return 'text-red-700 bg-red-100 dark:text-red-300 dark:bg-red-900';
+        return 'text-red-700 bg-purple-100 dark:text-red-300 dark:bg-purple-900';
       default:
         return 'text-gray-700 bg-gray-100 dark:text-gray-300 dark:bg-gray-900';
     }
@@ -162,7 +162,7 @@ export default function SubscriptionStatus({
         )}
 
         {(subscription.status === 'past_due' || subscription.status === 'incomplete') && (
-          <div className="mt-4 p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-800 rounded-md">
+          <div className="mt-4 p-3 bg-purple-50 dark:bg-purple-900 border border-red-200 dark:border-red-800 rounded-md">
             <div className="flex items-center">
               <XCircle className="w-4 h-4 text-red-600 dark:text-red-400" />
               <p className="ml-2 text-sm text-red-800 dark:text-red-200">

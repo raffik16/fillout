@@ -71,7 +71,7 @@ export default function UsageLimitWarning({
   
   const warningConfig = {
     critical: {
-      bgColor: 'bg-red-50 dark:bg-red-950',
+      bgColor: 'bg-purple-50 dark:bg-purple-950',
       borderColor: 'border-red-200 dark:border-red-800',
       textColor: 'text-red-800 dark:text-red-200',
       iconColor: 'text-red-600',
@@ -143,7 +143,7 @@ export default function UsageLimitWarning({
                       animate={{ width: `${Math.min(usagePercentage, 100)}%` }}
                       transition={{ duration: 1, ease: 'easeOut' }}
                       className={`h-2 rounded-full ${
-                        warningLevel === 'critical' ? 'bg-red-500' :
+                        warningLevel === 'critical' ? 'bg-purple-500' :
                         warningLevel === 'high' ? 'bg-purple-500' :
                         warningLevel === 'medium' ? 'bg-yellow-500' :
                         'bg-blue-500'

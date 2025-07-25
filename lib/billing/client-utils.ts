@@ -28,10 +28,10 @@ export function formatSubscriptionStatus(status: string): string {
 }
 
 /**
- * Get Clerk billing portal URL for subscription management
+ * Get billing portal URL for subscription management (disabled since auth is removed)
  */
 export function getBillingPortalUrl(): string {
-  return process.env.NEXT_PUBLIC_CLERK_BILLING_PORTAL_URL || '/billing';
+  return '/pricing';
 }
 
 // Re-export client-safe constants from plans.ts

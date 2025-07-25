@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.57.0",
-    "@clerk/nextjs": "^6.26.0",
     "@google/generative-ai": "^0.24.1",
     "@serwist/next": "^9.0.15",
     "@serwist/sw": "^9.0.15",

@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { FiUser } from 'react-icons/fi';
 import { HiSparkles } from 'react-icons/hi2';
 import { Wine, Beer, Coffee, Zap } from 'lucide-react';
+
 
 export interface Message {
   id: string;
@@ -44,6 +45,7 @@ const getDrinkIcon = (category: string) => {
 };
 
 export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className, onQuickResponse }) => {
+  const [showAllDrinks, setShowAllDrinks] = useState<{[key: string]: boolean}>({});
   const isUser = message.role === 'user';
   const isSystem = message.role === 'system';
 
@@ -113,7 +115,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className
         {/* Drinks Grid */}
         {!isUser && message.drinks && message.drinks.length > 0 && (
           <div className="grid grid-cols-1 gap-2 mt-3">
-            {message.drinks.slice(0, 6).map((drink, index) => {
+            {(showAllDrinks[message.id] ? message.drinks : message.drinks.slice(0, 6)).map((drink, index) => {
               const IconComponent = getDrinkIcon(drink.category);
               const matchQualityColors = {
                 perfect: 'border-green-300 bg-green-50 dark:bg-green-900/20 dark:border-green-700',
@@ -131,7 +133,13 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className
               const matchIcon = matchQualityIcons[drink.matchQuality || 'other'];
               
               return (
-                <div key={index} className={`p-3 rounded-lg border ${borderColor}`}>
+                <motion.div 
+                  key={index} 
+                  className={`p-3 rounded-lg border ${borderColor} relative`}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05, duration: 0.3 }}
+                >
                   <div className="flex items-start gap-2">
                     {drink.image_url ? (
                       <div className="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden">
@@ -164,10 +172,16 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1 mb-1">
                         <span className="text-xs">{matchIcon}</span>
-                        <h4 className="text-xs font-semibold text-gray-800 dark:text-gray-200 truncate">
+                        <h4 className="text-xs font-semibold text-gray-800 dark:text-gray-200">
                           {drink.name}
                         </h4>
                       </div>
+                      {/* Match Score as plain text */}
+                      {drink.score && (
+                        <p className="text-xs text-purple-600 dark:text-purple-400 mb-1 font-medium">
+                          {Math.round(drink.score)}% Match
+                        </p>
+                      )}
                       <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
                         {drink.category}
                       </p>
@@ -183,9 +197,24 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className
                       )}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
+            
+            {/* Show More Button */}
+            {message.drinks && message.drinks.length > 6 && !showAllDrinks[message.id] && (
+              <motion.button
+                onClick={() => setShowAllDrinks(prev => ({ ...prev, [message.id]: true }))}
+                className="mt-2 w-full px-3 py-1.5 text-xs bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-lg transition-colors border border-purple-200 hover:border-purple-300"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.3 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Show {message.drinks.length - 6} More Options
+              </motion.button>
+            )}
           </div>
         )}
         

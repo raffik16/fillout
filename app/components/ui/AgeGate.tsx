@@ -44,7 +44,7 @@ export const AgeGate: React.FC<AgeGateProps> = ({ onVerified }) => {
               
               <Button
                 onClick={handleLeave}
-                className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors duration-200"
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors duration-200"
               >
                 Leave Site
               </Button>

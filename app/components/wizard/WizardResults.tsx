@@ -17,17 +17,17 @@ import WizardFullResults from './WizardFullResults';
 import AllergiesModal from './AllergiesModal';
 
 // Witty title generator based on match count
-function getWittyTitle(count: number): string {
-  if (count === 0) return "No Matches Found 😢";
-  if (count === 1) return "Found 1 Perfect Match - It&apos;s Meant to Be! 💕";
-  if (count === 2) return "Found 2 Liquid Soulmates! 🥂";
-  if (count === 3) return "Found 3 Perfect Matches - The Holy Trinity! 🙏";
-  if (count === 4) return "Found 4 Fantastic Matches! 🎯";
-  if (count === 5) return "Found 5 Perfect Matches - High Five! 🙌";
-  if (count <= 7) return `Found ${count} Perfect Matches for You! 🎉`;
-  if (count <= 10) return `Found ${count} Liquid Legends! 🏆`;
-  return `Found ${count} Worthy Matches - You be Spoiled for Choice! 🤩`;
-}
+// function getWittyTitle(count: number): string {
+//   if (count === 0) return "No Matches Found 😢";
+//   if (count === 1) return "Found 1 Perfect Match - It&apos;s Meant to Be! 💕";
+//   if (count === 2) return "Found 2 Liquid Soulmates! 🥂";
+//   if (count === 3) return "Found 3 Perfect Matches - The Holy Trinity! 🙏";
+//   if (count === 4) return "Found 4 Fantastic Matches! 🎯";
+//   if (count === 5) return "Found 5 Perfect Matches - High Five! 🙌";
+//   if (count <= 7) return `Found ${count} Perfect Matches for You! 🎉`;
+//   if (count <= 10) return `Found ${count} Liquid Legends! 🏆`;
+//   return `Found ${count} Worthy Matches - You be Spoiled for Choice! 🤩`;
+// }
 
 interface WizardResultsProps {
   preferences: WizardPreferences;
@@ -316,9 +316,9 @@ export default function WizardResults({
       <div>
         {/* Header */}
         <div className="flex flex-col justify-center items-center p-2">
-          <h2 className="text-sm font-bold text-gray-800">
+          {/* <h2 className="text-sm font-bold text-gray-800">
             {preferences.category === 'featured' ? '⭐ Featured Drinks' : getWittyTitle(allDrinks.length)}
-          </h2>
+          </h2> */}
           {isAtAbsoluteEnd && currentIndex === allDrinks.length - 1 && (
             <p className="text-xs text-gray-500 mt-1">
               Swipe or click next to start over! 🔄
@@ -649,7 +649,7 @@ export default function WizardResults({
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg"
+            className="mt-3 p-3 bg-purple-50 border border-red-200 rounded-lg"
           >
             <p className="text-red-700 text-sm text-center">{locationError}</p>
           </motion.div>

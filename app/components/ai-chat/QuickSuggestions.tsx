@@ -11,7 +11,7 @@ interface QuickSuggestionsProps {
 
 const suggestions = [
   {
-    text: "I like smokey cocktails",
+    text: "I like smoky cocktails",
     icon: "🥃",
   },
   {

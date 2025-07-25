@@ -183,7 +183,7 @@ export default function PrivacyPage() {
           <div className="space-y-3">
             <a 
               href="/contact" 
-              className="inline-block bg-red-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-red-700 transition-colors mr-4"
+              className="inline-block bg-purple-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-purple-700 transition-colors mr-4"
             >
               Contact Us
             </a>

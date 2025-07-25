@@ -8,7 +8,7 @@ Drinkjoy is a beverage recommendation application that helps users find drinks b
 ### Core Drink Discovery Features
 - **Interactive Drink Wizard**: 5-question personality quiz with animated interface
   - Category selection (Cocktails, Beer/Cider, Wine, Spirits, Non-Alcoholic, Surprise Me, Featured)
-  - Flavor preferences (Crisp, Smokey, Sweet Tooth, Bitter is Better, Sour Power, Smooth Operator)
+  - Flavor preferences (Crisp, Smoky, Sweet Tooth, Bitter is Better, Sour Power, Smooth Operator)
   - Strength preferences (Balanced, Easy Going, Bring the Power)
   - Occasion matching (Happy Hour, Celebrating, Business Meeting, Romantic Dinner, Game Day, Exploring The Bar, Newly 21, Birthday)
   - Allergy filtering (Gluten, Dairy, Nuts, Eggs, Soy)

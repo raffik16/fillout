@@ -281,7 +281,7 @@ export default function DrinkPreferencesForm({
             )}
             
             {formState.errors.length > 0 && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
+              <div className="bg-purple-50 dark:bg-purple-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
                 <div className="flex items-center gap-3 mb-2">
                   <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
                   <span className="font-medium text-red-800 dark:text-red-200">
@@ -367,7 +367,7 @@ export default function DrinkPreferencesForm({
                 variant="ghost"
                 onClick={handleReset}
                 disabled={formState.isLoading}
-                className="w-full text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/20"
+                className="w-full text-red-600 hover:text-red-700 hover:bg-purple-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-purple-900/20"
                 size="sm"
               >
                 <RefreshCw className="w-4 h-4 mr-2" />

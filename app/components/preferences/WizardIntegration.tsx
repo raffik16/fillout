@@ -181,7 +181,7 @@ export default function WizardIntegration({
                       className={cn(
                         'p-4 rounded-xl border-2 text-left transition-all duration-200',
                         importMode === 'replace'
-                          ? 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200'
+                          ? 'border-red-500 bg-purple-50 dark:bg-purple-900/20 text-red-800 dark:text-red-200'
                           : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
                       )}
                     >

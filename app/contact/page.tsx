@@ -202,7 +202,7 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <>
@@ -231,7 +231,7 @@ export default function ContactPage() {
               <h2 className="text-2xl font-semibold text-gray-900 mb-6">Get in touch</h2>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Clock className="w-6 h-6 text-red-600" />
                   </div>
                   <div>
@@ -243,7 +243,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Building className="w-6 h-6 text-red-600" />
                   </div>
                   <div>
@@ -256,7 +256,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <MessageSquare className="w-6 h-6 text-red-600" />
                   </div>
                   <div>
@@ -270,7 +270,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="bg-red-50 p-6 rounded-lg">
+            <div className="bg-purple-50 p-6 rounded-lg">
               <h3 className="font-semibold text-gray-900 mb-3">Quick Links</h3>
               <div className="space-y-2">
                 <a href="/about" className="block text-red-600 hover:text-red-700 transition-colors">

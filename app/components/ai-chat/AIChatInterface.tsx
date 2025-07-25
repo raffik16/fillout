@@ -5,12 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { FiSend, FiX } from 'react-icons/fi';
 import { HiSparkles } from 'react-icons/hi2';
-import { Crown, TrendingUp } from 'lucide-react';
-import { useUser } from '@clerk/nextjs';
 import { MessageBubble, Message } from './MessageBubble';
 import { TypingIndicator } from './TypingIndicator';
 import { QuickSuggestions } from './QuickSuggestions';
-import { UpgradeModal } from '@/app/components/gates';
 
 interface AIChatInterfaceProps {
   isOpen: boolean;
@@ -20,12 +17,9 @@ interface AIChatInterfaceProps {
 }
 
 export const AIChatInterface: React.FC<AIChatInterfaceProps> = ({ isOpen, onClose, className, onPreferencesReady }) => {
-  const { user } = useUser();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
-  const [usageInfo, setUsageInfo] = useState<any>(null);
   const [sessionId, setSessionId] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -82,28 +76,9 @@ export const AIChatInterface: React.FC<AIChatInterfaceProps> = ({ isOpen, onClos
       const data = await response.json();
 
       if (!response.ok) {
-        if (data.code === 'USAGE_LIMIT_EXCEEDED') {
-          setShowUpgradeModal(true);
-          setUsageInfo(data.usage);
-          
-          // Add system message about usage limit
-          const systemMessage: Message = {
-            id: (Date.now() + 1).toString(),
-            content: `You've reached your AI chat limit for this month (${data.usage.current}/${data.usage.limit}). Upgrade to Premium for unlimited AI conversations!`,
-            role: 'system',
-            timestamp: new Date(),
-          };
-          setMessages(prev => [...prev, systemMessage]);
-        } else {
-          throw new Error(data.error || 'Failed to get AI response');
-        }
-        return;
+        throw new Error(data.error || 'Failed to get AI response');
       }
 
-      // Update usage info
-      if (data.usage) {
-        setUsageInfo(data.usage);
-      }
 
       // Handle preferences if ready
       if (data.preferences && data.is_ready && onPreferencesReady) {
@@ -186,24 +161,9 @@ export const AIChatInterface: React.FC<AIChatInterfaceProps> = ({ isOpen, onClos
                       <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-200">
                         Carla Joy
                       </h3>
-                      {user && usageInfo?.plan === 'premium' && (
-                        <div className="inline-flex items-center gap-1 bg-purple-100 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 px-2 py-0.5 rounded-full">
-                          <Crown className="w-3 h-3 text-purple-600 dark:text-purple-400" />
-                          <span className="text-xs font-medium text-purple-700 dark:text-purple-300">Premium</span>
-                        </div>
-                      )}
-                      {user && usageInfo?.plan === 'pro' && (
-                        <div className="inline-flex items-center gap-1 bg-purple-100 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 px-2 py-0.5 rounded-full">
-                          <Crown className="w-3 h-3 text-purple-600 dark:text-purple-400" />
-                          <span className="text-xs font-medium text-purple-700 dark:text-purple-300">Pro</span>
-                        </div>
-                      )}
                     </div>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
-                      {user && usageInfo?.plan === 'premium' || usageInfo?.plan === 'pro' 
-                        ? 'Premium drink recommendations' 
-                        : 'Ask about drinks'
-                      }
+                      Ask about drinks
                     </p>
                   </div>
                 </div>
@@ -216,36 +176,6 @@ export const AIChatInterface: React.FC<AIChatInterfaceProps> = ({ isOpen, onClos
                 </button>
               </div>
               
-              {/* Usage Display */}
-              {user && usageInfo && typeof usageInfo.limit === 'number' && (
-                <div className="flex items-center gap-2 mt-1 pt-1 border-t border-purple-200 dark:border-purple-800">
-                  <TrendingUp className="w-3 h-3 text-purple-600 dark:text-purple-400" />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-purple-700 dark:text-purple-300">
-                        {usageInfo.remaining} chats remaining
-                      </span>
-                      <span className="text-purple-600 dark:text-purple-400">
-                        {usageInfo.current}/{usageInfo.limit}
-                      </span>
-                    </div>
-                    <div className="w-full bg-purple-200 dark:bg-purple-800 rounded-full h-1 mt-1">
-                      <div 
-                        className="bg-purple-500 h-1 rounded-full transition-all duration-300"
-                        style={{ width: `${Math.min((usageInfo.current / usageInfo.limit) * 100, 100)}%` }}
-                      />
-                    </div>
-                  </div>
-                  {usageInfo.remaining <= 2 && (
-                    <button
-                      onClick={() => setShowUpgradeModal(true)}
-                      className="text-xs bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded"
-                    >
-                      Upgrade
-                    </button>
-                  )}
-                </div>
-              )}
             </div>
 
             {/* Messages Area */}
@@ -331,19 +261,6 @@ export const AIChatInterface: React.FC<AIChatInterfaceProps> = ({ isOpen, onClos
             </form>
           </motion.div>
 
-          {/* Upgrade Modal */}
-          <UpgradeModal
-            isOpen={showUpgradeModal}
-            onClose={() => setShowUpgradeModal(false)}
-            triggeredBy="AI Chat"
-            requiredPlan="premium"
-            currentUsage={usageInfo && typeof usageInfo.limit === 'number' ? {
-              feature: 'AI chats',
-              current: usageInfo.current,
-              limit: usageInfo.limit,
-              resetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-            } : undefined}
-          />
         </>
       )}
     </AnimatePresence>

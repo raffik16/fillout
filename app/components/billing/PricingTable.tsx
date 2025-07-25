@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useUser } from '@clerk/nextjs';
 import { Check, Star, Loader2 } from 'lucide-react';
 import { PRICING_PLANS } from '@/lib/billing';
 import { PricingPlan } from '@/app/types/billing';
@@ -12,15 +11,11 @@ interface PricingTableProps {
 }
 
 export default function PricingTable({ currentPlan = 'free', className = '' }: PricingTableProps) {
-  const { user } = useUser();
+  const user = null;
   const [loading, setLoading] = useState<string | null>(null);
 
   const handleSubscribe = async (plan: PricingPlan) => {
-    if (!user) {
-      // Redirect to sign in
-      window.location.href = '/sign-in';
-      return;
-    }
+    // No authentication required
 
     if (plan.id === 'free') {
       return; // No action needed for free plan

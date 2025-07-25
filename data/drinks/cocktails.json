@@ -58,7 +58,7 @@
       "ingredients": ["Whiskey", "Lime juice", "Ginger beer", "Lime wedge"],
       "price": "$10",
       "abv": 12,
-      "flavor_profile": ["bitter", "sour", "smokey"],
+      "flavor_profile": ["bitter", "sour", "smoky"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 18,
@@ -202,7 +202,7 @@
       "ingredients": ["Mezcal", "Lime juice", "Ginger beer", "Lime wedge"],
       "price": "$12",
       "abv": 12,
-      "flavor_profile": ["bitter", "sour", "smokey"],
+      "flavor_profile": ["bitter", "sour", "smoky"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 20,
@@ -226,7 +226,7 @@
       "ingredients": ["Buffalo Trace bourbon", "Averna", "Sweet vermouth", "Angostura bitters", "Cherry juice", "Maraschino cherry"],
       "price": "$14",
       "abv": 28,
-      "flavor_profile": ["bitter", "sweet", "smokey"],
+      "flavor_profile": ["bitter", "sweet", "smoky"],
       "strength": "strong",
       "weather_match": {
         "temp_min": 2,
@@ -248,7 +248,7 @@
       "ingredients": ["Mezcal", "Campari", "Sweet vermouth", "Orange peel"],
       "price": "$12",
       "abv": 24,
-      "flavor_profile": ["bitter", "smokey"],
+      "flavor_profile": ["bitter", "smoky"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 15,

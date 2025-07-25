@@ -7,7 +7,7 @@
       "description": "A small-batch bourbon whiskey with rich vanilla and caramel notes, complemented by warm spice and a smooth, lingering finish.",
       "ingredients": ["Corn", "Rye", "Malted barley", "Water", "Yeast"],
       "abv": 47,
-      "flavor_profile": ["sweet", "smokey"],
+      "flavor_profile": ["sweet", "smoky"],
       "strength": "strong",
       "weather_match": {
         "temp_min": -10,
@@ -51,7 +51,7 @@
       "description": "Cinnamon whiskey liqueur",
       "ingredients": ["Canadian whisky", "Cinnamon extract", "Propylene glycol", "Corn syrup", "Caramel color"],
       "abv": 33,
-      "flavor_profile": ["sweet", "smokey"],
+      "flavor_profile": ["sweet", "smoky"],
       "strength": "medium",
       "weather_match": {
         "temp_min": -10,
@@ -78,7 +78,7 @@
       "price": "$10",
       "ingredients": ["Well whiskey", "Domestic beer", "Barley malt", "Hops"],
       "abv": 15,
-      "flavor_profile": ["sweet", "bitter", "smokey"],
+      "flavor_profile": ["sweet", "bitter", "smoky"],
       "strength": "medium",
       "weather_match": {
         "temp_min": 15,

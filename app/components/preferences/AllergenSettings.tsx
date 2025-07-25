@@ -325,12 +325,12 @@ export default function AllergenSettings({ preferences, onChange, errors }: Alle
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
-                        className="flex items-center gap-2 px-3 py-2 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 rounded-lg"
+                        className="flex items-center gap-2 px-3 py-2 bg-purple-100 dark:bg-purple-900/30 text-red-800 dark:text-red-200 rounded-lg"
                       >
                         <span className="text-sm">{allergy}</span>
                         <button
                           onClick={() => removeCustomAllergy(allergy)}
-                          className="hover:bg-red-200 dark:hover:bg-red-800 rounded-full p-1 transition-colors"
+                          className="hover:bg-purple-200 dark:hover:bg-purple-800 rounded-full p-1 transition-colors"
                         >
                           <X className="w-3 h-3" />
                         </button>
@@ -369,7 +369,7 @@ export default function AllergenSettings({ preferences, onChange, errors }: Alle
                       {[...activeAllergies, ...customAllergies].map((allergy) => (
                         <span
                           key={allergy}
-                          className="text-xs px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 rounded-full"
+                          className="text-xs px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-red-800 dark:text-red-200 rounded-full"
                         >
                           {allergy}
                         </span>

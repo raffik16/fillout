@@ -37,7 +37,7 @@ export function SubscriptionPage() {
   };
 
   const getUsageColor = (percentage: number) => {
-    if (percentage >= 90) return 'bg-red-500';
+    if (percentage >= 90) return 'bg-purple-500';
     if (percentage >= 70) return 'bg-yellow-500';
     return 'bg-green-500';
   };
@@ -287,7 +287,7 @@ export function SubscriptionPage() {
             <button className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
               Update Payment Method
             </button>
-            <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+            <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
               Cancel Subscription
             </button>
           </div>

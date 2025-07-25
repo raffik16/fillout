@@ -17,12 +17,12 @@ export function CTA() {
           Join thousands of happy drinkers and get personalized recommendations tailored just for you
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link 
-            href="/sign-up"
-            className="bg-gradient-to-r from-purple-600 to-purple-500 text-white px-8 py-4 rounded-full hover:from-purple-700 hover:to-purple-600 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center"
+          <button 
+            onClick={() => setIsSignupModalOpen(true)}
+            className="bg-gradient-to-r from-purple-600 to-purple-500 text-white px-8 py-4 rounded-full hover:from-purple-700 hover:to-purple-600 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
             Get Started Free
-          </Link>
+          </button>
           <Link 
             href="/app"
             target="_blank"

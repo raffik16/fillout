@@ -343,7 +343,7 @@ export default function UpgradeModal({
 
               {/* Error Display */}
               {error && (
-                <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                <div className="mb-4 p-4 bg-purple-50 dark:bg-purple-900/20 border border-red-200 dark:border-red-800 rounded-lg">
                   <p className="text-red-800 dark:text-red-200 text-sm">{error}</p>
                 </div>
               )}

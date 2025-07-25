@@ -21,7 +21,7 @@ export const wizardQuestions: WizardQuestion[] = [
     subtitle: "Pick your flavor personality",
     options: [
       { value: 'crisp', label: 'Crisp', emoji: '❄️' },
-      { value: 'smokey', label: 'Smokey', emoji: '🔥' },
+      { value: 'smoky', label: 'Smoky', emoji: '🔥' },
       { value: 'sweet', label: 'Sweet Tooth', emoji: '🍬' },
       { value: 'bitter', label: 'Bitter is Better', emoji: '🌿' },
       { value: 'sour', label: 'Sour Power', emoji: '🍋' },
