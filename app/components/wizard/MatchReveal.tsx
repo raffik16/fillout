@@ -42,7 +42,7 @@ export default function MatchReveal({ onComplete }: MatchRevealProps) {
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-rose-50 flex flex-col items-center justify-center p-4">
+    <div className="fixed inset-0 bg-gradient-to-br from-purple-50 to-rose-50 flex flex-col items-center justify-center p-4">
       {showColorSplash && (
         <ColorSplashAnimation onComplete={() => setShowColorSplash(false)} />
       )}
@@ -83,7 +83,7 @@ export default function MatchReveal({ onComplete }: MatchRevealProps) {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: "spring", duration: 0.3 }}
-              className="w-12 h-12 bg-orange-500 text-white rounded-full flex items-center justify-center text-xl font-bold"
+              className="w-12 h-12 bg-purple-500 text-white rounded-full flex items-center justify-center text-xl font-bold"
             >
               {countdown}
             </motion.div>
@@ -93,7 +93,7 @@ export default function MatchReveal({ onComplete }: MatchRevealProps) {
 
         <motion.button
           onClick={onComplete}
-          className="bg-orange-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors"
+          className="bg-purple-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-purple-600 transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, y: 20 }}

@@ -32,7 +32,7 @@ const weatherIcons: Record<string, React.ReactNode> = {
 };
 
 const weatherGradients: Record<string, string> = {
-  clear: 'from-yellow-300 to-orange-400',
+  clear: 'from-yellow-300 to-purple-400',
   clouds: 'from-gray-300 to-gray-500',
   rain: 'from-blue-300 to-blue-500',
   drizzle: 'from-blue-200 to-blue-400',

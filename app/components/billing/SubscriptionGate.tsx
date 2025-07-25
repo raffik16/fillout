@@ -83,8 +83,8 @@ export default function SubscriptionGate({
     <div className={`${className}`}>
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 p-8 text-center">
         <div className="flex justify-center mb-4">
-          <div className="bg-orange-100 dark:bg-orange-900 p-3 rounded-full">
-            <PlanIcon className="w-8 h-8 text-orange-600 dark:text-orange-400" />
+          <div className="bg-purple-100 dark:bg-purple-900 p-3 rounded-full">
+            <PlanIcon className="w-8 h-8 text-purple-600 dark:text-purple-400" />
           </div>
         </div>
         

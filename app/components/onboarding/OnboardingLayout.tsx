@@ -180,7 +180,7 @@ export default function OnboardingLayout({
   const currentStepIndex = stepOrder.indexOf(state.progress.currentStep);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-rose-50 dark:from-gray-900 dark:to-gray-800">
       {/* Progress Header */}
       <div className="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-4xl mx-auto px-4 py-4">
@@ -219,7 +219,7 @@ export default function OnboardingLayout({
                       isCompleted
                         ? 'bg-green-500 border-green-500 text-white'
                         : isCurrent
-                        ? 'bg-orange-500 border-orange-500 text-white'
+                        ? 'bg-purple-500 border-purple-500 text-white'
                         : isSkipped
                         ? 'bg-gray-300 border-gray-300 text-gray-500'
                         : 'bg-white border-gray-300 text-gray-400'
@@ -238,7 +238,7 @@ export default function OnboardingLayout({
                         isCompleted
                           ? 'text-green-600 dark:text-green-400'
                           : isCurrent
-                          ? 'text-orange-600 dark:text-orange-400'
+                          ? 'text-purple-600 dark:text-purple-400'
                           : isSkipped
                           ? 'text-gray-400 dark:text-gray-500'
                           : 'text-gray-500 dark:text-gray-400'
@@ -266,7 +266,7 @@ export default function OnboardingLayout({
           <div className="mt-4">
             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
               <motion.div
-                className="bg-gradient-to-r from-orange-500 to-rose-500 h-2 rounded-full"
+                className="bg-gradient-to-r from-purple-500 to-rose-500 h-2 rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${progressPercentage}%` }}
                 transition={{ duration: 0.5, ease: 'easeOut' }}

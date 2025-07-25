@@ -54,7 +54,7 @@ export default function WelcomeStep({ onNext, data }: OnboardingStepProps) {
             ease: 'easeOut',
             delay: 0.2
           }}
-          className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-orange-400 to-rose-500 rounded-full mb-8 shadow-2xl"
+          className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-purple-400 to-rose-500 rounded-full mb-8 shadow-2xl"
           onAnimationComplete={() => setHasSeenAnimation(true)}
         >
           <Heart className="w-12 h-12 text-white" />
@@ -68,7 +68,7 @@ export default function WelcomeStep({ onNext, data }: OnboardingStepProps) {
         >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Welcome to Drinkjoy,{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-rose-500">
               {firstName}
             </span>
             !
@@ -100,8 +100,8 @@ export default function WelcomeStep({ onNext, data }: OnboardingStepProps) {
             className="flex items-start space-x-4 p-6 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 hover:shadow-lg transition-all duration-200"
           >
             <div className="flex-shrink-0">
-              <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-rose-100 dark:from-orange-900/30 dark:to-rose-900/30 rounded-xl flex items-center justify-center">
-                <feature.icon className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-rose-100 dark:from-purple-900/30 dark:to-rose-900/30 rounded-xl flex items-center justify-center">
+                <feature.icon className="w-6 h-6 text-purple-600 dark:text-purple-400" />
               </div>
             </div>
             
@@ -173,13 +173,13 @@ export default function WelcomeStep({ onNext, data }: OnboardingStepProps) {
         <button
           onClick={handleGetStarted}
           disabled={!hasSeenAnimation}
-          className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-orange-500 to-rose-500 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+          className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-purple-500 to-rose-500 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
         >
           <span className="mr-2">Let's Get Started</span>
           <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
           
           {/* Animated gradient border */}
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-400 to-rose-400 opacity-0 group-hover:opacity-20 transition-opacity duration-200" />
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-400 to-rose-400 opacity-0 group-hover:opacity-20 transition-opacity duration-200" />
         </button>
         
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
@@ -195,7 +195,7 @@ export default function WelcomeStep({ onNext, data }: OnboardingStepProps) {
         className="mt-16 grid grid-cols-3 gap-8 text-center"
       >
         <div>
-          <div className="text-2xl font-bold text-orange-500 dark:text-orange-400">
+          <div className="text-2xl font-bold text-purple-500 dark:text-purple-400">
             10,000+
           </div>
           <div className="text-sm text-gray-600 dark:text-gray-400">

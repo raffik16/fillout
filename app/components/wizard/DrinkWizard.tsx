@@ -140,7 +140,7 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
         {/* Overwhelmed animation (in front, with fade out) */}
         {showOverwhelmed && (
           <div 
-            className="fixed inset-0 bg-gradient-to-br from-orange-50 to-rose-50 flex flex-col items-center justify-center p-4 transition-opacity duration-300"
+            className="fixed inset-0 bg-gradient-to-br from-purple-50 to-rose-50 flex flex-col items-center justify-center p-4 transition-opacity duration-300"
             style={{ 
               opacity: showColorSplash ? 0 : 1,
               zIndex: showColorSplash ? 10 : 20 
@@ -166,7 +166,7 @@ export default function DrinkWizard({ onComplete, isRetake = false }: DrinkWizar
   }
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-rose-50 flex flex-col items-center justify-center p-4">
+    <div className="fixed inset-0 bg-gradient-to-br from-purple-50 to-rose-50 flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-md">
 
         {/* Question */}

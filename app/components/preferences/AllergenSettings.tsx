@@ -136,7 +136,7 @@ export default function AllergenSettings({ preferences, onChange, errors }: Alle
     const colors = {
       amber: isActive ? 'bg-amber-100 dark:bg-amber-900/30 border-amber-500 text-amber-800 dark:text-amber-200' : 'border-amber-200 hover:bg-amber-50 dark:hover:bg-amber-900/10',
       blue: isActive ? 'bg-blue-100 dark:bg-blue-900/30 border-blue-500 text-blue-800 dark:text-blue-200' : 'border-blue-200 hover:bg-blue-50 dark:hover:bg-blue-900/10',
-      orange: isActive ? 'bg-orange-100 dark:bg-orange-900/30 border-orange-500 text-orange-800 dark:text-orange-200' : 'border-orange-200 hover:bg-orange-50 dark:hover:bg-orange-900/10',
+      orange: isActive ? 'bg-purple-100 dark:bg-purple-900/30 border-purple-500 text-purple-800 dark:text-purple-200' : 'border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/10',
       yellow: isActive ? 'bg-yellow-100 dark:bg-yellow-900/30 border-yellow-500 text-yellow-800 dark:text-yellow-200' : 'border-yellow-200 hover:bg-yellow-50 dark:hover:bg-yellow-900/10',
       green: isActive ? 'bg-green-100 dark:bg-green-900/30 border-green-500 text-green-800 dark:text-green-200' : 'border-green-200 hover:bg-green-50 dark:hover:bg-green-900/10',
     };

@@ -15,7 +15,7 @@ export default function WizardProgress({ current, total }: WizardProgressProps) 
           key={index}
           className={`h-2 rounded-full transition-all duration-300 ${
             index <= current
-              ? 'bg-orange-400 w-8'
+              ? 'bg-purple-400 w-8'
               : 'bg-gray-300 w-2'
           }`}
           initial={{ scale: 0 }}

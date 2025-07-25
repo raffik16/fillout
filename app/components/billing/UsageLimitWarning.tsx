@@ -79,10 +79,10 @@ export default function UsageLimitWarning({
       message: `You've used all ${limit} of your ${feature.replace(/([A-Z])/g, ' $1').toLowerCase()} for this month.`
     },
     high: {
-      bgColor: 'bg-orange-50 dark:bg-orange-950',
-      borderColor: 'border-orange-200 dark:border-orange-800',
-      textColor: 'text-orange-800 dark:text-orange-200',
-      iconColor: 'text-orange-600',
+      bgColor: 'bg-purple-50 dark:bg-purple-950',
+      borderColor: 'border-purple-200 dark:border-purple-800',
+      textColor: 'text-purple-800 dark:text-purple-200',
+      iconColor: 'text-purple-600',
       title: 'Almost at Your Limit',
       message: `You've used ${usageCount} of ${limit} ${feature.replace(/([A-Z])/g, ' $1').toLowerCase()} this month.`
     },
@@ -144,7 +144,7 @@ export default function UsageLimitWarning({
                       transition={{ duration: 1, ease: 'easeOut' }}
                       className={`h-2 rounded-full ${
                         warningLevel === 'critical' ? 'bg-red-500' :
-                        warningLevel === 'high' ? 'bg-orange-500' :
+                        warningLevel === 'high' ? 'bg-purple-500' :
                         warningLevel === 'medium' ? 'bg-yellow-500' :
                         'bg-blue-500'
                       }`}
@@ -156,7 +156,7 @@ export default function UsageLimitWarning({
                   <div className="mt-4">
                     <button
                       onClick={handleUpgrade}
-                      className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200"
+                      className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200"
                     >
                       <TrendingUp className="h-4 w-4 mr-1" />
                       Upgrade to Premium

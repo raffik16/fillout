@@ -88,13 +88,13 @@ export default function OnboardingPage() {
   // Show loading state
   if (isLoading || shouldRedirect) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-rose-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-center"
         >
-          <Loader2 className="w-12 h-12 animate-spin text-orange-500 mx-auto mb-4" />
+          <Loader2 className="w-12 h-12 animate-spin text-purple-500 mx-auto mb-4" />
           <p className="text-lg text-gray-600 dark:text-gray-300">
             {shouldRedirect ? 'Redirecting...' : 'Setting up your account...'}
           </p>
@@ -173,7 +173,7 @@ export default function OnboardingPage() {
                   </p>
                   <button
                     onClick={() => router.push('/dashboard')}
-                    className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+                    className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
                   >
                     Go to Dashboard
                   </button>

@@ -16,12 +16,18 @@ export const ChatToggle: React.FC<ChatToggleProps> = ({ isOpen, onClick, classNa
     <motion.button
       onClick={onClick}
       className={cn(
-        'fixed bottom-6 right-6 z-40 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg hover:shadow-xl transition-shadow',
-        'focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900',
+        'fixed bottom-6 right-6 z-40 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-purple-600 to-purple-500 text-white shadow-lg hover:shadow-xl transition-shadow',
+        'focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900',
         className
       )}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ 
+        scale: 1.05,
+        transition: { type: "spring", stiffness: 300, damping: 15 }
+      }}
+      whileTap={{ 
+        scale: 0.95,
+        transition: { type: "spring", stiffness: 400, damping: 20 }
+      }}
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3, type: 'spring', stiffness: 400, damping: 25 }}
@@ -54,13 +60,17 @@ export const ChatToggle: React.FC<ChatToggleProps> = ({ isOpen, onClick, classNa
       {/* Pulsing ring animation when closed */}
       {!isOpen && (
         <motion.div
-          className="absolute inset-0 rounded-full bg-amber-500"
+          className="absolute inset-0 rounded-full bg-purple-500/30"
           initial={{ scale: 1, opacity: 0.5 }}
-          animate={{ scale: 1.5, opacity: 0 }}
+          animate={{
+            scale: [1, 1.5, 1], // Scale from 1 to 1.5 and back
+            opacity: [0.5, 0.2, 0.5], // Fade from 0.5 to 0.2 and back
+          }}
           transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: 'easeOut',
+            duration: 2, // Duration of one cycle
+            repeat: Infinity, // Repeat indefinitely
+            repeatType: 'loop', // Seamless looping
+            ease: 'easeInOut', // Smooth easing
           }}
         />
       )}

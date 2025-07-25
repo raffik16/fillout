@@ -73,9 +73,9 @@ export const QuickSuggestions: React.FC<QuickSuggestionsProps> = ({ onSelect, cl
               'bg-white dark:bg-gray-800 rounded-lg',
               'border border-gray-200 dark:border-gray-700',
               'hover:bg-gray-50 dark:hover:bg-gray-750',
-              'hover:border-amber-300 dark:hover:border-amber-600',
+              'hover:border-purple-300 dark:hover:border-purple-600',
               'transition-all duration-200',
-              'focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2',
+              'focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2',
               'dark:focus:ring-offset-gray-900'
             )}
             whileHover={{ scale: 1.02 }}

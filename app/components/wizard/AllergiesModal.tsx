@@ -128,7 +128,7 @@ export default function AllergiesModal({ isOpen, onClose, currentAllergies, onUp
                     onClick={() => handleAllergyToggle(option.value as AllergyType)}
                     className={`w-full p-4 rounded-xl border-2 transition-all text-left relative overflow-hidden ${
                       isSelected(option.value as AllergyType)
-                        ? 'border-orange-500 bg-orange-50'
+                        ? 'border-purple-500 bg-purple-50'
                         : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                     }`}
                     whileHover={{ scale: 1.02 }}
@@ -140,7 +140,7 @@ export default function AllergiesModal({ isOpen, onClose, currentAllergies, onUp
                         <div className="flex items-center gap-2">
                           <h3 className="font-semibold text-gray-800">{option.label}</h3>
                           {isSelected(option.value as AllergyType) && (
-                            <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                            <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                           )}
                         </div>
                         <p className="text-sm text-gray-600 mt-1">{option.description}</p>
@@ -173,7 +173,7 @@ export default function AllergiesModal({ isOpen, onClose, currentAllergies, onUp
                 disabled={!hasChanges}
                 className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-colors ${
                   hasChanges
-                    ? 'bg-orange-500 text-white hover:bg-orange-600'
+                    ? 'bg-purple-500 text-white hover:bg-purple-600'
                     : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                 }`}
               >

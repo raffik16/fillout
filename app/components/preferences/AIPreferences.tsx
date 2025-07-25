@@ -164,7 +164,7 @@ export default function AIPreferences({ preferences, onChange, errors }: AIPrefe
       gray: isActive ? 'bg-gray-100 dark:bg-gray-900/30 border-gray-500 text-gray-800 dark:text-gray-200' : 'border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-900/10',
       purple: isActive ? 'bg-purple-100 dark:bg-purple-900/30 border-purple-500 text-purple-800 dark:text-purple-200' : 'border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/10',
       green: isActive ? 'bg-green-100 dark:bg-green-900/30 border-green-500 text-green-800 dark:text-green-200' : 'border-green-200 hover:bg-green-50 dark:hover:bg-green-900/10',
-      orange: isActive ? 'bg-orange-100 dark:bg-orange-900/30 border-orange-500 text-orange-800 dark:text-orange-200' : 'border-orange-200 hover:bg-orange-50 dark:hover:bg-orange-900/10',
+      orange: isActive ? 'bg-purple-100 dark:bg-purple-900/30 border-purple-500 text-purple-800 dark:text-purple-200' : 'border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/10',
       red: isActive ? 'bg-red-100 dark:bg-red-900/30 border-red-500 text-red-800 dark:text-red-200' : 'border-red-200 hover:bg-red-50 dark:hover:bg-red-900/10',
     };
     return colors[color as keyof typeof colors] || colors.blue;

@@ -22,20 +22,20 @@ export default function LoadingSpinner({
       <div className="relative">
         {/* Outer ring */}
         <div className={cn(
-          "rounded-full border-4 border-orange-200",
+          "rounded-full border-4 border-purple-200",
           sizeClasses[size]
         )} />
         
         {/* Spinning gradient ring */}
         <div className={cn(
-          "absolute inset-0 rounded-full border-4 border-transparent border-t-orange-400 border-r-orange-300 animate-spin",
+          "absolute inset-0 rounded-full border-4 border-transparent border-t-purple-400 border-r-purple-300 animate-spin",
           sizeClasses[size]
         )} />
         
         {/* Inner pulsing dot */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className={cn(
-            "rounded-full bg-orange-400 animate-pulse",
+            "rounded-full bg-purple-400 animate-pulse",
             size === 'sm' ? 'w-2 h-2' : size === 'md' ? 'w-3 h-3' : 'w-4 h-4'
           )} />
         </div>

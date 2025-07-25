@@ -25,7 +25,7 @@ export const AgeGate: React.FC<AgeGateProps> = ({ onVerified }) => {
 
   if (showConfirmation) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-rose-50 flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -56,14 +56,14 @@ export const AgeGate: React.FC<AgeGateProps> = ({ onVerified }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-rose-50 flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         className="w-full max-w-md"
       >
         <div className="bg-white rounded-2xl text-center overflow-hidden shadow-xl">
-          <div className="bg-gradient-to-r from-orange-400 to-rose-400 p-6">
+          <div className="bg-gradient-to-r from-purple-400 to-rose-400 p-6">
             <h2 className="text-3xl font-bold text-white">
               Age Verification
             </h2>
@@ -81,7 +81,7 @@ export const AgeGate: React.FC<AgeGateProps> = ({ onVerified }) => {
             <div className="flex gap-4 mb-4">
               <button
                 onClick={handleYes}
-                className="flex-1 bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
+                className="flex-1 bg-gradient-to-r from-purple-500 to-rose-500 hover:from-purple-600 hover:to-rose-600 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
               >
                 Yes, I&apos;m 21+
               </button>

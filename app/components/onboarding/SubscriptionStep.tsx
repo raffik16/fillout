@@ -106,7 +106,7 @@ export default function SubscriptionStep({ onNext, onSkip, data }: OnboardingSte
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.2 }}
-        className="bg-gradient-to-r from-orange-500 to-rose-500 text-white rounded-2xl p-6 mb-8 text-center"
+        className="bg-gradient-to-r from-purple-500 to-rose-500 text-white rounded-2xl p-6 mb-8 text-center"
       >
         <div className="flex items-center justify-center mb-2">
           <Gift className="w-6 h-6 mr-2" />
@@ -132,7 +132,7 @@ export default function SubscriptionStep({ onNext, onSkip, data }: OnboardingSte
               transition={{ delay: 0.1 * index }}
               className={`relative rounded-2xl border-2 transition-all duration-200 cursor-pointer transform hover:scale-105 ${
                 isSelected
-                  ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20 shadow-xl'
+                  ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20 shadow-xl'
                   : isPopular
                   ? 'border-purple-300 bg-white dark:bg-gray-800 shadow-lg'
                   : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-lg'
@@ -152,7 +152,7 @@ export default function SubscriptionStep({ onNext, onSkip, data }: OnboardingSte
               {/* Welcome Offer Badge */}
               {isWelcomeOffer && (
                 <div className="absolute -top-2 -right-2">
-                  <div className="bg-gradient-to-r from-orange-500 to-rose-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                  <div className="bg-gradient-to-r from-purple-500 to-rose-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                     50% OFF
                   </div>
                 </div>
@@ -161,7 +161,7 @@ export default function SubscriptionStep({ onNext, onSkip, data }: OnboardingSte
               {/* Selection Indicator */}
               {isSelected && (
                 <div className="absolute top-4 right-4">
-                  <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
+                  <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
                     <Check className="w-4 h-4 text-white" />
                   </div>
                 </div>
@@ -183,7 +183,7 @@ export default function SubscriptionStep({ onNext, onSkip, data }: OnboardingSte
                           <span className="text-2xl font-bold text-gray-400 line-through mr-2">
                             ${plan.price}
                           </span>
-                          <span className="text-4xl font-bold text-orange-500">
+                          <span className="text-4xl font-bold text-purple-500">
                             ${(plan.price / 2).toFixed(2)}
                           </span>
                         </div>

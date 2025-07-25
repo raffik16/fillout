@@ -171,7 +171,7 @@ export default function UpgradeModal({
               </button>
 
               <div className="text-center">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/20 dark:to-orange-900/20 rounded-full text-sm font-medium text-amber-800 dark:text-amber-200 mb-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-amber-100 to-purple-100 dark:from-amber-900/20 dark:to-purple-900/20 rounded-full text-sm font-medium text-amber-800 dark:text-amber-200 mb-4">
                   <Crown className="w-4 h-4" />
                   Upgrade Required
                 </div>
@@ -289,7 +289,7 @@ export default function UpgradeModal({
                             {plan.name}
                           </h3>
                           {plan.popular && (
-                            <span className="text-xs bg-orange-100 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 px-2 py-0.5 rounded-full">
+                            <span className="text-xs bg-purple-100 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 px-2 py-0.5 rounded-full">
                               Most Popular
                             </span>
                           )}

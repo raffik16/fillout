@@ -154,8 +154,8 @@ export default function AnalyticsPage() {
 
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border p-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                <ShoppingCart className="w-5 h-5 text-orange-600" />
+              <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                <ShoppingCart className="w-5 h-5 text-purple-600" />
               </div>
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Total Orders</p>

@@ -104,7 +104,7 @@ export default function PreferencesPage() {
   };
 
   const SignedInContent = (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-amber-50 to-yellow-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -254,7 +254,7 @@ export default function PreferencesPage() {
   );
 
   const SignedOutContent = (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center py-8">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-amber-50 to-yellow-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center py-8">
       <Card className="max-w-md mx-auto">
         <CardContent className="text-center py-12">
           <Settings className="w-16 h-16 text-gray-400 mx-auto mb-6" />

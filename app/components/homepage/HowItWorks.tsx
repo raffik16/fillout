@@ -74,7 +74,7 @@ export function HowItWorks() {
   };
 
   return (
-    <section id="how-it-works" className="py-20 bg-gradient-to-br from-gray-50 to-red-50">
+    <section id="how-it-works" className="py-20 bg-gradient-to-br from-gray-50 to-purple-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           className="text-center mb-16"
@@ -110,7 +110,7 @@ export function HowItWorks() {
                 }}
               >
                 <motion.div 
-                  className="text-6xl font-bold text-red-600 mb-4"
+                  className="text-6xl font-bold text-purple-600 mb-4"
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
@@ -130,7 +130,7 @@ export function HowItWorks() {
                   className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2"
                   variants={chevronVariants}
                 >
-                  <ChevronRight className="w-8 h-8 text-red-300" />
+                  <ChevronRight className="w-8 h-8 text-purple-300" />
                 </motion.div>
               )}
             </motion.div>

@@ -17,9 +17,9 @@ export function SignInButton({
   const baseClasses = "inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
   
   const variants = {
-    primary: "bg-orange-500 hover:bg-orange-600 text-white focus:ring-orange-500 shadow-sm hover:shadow-md",
-    secondary: "bg-white hover:bg-gray-50 text-gray-900 border border-gray-300 focus:ring-orange-500 shadow-sm hover:shadow-md",
-    ghost: "text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:ring-orange-500"
+    primary: "bg-purple-500 hover:bg-purple-600 text-white focus:ring-purple-500 shadow-sm hover:shadow-md",
+    secondary: "bg-white hover:bg-gray-50 text-gray-900 border border-gray-300 focus:ring-purple-500 shadow-sm hover:shadow-md",
+    ghost: "text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:ring-purple-500"
   };
   
   const sizes = {

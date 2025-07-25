@@ -83,13 +83,13 @@ export default function PricingTable({ currentPlan = 'free', className = '' }: P
               key={plan.id}
               className={`relative rounded-2xl border-2 bg-white dark:bg-gray-800 shadow-lg transition-all duration-200 hover:shadow-xl ${
                 isPopular
-                  ? 'border-orange-500 scale-105'
+                  ? 'border-purple-500 scale-105'
                   : 'border-gray-200 dark:border-gray-700'
-              } ${isCurrentPlan ? 'ring-2 ring-orange-500' : ''}`}
+              } ${isCurrentPlan ? 'ring-2 ring-purple-500' : ''}`}
             >
               {isPopular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+                  <span className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1">
                     <Star className="w-4 h-4" />
                     Most Popular
                   </span>
@@ -199,7 +199,7 @@ export default function PricingTable({ currentPlan = 'free', className = '' }: P
                   disabled={isCurrentPlan || loading === plan.id}
                   className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
                     isPopular
-                      ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white'
+                      ? 'bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white'
                       : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white'
                   } ${
                     isCurrentPlan
@@ -227,7 +227,7 @@ export default function PricingTable({ currentPlan = 'free', className = '' }: P
           and access to our extensive drink database.
         </p>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Need a custom plan for your business? <a href="/contact" className="text-orange-500 hover:text-orange-600">Contact us</a>
+          Need a custom plan for your business? <a href="/contact" className="text-purple-500 hover:text-purple-600">Contact us</a>
         </p>
       </div>
     </div>

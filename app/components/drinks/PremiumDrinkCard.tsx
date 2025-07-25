@@ -26,7 +26,7 @@ interface PremiumDrinkCardProps {
 const difficultyConfig = {
   easy: { color: 'text-green-600 dark:text-green-400', label: 'Easy' },
   medium: { color: 'text-yellow-600 dark:text-yellow-400', label: 'Medium' },
-  hard: { color: 'text-orange-600 dark:text-orange-400', label: 'Hard' },
+  hard: { color: 'text-purple-600 dark:text-purple-400', label: 'Hard' },
   expert: { color: 'text-red-600 dark:text-red-400', label: 'Expert' }
 };
 
@@ -72,7 +72,7 @@ export default function PremiumDrinkCard({
       )}
 
       {/* Image */}
-      <div className="aspect-video bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 p-6 flex items-center justify-center">
+      <div className="aspect-video bg-gradient-to-br from-amber-50 to-purple-50 dark:from-amber-900/20 dark:to-purple-900/20 p-6 flex items-center justify-center">
         {drink.image ? (
           <img 
             src={drink.image} 

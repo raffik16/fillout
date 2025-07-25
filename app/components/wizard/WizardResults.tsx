@@ -26,7 +26,7 @@ function getWittyTitle(count: number): string {
   if (count === 5) return "Found 5 Perfect Matches - High Five! 🙌";
   if (count <= 7) return `Found ${count} Perfect Matches for You! 🎉`;
   if (count <= 10) return `Found ${count} Liquid Legends! 🏆`;
-  return `Found ${count} Worthy Matches - You&apos;re Spoiled for Choice! 🤩`;
+  return `Found ${count} Worthy Matches - You be Spoiled for Choice! 🤩`;
 }
 
 interface WizardResultsProps {
@@ -277,7 +277,7 @@ export default function WizardResults({
   // Show loading state while recommendations are being fetched
   if (isLoadingRecommendations) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-rose-50 flex items-center justify-center">
         <ColorSplashAnimation 
           repeat={true}
           size="lg"
@@ -311,7 +311,7 @@ export default function WizardResults({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50"
+      className="min-h-screen bg-gradient-to-br from-purple-50 to-rose-50"
     >
       <div>
         {/* Header */}
@@ -432,7 +432,7 @@ export default function WizardResults({
                   "text-white p-2 text-center",
                   isShowingAdditionalDrink 
                     ? "bg-gradient-to-r from-purple-400 to-indigo-400" 
-                    : "bg-gradient-to-r from-orange-400 to-rose-400"
+                    : "bg-gradient-to-r from-purple-400 to-rose-400"
                 )}>
                   <div className="text-lg font-bold">
                     {matchMessage}
@@ -492,7 +492,7 @@ export default function WizardResults({
 
                 {/* Drink Info */}
                 <div className="p-2">
-                  <h3 className="text-1xl font-bold mb-2 bg-gradient-to-r from-orange-500 via-rose-500 to-purple-500 bg-clip-text text-transparent animate-gradient-x">{currentDrink?.name}</h3>
+                  <h3 className="text-1xl font-bold mb-2 bg-gradient-to-r from-purple-500 via-rose-500 to-purple-500 bg-clip-text text-transparent animate-gradient-x">{currentDrink?.name}</h3>
                   <p className="text-gray-600 mb-2 text-sm min-h-[3.5rem]">{currentDrink?.description}</p>
                   
                   {/* Match Reasons */}
@@ -501,13 +501,13 @@ export default function WizardResults({
                       "rounded-lg p-2 mb-2 min-h-[3rem]",
                       isShowingAdditionalDrink 
                         ? "bg-purple-50" 
-                        : "bg-orange-50"
+                        : "bg-purple-50"
                     )}>
                       <p className={cn(
                         "text-sm",
                         isShowingAdditionalDrink 
                           ? "text-purple-800" 
-                          : "text-orange-800"
+                          : "text-purple-800"
                       )}>
                         {allDrinks[currentIndex].reasons.join(' • ')}
                       </p>
@@ -553,7 +553,7 @@ export default function WizardResults({
                     key={index}
                     className={`h-2 rounded-full transition-all ${
                       index === currentIndex
-                        ? 'bg-orange-400 w-8'
+                        ? 'bg-purple-400 w-8'
                         : 'bg-gray-300 w-2'
                     }`}
                   />
@@ -563,7 +563,7 @@ export default function WizardResults({
               /* Compact progress bar for large counts */
               <div className="h-2 bg-gray-300 rounded-full w-24 relative overflow-hidden">
                 <div 
-                  className="h-full bg-orange-400 rounded-full transition-all duration-300"
+                  className="h-full bg-purple-400 rounded-full transition-all duration-300"
                   style={{ width: `${((currentIndex + 1) / totalCards) * 100}%` }}
                 />
               </div>
@@ -626,11 +626,11 @@ export default function WizardResults({
           
           <button
             onClick={() => setShowAllergiesModal(true)}
-            className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-xl font-semibold border border-gray-300 hover:bg-orange-50 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-xl font-semibold border border-gray-300 hover:bg-purple-50 transition-colors"
           >
             Allergies
             {activeAllergiesCount > 0 && (
-              <span className="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[20px] h-5 flex items-center justify-center">
+              <span className="bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[20px] h-5 flex items-center justify-center">
                 {activeAllergiesCount}
               </span>
             )}

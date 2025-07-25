@@ -80,7 +80,7 @@ export default function UpgradePrompt({
 
   if (variant === 'banner') {
     return (
-      <div className={`bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg p-4 ${className}`}>
+      <div className={`bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg p-4 ${className}`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             {PlanIcon && <PlanIcon className="w-5 h-5 mr-2" />}
@@ -88,7 +88,7 @@ export default function UpgradePrompt({
               <h3 className="font-semibold text-sm">
                 Upgrade to {plan.name}
               </h3>
-              <p className="text-orange-100 text-xs">
+              <p className="text-purple-100 text-xs">
                 Unlock {feature} and more premium features
               </p>
             </div>
@@ -96,7 +96,7 @@ export default function UpgradePrompt({
           <button
             onClick={handleUpgrade}
             disabled={loading}
-            className="bg-white text-orange-600 px-3 py-1 rounded text-sm font-medium hover:bg-orange-50 transition-colors duration-200 disabled:opacity-50"
+            className="bg-white text-purple-600 px-3 py-1 rounded text-sm font-medium hover:bg-purple-50 transition-colors duration-200 disabled:opacity-50"
           >
             {loading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -112,8 +112,8 @@ export default function UpgradePrompt({
   if (variant === 'modal') {
     return (
       <div className={`text-center ${className}`}>
-        <div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900 dark:to-orange-800 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-          {PlanIcon && <PlanIcon className="w-8 h-8 text-orange-600 dark:text-orange-400" />}
+        <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+          {PlanIcon && <PlanIcon className="w-8 h-8 text-purple-600 dark:text-purple-400" />}
         </div>
         
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
@@ -138,7 +138,7 @@ export default function UpgradePrompt({
         <button
           onClick={handleUpgrade}
           disabled={loading}
-          className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center disabled:opacity-50"
+          className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center disabled:opacity-50"
         >
           {loading ? (
             <Loader2 className="w-5 h-5 animate-spin" />
@@ -163,7 +163,7 @@ export default function UpgradePrompt({
     <button
       onClick={handleUpgrade}
       disabled={loading}
-      className={`${buttonSizes[size]} bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg transition-all duration-200 flex items-center justify-center disabled:opacity-50 ${className}`}
+      className={`${buttonSizes[size]} bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-200 flex items-center justify-center disabled:opacity-50 ${className}`}
     >
       {loading ? (
         <Loader2 className={`${size === 'small' ? 'w-4 h-4' : 'w-5 h-5'} animate-spin`} />

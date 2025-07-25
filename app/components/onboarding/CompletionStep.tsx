@@ -93,7 +93,7 @@ export default function CompletionStep({ onNext, data }: OnboardingStepProps) {
           {[...Array(50)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-2 h-2 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full"
+              className="absolute w-2 h-2 bg-gradient-to-r from-purple-400 to-rose-400 rounded-full"
               initial={{
                 x: '50vw',
                 y: '50vh',
@@ -232,19 +232,19 @@ export default function CompletionStep({ onNext, data }: OnboardingStepProps) {
               className="group flex items-start space-x-4 p-6 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 hover:shadow-lg hover:scale-105 transition-all duration-200 text-left"
             >
               <div className="flex-shrink-0">
-                <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-rose-100 dark:from-orange-900/30 dark:to-rose-900/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <feature.icon className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-rose-100 dark:from-purple-900/30 dark:to-rose-900/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <feature.icon className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                 </div>
               </div>
               
               <div className="flex-1">
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                   {feature.title}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
                   {feature.description}
                 </p>
-                <p className="text-xs text-orange-600 dark:text-orange-400 font-medium">
+                <p className="text-xs text-purple-600 dark:text-purple-400 font-medium">
                   {feature.action} →
                 </p>
               </div>
@@ -263,7 +263,7 @@ export default function CompletionStep({ onNext, data }: OnboardingStepProps) {
         <button
           onClick={handleGetStarted}
           disabled={!isReady}
-          className="group inline-flex items-center justify-center px-12 py-4 text-xl font-bold text-white bg-gradient-to-r from-orange-500 to-rose-500 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+          className="group inline-flex items-center justify-center px-12 py-4 text-xl font-bold text-white bg-gradient-to-r from-purple-500 to-rose-500 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
         >
           <Sparkles className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
           <span>Start Discovering Drinks</span>
@@ -297,7 +297,7 @@ export default function CompletionStep({ onNext, data }: OnboardingStepProps) {
         {data.selectedPlan === 'free' && (
           <button 
             onClick={() => window.location.href = '/pricing'}
-            className="flex items-center space-x-2 text-orange-600 dark:text-orange-400 hover:text-orange-800 dark:hover:text-orange-300 transition-colors"
+            className="flex items-center space-x-2 text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 transition-colors"
           >
             <Star className="w-4 h-4" />
             <span>Upgrade Plan</span>
@@ -317,7 +317,7 @@ export default function CompletionStep({ onNext, data }: OnboardingStepProps) {
         </div>
         <p className="text-gray-600 dark:text-gray-300">
           The average Drinkjoy user discovers{' '}
-          <span className="font-semibold text-orange-600 dark:text-orange-400">
+          <span className="font-semibold text-purple-600 dark:text-purple-400">
             5 new favorite drinks
           </span>{' '}
           in their first month. What will yours be?

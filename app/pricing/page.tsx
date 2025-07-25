@@ -95,7 +95,7 @@ export default async function PricingPage() {
 
         {/* CTA Section */}
         <div className="mt-20 text-center">
-          <div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900 dark:to-orange-800 rounded-2xl p-8">
+          <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 rounded-2xl p-8">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
               Ready to discover your perfect drink?
             </h3>
@@ -105,7 +105,7 @@ export default async function PricingPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/app"
-                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium py-3 px-8 rounded-lg transition-all duration-200"
+                className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-medium py-3 px-8 rounded-lg transition-all duration-200"
               >
                 Start Free Today
               </a>

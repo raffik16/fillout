@@ -112,7 +112,7 @@ export default function WizardFullResults({
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -300 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="fixed inset-0 bg-gradient-to-br from-orange-50 to-rose-50 flex flex-col"
+      className="fixed inset-0 bg-gradient-to-br from-purple-50 to-rose-50 flex flex-col"
     >
       {/* Header */}
       <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-4 flex items-center gap-4 flex-shrink-0">
@@ -165,7 +165,7 @@ export default function WizardFullResults({
                   <h4 className="font-semibold text-gray-800 truncate">
                     {rec.drink.name}
                   </h4>
-                  <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full flex-shrink-0">
+                  <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full flex-shrink-0">
                     {rec.score}%
                   </span>
                 </div>
@@ -183,7 +183,7 @@ export default function WizardFullResults({
                 
                 {/* Match Reasons */}
                 {rec.reasons && rec.reasons.length > 0 && (
-                  <div className="mt-2 text-xs text-orange-700 bg-orange-50 rounded px-2 py-1">
+                  <div className="mt-2 text-xs text-purple-700 bg-purple-50 rounded px-2 py-1">
                     {rec.reasons.join(' • ')}
                   </div>
                 )}
@@ -208,7 +208,7 @@ export default function WizardFullResults({
                     <div className="absolute inset-0 flex items-center">
                       <div className="w-full border-t border-gray-300"></div>
                     </div>
-                    <div className="relative bg-gradient-to-br from-orange-50 to-rose-50 px-4">
+                    <div className="relative bg-gradient-to-br from-purple-50 to-rose-50 px-4">
                       <button
                         onClick={() => loadDrinksFromAllCategories()}
                         disabled={isLoadingMore}

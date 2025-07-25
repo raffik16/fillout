@@ -19,21 +19,21 @@ export const TypingIndicator: React.FC = () => {
   return (
     <div className="flex items-center space-x-1 px-4 py-2">
       <motion.div
-        className="w-2 h-2 bg-amber-500 rounded-full"
+        className="w-2 h-2 bg-purple-500 rounded-full"
         variants={dotVariants}
         initial="initial"
         animate="animate"
         transition={{ ...dotTransition, delay: 0 }}
       />
       <motion.div
-        className="w-2 h-2 bg-amber-500 rounded-full"
+        className="w-2 h-2 bg-purple-500 rounded-full"
         variants={dotVariants}
         initial="initial"
         animate="animate"
         transition={{ ...dotTransition, delay: 0.15 }}
       />
       <motion.div
-        className="w-2 h-2 bg-amber-500 rounded-full"
+        className="w-2 h-2 bg-purple-500 rounded-full"
         variants={dotVariants}
         initial="initial"
         animate="animate"

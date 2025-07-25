@@ -80,7 +80,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className
       )}
     >
       {!isUser && (
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shadow-md">
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-purple-500 flex items-center justify-center shadow-md">
           <HiSparkles className="w-4 h-4 text-white" />
         </div>
       )}
@@ -89,7 +89,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className
         className={cn(
           'max-w-[70%] rounded-2xl px-4 py-3 shadow-sm',
           isUser
-            ? 'bg-amber-600 text-white rounded-br-sm'
+            ? 'bg-purple-600 text-white rounded-br-sm'
             : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-bl-sm'
         )}
       >
@@ -102,7 +102,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className
               <button
                 key={index}
                 onClick={() => onQuickResponse?.(button)}
-                className="px-3 py-1.5 text-xs bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-lg transition-colors border border-amber-200 hover:border-amber-300"
+                className="px-3 py-1.5 text-xs bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-lg transition-colors border border-purple-200 hover:border-purple-300"
               >
                 {button}
               </button>
@@ -145,8 +145,8 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className
                             target.style.display = 'none';
                             const iconContainer = target.parentElement;
                             if (iconContainer) {
-                              iconContainer.innerHTML = `<div class="w-full h-full bg-amber-100 dark:bg-amber-800 rounded-lg flex items-center justify-center">
-                                <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="currentColor" viewBox="0 0 24 24">
+                              iconContainer.innerHTML = `<div class="w-full h-full bg-purple-100 dark:bg-purple-800 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 24 24">
                                   ${IconComponent === Wine ? '<path d="M12 2C13.1 2 14 2.9 14 4V6H10V4C10 2.9 10.9 2 12 2M6 6H18V8H16V20C16 21.1 15.1 22 14 22H10C8.9 22 8 21.1 8 20V8H6V6Z"/>' : 
                                     IconComponent === Beer ? '<path d="M5,4V6H6V19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V6H19V4H5M8,6H16V19H8V6Z"/>' :
                                     '<path d="M12,2A2,2 0 0,1 14,4V8A4,4 0 0,1 10,12H10.5A2.5,2.5 0 0,0 13,14.5V16H11V14.5A2.5,2.5 0 0,0 8.5,12H9A4,4 0 0,1 5,8V4A2,2 0 0,1 7,2H12Z"/>'}
@@ -157,8 +157,8 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className
                         />
                       </div>
                     ) : (
-                      <div className="flex-shrink-0 w-12 h-12 bg-amber-100 dark:bg-amber-800 rounded-lg flex items-center justify-center">
-                        <IconComponent className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                      <div className="flex-shrink-0 w-12 h-12 bg-purple-100 dark:bg-purple-800 rounded-lg flex items-center justify-center">
+                        <IconComponent className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
@@ -172,7 +172,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className
                         {drink.category}
                       </p>
                       {drink.flavor_profile && drink.flavor_profile.length > 0 && (
-                        <p className="text-xs text-amber-700 dark:text-amber-300 mb-1">
+                        <p className="text-xs text-purple-700 dark:text-purple-300 mb-1">
                           {drink.flavor_profile.slice(0, 2).join(', ')}
                         </p>
                       )}
@@ -192,7 +192,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, className
         <div
           className={cn(
             'text-xs mt-1 opacity-70',
-            isUser ? 'text-amber-100' : 'text-gray-500 dark:text-gray-400'
+            isUser ? 'text-purple-100' : 'text-gray-500 dark:text-gray-400'
           )}
         >
           {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

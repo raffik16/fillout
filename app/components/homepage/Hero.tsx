@@ -68,7 +68,7 @@ export function Hero({ onAIChatToggle }: HeroProps) {
                 Drinkjoy
               </motion.span>
               <motion.span 
-                className="block text-red-400"
+                className="block text-purple-400"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
@@ -76,7 +76,7 @@ export function Hero({ onAIChatToggle }: HeroProps) {
                 AI-Powered Drink
               </motion.span>
               <motion.span 
-                className="block text-orange-400"
+                className="block text-purple-400"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
@@ -119,7 +119,7 @@ export function Hero({ onAIChatToggle }: HeroProps) {
             >
               <motion.button
                 onClick={onAIChatToggle}
-                className="bg-gradient-to-r from-orange-600 to-red-600 text-white px-8 py-4 rounded-full hover:from-orange-700 hover:to-red-700 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                className="bg-gradient-to-r from-purple-600 to-purple-500 text-white px-8 py-4 rounded-full hover:from-purple-700 hover:to-purple-600 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -186,7 +186,7 @@ export function Hero({ onAIChatToggle }: HeroProps) {
                 />
                 
                 {/* Screen */}
-                <div className="absolute top-6 left-4 right-4 bottom-6 bg-gradient-to-br from-amber-50 to-blue-50 rounded-[2rem] overflow-hidden">
+                <div className="absolute top-6 left-4 right-4 bottom-6 bg-gradient-to-br from-purple-50 to-blue-50 rounded-[2rem] overflow-hidden">
                   <AnimatePresence mode="wait">
                     {!isAppLoaded ? (
                       // CTA Preview Screen
@@ -220,7 +220,7 @@ export function Hero({ onAIChatToggle }: HeroProps) {
                           </p>
                           <motion.button
                             onClick={handlePreviewClick}
-                            className="bg-gradient-to-r from-red-600 to-orange-600 text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 mx-auto hover:from-red-700 hover:to-orange-700 transition-all"
+                            className="bg-gradient-to-r from-purple-600 to-purple-500 text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 mx-auto hover:from-purple-700 hover:to-purple-600 transition-all"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
@@ -302,7 +302,7 @@ export function Hero({ onAIChatToggle }: HeroProps) {
                                 <motion.div
                                   animate={{ rotate: 360 }}
                                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                  className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full mx-auto mb-4"
+                                  className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-4"
                                 />
                                 <p className="text-sm text-gray-600">Loading Drinkjoy...</p>
                               </div>

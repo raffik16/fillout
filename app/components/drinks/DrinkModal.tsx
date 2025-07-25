@@ -52,7 +52,7 @@ export const DrinkModal: React.FC<DrinkModalProps> = ({ drink, isOpen, onClose }
     beer: 'from-amber-500 to-amber-600',
     wine: 'from-purple-500 to-purple-600',
     cocktail: 'from-pink-500 to-pink-600',
-    spirit: 'from-orange-500 to-orange-600',
+    spirit: 'from-purple-500 to-purple-600',
     'non-alcoholic': 'from-green-500 to-green-600',
   };
 

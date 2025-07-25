@@ -38,19 +38,19 @@ export function Navigation() {
             <div className="ml-10 flex items-baseline space-x-4">
               <button 
                 onClick={() => handleScrollToSection('features')}
-                className="text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium transition-colors"
+                className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
               >
                 Features
               </button>
               <button 
                 onClick={() => handleScrollToSection('how-it-works')}
-                className="text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium transition-colors"
+                className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
               >
                 How It Works
               </button>
               <button 
                 onClick={() => handleScrollToSection('testimonials')}
-                className="text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium transition-colors"
+                className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors"
               >
                 Reviews
               </button>
@@ -58,7 +58,7 @@ export function Navigation() {
                 href="/app"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors duration-200 font-medium"
+                className="bg-gradient-to-r from-purple-600 to-purple-500 text-white px-6 py-2 rounded-full hover:from-purple-700 hover:to-purple-600 transition-all duration-200 font-medium"
               >
                 Explore App
               </Link>
@@ -70,7 +70,7 @@ export function Navigation() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-red-600 p-2"
+              className="text-gray-700 hover:text-purple-600 p-2"
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -84,19 +84,19 @@ export function Navigation() {
           <div className="px-2 pt-2 pb-3 space-y-1">
             <button 
               onClick={() => handleScrollToSection('features')}
-              className="block w-full text-left px-3 py-2 text-gray-700 hover:text-red-600 font-medium"
+              className="block w-full text-left px-3 py-2 text-gray-700 hover:text-purple-600 font-medium"
             >
               Features
             </button>
             <button 
               onClick={() => handleScrollToSection('how-it-works')}
-              className="block w-full text-left px-3 py-2 text-gray-700 hover:text-red-600 font-medium"
+              className="block w-full text-left px-3 py-2 text-gray-700 hover:text-purple-600 font-medium"
             >
               How It Works
             </button>
             <button 
               onClick={() => handleScrollToSection('testimonials')}
-              className="block w-full text-left px-3 py-2 text-gray-700 hover:text-red-600 font-medium"
+              className="block w-full text-left px-3 py-2 text-gray-700 hover:text-purple-600 font-medium"
             >
               Reviews
             </button>
@@ -104,7 +104,7 @@ export function Navigation() {
               href="/app"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full text-left bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium"
+              className="block w-full text-left bg-gradient-to-r from-purple-600 to-purple-500 text-white px-3 py-2 rounded-lg hover:from-purple-700 hover:to-purple-600 transition-all font-medium"
             >
               Explore App
             </Link>

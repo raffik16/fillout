@@ -175,10 +175,10 @@ export const AIChatInterface: React.FC<AIChatInterfaceProps> = ({ isOpen, onClos
             )}
           >
             {/* Header */}
-            <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20">
+            <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-900/30">
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-purple-500 flex items-center justify-center">
                     <HiSparkles className="w-4 h-4 text-white" />
                   </div>
                   <div>
@@ -187,9 +187,9 @@ export const AIChatInterface: React.FC<AIChatInterfaceProps> = ({ isOpen, onClos
                         Carla Joy
                       </h3>
                       {user && usageInfo?.plan === 'premium' && (
-                        <div className="inline-flex items-center gap-1 bg-amber-100 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 px-2 py-0.5 rounded-full">
-                          <Crown className="w-3 h-3 text-amber-600 dark:text-amber-400" />
-                          <span className="text-xs font-medium text-amber-700 dark:text-amber-300">Premium</span>
+                        <div className="inline-flex items-center gap-1 bg-purple-100 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 px-2 py-0.5 rounded-full">
+                          <Crown className="w-3 h-3 text-purple-600 dark:text-purple-400" />
+                          <span className="text-xs font-medium text-purple-700 dark:text-purple-300">Premium</span>
                         </div>
                       )}
                       {user && usageInfo?.plan === 'pro' && (
@@ -218,20 +218,20 @@ export const AIChatInterface: React.FC<AIChatInterfaceProps> = ({ isOpen, onClos
               
               {/* Usage Display */}
               {user && usageInfo && typeof usageInfo.limit === 'number' && (
-                <div className="flex items-center gap-2 mt-1 pt-1 border-t border-amber-200 dark:border-amber-800">
-                  <TrendingUp className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+                <div className="flex items-center gap-2 mt-1 pt-1 border-t border-purple-200 dark:border-purple-800">
+                  <TrendingUp className="w-3 h-3 text-purple-600 dark:text-purple-400" />
                   <div className="flex-1">
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-amber-700 dark:text-amber-300">
+                      <span className="text-purple-700 dark:text-purple-300">
                         {usageInfo.remaining} chats remaining
                       </span>
-                      <span className="text-amber-600 dark:text-amber-400">
+                      <span className="text-purple-600 dark:text-purple-400">
                         {usageInfo.current}/{usageInfo.limit}
                       </span>
                     </div>
-                    <div className="w-full bg-amber-200 dark:bg-amber-800 rounded-full h-1 mt-1">
+                    <div className="w-full bg-purple-200 dark:bg-purple-800 rounded-full h-1 mt-1">
                       <div 
-                        className="bg-amber-500 h-1 rounded-full transition-all duration-300"
+                        className="bg-purple-500 h-1 rounded-full transition-all duration-300"
                         style={{ width: `${Math.min((usageInfo.current / usageInfo.limit) * 100, 100)}%` }}
                       />
                     </div>
@@ -239,7 +239,7 @@ export const AIChatInterface: React.FC<AIChatInterfaceProps> = ({ isOpen, onClos
                   {usageInfo.remaining <= 2 && (
                     <button
                       onClick={() => setShowUpgradeModal(true)}
-                      className="text-xs bg-amber-600 hover:bg-amber-700 text-white px-2 py-1 rounded"
+                      className="text-xs bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded"
                     >
                       Upgrade
                     </button>
@@ -252,8 +252,8 @@ export const AIChatInterface: React.FC<AIChatInterfaceProps> = ({ isOpen, onClos
             <div className="flex-1 overflow-y-auto p-3 space-y-3">
               {messages.length === 0 ? (
                 <div className="text-center py-8">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/20 dark:to-orange-900/20 flex items-center justify-center">
-                    <HiSparkles className="w-8 h-8 text-amber-600 dark:text-amber-400" />
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900/20 dark:to-purple-900/30 flex items-center justify-center">
+                    <HiSparkles className="w-8 h-8 text-purple-600 dark:text-purple-400" />
                   </div>
                   <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
                     Welcome to Carla Joy!
@@ -274,7 +274,7 @@ export const AIChatInterface: React.FC<AIChatInterfaceProps> = ({ isOpen, onClos
                   ))}
                   {isTyping && (
                     <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-purple-500 flex items-center justify-center">
                         <HiSparkles className="w-4 h-4 text-white" />
                       </div>
                       <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-bl-sm">
@@ -305,7 +305,7 @@ export const AIChatInterface: React.FC<AIChatInterfaceProps> = ({ isOpen, onClos
                     'border border-gray-300 dark:border-gray-700',
                     'placeholder-gray-500 dark:placeholder-gray-400',
                     'text-gray-800 dark:text-gray-200',
-                    'focus:outline-none focus:ring-2 focus:ring-amber-500',
+                    'focus:outline-none focus:ring-2 focus:ring-purple-500',
                     'transition-all duration-200'
                   )}
                 />
@@ -316,11 +316,11 @@ export const AIChatInterface: React.FC<AIChatInterfaceProps> = ({ isOpen, onClos
                   whileTap={{ scale: 0.95 }}
                   className={cn(
                     'p-2 rounded-lg',
-                    'bg-gradient-to-r from-amber-500 to-amber-600',
+                    'bg-gradient-to-r from-purple-600 to-purple-500',
                     'text-white',
-                    'hover:from-amber-600 hover:to-amber-700',
+                    'hover:from-purple-700 hover:to-purple-600',
                     'disabled:opacity-50 disabled:cursor-not-allowed',
-                    'focus:outline-none focus:ring-2 focus:ring-amber-500',
+                    'focus:outline-none focus:ring-2 focus:ring-purple-500',
                     'transition-all duration-200'
                   )}
                   aria-label="Send message"

@@ -118,7 +118,7 @@ export function Testimonials() {
             <motion.div 
               key={index}
               variants={testimonialVariants}
-              className="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+              className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
               whileHover={{ 
                 y: -10,
                 scale: 1.02,
@@ -152,14 +152,14 @@ export function Testimonials() {
                 transition={{ delay: 0.8 + index * 0.2 }}
               >
                 <motion.div 
-                  className="w-12 h-12 bg-red-200 rounded-full flex items-center justify-center"
+                  className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center"
                   whileHover={{ 
                     scale: 1.1,
                     rotate: 360,
                     transition: { duration: 0.5 }
                   }}
                 >
-                  <User className="w-6 h-6 text-red-600" />
+                  <User className="w-6 h-6 text-purple-600" />
                 </motion.div>
                 <div>
                   <p className="font-semibold text-gray-900">{testimonial.name}</p>

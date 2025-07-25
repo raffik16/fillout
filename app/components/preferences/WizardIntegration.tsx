@@ -343,7 +343,7 @@ export default function WizardIntegration({
             </h3>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-between p-4 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-gradient-to-br from-amber-50 to-purple-50 dark:from-amber-900/20 dark:to-purple-900/20 rounded-lg">
               <div>
                 <p className="text-sm text-gray-700 dark:text-gray-300">
                   {generatePreferenceSummary(currentPreferences)}

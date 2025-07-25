@@ -55,9 +55,9 @@ export default function DashboardPage() {
 
   if (!isLoaded || preferencesLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-red-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading your dashboard...</p>
         </div>
       </div>
@@ -66,7 +66,7 @@ export default function DashboardPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-red-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Access Denied</h1>
           <p className="text-gray-600 mb-8">Please sign in to access your dashboard.</p>
@@ -104,13 +104,13 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-red-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-red-500 rounded-full flex items-center justify-center">
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -139,7 +139,7 @@ export default function DashboardPage() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg transition-all duration-200 ${
                     activeTab === tab.id
-                      ? 'bg-orange-100 text-orange-700 border border-orange-200'
+                      ? 'bg-purple-100 text-purple-700 border border-purple-200'
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                   }`}
                 >
@@ -231,7 +231,7 @@ function OverviewTab({ user, stats, preferences }: any) {
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <button className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left transition-colors">
-            <Sparkles className="w-6 h-6 text-orange-500 mb-2" />
+            <Sparkles className="w-6 h-6 text-purple-500 mb-2" />
             <h4 className="font-medium text-gray-900">Get New Recommendations</h4>
             <p className="text-sm text-gray-600">Discover drinks based on your preferences</p>
           </button>
@@ -259,7 +259,7 @@ function FavoritesTab() {
         <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
         <h3 className="text-lg font-medium text-gray-900 mb-2">No favorites yet</h3>
         <p className="text-gray-600 mb-6">Start discovering drinks to build your favorites collection</p>
-        <button className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors">
+        <button className="bg-purple-500 text-white px-6 py-2 rounded-lg hover:bg-purple-600 transition-colors">
           Discover Drinks
         </button>
       </div>
