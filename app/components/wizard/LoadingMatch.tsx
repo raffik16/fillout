@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 export default function LoadingMatch() {
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-orange-50 to-rose-50 flex flex-col items-center justify-center">
+    <div className="fixed inset-0 bg-gradient-to-br from-purple-50 to-rose-50 flex flex-col items-center justify-center">
       <motion.div
         animate={{
           rotate: [0, 10, -10, 10, 0],
@@ -32,7 +32,7 @@ export default function LoadingMatch() {
         {[0, 1, 2].map((i) => (
           <motion.div
             key={i}
-            className="w-3 h-3 bg-orange-400 rounded-full"
+            className="w-3 h-3 bg-purple-400 rounded-full"
             animate={{
               y: [0, -10, 0],
             }}

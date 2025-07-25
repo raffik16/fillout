@@ -98,7 +98,7 @@ export default function AboutPage() {
           </ul>
         </section>
 
-        <section className="bg-red-50 p-6 rounded-lg">
+        <section className="bg-purple-50 p-6 rounded-lg">
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">Get Started Today</h2>
           <p className="text-gray-700 leading-relaxed mb-4">
             Ready to discover your perfect drink match? Take our quick 5-question quiz and let our AI do the rest. 
@@ -108,7 +108,7 @@ export default function AboutPage() {
             href="/app" 
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-red-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-red-700 transition-colors"
+            className="inline-block bg-purple-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-purple-700 transition-colors"
           >
             Explore Drinkjoy
           </a>

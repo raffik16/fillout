@@ -109,7 +109,7 @@ export default function LikeButton({ drinkId, className = '', size = 'md' }: Lik
       disabled={isLoading}
       className={`
         flex items-center gap-1 rounded-full transition-all duration-200 
-        bg-white text-red-500 hover:bg-red-50
+        bg-white text-red-500 hover:bg-purple-50
         ${buttonSizeClasses[size]}
         ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}
         ${className}

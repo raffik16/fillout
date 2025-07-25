@@ -5,7 +5,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { SectionLegendProps, SettingsPosition } from '@/app/types/form-builder';
+import { SettingsPosition, SectionLegendProps } from '@/app/types/form-builder';
 import { getPageIcon, PlusIcon, MoreIcon } from './icons';
 import styles from './section-legend.module.css';
 

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, User, MessageSquare, Send, MapPin } from 'lucide-react';
+import { X, Mail, MessageSquare, Send, MapPin, User } from 'lucide-react';
 
 interface SignupModalProps {
   isOpen: boolean;
@@ -81,7 +81,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white p-6 relative">
+              <div className="bg-gradient-to-r from-purple-600 to-purple-500 text-white p-6 relative">
                 <button
                   onClick={onClose}
                   className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors"
@@ -89,7 +89,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                   <X className="w-4 h-4" />
                 </button>
                 <h2 className="text-2xl font-bold mb-2">Join Drinkjoy!</h2>
-                <p className="text-red-100">
+                <p className="text-purple-100">
                   Get early access and exclusive updates
                 </p>
               </div>
@@ -148,7 +148,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                             value={formData.name}
                             onChange={handleInputChange}
                             required
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent placeholder-gray-500 text-gray-900"
+                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-500 text-gray-900"
                             placeholder="Your name"
                           />
                         </div>
@@ -167,7 +167,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                             value={formData.email}
                             onChange={handleInputChange}
                             required
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent placeholder-gray-500 text-gray-900"
+                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-500 text-gray-900"
                             placeholder="your@email.com"
                           />
                         </div>
@@ -185,7 +185,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                             name="business"
                             value={formData.business}
                             onChange={handleInputChange}
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent placeholder-gray-500 text-gray-900"
+                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-500 text-gray-900"
                             placeholder="Your bar or restaurant name"
                           />
                         </div>
@@ -203,7 +203,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                             value={formData.message}
                             onChange={handleInputChange}
                             rows={3}
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none placeholder-gray-500 text-gray-900"
+                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none placeholder-gray-500 text-gray-900"
                             placeholder="Tell us how you plan to use Drinkjoy - for personal use, your bar/restaurant, events, etc..."
                           />
                         </div>
@@ -213,7 +213,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full bg-gradient-to-r from-red-600 to-orange-600 text-white py-3 rounded-lg font-semibold hover:from-red-700 hover:to-orange-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                        className="w-full bg-gradient-to-r from-purple-600 to-purple-500 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-purple-600 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                       >
                         {isSubmitting ? (
                           <>

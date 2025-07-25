@@ -133,19 +133,19 @@ export const LocationSearch: React.FC<LocationSearchProps> = ({ onSearch, isLoad
                   size="lg"
                   onClick={onShowWizard}
                   disabled={isLoading || isGeolocating}
-                  className="h-14 px-3 flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white border-none transition-all duration-300 font-semibold"
+                  className="h-14 px-3 flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-rose-500 hover:from-purple-600 hover:to-rose-600 text-white border-none transition-all duration-300 font-semibold"
                 >
                   <span className="sm:inline whitespace-nowrap">Find My Match</span>
                 </Button>
                 
                 {/* Match Tooltip */}
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-3 bg-gradient-to-r from-orange-600 to-rose-600 text-white text-sm rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-50">
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-3 bg-gradient-to-r from-purple-600 to-rose-600 text-white text-sm rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-50">
                   <div className="flex items-center gap-2">
                     <span>🎯</span>
                     <span className="font-medium">Get personalized drink recommendations</span>
                     <span>🍹</span>
                   </div>
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-orange-600"></div>
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-purple-600"></div>
                 </div>
               </div>
             )}

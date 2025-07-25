@@ -43,7 +43,7 @@ export default function WizardQuestion({ question, onAnswer, selectedValue }: Wi
               className={`
                 ${isFeatured 
                   ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white hover:from-purple-700 hover:to-purple-600' 
-                  : 'bg-white hover:border-orange-300'
+                  : 'bg-white hover:border-purple-300'
                 } 
                 rounded-2xl p-4 sm:p-6 transition-all transform hover:scale-105 border-2 relative overflow-hidden
                 ${isFeatured ? 'border-transparent' : 'border-transparent'}
@@ -54,7 +54,7 @@ export default function WizardQuestion({ question, onAnswer, selectedValue }: Wi
             >
               {/* Animated border inset - for all options */}
               <motion.div
-                className="absolute inset-2 rounded-2xl border-2 border-orange-400 bg-opacity-10 pointer-events-none"
+                className="absolute inset-2 rounded-2xl border-2 border-purple-400 bg-opacity-10 pointer-events-none"
                 style={{ left: 0, top: 0, bottom: 0, right: 0 }}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={isSelected ? { 

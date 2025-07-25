@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from './Button';
-import { X, Download, Smartphone } from 'lucide-react';
+import { X, Smartphone, Download } from 'lucide-react';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: string[];
@@ -97,7 +97,7 @@ export const PWAInstallPrompt = () => {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-rose-400 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-rose-400 rounded-xl flex items-center justify-center">
                 <Smartphone className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -129,7 +129,7 @@ export const PWAInstallPrompt = () => {
           <div className="flex gap-3">
             <Button
               onClick={handleInstallClick}
-              className="flex-1 bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white flex items-center justify-center gap-2"
+              className="flex-1 bg-gradient-to-r from-purple-500 to-rose-500 hover:from-purple-600 hover:to-rose-600 text-white flex items-center justify-center gap-2"
             >
               <Download className="w-4 h-4" />
               Install

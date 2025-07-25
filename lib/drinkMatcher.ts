@@ -74,7 +74,7 @@ export async function matchDrinksToPreferences(
     if (preferences.flavor) {
       const flavorMap: Record<string, string[]> = {
         'crisp': ['crisp', 'clean', 'refreshing', 'bright'],
-        'smokey': ['smokey', 'peaty', 'smoky', 'charred'],
+        'smoky': ['smoky', 'peaty', 'smoky', 'charred'],
         'sweet': ['sweet', 'fruity'],
         'bitter': ['bitter', 'herbal'],
         'sour': ['sour', 'citrus'],
@@ -196,8 +196,8 @@ export async function matchDrinksToPreferences(
         reasons.push('Romantic and refreshing');
       }
       
-      // Smokey + Business = whiskeys and aged spirits get bonus
-      if (preferences.flavor === 'smokey' && preferences.occasion === 'business' && 
+      // Smoky + Business = whiskeys and aged spirits get bonus
+      if (preferences.flavor === 'smoky' && preferences.occasion === 'business' && 
           (drink.name.toLowerCase().includes('whiskey') || drink.name.toLowerCase().includes('bourbon') || 
            drink.name.toLowerCase().includes('scotch'))) {
         score += 10;
@@ -495,7 +495,7 @@ export async function getAdditionalDrinks(
     if (preferences.flavor) {
       const flavorMap: Record<string, string[]> = {
         'crisp': ['crisp', 'clean', 'refreshing', 'bright'],
-        'smokey': ['smokey', 'peaty', 'smoky', 'charred'],
+        'smoky': ['smoky', 'peaty', 'smoky', 'charred'],
         'sweet': ['sweet', 'fruity'],
         'bitter': ['bitter', 'herbal'],
         'sour': ['sour', 'citrus'],

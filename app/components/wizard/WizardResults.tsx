@@ -17,17 +17,17 @@ import WizardFullResults from './WizardFullResults';
 import AllergiesModal from './AllergiesModal';
 
 // Witty title generator based on match count
-function getWittyTitle(count: number): string {
-  if (count === 0) return "No Matches Found 😢";
-  if (count === 1) return "Found 1 Perfect Match - It's Meant to Be! 💕";
-  if (count === 2) return "Found 2 Liquid Soulmates! 🥂";
-  if (count === 3) return "Found 3 Perfect Matches - The Holy Trinity! 🙏";
-  if (count === 4) return "Found 4 Fantastic Matches! 🎯";
-  if (count === 5) return "Found 5 Perfect Matches - High Five! 🙌";
-  if (count <= 7) return `Found ${count} Perfect Matches for You! 🎉`;
-  if (count <= 10) return `Found ${count} Liquid Legends! 🏆`;
-  return `Found ${count} Worthy Matches - You're Spoiled for Choice! 🤩`;
-}
+// function getWittyTitle(count: number): string {
+//   if (count === 0) return "No Matches Found 😢";
+//   if (count === 1) return "Found 1 Perfect Match - It&apos;s Meant to Be! 💕";
+//   if (count === 2) return "Found 2 Liquid Soulmates! 🥂";
+//   if (count === 3) return "Found 3 Perfect Matches - The Holy Trinity! 🙏";
+//   if (count === 4) return "Found 4 Fantastic Matches! 🎯";
+//   if (count === 5) return "Found 5 Perfect Matches - High Five! 🙌";
+//   if (count <= 7) return `Found ${count} Perfect Matches for You! 🎉`;
+//   if (count <= 10) return `Found ${count} Liquid Legends! 🏆`;
+//   return `Found ${count} Worthy Matches - You be Spoiled for Choice! 🤩`;
+// }
 
 interface WizardResultsProps {
   preferences: WizardPreferences;
@@ -113,13 +113,13 @@ export default function WizardResults({
         setIsAtAbsoluteEnd(false); // Reset absolute end flag
         return additional.length; // Return number of drinks loaded
       } else {
-        // If no drinks found from all categories, we're truly at the end
+        // If no drinks found from all categories, we&apos;re truly at the end
         // Only show the card if we haven't expanded yet (first time)
         if (!hasExpandedToAllCategories) {
           setShowNoMoreDrinksCard(true);
         }
         setHasExpandedToAllCategories(true);
-        setIsAtAbsoluteEnd(true); // Mark that we're at absolute end
+        setIsAtAbsoluteEnd(true); // Mark that we&apos;re at absolute end
         return 0; // No drinks loaded
       }
     } catch (error) {
@@ -160,7 +160,7 @@ export default function WizardResults({
   }, []);
 
   const goToNext = async () => {
-    // Check if we're at the last actual drink (not counting the special card)
+    // Check if we&apos;re at the last actual drink (not counting the special card)
     if (currentIndex === allDrinks.length - 1 && !showNoMoreDrinksCard) {
       // If we've already expanded to all categories, automatically load more without showing the card
       if (hasExpandedToAllCategories && !isLoadingMore) {
@@ -277,7 +277,7 @@ export default function WizardResults({
   // Show loading state while recommendations are being fetched
   if (isLoadingRecommendations) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-rose-50 flex items-center justify-center">
         <ColorSplashAnimation 
           repeat={true}
           size="lg"
@@ -311,14 +311,14 @@ export default function WizardResults({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50"
+      className="min-h-screen bg-gradient-to-br from-purple-50 to-rose-50"
     >
       <div>
         {/* Header */}
         <div className="flex flex-col justify-center items-center p-2">
-          <h2 className="text-sm font-bold text-gray-800">
+          {/* <h2 className="text-sm font-bold text-gray-800">
             {preferences.category === 'featured' ? '⭐ Featured Drinks' : getWittyTitle(allDrinks.length)}
-          </h2>
+          </h2> */}
           {isAtAbsoluteEnd && currentIndex === allDrinks.length - 1 && (
             <p className="text-xs text-gray-500 mt-1">
               Swipe or click next to start over! 🔄
@@ -432,7 +432,7 @@ export default function WizardResults({
                   "text-white p-2 text-center",
                   isShowingAdditionalDrink 
                     ? "bg-gradient-to-r from-purple-400 to-indigo-400" 
-                    : "bg-gradient-to-r from-orange-400 to-rose-400"
+                    : "bg-gradient-to-r from-purple-400 to-rose-400"
                 )}>
                   <div className="text-lg font-bold">
                     {matchMessage}
@@ -492,7 +492,7 @@ export default function WizardResults({
 
                 {/* Drink Info */}
                 <div className="p-2">
-                  <h3 className="text-1xl font-bold mb-2 bg-gradient-to-r from-orange-500 via-rose-500 to-purple-500 bg-clip-text text-transparent animate-gradient-x">{currentDrink?.name}</h3>
+                  <h3 className="text-1xl font-bold mb-2 bg-gradient-to-r from-purple-500 via-rose-500 to-purple-500 bg-clip-text text-transparent animate-gradient-x">{currentDrink?.name}</h3>
                   <p className="text-gray-600 mb-2 text-sm min-h-[3.5rem]">{currentDrink?.description}</p>
                   
                   {/* Match Reasons */}
@@ -501,13 +501,13 @@ export default function WizardResults({
                       "rounded-lg p-2 mb-2 min-h-[3rem]",
                       isShowingAdditionalDrink 
                         ? "bg-purple-50" 
-                        : "bg-orange-50"
+                        : "bg-purple-50"
                     )}>
                       <p className={cn(
                         "text-sm",
                         isShowingAdditionalDrink 
                           ? "text-purple-800" 
-                          : "text-orange-800"
+                          : "text-purple-800"
                       )}>
                         {allDrinks[currentIndex].reasons.join(' • ')}
                       </p>
@@ -553,7 +553,7 @@ export default function WizardResults({
                     key={index}
                     className={`h-2 rounded-full transition-all ${
                       index === currentIndex
-                        ? 'bg-orange-400 w-8'
+                        ? 'bg-purple-400 w-8'
                         : 'bg-gray-300 w-2'
                     }`}
                   />
@@ -563,7 +563,7 @@ export default function WizardResults({
               /* Compact progress bar for large counts */
               <div className="h-2 bg-gray-300 rounded-full w-24 relative overflow-hidden">
                 <div 
-                  className="h-full bg-orange-400 rounded-full transition-all duration-300"
+                  className="h-full bg-purple-400 rounded-full transition-all duration-300"
                   style={{ width: `${((currentIndex + 1) / totalCards) * 100}%` }}
                 />
               </div>
@@ -626,11 +626,11 @@ export default function WizardResults({
           
           <button
             onClick={() => setShowAllergiesModal(true)}
-            className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-xl font-semibold border border-gray-300 hover:bg-orange-50 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-xl font-semibold border border-gray-300 hover:bg-purple-50 transition-colors"
           >
             Allergies
             {activeAllergiesCount > 0 && (
-              <span className="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[20px] h-5 flex items-center justify-center">
+              <span className="bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[20px] h-5 flex items-center justify-center">
                 {activeAllergiesCount}
               </span>
             )}
@@ -649,7 +649,7 @@ export default function WizardResults({
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg"
+            className="mt-3 p-3 bg-purple-50 border border-red-200 rounded-lg"
           >
             <p className="text-red-700 text-sm text-center">{locationError}</p>
           </motion.div>

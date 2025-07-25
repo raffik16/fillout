@@ -28,22 +28,22 @@ export function GlobalFooter() {
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/about" className="text-gray-300 hover:text-red-400 transition-colors">
+                <Link href="/about" className="text-gray-300 hover:text-white transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-gray-300 hover:text-red-400 transition-colors">
+                <Link href="/terms" className="text-gray-300 hover:text-white transition-colors">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-gray-300 hover:text-red-400 transition-colors">
+                <Link href="/privacy" className="text-gray-300 hover:text-white transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-300 hover:text-red-400 transition-colors">
+                <Link href="/contact" className="text-gray-300 hover:text-white transition-colors">
                   Contact Us
                 </Link>
               </li>

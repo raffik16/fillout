@@ -3,10 +3,14 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, X, ExternalLink } from 'lucide-react';
+import { Play, X, ExternalLink, Bot } from 'lucide-react';
 import { SignupModal } from './SignupModal';
 
-export function Hero() {
+interface HeroProps {
+  onAIChatToggle?: () => void;
+}
+
+export function Hero({ onAIChatToggle }: HeroProps) {
   const [isAppLoaded, setIsAppLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
@@ -64,7 +68,7 @@ export function Hero() {
                 Drinkjoy
               </motion.span>
               <motion.span 
-                className="block text-red-400"
+                className="block text-purple-400"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
@@ -72,7 +76,7 @@ export function Hero() {
                 AI-Powered Drink
               </motion.span>
               <motion.span 
-                className="block text-orange-400"
+                className="block text-purple-400"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
@@ -113,6 +117,15 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.4 }}
             >
+              <motion.button
+                onClick={onAIChatToggle}
+                className="bg-gradient-to-r from-purple-600 to-purple-500 text-white px-8 py-4 rounded-full hover:from-purple-700 hover:to-purple-600 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Bot className="w-5 h-5" />
+                Chat with Carla Joy
+              </motion.button>
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -121,19 +134,11 @@ export function Hero() {
                   href="/app"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-red-600 text-white px-8 py-4 rounded-full hover:bg-red-700 transition-colors duration-200 font-semibold text-lg shadow-lg hover:shadow-xl text-center inline-block"
+                  className="bg-white text-gray-900 px-8 py-4 rounded-full hover:bg-gray-50 transition-colors duration-200 font-semibold text-lg shadow-lg hover:shadow-xl text-center inline-block border border-gray-200"
                 >
-                  Explore App
+                  Try The App
                 </Link>
               </motion.div>
-              <motion.button 
-                onClick={() => setIsSignupModalOpen(true)}
-                className="border-2 border-red-600 text-red-600 px-8 py-4 rounded-full hover:bg-red-600 hover:text-white transition-colors duration-200 font-semibold text-lg bg-white"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Sign Up
-              </motion.button>
             </motion.div>
           </motion.div>
           
@@ -181,7 +186,7 @@ export function Hero() {
                 />
                 
                 {/* Screen */}
-                <div className="absolute top-6 left-4 right-4 bottom-6 bg-gradient-to-br from-amber-50 to-blue-50 rounded-[2rem] overflow-hidden">
+                <div className="absolute top-6 left-4 right-4 bottom-6 bg-gradient-to-br from-purple-50 to-blue-50 rounded-[2rem] overflow-hidden">
                   <AnimatePresence mode="wait">
                     {!isAppLoaded ? (
                       // CTA Preview Screen
@@ -215,7 +220,7 @@ export function Hero() {
                           </p>
                           <motion.button
                             onClick={handlePreviewClick}
-                            className="bg-gradient-to-r from-red-600 to-orange-600 text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 mx-auto hover:from-red-700 hover:to-orange-700 transition-all"
+                            className="bg-gradient-to-r from-purple-600 to-purple-500 text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 mx-auto hover:from-purple-700 hover:to-purple-600 transition-all"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
@@ -297,7 +302,7 @@ export function Hero() {
                                 <motion.div
                                   animate={{ rotate: 360 }}
                                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                  className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full mx-auto mb-4"
+                                  className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-4"
                                 />
                                 <p className="text-sm text-gray-600">Loading Drinkjoy...</p>
                               </div>

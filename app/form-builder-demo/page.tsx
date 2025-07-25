@@ -7,9 +7,9 @@
 import React, { useState } from 'react';
 import {
   SectionLegend,
-  SectionSettings,
   FormPage,
   SettingsPosition,
+  SectionSettings,
 } from '@/app/components/form-builder';
 import styles from './page.module.css';
 

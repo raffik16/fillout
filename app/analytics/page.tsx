@@ -112,7 +112,7 @@ export default function AnalyticsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border p-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
                 <Heart className="w-5 h-5 text-red-600" />
               </div>
               <div>
@@ -154,8 +154,8 @@ export default function AnalyticsPage() {
 
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border p-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                <ShoppingCart className="w-5 h-5 text-orange-600" />
+              <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                <ShoppingCart className="w-5 h-5 text-purple-600" />
               </div>
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Total Orders</p>
@@ -199,7 +199,7 @@ export default function AnalyticsPage() {
                 </div>
                 <div>
                   <p className="font-medium">Like Tracking</p>
-                  <p className="text-xs">Users can like drinks in the wizard results</p>
+                  <p className="text-xs">Users can like drinks in the discovery quiz results</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
