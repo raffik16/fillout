@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Zap, Database, Users, Shield } from 'lucide-react';
+import { Zap, Archive, Shield, Users, Database } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface Feature {
@@ -19,7 +19,7 @@ const features: Feature[] = [
     keyword: "AI recommendations"
   },
   {
-    icon: <Database className="w-8 h-8" />,
+    icon: <Archive className="w-8 h-8" />,
     title: "Comprehensive Drink Database",
     description: "Access thousands of drinks across cocktails, beer, wine, spirits, and non-alcoholic options.",
     keyword: "drink database"

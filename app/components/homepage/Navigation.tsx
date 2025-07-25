@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
+import { UserButton } from '../auth/UserButton';
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -61,6 +62,7 @@ export function Navigation() {
               >
                 Explore App
               </Link>
+              <UserButton showDisplayName={true} />
             </div>
           </div>
 
@@ -106,6 +108,9 @@ export function Navigation() {
             >
               Explore App
             </Link>
+            <div className="px-3 py-2">
+              <UserButton />
+            </div>
           </div>
         </div>
       )}

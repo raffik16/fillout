@@ -3,10 +3,14 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, X, ExternalLink } from 'lucide-react';
+import { Play, X, ExternalLink, Bot } from 'lucide-react';
 import { SignupModal } from './SignupModal';
 
-export function Hero() {
+interface HeroProps {
+  onAIChatToggle?: () => void;
+}
+
+export function Hero({ onAIChatToggle }: HeroProps) {
   const [isAppLoaded, setIsAppLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
@@ -113,6 +117,15 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.4 }}
             >
+              <motion.button
+                onClick={onAIChatToggle}
+                className="bg-gradient-to-r from-orange-600 to-red-600 text-white px-8 py-4 rounded-full hover:from-orange-700 hover:to-red-700 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Bot className="w-5 h-5" />
+                Chat with Carla Joy
+              </motion.button>
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -121,19 +134,11 @@ export function Hero() {
                   href="/app"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-red-600 text-white px-8 py-4 rounded-full hover:bg-red-700 transition-colors duration-200 font-semibold text-lg shadow-lg hover:shadow-xl text-center inline-block"
+                  className="bg-white text-gray-900 px-8 py-4 rounded-full hover:bg-gray-50 transition-colors duration-200 font-semibold text-lg shadow-lg hover:shadow-xl text-center inline-block border border-gray-200"
                 >
-                  Explore App
+                  Try The App
                 </Link>
               </motion.div>
-              <motion.button 
-                onClick={() => setIsSignupModalOpen(true)}
-                className="border-2 border-red-600 text-red-600 px-8 py-4 rounded-full hover:bg-red-600 hover:text-white transition-colors duration-200 font-semibold text-lg bg-white"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Sign Up
-              </motion.button>
             </motion.div>
           </motion.div>
           

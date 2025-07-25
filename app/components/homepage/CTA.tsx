@@ -18,19 +18,19 @@ export function CTA() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link 
+            href="/sign-up"
+            className="bg-white text-red-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center"
+          >
+            Get Started Free
+          </Link>
+          <Link 
             href="/app"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white text-red-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center"
+            className="border-2 border-white text-white px-8 py-4 rounded-full hover:bg-white hover:text-red-600 transition-all duration-200 font-semibold text-lg text-center"
           >
-            Explore App
+            Try Demo
           </Link>
-          <button 
-            onClick={() => setIsSignupModalOpen(true)}
-            className="border-2 border-white text-white px-8 py-4 rounded-full hover:bg-white hover:text-red-600 transition-all duration-200 font-semibold text-lg"
-          >
-            Sign Up
-          </button>
         </div>
       </div>
       

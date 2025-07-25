@@ -19,14 +19,14 @@ import AllergiesModal from './AllergiesModal';
 // Witty title generator based on match count
 function getWittyTitle(count: number): string {
   if (count === 0) return "No Matches Found 😢";
-  if (count === 1) return "Found 1 Perfect Match - It's Meant to Be! 💕";
+  if (count === 1) return "Found 1 Perfect Match - It&apos;s Meant to Be! 💕";
   if (count === 2) return "Found 2 Liquid Soulmates! 🥂";
   if (count === 3) return "Found 3 Perfect Matches - The Holy Trinity! 🙏";
   if (count === 4) return "Found 4 Fantastic Matches! 🎯";
   if (count === 5) return "Found 5 Perfect Matches - High Five! 🙌";
   if (count <= 7) return `Found ${count} Perfect Matches for You! 🎉`;
   if (count <= 10) return `Found ${count} Liquid Legends! 🏆`;
-  return `Found ${count} Worthy Matches - You're Spoiled for Choice! 🤩`;
+  return `Found ${count} Worthy Matches - You&apos;re Spoiled for Choice! 🤩`;
 }
 
 interface WizardResultsProps {
@@ -113,13 +113,13 @@ export default function WizardResults({
         setIsAtAbsoluteEnd(false); // Reset absolute end flag
         return additional.length; // Return number of drinks loaded
       } else {
-        // If no drinks found from all categories, we're truly at the end
+        // If no drinks found from all categories, we&apos;re truly at the end
         // Only show the card if we haven't expanded yet (first time)
         if (!hasExpandedToAllCategories) {
           setShowNoMoreDrinksCard(true);
         }
         setHasExpandedToAllCategories(true);
-        setIsAtAbsoluteEnd(true); // Mark that we're at absolute end
+        setIsAtAbsoluteEnd(true); // Mark that we&apos;re at absolute end
         return 0; // No drinks loaded
       }
     } catch (error) {
@@ -160,7 +160,7 @@ export default function WizardResults({
   }, []);
 
   const goToNext = async () => {
-    // Check if we're at the last actual drink (not counting the special card)
+    // Check if we&apos;re at the last actual drink (not counting the special card)
     if (currentIndex === allDrinks.length - 1 && !showNoMoreDrinksCard) {
       // If we've already expanded to all categories, automatically load more without showing the card
       if (hasExpandedToAllCategories && !isLoadingMore) {

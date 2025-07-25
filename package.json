@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.57.0",
+    "@clerk/nextjs": "^6.26.0",
+    "@google/generative-ai": "^0.24.1",
     "@serwist/next": "^9.0.15",
     "@serwist/sw": "^9.0.15",
     "@supabase/supabase-js": "^2.50.5",
@@ -25,6 +28,7 @@
     "react-icons": "^5.5.0",
     "react-use": "^17.6.0",
     "resend": "^4.6.0",
+    "svix": "^1.69.0",
     "tailwind-merge": "^3.3.1",
     "uuid": "^11.1.0"
   },

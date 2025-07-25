@@ -59,7 +59,7 @@ export default function WizardFullResults({
         setHasExpandedToAllCategories(true); // Mark that we've expanded
         setHasMoreDrinks(false); // Hide the button after first expansion
       } else {
-        // If no drinks found from all categories, we're truly at the end
+        // If no drinks found from all categories, we&apos;re truly at the end
         setShowNoMoreDrinksMessage(true);
         setHasMoreDrinks(false);
       }

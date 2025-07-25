@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import {
   SectionLegend,
-  SectionSettings,
+  Section
   FormPage,
   SettingsPosition,
 } from '@/app/components/form-builder';

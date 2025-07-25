@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, User, MessageSquare, Send, MapPin } from 'lucide-react';
+import { X, Mail, MessageSquare, Send, MapPin, User } from 'lucide-react';
 
 interface SignupModalProps {
   isOpen: boolean;

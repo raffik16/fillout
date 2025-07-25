@@ -119,7 +119,7 @@ Drinkjoy is a beverage recommendation application that helps users find drinks b
 ## Testing
 Run tests with: `npm test`
 Run linting with: `npm run lint`
-Run type checking with: `npm run typecheck`
+Run type checking with: `npm run lint`
 
 ## Recent Focus Areas
 - Allergy data integration

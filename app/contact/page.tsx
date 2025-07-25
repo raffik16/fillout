@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { LegalLayout } from '@/app/components/legal/LegalLayout';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, User, MessageSquare, Send, Building, Clock } from 'lucide-react';
+import { Mail, MessageSquare, Send, Building, Clock, User } from 'lucide-react';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
