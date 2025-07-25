@@ -3,14 +3,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  
+  Download,
   Palette, 
   Wine, 
   Shield, 
   Sparkles, 
   Save, 
   RefreshCw, 
-  
   Upload,
   Check,
   AlertCircle
@@ -46,7 +45,7 @@ const TABS = [
     label: 'Allergies & Diet',
     icon: Shield,
     description: 'Manage dietary restrictions and allergies',
-    component: Allergen
+    component: AllergenSettings
   },
   {
     id: 'ai',

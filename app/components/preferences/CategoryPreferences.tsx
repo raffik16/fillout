@@ -157,7 +157,7 @@ export default function CategoryPreferences({ preferences, onChange, errors }: C
     setDraggedCategories(newOrder);
     
     // Update priorities based on new order
-    const updates: typeof preferences.categoryPreferences = {};
+    const updates: Partial<typeof preferences.categoryPreferences> = {};
     newOrder.forEach((category, index) => {
       updates[category] = {
         ...preferences.categoryPreferences[category],

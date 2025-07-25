@@ -7,7 +7,7 @@ import {
   XCircle, 
   Clock, 
   CreditCard,
-  
+  Settings,
   ExternalLink 
 } from 'lucide-react';
 import { SubscriptionData } from '@/app/types/billing';

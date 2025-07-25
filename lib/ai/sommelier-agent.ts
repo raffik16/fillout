@@ -407,6 +407,6 @@ export class CarlaJoyAgent {
 }
 
 // Factory function to create bartender agent
-export function createBartenderAgent(drinks: DrinkItem[]): BartenderAgent {
-  return new BartenderAgent(drinks);
+export function createBartenderAgent(drinks: DrinkItem[]): CarlaJoyAgent {
+  return new CarlaJoyAgent(drinks);
 }

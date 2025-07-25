@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, ArrowRight, RefreshCw } from 'lucide-react';
+import { Sparkles, ArrowRight, RefreshCw, Settings } from 'lucide-react';
 import { OnboardingStepProps } from '@/app/types/onboarding';
 import { WizardPreferences, AllergyType } from '@/app/types/wizard';
 import { wizardQuestions } from '@/app/data/wizardQuestions';

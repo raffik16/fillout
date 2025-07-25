@@ -69,13 +69,13 @@ export default function SubscriptionGate({
     return <>{fallback}</>;
   }
 
-  const planIcon = {
+  const planIcon: Record<string, typeof Lock> = {
     free: Lock,
     premium: Crown,
     pro: Zap,
   };
 
-  const PlanIcon = planIcon[requiredPlan];
+  const PlanIcon = planIcon[requiredPlan] || Lock;
   const plan = PRICING_PLANS.find(p => p.id === requiredPlan);
 
   return (

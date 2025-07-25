@@ -112,9 +112,9 @@ export function convertAIToWizardPreferences(
       'happy hour': 'casual',
       'relaxing': 'casual',
       'everyday': 'casual',
-      'celebration': 'celebration',
-      'party': 'celebration',
-      'festive': 'celebration',
+      'celebration': 'party',
+      'party': 'party',
+      'festive': 'party',
       'business': 'business',
       'work': 'business',
       'meeting': 'business',
@@ -201,7 +201,7 @@ export function isReadyForRecommendations(
   confidence: number
 ): boolean {
   // Need at least category OR flavor, and confidence > 60%
-  const hasEssentials = preferences.category || preferences.flavor;
+  const hasEssentials = Boolean(preferences.category || preferences.flavor);
   return hasEssentials && confidence >= 60;
 }
 

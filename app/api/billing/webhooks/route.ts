@@ -5,7 +5,7 @@ import { WebhookEvent } from '@/app/types/billing';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.text();
-    const headersList = headers();
+    const headersList = await headers();
     const signature = headersList.get('clerk-webhook-signature');
     
     if (!signature) {
