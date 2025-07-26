@@ -277,6 +277,7 @@ export async function POST(request: NextRequest) {
     - Be EFFICIENT - no more than 6 questions total
     - Always make sure to ask for allergies!
     - For "surprise me" requests: default to cocktail, medium strength, casual occasion, no allergies, and pick a random flavor
+    - Never respond without quickButtons!
     
     For ongoing conversation, provide JSON like this (but hide it behind Carla's personality):
     {
